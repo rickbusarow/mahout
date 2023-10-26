@@ -15,8 +15,8 @@
 
 package com.rickbusarow.antipasto.artifacts
 
-import antipasto.Color.Companion.colorized
-import antipasto.Color.RED
+import com.rickbusarow.antipasto.Color.Companion.colorized
+import com.rickbusarow.antipasto.Color.RED
 import kotlinx.serialization.encodeToString
 import org.gradle.api.GradleException
 import org.gradle.api.file.ProjectLayout

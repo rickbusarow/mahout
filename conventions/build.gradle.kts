@@ -21,56 +21,56 @@ plugins {
 gradlePlugin {
   plugins {
     create("ben-manes") {
-      id = "mcbuild.ben-manes"
-      implementationClass = "builds.BenManesVersionsPlugin"
+      id = "com.rickbusarow.antipasto.ben-manes"
+      implementationClass = "com.rickbusarow.antipasto.BenManesVersionsPlugin"
     }
-    create("builds.check") {
-      id = "builds.check"
-      implementationClass = "builds.CheckPlugin"
+    create("antipasto.check") {
+      id = "com.rickbusarow.antipasto.check"
+      implementationClass = "com.rickbusarow.antipasto.CheckPlugin"
     }
-    create("builds.clean") {
-      id = "builds.clean"
-      implementationClass = "builds.CleanPlugin"
+    create("antipasto.clean") {
+      id = "com.rickbusarow.antipasto.clean"
+      implementationClass = "com.rickbusarow.antipasto.CleanPlugin"
     }
-    create("builds.dependency-guard") {
-      id = "builds.dependency-guard"
-      implementationClass = "builds.DependencyGuardConventionPlugin"
+    create("antipasto.dependency-guard") {
+      id = "com.rickbusarow.antipasto.dependency-guard"
+      implementationClass = "com.rickbusarow.antipasto.DependencyGuardConventionPlugin"
     }
-    create("builds.detekt") {
-      id = "builds.detekt"
-      implementationClass = "builds.DetektConventionPlugin"
+    create("antipasto.detekt") {
+      id = "com.rickbusarow.antipasto.detekt"
+      implementationClass = "com.rickbusarow.antipasto.DetektConventionPlugin"
     }
-    create("builds.dokkatoo") {
-      id = "builds.dokkatoo"
-      implementationClass = "builds.DokkatooConventionPlugin"
+    create("antipasto.dokkatoo") {
+      id = "com.rickbusarow.antipasto.dokkatoo"
+      implementationClass = "com.rickbusarow.antipasto.DokkatooConventionPlugin"
     }
-    create("builds.dokka-versioning") {
-      id = "builds.dokka-versioning"
-      implementationClass = "builds.DokkaVersionArchivePlugin"
+    create("antipasto.dokka-versioning") {
+      id = "com.rickbusarow.antipasto.dokka-versioning"
+      implementationClass = "com.rickbusarow.antipasto.DokkaVersionArchivePlugin"
     }
-    create("builds.github-release") {
-      id = "builds.github-release"
-      implementationClass = "builds.GitHubReleasePlugin"
+    create("antipasto.github-release") {
+      id = "com.rickbusarow.antipasto.github-release"
+      implementationClass = "com.rickbusarow.antipasto.GitHubReleasePlugin"
     }
-    create("builds.integration-tests") {
-      id = "builds.integration-tests"
-      implementationClass = "builds.IntegrationTestsConventionPlugin"
+    create("antipasto.integration-tests") {
+      id = "com.rickbusarow.antipasto.integration-tests"
+      implementationClass = "com.rickbusarow.antipasto.IntegrationTestsConventionPlugin"
     }
-    create("builds.kotlin") {
-      id = "builds.kotlin"
-      implementationClass = "builds.KotlinJvmConventionPlugin"
+    create("antipasto.kotlin") {
+      id = "com.rickbusarow.antipasto.kotlin"
+      implementationClass = "com.rickbusarow.antipasto.KotlinJvmConventionPlugin"
     }
-    create("builds.ktlint") {
-      id = "builds.ktlint"
-      implementationClass = "builds.KtLintConventionPlugin"
+    create("antipasto.ktlint") {
+      id = "com.rickbusarow.antipasto.ktlint"
+      implementationClass = "com.rickbusarow.antipasto.KtLintConventionPlugin"
     }
-    create("builds.spotless") {
-      id = "builds.spotless"
-      implementationClass = "builds.SpotlessConventionPlugin"
+    create("antipasto.spotless") {
+      id = "com.rickbusarow.antipasto.spotless"
+      implementationClass = "com.rickbusarow.antipasto.SpotlessConventionPlugin"
     }
-    create("builds.test") {
-      id = "builds.test"
-      implementationClass = "builds.TestConventionPlugin"
+    create("antipasto.test") {
+      id = "com.rickbusarow.antipasto.test"
+      implementationClass = "com.rickbusarow.antipasto.TestConventionPlugin"
     }
   }
 }

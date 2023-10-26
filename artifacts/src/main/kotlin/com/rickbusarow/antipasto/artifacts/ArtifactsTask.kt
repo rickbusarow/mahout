@@ -15,7 +15,7 @@
 
 package com.rickbusarow.antipasto.artifacts
 
-import antipasto.existsOrNull
+import com.rickbusarow.antipasto.existsOrNull
 import kotlinx.serialization.json.Json
 import org.apache.tools.ant.taskdefs.condition.Os
 import org.gradle.api.DefaultTask

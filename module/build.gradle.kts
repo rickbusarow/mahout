@@ -21,20 +21,20 @@ plugins {
 gradlePlugin {
   plugins {
     create("composite") {
-      id = "composite"
-      implementationClass = "builds.CompositePlugin"
+      id = "com.rickbusarow.antipasto.composite"
+      implementationClass = "com.rickbusarow.antipasto.CompositePlugin"
     }
     create("jvm") {
-      id = "jvm-module"
-      implementationClass = "builds.KotlinJvmModulePlugin"
+      id = "com.rickbusarow.antipasto.jvm-module"
+      implementationClass = "com.rickbusarow.antipasto.KotlinJvmModulePlugin"
     }
     create("kmp") {
-      id = "kmp-module"
-      implementationClass = "builds.KotlinMultiplatformModulePlugin"
+      id = "com.rickbusarow.antipasto.kmp-module"
+      implementationClass = "com.rickbusarow.antipasto.KotlinMultiplatformModulePlugin"
     }
     create("root") {
-      id = "root"
-      implementationClass = "builds.RootPlugin"
+      id = "com.rickbusarow.antipasto.root"
+      implementationClass = "com.rickbusarow.antipasto.RootPlugin"
     }
   }
 }
