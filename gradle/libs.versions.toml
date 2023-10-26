@@ -1,0 +1,155 @@
+[versions]
+
+kotlin = "1.8.22"
+google-ksp = "1.8.22-1.0.11"
+poko = "0.13.1"
+
+benManes-versions = "0.48.0"
+buildconfig = "4.1.2"
+dependencyAnalysis = "1.21.0"
+detekt = "1.23.1"
+diffplug-spotless = "6.21.0"
+dokka = "1.9.10"
+dokkatoo = "2.0.0"
+dropbox-dependencyGuard = "0.4.3"
+ec4j = "0.3.0"
+github-release = "2.5.1"
+integration-test = "1.4.5"
+jUnit = "5.10.0"
+johnrengelman-shadow = "8.1.1"
+kotest = "5.7.2"
+kotlinx-binaryCompatibility = "0.13.2"
+kotlinx-coroutines = "1.7.3"
+ktlint-lib = "0.50.0"
+prettier = "2.8.4"
+prettier-plugin-sh = "0.12.8"
+rickBusarow-doks = "0.1.4"
+rickBusarow-kgx = "0.1.7"
+rickBusarow-ktlint = "0.1.8"
+rickBusarow-ktrules = "1.1.4"
+rickBusarow-moduleCheck = "0.12.5"
+square-kotlinPoet = "1.14.2"
+square-moshi = "1.15.0"
+square-okio = "3.6.0"
+vanniktech-publish = "0.25.3"
+
+[plugins]
+buildconfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildconfig" }
+dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependencyAnalysis" }
+dokkatoo = { id = "dev.adamko.dokkatoo", version.ref = "dokkatoo" }
+dokkatoo-html = { id = "dev.adamko.dokkatoo-html", version.ref = "dokkatoo" }
+doks = { id = "com.rickbusarow.doks", version.ref = "rickBusarow-doks" }
+github-release = { id = "com.github.breadmoirai.github-release", version.ref = "github-release" }
+google-ksp = { id = "com.google.devtools.ksp", version.ref = "google-ksp" }
+integration-test = { id = "com.coditory.integration-test", version.ref = "integration-test" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+ktlint = { id = "com.rickbusarow.ktlint", version.ref = "rickBusarow-ktlint" }
+moduleCheck = { id = "com.rickbusarow.module-check", version.ref = "rickBusarow-moduleCheck" }
+poko = { id = "dev.drewhamilton.poko", version.ref = "poko" }
+
+[libraries]
+
+benManes-versions = { module = "com.github.ben-manes:gradle-versions-plugin", version.ref = "benManes-versions" }
+
+breadmoirai-github-release = { module = "com.github.breadmoirai:github-release", version.ref = "github-release" }
+
+buildconfig = { module = "com.github.gmazzo:gradle-buildconfig-plugin", version.ref = "buildconfig" }
+
+dependency-analysis-gradle-plugin = { module = "com.autonomousapps:dependency-analysis-gradle-plugin", version.ref = "dependencyAnalysis" }
+
+detekt-api = { module = "io.gitlab.arturbosch.detekt:detekt-api", version.ref = "detekt" }
+detekt-cli = { module = "io.gitlab.arturbosch.detekt:detekt-cli", version.ref = "detekt" }
+detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
+detekt-rules-libraries = { module = "io.gitlab.arturbosch.detekt:detekt-rules-libraries", version.ref = "detekt" }
+detekt-rules-ruleauthors = { module = "io.gitlab.arturbosch.detekt:detekt-rules-ruleauthors", version.ref = "detekt" }
+detekt-test = { module = "io.gitlab.arturbosch.detekt:detekt-test", version.ref = "detekt" }
+detekt-test-utils = { module = "io.gitlab.arturbosch.detekt:detekt-test-utils", version.ref = "detekt" }
+
+diffplug-spotless = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "diffplug-spotless" }
+
+dokka-all-modules = { module = "org.jetbrains.dokka:all-modules-page-plugin", version.ref = "dokka" }
+dokka-core = { module = "org.jetbrains.dokka:dokka-core", version.ref = "dokka" }
+dokka-gradle = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
+dokka-versioning = { module = "org.jetbrains.dokka:versioning-plugin", version.ref = "dokka" }
+
+dokkatoo-plugin = { module = "dev.adamko.dokkatoo:dokkatoo-plugin", version.ref = "dokkatoo" }
+
+dropbox-dependencyGuard = { module = "com.dropbox.dependency-guard:dependency-guard", version.ref = "dropbox-dependencyGuard" }
+
+ec4j-core = { module = "org.ec4j.core:ec4j-core", version.ref = "ec4j" }
+
+google-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version.ref = "google-ksp" }
+
+integration-test = { module = "com.coditory.gradle:integration-test-plugin", version.ref = "integration-test" }
+
+johnrengelman-shadowJar = { module = "com.github.johnrengelman:shadow", version.ref = "johnrengelman-shadow" }
+
+junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "jUnit" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "jUnit" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "jUnit" }
+junit-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "jUnit" }
+
+kotest-assertions-api = { module = "io.kotest:kotest-assertions-api", version.ref = "kotest" }
+kotest-assertions-core-jvm = { module = "io.kotest:kotest-assertions-core-jvm", version.ref = "kotest" }
+kotest-assertions-shared = { module = "io.kotest:kotest-assertions-shared", version.ref = "kotest" }
+kotest-common = { module = "io.kotest:kotest-common", version.ref = "kotest" }
+kotest-extensions = { module = "io.kotest:kotest-extensions", version.ref = "kotest" }
+kotest-property-jvm = { module = "io.kotest:kotest-property-jvm", version.ref = "kotest" }
+kotest-runner-junit5-jvm = { module = "io.kotest:kotest-runner-junit5-jvm", version.ref = "kotest" }
+
+kotlin-annotation-processing = { module = "org.jetbrains.kotlin:kotlin-annotation-processing-embeddable", version.ref = "kotlin" }
+kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
+kotlin-compiler = { module = "org.jetbrains.kotlin:kotlin-compiler-embeddable", version.ref = "kotlin" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-gradle-plugin-api = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin-api", version.ref = "kotlin" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+kotlin-sam-with-receiver = { module = "org.jetbrains.kotlin:kotlin-sam-with-receiver", version.ref = "kotlin" }
+kotlin-stdlib-common = { module = "org.jetbrains.kotlin:kotlin-stdlib-common", version.ref = "kotlin" }
+kotlin-stdlib-jdk7 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk7", version.ref = "kotlin" }
+kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+
+kotlinx-binaryCompatibility = { module = "org.jetbrains.kotlinx:binary-compatibility-validator", version.ref = "kotlinx-binaryCompatibility" }
+
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-coreCommon = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-common", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-debug = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-debug", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-jdk8 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-jvm = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+
+poko-annotations = { module = "dev.drewhamilton.poko:poko-annotations", version.ref = "poko" }
+poko-compiler = { module = "dev.drewhamilton.poko:poko-compiler-plugin", version.ref = "poko" }
+poko-gradle-plugin = { module = "dev.drewhamilton.poko:poko-gradle-plugin", version.ref = "poko" }
+
+rickBusarow-doks = { module = "com.rickbusarow.doks:doks-gradle-plugin", version.ref = "rickBusarow-doks" }
+rickBusarow-kgx-names = { module = "com.rickbusarow.kgx:names", version.ref = "rickBusarow-kgx" }
+rickBusarow-kgx = { module = "com.rickbusarow.kgx:kotlin-gradle-extensions", version.ref = "rickBusarow-kgx" }
+rickBusarow-ktlint = { module = "com.rickbusarow.ktlint:ktlint-gradle-plugin", version.ref = "rickBusarow-ktlint" }
+rickBusarow-ktrules = { module = "com.rickbusarow.ktrules:ktrules", version.ref = "rickBusarow-ktrules" }
+rickBusarow-ktrules48 = { module = "com.rickbusarow.ktrules:ktrules-48", version.ref = "rickBusarow-ktrules" }
+rickBusarow-moduleCheck-gradle-plugin = { module = "com.rickbusarow.modulecheck:plugin", version.ref = "rickBusarow-moduleCheck" }
+
+square-kotlinPoet = { module = "com.squareup:kotlinpoet", version.ref = "square-kotlinPoet" }
+square-moshi = { module = "com.squareup.moshi:moshi", version.ref = "square-moshi" }
+square-moshi-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "square-moshi" }
+square-okio = { module = "com.squareup.okio:okio", version.ref = "square-okio" }
+vanniktech-publish = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "vanniktech-publish" }
+
+[bundles]
+jUnit = [
+  "junit-engine",
+  "junit-jupiter",
+  "junit-jupiter-api",
+  "junit-params",
+]
+kotest = [
+  "kotest-assertions-api",
+  "kotest-assertions-core-jvm",
+  "kotest-assertions-shared",
+  "kotest-common",
+  "kotest-extensions",
+  "kotest-property-jvm",
+]
