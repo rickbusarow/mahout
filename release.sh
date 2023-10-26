@@ -18,7 +18,7 @@
 # exit when any command fails
 set -e
 
-VERSION_TOML=gradle/libs.versions.toml
+GRADLE_PROPERTIES=gradle.properties
 
 step=0
 
@@ -70,9 +70,8 @@ NEXT_VERSION=$(awk '/.*\(unreleased)/ { print $2}' CHANGELOG.md | sed 's/\"//g')
 
 function parseVersionAndSyncDocs() {
 
-  # Parse the 'kgx-dev' version from libs.versions.toml
-  # Removes the double quotes around the raw string value
-  VERSION_NAME=$(awk -F ' *= *' '$1=="kgx-dev"{print $2; exit}' $VERSION_TOML | sed 's/\"//g')
+  # Parse the 'VERSION_NAME' version from gradle.properties
+  VERSION_NAME=$(awk -F ' *= *' '$1=="VERSION_NAME"{print $2; exit}' $GRADLE_PROPERTIES | sed 's/\"//g')
 
   # Add `@since ____` tags to any new KDoc
   progress "Add \`@since ____\` tags to any new KDoc"
@@ -118,10 +117,10 @@ progress "create the release on GitHub"
 ./gradlew githubRelease
 
 progress "update the dev version to ${NEXT_VERSION}"
-OLD="(^ *kgx-dev *= *)\"${VERSION_NAME}\""
+OLD="(^ *VERSION_NAME *= *)\"${VERSION_NAME}\""
 NEW="\$1\"${NEXT_VERSION}\""
-# Write the new -SNAPSHOT version to the versions toml file
-perl -pi -e "s/$OLD/$NEW/" $VERSION_TOML
+# Write the new -SNAPSHOT version to the properties file
+perl -pi -e "s/$OLD/$NEW/" $GRADLE_PROPERTIES
 git commit -am "update dev version to ${NEXT_VERSION}"
 
 # update all versions/docs for the next version
