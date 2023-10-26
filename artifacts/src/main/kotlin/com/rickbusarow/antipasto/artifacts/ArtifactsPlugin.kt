@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package builds.artifacts
+package com.rickbusarow.antipasto.artifacts
 
 import com.rickbusarow.kgx.checkProjectIsRoot
 import org.gradle.api.Plugin

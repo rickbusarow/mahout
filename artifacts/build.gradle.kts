@@ -14,27 +14,22 @@
  */
 
 plugins {
-  kotlin("jvm")
-  alias(libs.plugins.google.ksp)
-  id("java-gradle-plugin")
+  alias(libs.plugins.kotlin.jvm)
+  alias(libs.plugins.kotlin.serialization)
+  `java-gradle-plugin`
 }
 
 gradlePlugin {
   plugins {
     create("artifacts-check") {
-      id = "builds.artifacts-check"
-      implementationClass = "builds.artifacts.ArtifactsPlugin"
+      id = "com.rickbusarow.antipasto.artifacts-check"
+      implementationClass = "com.rickbusarow.antipasto.artifacts.ArtifactsPlugin"
     }
   }
 }
 
 dependencies {
-
-  api(libs.square.moshi)
-
   compileOnly(gradleApi())
-
+  implementation(libs.kotlinx.serialization.json)
   implementation(project(":core"))
-
-  ksp(libs.square.moshi.codegen)
 }

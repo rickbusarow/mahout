@@ -14,8 +14,8 @@
  */
 
 plugins {
-  kotlin("jvm")
-  id("java-gradle-plugin")
+  alias(libs.plugins.kotlin.jvm)
+  `java-gradle-plugin`
 }
 
 gradlePlugin {

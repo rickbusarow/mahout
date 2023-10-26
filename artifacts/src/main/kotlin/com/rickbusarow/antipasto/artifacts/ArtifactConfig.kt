@@ -13,10 +13,10 @@
  * limitations under the License.
  */
 
-package builds.artifacts
+package com.rickbusarow.antipasto.artifacts
 
-import com.squareup.moshi.JsonClass
-import java.io.Serializable
+import kotlinx.serialization.Serializable
+import java.io.Serializable as JavaIoSerializable
 
 /**
  * Models the module-specific properties of published maven artifacts.
@@ -36,7 +36,7 @@ import java.io.Serializable
  *   not set explicitly, this defaults to the JDK version used to build the artifact.
  * @property publicationName typically 'maven', but other things for KMP artifacts
  */
-@JsonClass(generateAdapter = true)
+@Serializable
 data class ArtifactConfig(
   val gradlePath: String,
   val group: String,
@@ -45,7 +45,7 @@ data class ArtifactConfig(
   val packaging: String,
   val javaVersion: String,
   val publicationName: String
-) : Serializable, Comparable<ArtifactConfig> {
+) : JavaIoSerializable, Comparable<ArtifactConfig> {
   /** globally unique identifier for this artifact */
   val key = "$gradlePath+$publicationName"
 

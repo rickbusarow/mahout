@@ -13,10 +13,11 @@
  * limitations under the License.
  */
 
-package builds.artifacts
+package com.rickbusarow.antipasto.artifacts
 
 import antipasto.Color.Companion.colorized
 import antipasto.Color.RED
+import kotlinx.serialization.encodeToString
 import org.gradle.api.GradleException
 import org.gradle.api.file.ProjectLayout
 import org.gradle.api.tasks.TaskAction
@@ -47,9 +48,15 @@ open class ArtifactsDumpTask @Inject constructor(
     val artifactsChanged = baselineArtifacts.sorted() != currentList.sorted()
 
     if (artifactsChanged && currentList.isNotEmpty()) {
-      val json = moshiAdapter.indent("  ").toJson(currentList)
-        // Moshi doesn't add a newline to the end, which GitHub's PR UI doesn't like
-        .plus("\n")
+
+      val json = jsonAdapter.encodeToString(currentList)
+        .let {
+          if (it.endsWith("\n\n")) {
+            it
+          } else {
+            it.plus("\n")
+          }
+        }
 
       reportFile.asFile.writeText(json)
     }

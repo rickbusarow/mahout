@@ -15,11 +15,11 @@
 
 package antipasto
 
-import builds.artifacts.ArtifactsCheckTask
-import builds.artifacts.ArtifactsDumpTask
 import com.autonomousapps.tasks.BuildHealthTask
 import com.github.jengelman.gradle.plugins.shadow.internal.JavaJarExec
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import com.rickbusarow.antipasto.artifacts.ArtifactsCheckTask
+import com.rickbusarow.antipasto.artifacts.ArtifactsDumpTask
 import com.rickbusarow.kgx.checkProjectIsRoot
 import com.rickbusarow.kgx.dependsOn
 import com.rickbusarow.kgx.internal.allProjects

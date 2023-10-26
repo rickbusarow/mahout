@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package builds.artifacts
+package com.rickbusarow.antipasto.artifacts
 
 import antipasto.Color.Companion.colorized
 import antipasto.Color.RED

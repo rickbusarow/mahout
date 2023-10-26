@@ -13,12 +13,10 @@
  * limitations under the License.
  */
 
-package builds.artifacts
+package com.rickbusarow.antipasto.artifacts
 
 import antipasto.existsOrNull
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
+import kotlinx.serialization.json.Json
 import org.apache.tools.ant.taskdefs.condition.Os
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
@@ -55,27 +53,15 @@ abstract class ArtifactsTask(
   protected val currentList by lazy { project.createArtifactList() }
 
   @get:Internal
-  protected val moshiAdapter: JsonAdapter<List<ArtifactConfig>> by lazy {
-
-    val type = Types.newParameterizedType(
-      List::class.java,
-      ArtifactConfig::class.java
-    )
-
-    Moshi.Builder()
-      .build()
-      .adapter(type)
+  protected val jsonAdapter: Json by lazy {
+    Json(builderAction = { prettyPrint = true })
   }
 
   @get:Internal
-  protected val baselineArtifacts by lazy {
-    moshiAdapter
-      .fromJson(
-        // If the file doesn't exist, there may not be any published artifacts.
-        // Just pass in an empty array so that we're not forced to create an empty file.
-        reportFile.asFile.existsOrNull()?.readText() ?: "[]"
-      )
-      .orEmpty()
+  protected val baselineArtifacts: List<ArtifactConfig> by lazy {
+
+    val jsonString = reportFile.asFile.existsOrNull()?.readText() ?: "[]"
+    jsonAdapter.decodeFromString<List<ArtifactConfig>>(jsonString)
   }
 
   private fun Project.createArtifactList(): List<ArtifactConfig> {
