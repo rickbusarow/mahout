@@ -9,7 +9,8 @@
       "matchPackagePatterns": [
         "^org\\.jetbrains\\.kotlin:(?:[\\w-]+)$",
         "^com\\.google\\.devtools\\.ksp:(?:[\\w-]+)$",
-        "^com\\.square\\.anvil:(?:[\\w-]+)$"
+        "^com\\.square\\.anvil:(?:[\\w-]+)$",
+        "^dev\\.drewhamilton\\.poko:(?:[\\w-]+)$"
       ]
     },
     {

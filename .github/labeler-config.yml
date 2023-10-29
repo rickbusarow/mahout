@@ -1,0 +1,23 @@
+# see https://github.com/actions/labeler
+
+dependencies:
+  - "gradle/libs.versions.toml"
+
+documentation:
+  - "**/*.md"
+  - "**/*.mdx"
+
+website:
+  - "website/**"
+
+ci:
+  - ".github/**"
+
+classpath-change:
+  - "**/dependencies/*Classpath.txt"
+
+artifacts-change:
+  - "artifacts.json"
+
+api-change:
+  - "**/*.api"

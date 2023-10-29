@@ -1,0 +1,21 @@
+name: "Label Pull Request"
+
+on:
+  pull_request_target:
+  merge_group:
+
+jobs:
+  triage:
+    permissions:
+      contents: read
+      pull-requests: write
+    runs-on: ubuntu-latest
+
+    steps:
+      # see https://github.com/actions/labeler
+      - uses: actions/labeler@v4
+        with:
+          configuration-path: ".github/labeler-config.yml"
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          # automatically remove labels if the PR changed and made them invalid
+          sync-labels: true
