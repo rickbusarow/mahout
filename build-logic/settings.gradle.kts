@@ -13,59 +13,52 @@
  * limitations under the License.
  */
 
-rootProject.name = "antipasto"
+rootProject.name = "build-logic"
 
 pluginManagement {
+  val allowMavenLocal = providers
+    .gradleProperty("${rootProject.name}.allow-maven-local")
+    .orNull.toBoolean()
+
   repositories {
-    val allowMavenLocal = providers
-      .gradleProperty("${rootProject.name}.allow-maven-local")
-      .orNull.toBoolean()
     if (allowMavenLocal) {
       logger.lifecycle("${rootProject.name} -- allowing mavenLocal for plugins")
       mavenLocal()
     }
     gradlePluginPortal()
-    mavenCentral()
     google()
-  }
-
-  includeBuild("build-logic")
-
-  plugins {
-    id("com.rickbusarow.antipasto.jvm-module") apply false
-    id("com.rickbusarow.antipasto.root") apply false
+    mavenCentral()
   }
 }
+
+val allowMavenLocal = providers
+  .gradleProperty("${rootProject.name}.allow-maven-local")
+  .orNull.toBoolean()
 
 @Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
   repositories {
-    val allowMavenLocal = providers
-      .gradleProperty("${rootProject.name}.allow-maven-local")
-      .orNull.toBoolean()
-
     if (allowMavenLocal) {
       logger.lifecycle("${rootProject.name} -- allowing mavenLocal for dependencies")
       mavenLocal()
     }
     gradlePluginPortal()
-    mavenCentral()
     google()
+    mavenCentral()
+  }
+  versionCatalogs {
+    create("libs") {
+      from(files("../gradle/libs.versions.toml"))
+    }
   }
 }
 
-include(
-  ":artifacts",
-  ":conventions",
-  ":core",
-  ":module"
-)
-
-includeBuild("build-logic") {
-  // dependencySubstitution {
-  //   substitute(module("com.rickbusarow.antipasto:artifacts")).using(project(":artifacts"))
-  //   substitute(module("com.rickbusarow.antipasto:conventions")).using(project(":conventions"))
-  //   substitute(module("com.rickbusarow.antipasto:core")).using(project(":core"))
-  //   substitute(module("com.rickbusarow.antipasto:module")).using(project(":module"))
-  // }
+listOf(
+  "artifacts",
+  "conventions",
+  "core",
+  "module"
+).forEach { name ->
+  include(":$name")
+  project(":$name").projectDir = file("../$name")
 }

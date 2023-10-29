@@ -19,7 +19,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 /** Applies common conventions to any project. */
-abstract class BaseModulePlugin : Plugin<Project> {
+public abstract class BaseModulePlugin : Plugin<Project> {
   override fun apply(target: Project) {
 
     target.plugins.apply(CheckPlugin::class.java)
@@ -33,7 +33,7 @@ abstract class BaseModulePlugin : Plugin<Project> {
 }
 
 /** Applies conventions to any kotlin-jvm project. */
-abstract class KotlinJvmModulePlugin : BaseModulePlugin() {
+public abstract class KotlinJvmModulePlugin : BaseModulePlugin() {
   override fun apply(target: Project) {
 
     target.extensions.create("jvmModule", KotlinJvmModuleExtension::class.java)
@@ -45,7 +45,7 @@ abstract class KotlinJvmModulePlugin : BaseModulePlugin() {
 }
 
 /** Applies conventions to any kotlin-multiplatform project. */
-abstract class KotlinMultiplatformModulePlugin : BaseModulePlugin() {
+public abstract class KotlinMultiplatformModulePlugin : BaseModulePlugin() {
   override fun apply(target: Project) {
 
     target.extensions.create("kmpModule", KotlinMultiplatformModuleExtension::class.java)

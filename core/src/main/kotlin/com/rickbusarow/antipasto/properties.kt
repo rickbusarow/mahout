@@ -19,15 +19,15 @@ import com.rickbusarow.kgx.extras
 import com.rickbusarow.kgx.getOrPut
 import org.gradle.api.Project
 
-/** */
+/**  */
 val Project.VERSION_NAME: String
   get() = property("VERSION_NAME") as String
 
-/** */
+/**  */
 val Project.versionIsSnapshot: Boolean
   get() = extras.getOrPut("versionIsSnapshot") { VERSION_NAME.endsWith("-SNAPSHOT") }
 
-/** */
+/**  */
 val Project.GROUP: String
   get() = property("GROUP") as String
 

@@ -27,16 +27,24 @@ import javax.inject.Inject
 
 interface BuildLogicShadowExtensionHook {
 
-  val shadow: BuildLogicShadowExtension
+  // val shadow: BuildLogicShadowExtension
 
-  fun shadow(enabled: Boolean = true) {
-    shadow.enabled.set(false)
+  fun shadow2() {
+    // shadow.enabled.set(false)
   }
 
-  fun shadow(
-    shadowConfiguration: Configuration?,
-    relocatePackages: List<String> = emptyList()
-  )
+  fun shadow3(enabled: Boolean) {
+    // shadow.enabled.set(false)
+  }
+
+  // fun shadow4(
+  //   shadowConfiguration: Configuration?
+  // )
+
+  // fun shadow5(
+  //   shadowConfiguration: Configuration,
+  //   relocatePackages: List<String>
+  // )
 }
 
 abstract class BuildLogicShadowExtension @Inject constructor(

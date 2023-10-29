@@ -15,7 +15,7 @@
 
 package com.rickbusarow.antipasto
 
-abstract class RootExtension :
+public abstract class RootExtension :
   AutoServiceExtension,
   BuildLogicShadowExtensionHook,
   KspExtension,
@@ -23,7 +23,7 @@ abstract class RootExtension :
   PublishingExtension,
   SerializationExtension
 
-abstract class KotlinJvmModuleExtension :
+public abstract class KotlinJvmModuleExtension :
   AutoServiceExtension,
   BuildLogicShadowExtensionHook,
   KotlinJvmExtension,
@@ -32,7 +32,7 @@ abstract class KotlinJvmModuleExtension :
   PublishingExtension,
   SerializationExtension
 
-abstract class KotlinMultiplatformModuleExtension :
+public abstract class KotlinMultiplatformModuleExtension :
   AutoServiceExtension,
   BuildLogicShadowExtensionHook,
   KotlinExtension,

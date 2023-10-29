@@ -2,7 +2,6 @@
 [![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/com.rickbusarow.antipasto/antipasto?label=snapshots&server=https%3A%2F%2Foss.sonatype.org&style=flat-square)](https://oss.sonatype.org/#nexus-search;quick~com.rickbusarow.antipasto)
 [![License](https://img.shields.io/badge/license-apache2.0-blue?style=flat-square.svg)](https://opensource.org/licenses/Apache-2.0)
 
-
 ## TODO
 
 - [ ] most things

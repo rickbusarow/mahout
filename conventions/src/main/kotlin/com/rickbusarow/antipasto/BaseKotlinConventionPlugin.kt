@@ -23,9 +23,11 @@ import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.api.tasks.compile.JavaCompile
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.targets
 import org.jetbrains.kotlin.gradle.tasks.BaseKotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 import java.io.Serializable
 import kotlin.jvm.java
 import org.jetbrains.kotlin.gradle.dsl.KotlinCompile as KotlinCompileDsl
@@ -77,6 +79,9 @@ abstract class BaseKotlinConventionPlugin : Plugin<Project> {
   }
 
   private fun configureKotlinOptions(target: Project, extension: KotlinExtension) {
+    target.tasks.withType(KotlinJvmCompile::class.java).configureEach { task ->
+      task.kotlinOptions.jvmTarget = target.JVM_TARGET
+    }
     target.tasks.withType(KotlinCompileDsl::class.java).configureEach { task ->
       task.kotlinOptions {
 
@@ -85,6 +90,8 @@ abstract class BaseKotlinConventionPlugin : Plugin<Project> {
         val kotlinMajor = target.KOTLIN_API
         languageVersion = kotlinMajor
         apiVersion = kotlinMajor
+
+        (this as? KotlinJvmOptions)?.jvmTarget = target.JVM_TARGET
 
         @Suppress("SpellCheckingInspection")
         freeCompilerArgs += buildList {

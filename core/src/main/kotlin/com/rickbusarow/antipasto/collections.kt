@@ -15,7 +15,7 @@
 
 package com.rickbusarow.antipasto
 
-/** */
+/**  */
 inline fun <E> List<E>.splitInclusive(predicate: (E) -> Boolean): List<List<E>> {
 
   val toSplit = this@splitInclusive

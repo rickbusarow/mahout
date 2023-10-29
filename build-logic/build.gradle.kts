@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 
+import com.rickbusarow.kgx.javaExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinBasePlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -28,58 +29,42 @@ buildscript {
 plugins {
   alias(libs.plugins.kotlin.jvm) apply false
   alias(libs.plugins.kotlin.serialization) apply false
-  alias(libs.plugins.ktlint) apply false
-  alias(libs.plugins.moduleCheck)
-  id("com.rickbusarow.antipasto.jvm-module") apply false
-  id("com.rickbusarow.antipasto.root")
-}
-
-moduleCheck {
-  deleteUnused = true
-  checks.sortDependencies = true
+  alias(libs.plugins.ktlint)
 }
 
 val kotlinApiVersion = project.property("KOTLIN_API").toString()
-val ktlintPluginId = libs.plugins.ktlint.get().pluginId
+
+subprojects sub@{
+  this@sub.layout.buildDirectory.set(this@sub.file("build-composite"))
+}
 
 allprojects ap@{
   version = property("VERSION_NAME") as String
 
-  val jdk = project.property("JDK_BUILD_LOGIC").toString()
-
-  val innerProject = this@ap
-
-  apply(plugin = ktlintPluginId)
-
-  dependencies {
-    "ktlint"(rootProject.libs.rickBusarow.ktrules)
-  }
-
-  if (innerProject != rootProject) {
-    rootProject.tasks.named("ktlintCheck") {
-      dependsOn(innerProject.tasks.named("ktlintCheck"))
-    }
-    rootProject.tasks.named("ktlintFormat") {
-      dependsOn(innerProject.tasks.named("ktlintFormat"))
-    }
-  }
-
   plugins.withType(KotlinBasePlugin::class.java).configureEach {
+
+    val jdk = project.property("JDK_BUILD_LOGIC").toString()
+    val target = property("JVM_TARGET_BUILD_LOGIC").toString()
+
     extensions.configure(KotlinJvmProjectExtension::class.java) {
       jvmToolchain {
         languageVersion.set(JavaLanguageVersion.of(jdk))
       }
     }
-  }
 
-  tasks.withType(KotlinCompile::class.java).configureEach {
-    kotlinOptions {
+    tasks.withType(KotlinCompile::class.java).configureEach {
+      kotlinOptions {
+        apiVersion = kotlinApiVersion
+        freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
+        jvmTarget = target
+      }
+    }
 
-      apiVersion = kotlinApiVersion
+    this@ap.javaExtension.sourceCompatibility = JavaVersion.toVersion(target)
 
-      freeCompilerArgs = freeCompilerArgs + listOf(
-        "-opt-in=kotlin.RequiresOptIn"
-      )
+    val targetInt = target.substringAfterLast('.').toInt()
+    tasks.withType(JavaCompile::class.java).configureEach {
+      options.release.set(targetInt)
     }
   }
   tasks.withType(Test::class.java).configureEach {

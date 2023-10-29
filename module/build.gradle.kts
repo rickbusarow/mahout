@@ -18,6 +18,10 @@ plugins {
   `java-gradle-plugin`
 }
 
+if (rootProject.name == "antipasto") {
+  apply(plugin = "com.rickbusarow.antipasto.jvm-module")
+}
+
 gradlePlugin {
   plugins {
     create("composite") {
@@ -52,9 +56,6 @@ dependencies {
 
   compileOnly(gradleApi())
 
-  implementation(libs.dependency.analysis.gradle.plugin) {
-    exclude(group = "org.jetbrains.kotlin")
-  }
   implementation(libs.detekt.gradle)
   implementation(libs.dokka.gradle)
   implementation(libs.johnrengelman.shadowJar)

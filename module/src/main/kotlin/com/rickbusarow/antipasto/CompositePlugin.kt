@@ -15,7 +15,6 @@
 
 package com.rickbusarow.antipasto
 
-import com.autonomousapps.tasks.BuildHealthTask
 import com.github.jengelman.gradle.plugins.shadow.internal.JavaJarExec
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import com.rickbusarow.antipasto.artifacts.ArtifactsCheckTask
@@ -47,7 +46,7 @@ import org.jetbrains.dokka.gradle.AbstractDokkaTask
 import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
 import org.jetbrains.dokka.gradle.DokkaTask
 
-abstract class CompositePlugin : Plugin<Project> {
+public abstract class CompositePlugin : Plugin<Project> {
   override fun apply(target: Project) {
 
     target.checkProjectIsRoot()
@@ -64,8 +63,6 @@ abstract class CompositePlugin : Plugin<Project> {
         KotlinApiBuildTask::class, KotlinApiCompareTask::class,
         /* artifacts-check */
         ArtifactsCheckTask::class, ArtifactsDumpTask::class,
-        /* DAGP */
-        BuildHealthTask::class,
         /* ModuleCheck */
         AbstractModuleCheckTask::class, MultiRuleModuleCheckTask::class, SingleRuleModuleCheckTask::class,
         /* detekt */

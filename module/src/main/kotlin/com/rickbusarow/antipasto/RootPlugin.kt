@@ -24,21 +24,21 @@ import modulecheck.gradle.ModuleCheckPlugin
 import org.gradle.api.Project
 
 /** Applied to the real project root and the root project of any included build except this one. */
-abstract class RootPlugin : BaseModulePlugin() {
+public abstract class RootPlugin : BaseModulePlugin() {
   override fun apply(target: Project) {
 
     target.checkProjectIsRoot()
 
-    target.plugins.apply("com.autonomousapps.dependency-analysis")
+    // target.plugins.apply("com.autonomousapps.dependency-analysis")
 
-    target.extensions.create("root", RootExtension::class.java)
+    target.extensions.create("antipasto", RootExtension::class.java)
 
     super.apply(target)
 
     target.plugins.apply(ArtifactsPlugin::class.java)
     target.plugins.apply(BenManesVersionsPlugin::class.java)
     target.plugins.apply(DokkaVersionArchivePlugin::class.java)
-    target.plugins.apply(GitHubReleasePlugin::class.java)
+    // target.plugins.apply(GitHubReleasePlugin::class.java)
     target.plugins.apply(SpotlessConventionPlugin::class.java)
 
     target.plugins.apply(ModuleCheckPlugin::class.java)
@@ -64,7 +64,7 @@ abstract class RootPlugin : BaseModulePlugin() {
     }
 
     if (target.gradle.includedBuilds.isNotEmpty()) {
-      target.plugins.apply("composite")
+      target.plugins.apply(CompositePlugin::class.java)
     }
 
     if (inCI() && target.isRealRootProject()) {

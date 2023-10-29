@@ -66,10 +66,10 @@ abstract class TestConventionPlugin : Plugin<Project> {
 
       target.properties
         .filter { (key, value) ->
-          key.startsWith(commonPrefix) && value != null
+          key.startsWith("$commonPrefix.") && value != null
         }
         .forEach { (key, value) ->
-          systemProperty(key, value as String)
+          systemProperty(key, value.toString())
         }
 
       task.maxHeapSize = "4g"

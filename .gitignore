@@ -50,3 +50,5 @@ vcs.xml
 # since they're created and updated automatically by the main settings script
 /**/gradle.properties
 !gradle.properties
+
+/**/build-composite/

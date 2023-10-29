@@ -30,6 +30,8 @@ gradlePlugin {
 
 dependencies {
   compileOnly(gradleApi())
+
   implementation(libs.kotlinx.serialization.json)
+
   implementation(project(":core"))
 }
