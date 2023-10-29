@@ -17,8 +17,9 @@ package com.rickbusarow.antipasto
 
 import com.github.jengelman.gradle.plugins.shadow.internal.JavaJarExec
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import com.rickbusarow.antipasto.artifacts.ArtifactsCheckTask
-import com.rickbusarow.antipasto.artifacts.ArtifactsDumpTask
+import com.rickbusarow.antipasto.core.AntipastoTask
+import com.rickbusarow.antipasto.curator.ArtifactsCheckTask
+import com.rickbusarow.antipasto.curator.ArtifactsDumpTask
 import com.rickbusarow.kgx.checkProjectIsRoot
 import com.rickbusarow.kgx.dependsOn
 import com.rickbusarow.kgx.internal.allProjects
@@ -61,7 +62,7 @@ public abstract class CompositePlugin : Plugin<Project> {
       val propagatedTaskTypes = listOf(
         /* api validation */
         KotlinApiBuildTask::class, KotlinApiCompareTask::class,
-        /* artifacts-check */
+        /* curator */
         ArtifactsCheckTask::class, ArtifactsDumpTask::class,
         /* ModuleCheck */
         AbstractModuleCheckTask::class, MultiRuleModuleCheckTask::class, SingleRuleModuleCheckTask::class,

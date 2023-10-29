@@ -20,58 +20,6 @@ plugins {
 
 gradlePlugin {
   plugins {
-    create("ben-manes") {
-      id = "com.rickbusarow.antipasto.ben-manes"
-      implementationClass = "com.rickbusarow.antipasto.BenManesVersionsPlugin"
-    }
-    create("antipasto.check") {
-      id = "com.rickbusarow.antipasto.check"
-      implementationClass = "com.rickbusarow.antipasto.CheckPlugin"
-    }
-    create("antipasto.clean") {
-      id = "com.rickbusarow.antipasto.clean"
-      implementationClass = "com.rickbusarow.antipasto.CleanPlugin"
-    }
-    create("antipasto.dependency-guard") {
-      id = "com.rickbusarow.antipasto.dependency-guard"
-      implementationClass = "com.rickbusarow.antipasto.DependencyGuardConventionPlugin"
-    }
-    create("antipasto.detekt") {
-      id = "com.rickbusarow.antipasto.detekt"
-      implementationClass = "com.rickbusarow.antipasto.DetektConventionPlugin"
-    }
-    create("antipasto.dokkatoo") {
-      id = "com.rickbusarow.antipasto.dokkatoo"
-      implementationClass = "com.rickbusarow.antipasto.DokkatooConventionPlugin"
-    }
-    create("antipasto.dokka-versioning") {
-      id = "com.rickbusarow.antipasto.dokka-versioning"
-      implementationClass = "com.rickbusarow.antipasto.DokkaVersionArchivePlugin"
-    }
-    create("antipasto.github-release") {
-      id = "com.rickbusarow.antipasto.github-release"
-      implementationClass = "com.rickbusarow.antipasto.GitHubReleasePlugin"
-    }
-    create("antipasto.integration-tests") {
-      id = "com.rickbusarow.antipasto.integration-tests"
-      implementationClass = "com.rickbusarow.antipasto.IntegrationTestsConventionPlugin"
-    }
-    create("antipasto.kotlin") {
-      id = "com.rickbusarow.antipasto.kotlin"
-      implementationClass = "com.rickbusarow.antipasto.KotlinJvmConventionPlugin"
-    }
-    create("antipasto.ktlint") {
-      id = "com.rickbusarow.antipasto.ktlint"
-      implementationClass = "com.rickbusarow.antipasto.KtLintConventionPlugin"
-    }
-    create("antipasto.spotless") {
-      id = "com.rickbusarow.antipasto.spotless"
-      implementationClass = "com.rickbusarow.antipasto.SpotlessConventionPlugin"
-    }
-    create("antipasto.test") {
-      id = "com.rickbusarow.antipasto.test"
-      implementationClass = "com.rickbusarow.antipasto.TestConventionPlugin"
-    }
   }
 }
 
@@ -79,26 +27,8 @@ dependencies {
 
   api(libs.breadmoirai.github.release)
   api(libs.rickBusarow.doks)
-  api(libs.rickBusarow.kgx)
-  api(libs.rickBusarow.ktlint)
 
   api(project(path = ":core"))
 
   compileOnly(gradleApi())
-
-  implementation(libs.benManes.versions)
-  implementation(libs.detekt.gradle)
-  implementation(libs.diffplug.spotless)
-  implementation(libs.dokka.core)
-  implementation(libs.dokka.gradle)
-  implementation(libs.dokka.versioning)
-  implementation(libs.dokkatoo.plugin)
-  implementation(libs.dropbox.dependencyGuard)
-  implementation(libs.johnrengelman.shadowJar)
-  implementation(libs.kotlin.gradle.plugin)
-  implementation(libs.kotlin.gradle.plugin.api)
-  implementation(libs.kotlin.reflect)
-  implementation(libs.kotlinx.binaryCompatibility)
-  implementation(libs.poko.gradle.plugin)
-  implementation(libs.vanniktech.publish)
 }

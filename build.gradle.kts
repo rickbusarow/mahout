@@ -13,10 +13,6 @@
  * limitations under the License.
  */
 
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
-import org.jetbrains.kotlin.gradle.plugin.KotlinBasePlugin
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 buildscript {
   dependencies {
     classpath(libs.kotlin.gradle.plugin)
@@ -26,6 +22,7 @@ buildscript {
 }
 
 plugins {
+  alias(libs.plugins.poko) apply false
   alias(libs.plugins.kotlin.jvm) apply false
   alias(libs.plugins.kotlin.serialization) apply false
   alias(libs.plugins.ktlint) apply false
@@ -45,8 +42,6 @@ val ktlintPluginId = libs.plugins.ktlint.get().pluginId
 allprojects ap@{
   version = property("VERSION_NAME") as String
 
-  val jdk = project.property("JDK_BUILD_LOGIC").toString()
-
   val innerProject = this@ap
 
   apply(plugin = ktlintPluginId)
@@ -63,26 +58,8 @@ allprojects ap@{
       dependsOn(innerProject.tasks.named("ktlintFormat"))
     }
   }
+}
 
-  plugins.withType(KotlinBasePlugin::class.java).configureEach {
-    extensions.configure(KotlinJvmProjectExtension::class.java) {
-      jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(jdk))
-      }
-    }
-  }
-
-  tasks.withType(KotlinCompile::class.java).configureEach {
-    kotlinOptions {
-
-      apiVersion = kotlinApiVersion
-
-      freeCompilerArgs = freeCompilerArgs + listOf(
-        "-opt-in=kotlin.RequiresOptIn"
-      )
-    }
-  }
-  tasks.withType(Test::class.java).configureEach {
-    useJUnitPlatform()
-  }
+tasks.named("clean") {
+  dependsOn(gradle.includedBuild("build-logic").task(":clean"))
 }

@@ -13,19 +13,14 @@
  * limitations under the License.
  */
 
-plugins {
-  alias(libs.plugins.kotlin.jvm)
-  alias(libs.plugins.kotlin.serialization)
-  `java-gradle-plugin`
-}
+package com.rickbusarow.antipasto.core
 
-gradlePlugin {
-  plugins {
-  }
-}
+import org.gradle.api.DefaultTask
 
-dependencies {
-  compileOnly(gradleApi())
+/**
+ * This is a simple way to tag a task so that it's found by the 'composite' convention
+ * plugin, which means it will be automatically propagated to composite builds.
+ */
+public abstract class AntipastoTask : DefaultTask()
 
-  implementation(project(":core"))
-}
+public abstract class AntipastoCodeGeneratorTask : AntipastoTask()

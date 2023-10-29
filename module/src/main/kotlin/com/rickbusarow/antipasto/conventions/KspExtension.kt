@@ -13,19 +13,14 @@
  * limitations under the License.
  */
 
-plugins {
-  alias(libs.plugins.kotlin.jvm)
-  alias(libs.plugins.kotlin.serialization)
-  `java-gradle-plugin`
-}
+package com.rickbusarow.antipasto.conventions
 
-gradlePlugin {
-  plugins {
+import org.gradle.api.Project
+
+public interface KspExtension {
+
+  public fun Project.ksp() {
+
+    pluginManager.apply("com.google.devtools.ksp")
   }
-}
-
-dependencies {
-  compileOnly(gradleApi())
-
-  implementation(project(":core"))
 }

@@ -13,19 +13,24 @@
  * limitations under the License.
  */
 
-plugins {
-  alias(libs.plugins.kotlin.jvm)
-  alias(libs.plugins.kotlin.serialization)
-  `java-gradle-plugin`
-}
+package com.rickbusarow.antipasto.conventions
 
-gradlePlugin {
-  plugins {
+import com.rickbusarow.kgx.dependency
+import com.rickbusarow.kgx.libsCatalog
+import org.gradle.api.Project
+
+public interface SerializationExtension {
+
+  public fun Project.serialization() {
+    if (!pluginManager.hasPlugin("org.jetbrains.kotlin.plugin.serialization")) {
+
+      pluginManager.apply("org.jetbrains.kotlin.plugin.serialization")
+
+      dependencies.constraints
+        .add(
+          "implementation",
+          libsCatalog.dependency("kotlinx-serialization-core")
+        )
+    }
   }
-}
-
-dependencies {
-  compileOnly(gradleApi())
-
-  implementation(project(":core"))
 }

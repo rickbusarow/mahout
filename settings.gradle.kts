@@ -54,12 +54,7 @@ dependencyResolutionManagement {
   }
 }
 
-include(
-  ":artifacts",
-  ":conventions",
-  ":core",
-  ":module"
-)
+include(":module")
 
 includeBuild("build-logic") {
   // dependencySubstitution {

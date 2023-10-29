@@ -13,19 +13,16 @@
  * limitations under the License.
  */
 
-plugins {
-  alias(libs.plugins.kotlin.jvm)
-  alias(libs.plugins.kotlin.serialization)
-  `java-gradle-plugin`
-}
+package com.rickbusarow.antipasto.conventions
 
-gradlePlugin {
-  plugins {
+import com.rickbusarow.kgx.applyOnce
+import org.gradle.api.Project
+
+public abstract class KotlinJvmConventionPlugin : BaseKotlinConventionPlugin() {
+
+  override fun apply(target: Project) {
+    target.plugins.applyOnce("org.jetbrains.kotlin.jvm")
+
+    super.apply(target)
   }
-}
-
-dependencies {
-  compileOnly(gradleApi())
-
-  implementation(project(":core"))
 }

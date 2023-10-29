@@ -13,19 +13,28 @@
  * limitations under the License.
  */
 
-plugins {
-  alias(libs.plugins.kotlin.jvm)
-  alias(libs.plugins.kotlin.serialization)
-  `java-gradle-plugin`
-}
+package com.rickbusarow.antipasto.conventions
 
-gradlePlugin {
-  plugins {
+import com.rickbusarow.kgx.dependency
+import com.rickbusarow.kgx.libsCatalog
+import org.gradle.api.Project
+
+public interface AutoServiceExtension : KspExtension {
+
+  public fun Project.autoService() {
+    ksp()
+
+    dependencies.add(
+      "compileOnly",
+      libsCatalog.dependency("google-auto-service-annotations")
+    )
+    dependencies.add(
+      "testCompileOnly",
+      libsCatalog.dependency("google-auto-service-annotations")
+    )
+    dependencies.add(
+      "ksp",
+      libsCatalog.dependency("zacSweers-auto-service-ksp")
+    )
   }
-}
-
-dependencies {
-  compileOnly(gradleApi())
-
-  implementation(project(":core"))
 }

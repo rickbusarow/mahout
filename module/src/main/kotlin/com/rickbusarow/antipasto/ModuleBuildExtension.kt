@@ -15,6 +15,16 @@
 
 package com.rickbusarow.antipasto
 
+import com.rickbusarow.antipasto.conventions.AutoServiceExtension
+import com.rickbusarow.antipasto.conventions.BuildLogicShadowExtensionHook
+import com.rickbusarow.antipasto.conventions.KotlinExtension
+import com.rickbusarow.antipasto.conventions.KotlinJvmExtension
+import com.rickbusarow.antipasto.conventions.KotlinMultiplatformExtension
+import com.rickbusarow.antipasto.conventions.KspExtension
+import com.rickbusarow.antipasto.conventions.PokoExtension
+import com.rickbusarow.antipasto.conventions.PublishingExtension
+import com.rickbusarow.antipasto.conventions.SerializationExtension
+
 public abstract class RootExtension :
   AutoServiceExtension,
   BuildLogicShadowExtensionHook,
