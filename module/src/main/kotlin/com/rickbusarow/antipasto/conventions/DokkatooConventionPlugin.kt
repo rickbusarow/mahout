@@ -40,6 +40,7 @@ import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URI
 
+@Suppress("UndocumentedPublicClass")
 public abstract class DokkatooConventionPlugin : Plugin<Project> {
   override fun apply(target: Project) {
 

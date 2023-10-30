@@ -15,15 +15,16 @@
 
 package com.rickbusarow.antipasto.core
 
-/**  */
 internal inline fun <E> List<E>.splitInclusive(predicate: (E) -> Boolean): List<List<E>> {
 
   val toSplit = this@splitInclusive
 
+  if (toSplit.isEmpty()) return emptyList()
+
   val indices = buildList {
     add(0)
 
-    for (index in (1 until toSplit.lastIndex - 1)) {
+    for (index in (1..toSplit.lastIndex)) {
       if (predicate(toSplit[index])) {
         add(index)
       }
@@ -34,7 +35,7 @@ internal inline fun <E> List<E>.splitInclusive(predicate: (E) -> Boolean): List<
   return buildList {
     for ((i, fromIndex) in indices.withIndex()) {
       if (i == indices.lastIndex) {
-        add(toSplit.subList(fromIndex, toSplit.lastIndex))
+        add(toSplit.subList(fromIndex, toSplit.size))
       } else {
         add(toSplit.subList(fromIndex, indices[i + 1]))
       }

@@ -17,10 +17,8 @@ package com.rickbusarow.antipasto.core
 
 import org.gradle.api.DefaultTask
 
-/**
- * This is a simple way to tag a task so that it's found by the 'composite' convention
- * plugin, which means it will be automatically propagated to composite builds.
- */
+@Suppress("UndocumentedPublicClass")
 public abstract class AntipastoTask : DefaultTask()
 
+@Suppress("UndocumentedPublicClass")
 public abstract class AntipastoCodeGeneratorTask : AntipastoTask()

@@ -35,8 +35,10 @@ import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.gradle.plugins.signing.Sign
 import org.jetbrains.dokka.gradle.AbstractDokkaLeafTask
 
+@Suppress("UndocumentedPublicClass")
 public interface PublishingExtension {
 
+  @Suppress("UndocumentedPublicFunction")
   public fun Project.published(artifactId: String, pomDescription: String) {
     published(
       groupId = GROUP,
@@ -45,6 +47,7 @@ public interface PublishingExtension {
     )
   }
 
+  @Suppress("UndocumentedPublicFunction")
   public fun Project.published(groupId: String, artifactId: String, pomDescription: String) {
 
     plugins.apply("com.vanniktech.maven.publish.base")

@@ -17,8 +17,10 @@ package com.rickbusarow.antipasto.conventions
 
 import org.gradle.api.Project
 
+@Suppress("UndocumentedPublicClass")
 public interface KspExtension {
 
+  @Suppress("UndocumentedPublicFunction")
   public fun Project.ksp() {
 
     pluginManager.apply("com.google.devtools.ksp")

@@ -32,6 +32,7 @@ import org.gradle.api.Project
 import org.gradle.api.file.ConfigurableFileTree
 import org.gradle.api.tasks.util.PatternFilterable
 
+@Suppress("UndocumentedPublicClass")
 public abstract class SpotlessConventionPlugin : Plugin<Project> {
   @OptIn(EagerGradleApi::class)
   override fun apply(target: Project) {
@@ -41,7 +42,7 @@ public abstract class SpotlessConventionPlugin : Plugin<Project> {
     target.plugins.apply(SpotlessPlugin::class.java)
 
     target.tasks.withType(SpotlessTask::class.java).configureEach { spotlessTask ->
-      spotlessTask.mustRunAfter(":artifactsDump")
+      spotlessTask.mustRunAfter(":curatorDump")
       spotlessTask.mustRunAfter(target.allProjectsTasksMatchingName("apiDump"))
       spotlessTask.mustRunAfter(target.allProjectsTasksMatchingName("dependencyGuard"))
       spotlessTask.mustRunAfter(target.allProjectsTasksMatchingName("dependencyGuardBaseline"))

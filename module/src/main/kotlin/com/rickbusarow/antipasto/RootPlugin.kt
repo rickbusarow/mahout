@@ -18,7 +18,6 @@ package com.rickbusarow.antipasto
 import com.rickbusarow.antipasto.conventions.BenManesVersionsPlugin
 import com.rickbusarow.antipasto.conventions.DokkaVersionArchivePlugin
 import com.rickbusarow.antipasto.conventions.SpotlessConventionPlugin
-import com.rickbusarow.antipasto.core.AntipastoTask
 import com.rickbusarow.antipasto.curator.CuratorPlugin
 import com.rickbusarow.kgx.checkProjectIsRoot
 import com.rickbusarow.kgx.inCI
@@ -32,8 +31,6 @@ public abstract class RootPlugin : BaseModulePlugin() {
   override fun apply(target: Project) {
 
     target.checkProjectIsRoot()
-
-    // target.plugins.apply("com.autonomousapps.dependency-analysis")
 
     target.extensions.create("antipasto", RootExtension::class.java)
 
@@ -51,19 +48,6 @@ public abstract class RootPlugin : BaseModulePlugin() {
       extension.deleteUnused = true
       extension.checks { checks ->
         checks.sortDependencies = true
-      }
-    }
-
-    // Hack for ensuring that when 'publishToMavenLocal' is invoked from the root project,
-    // all subprojects are published.  This is used in plugin tests.
-    target.tasks.register("publishToMavenLocal", AntipastoTask::class.java) {
-      target.subprojects.forEach { sub ->
-        it.dependsOn(sub.tasks.matching { it.name == "publishToMavenLocal" })
-      }
-    }
-    target.tasks.register("publishToMavenLocalNoDokka", AntipastoTask::class.java) {
-      target.subprojects.forEach { sub ->
-        it.dependsOn(sub.tasks.matching { it.name == "publishToMavenLocalNoDokka" })
       }
     }
 

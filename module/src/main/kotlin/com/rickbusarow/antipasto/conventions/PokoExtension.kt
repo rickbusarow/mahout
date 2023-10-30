@@ -21,8 +21,10 @@ import com.rickbusarow.kgx.pluginId
 import org.gradle.api.Project
 import org.gradle.api.artifacts.ModuleVersionSelector
 
+@Suppress("UndocumentedPublicClass")
 public interface PokoExtension {
 
+  @Suppress("UndocumentedPublicFunction")
   public fun Project.poko() {
 
     val implementation = configurations.getByName("implementation")

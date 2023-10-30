@@ -206,7 +206,6 @@ ij_properties_spaces_around_key_value_delimiter = false
 [{*.toml,Cargo.lock,Cargo.toml.orig,Gopkg.lock,Pipfile,poetry.lock}]
 ij_toml_keep_indents_on_empty_lines = false
 
-
 [*.css]
 ij_css_align_closing_brace_with_properties = false
 ij_css_blank_lines_around_nested_selector = 1

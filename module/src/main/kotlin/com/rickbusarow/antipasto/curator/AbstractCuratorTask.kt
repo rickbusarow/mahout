@@ -30,7 +30,7 @@ import org.gradle.api.tasks.OutputFile
 
 /**
  */
-public abstract class ArtifactsTask(
+public abstract class AbstractCuratorTask(
   private val projectLayout: ProjectLayout
 ) : DefaultTask() {
 
@@ -83,6 +83,7 @@ public abstract class ArtifactsTask(
         val pomDescription: String? = publication.pom.description.orNull
         val packaging: String? = publication.pom.packaging
 
+        @Suppress("MagicNumber")
         listOfNotNull(group, artifactId, pomDescription, packaging)
           .also { allProperties ->
 

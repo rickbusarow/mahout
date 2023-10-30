@@ -25,6 +25,7 @@ import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.gradle.plugins.ide.idea.model.IdeaModel
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 
+@Suppress("UndocumentedPublicClass")
 public abstract class IntegrationTestsConventionPlugin : Plugin<Project> {
   override fun apply(target: Project) {
     target.plugins.applyOnce("idea")

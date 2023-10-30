@@ -13,19 +13,12 @@
  * limitations under the License.
  */
 
-buildscript {
-  dependencies {
-    classpath(libs.kotlin.gradle.plugin)
-    classpath(libs.vanniktech.publish)
-    classpath(libs.rickBusarow.kgx)
-  }
-}
-
 plugins {
   alias(libs.plugins.poko) apply false
   alias(libs.plugins.kotlin.jvm) apply false
   alias(libs.plugins.kotlin.serialization) apply false
   alias(libs.plugins.ktlint) apply false
+  alias(libs.plugins.doks)
   alias(libs.plugins.moduleCheck)
   id("com.rickbusarow.antipasto.jvm-module") apply false
   id("com.rickbusarow.antipasto.root")
@@ -36,7 +29,12 @@ moduleCheck {
   checks.sortDependencies = true
 }
 
-val kotlinApiVersion = project.property("KOTLIN_API").toString()
+antipasto {
+
+  composite {
+  }
+}
+
 val ktlintPluginId = libs.plugins.ktlint.get().pluginId
 
 allprojects ap@{

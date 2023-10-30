@@ -32,10 +32,10 @@ import javax.inject.Inject
  *
  * If there are any differences, the task will fail with a descriptive message.
  */
-public open class ArtifactsCheckTask @Inject constructor(
+public open class CuratorCheckTask @Inject constructor(
   objectFactory: ObjectFactory,
   projectLayout: ProjectLayout
-) : ArtifactsTask(projectLayout) {
+) : AbstractCuratorTask(projectLayout) {
 
   init {
     description = "Parses the Maven artifact parameters for all modules " +
@@ -45,6 +45,7 @@ public open class ArtifactsCheckTask @Inject constructor(
 
   private val lenientOsProp: Property<Boolean> = objectFactory.property(Boolean::class.java)
 
+  /** Do not fail the check if there are macOS-only artifacts which can't be checked */
   @set:Option(
     option = "lenient-os",
     description = "Do not fail the check if there are macOS-only artifacts which can't be checked."
@@ -218,6 +219,7 @@ public open class ArtifactsCheckTask @Inject constructor(
       }
     }
 
+  @Suppress("UndocumentedPublicFunction", "NestedBlockDepth")
   private fun StringBuilder.maybeAddChangedValueMessages(
     changed: List<Pair<ArtifactConfig, ArtifactConfig>>
   ): StringBuilder = apply {

@@ -29,6 +29,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import kotlin.text.RegexOption.MULTILINE
 
+@Suppress("UndocumentedPublicClass")
 public abstract class KtLintConventionPlugin : Plugin<Project> {
 
   @OptIn(EagerGradleApi::class)

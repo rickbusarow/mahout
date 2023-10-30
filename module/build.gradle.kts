@@ -47,58 +47,27 @@ gradlePlugin {
       id = "com.rickbusarow.antipasto.curator"
       implementationClass = "com.rickbusarow.antipasto.curator.CuratorPlugin"
     }
-    create("ben-manes") {
-      id = "com.rickbusarow.antipasto.ben-manes"
-      implementationClass = "com.rickbusarow.antipasto.conventions.BenManesVersionsPlugin"
+
+    fun convention(suffix: String, simpleClassName: String) {
+      create("convention.$suffix") {
+        id = "com.rickbusarow.antipasto.$suffix"
+        implementationClass = "com.rickbusarow.antipasto.conventions.$simpleClassName"
+      }
     }
-    create("antipasto.check") {
-      id = "com.rickbusarow.antipasto.check"
-      implementationClass = "com.rickbusarow.antipasto.conventions.CheckPlugin"
-    }
-    create("antipasto.clean") {
-      id = "com.rickbusarow.antipasto.clean"
-      implementationClass = "com.rickbusarow.antipasto.conventions.CleanPlugin"
-    }
-    create("antipasto.dependency-guard") {
-      id = "com.rickbusarow.antipasto.dependency-guard"
-      implementationClass = "com.rickbusarow.antipasto.conventions.DependencyGuardConventionPlugin"
-    }
-    create("antipasto.detekt") {
-      id = "com.rickbusarow.antipasto.detekt"
-      implementationClass = "com.rickbusarow.antipasto.conventions.DetektConventionPlugin"
-    }
-    create("antipasto.dokkatoo") {
-      id = "com.rickbusarow.antipasto.dokkatoo"
-      implementationClass = "com.rickbusarow.antipasto.conventions.DokkatooConventionPlugin"
-    }
-    create("antipasto.dokka-versioning") {
-      id = "com.rickbusarow.antipasto.dokka-versioning"
-      implementationClass = "com.rickbusarow.antipasto.conventions.DokkaVersionArchivePlugin"
-    }
-    create("antipasto.github-release") {
-      id = "com.rickbusarow.antipasto.github-release"
-      implementationClass = "com.rickbusarow.antipasto.conventions.GitHubReleasePlugin"
-    }
-    create("antipasto.integration-tests") {
-      id = "com.rickbusarow.antipasto.integration-tests"
-      implementationClass = "com.rickbusarow.antipasto.conventions.IntegrationTestsConventionPlugin"
-    }
-    create("antipasto.kotlin") {
-      id = "com.rickbusarow.antipasto.kotlin"
-      implementationClass = "com.rickbusarow.antipasto.conventions.KotlinJvmConventionPlugin"
-    }
-    create("antipasto.ktlint") {
-      id = "com.rickbusarow.antipasto.ktlint"
-      implementationClass = "com.rickbusarow.antipasto.conventions.KtLintConventionPlugin"
-    }
-    create("antipasto.spotless") {
-      id = "com.rickbusarow.antipasto.spotless"
-      implementationClass = "com.rickbusarow.antipasto.conventions.SpotlessConventionPlugin"
-    }
-    create("antipasto.test") {
-      id = "com.rickbusarow.antipasto.test"
-      implementationClass = "com.rickbusarow.antipasto.conventions.TestConventionPlugin"
-    }
+
+    convention("ben-manes", "BenManesVersionsPlugin")
+    convention("check", "CheckPlugin")
+    convention("clean", "CleanPlugin")
+    convention("dependency-guard", "DependencyGuardConventionPlugin")
+    convention("detekt", "DetektConventionPlugin")
+    convention("dokkatoo", "DokkatooConventionPlugin")
+    convention("dokka-versioning", "DokkaVersionArchivePlugin")
+    convention("github-release", "GitHubReleasePlugin")
+    convention("integration-tests", "IntegrationTestsConventionPlugin")
+    convention("kotlin-jvm", "KotlinJvmConventionPlugin")
+    convention("ktlint", "KtLintConventionPlugin")
+    convention("spotless", "SpotlessConventionPlugin")
+    convention("test", "TestConventionPlugin")
   }
 }
 
@@ -109,11 +78,10 @@ dependencies {
     exclude(group = "org.jetbrains.kotlin")
   }
   api(libs.rickBusarow.doks)
-  api(libs.rickBusarow.ktlint)
   api(libs.rickBusarow.kgx)
+  api(libs.rickBusarow.ktlint)
 
   compileOnly(gradleApi())
-  implementation(libs.kotlinx.serialization.json)
 
   implementation(libs.benManes.versions)
   implementation(libs.detekt.gradle)
@@ -128,9 +96,11 @@ dependencies {
   implementation(libs.kotlin.gradle.plugin.api)
   implementation(libs.kotlin.reflect)
   implementation(libs.kotlinx.binaryCompatibility)
+  implementation(libs.kotlinx.serialization.json)
+  implementation(libs.picnic)
   implementation(libs.poko.gradle.plugin)
-  implementation(libs.vanniktech.publish)
   implementation(libs.rickBusarow.moduleCheck.gradle.plugin) {
     exclude(group = "org.jetbrains.kotlin")
   }
+  implementation(libs.vanniktech.publish)
 }

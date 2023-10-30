@@ -24,8 +24,13 @@ import com.rickbusarow.antipasto.conventions.KspExtension
 import com.rickbusarow.antipasto.conventions.PokoExtension
 import com.rickbusarow.antipasto.conventions.PublishingExtension
 import com.rickbusarow.antipasto.conventions.SerializationExtension
+import org.gradle.api.model.ObjectFactory
+import javax.inject.Inject
 
-public abstract class RootExtension :
+@Suppress("UndocumentedPublicClass")
+public abstract class RootExtension @Inject constructor(
+  private val objects: ObjectFactory
+) : CompositeHandler by objects<DefaultCompositeHandler>(),
   AutoServiceExtension,
   BuildLogicShadowExtensionHook,
   KspExtension,
@@ -33,6 +38,7 @@ public abstract class RootExtension :
   PublishingExtension,
   SerializationExtension
 
+@Suppress("UndocumentedPublicClass")
 public abstract class KotlinJvmModuleExtension :
   AutoServiceExtension,
   BuildLogicShadowExtensionHook,
@@ -42,6 +48,7 @@ public abstract class KotlinJvmModuleExtension :
   PublishingExtension,
   SerializationExtension
 
+@Suppress("UndocumentedPublicClass")
 public abstract class KotlinMultiplatformModuleExtension :
   AutoServiceExtension,
   BuildLogicShadowExtensionHook,
@@ -51,3 +58,6 @@ public abstract class KotlinMultiplatformModuleExtension :
   PokoExtension,
   PublishingExtension,
   SerializationExtension
+
+@Suppress("UnusedPrivateMember") // no, it's used as a delegate
+private inline operator fun <reified T : Any> ObjectFactory.invoke(): T = newInstance(T::class.java)

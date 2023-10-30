@@ -27,6 +27,7 @@ import org.gradle.api.tasks.Sync
 import org.gradle.api.tasks.bundling.Zip
 import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
 
+@Suppress("UndocumentedPublicClass")
 public abstract class DokkaVersionArchivePlugin : Plugin<Project> {
   override fun apply(target: Project) {
 

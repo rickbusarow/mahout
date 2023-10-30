@@ -53,12 +53,7 @@ dependencyResolutionManagement {
   }
 }
 
-listOf(
-  "artifacts",
-  "conventions",
-  "core",
-  "module"
-).forEach { name ->
+listOf("module").forEach { name ->
   include(":$name")
   project(":$name").projectDir = file("../$name")
 }

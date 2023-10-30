@@ -15,7 +15,7 @@
 
 package com.rickbusarow.antipasto.curator
 
-import com.rickbusarow.doks.kotlinx.serialization.Serializable
+import kotlinx.serialization.Serializable
 import java.io.Serializable as JavaIoSerializable
 
 /**

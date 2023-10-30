@@ -19,8 +19,10 @@ import com.rickbusarow.kgx.dependency
 import com.rickbusarow.kgx.libsCatalog
 import org.gradle.api.Project
 
+@Suppress("UndocumentedPublicClass")
 public interface SerializationExtension {
 
+  @Suppress("UndocumentedPublicFunction")
   public fun Project.serialization() {
     if (!pluginManager.hasPlugin("org.jetbrains.kotlin.plugin.serialization")) {
 

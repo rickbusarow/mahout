@@ -20,13 +20,13 @@ import com.rickbusarow.antipasto.core.prefixedPropertyOrNull
 import com.rickbusarow.kgx.isRealRootProject
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestFramework
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.tasks.testing.Test
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
 import org.gradle.internal.classpath.Instrumented.systemProperty
 
+@Suppress("UndocumentedPublicClass")
 public abstract class TestConventionPlugin : Plugin<Project> {
 
   override fun apply(target: Project) {
@@ -45,7 +45,8 @@ public abstract class TestConventionPlugin : Plugin<Project> {
 
       val junitPlatformOptions = task.testFrameworkProperty
         .map { frameWork ->
-          (frameWork as JUnitPlatformTestFramework).options
+          @Suppress("ForbiddenImport")
+          (frameWork as org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestFramework).options
         }
 
       task.doFirst {

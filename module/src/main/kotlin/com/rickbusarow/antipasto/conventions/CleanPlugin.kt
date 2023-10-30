@@ -25,6 +25,7 @@ import org.gradle.api.tasks.SourceTask
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 import java.io.File
 
+@Suppress("UndocumentedPublicClass")
 public abstract class CleanPlugin : Plugin<Project> {
   override fun apply(target: Project) {
 
@@ -33,7 +34,7 @@ public abstract class CleanPlugin : Plugin<Project> {
     val deleteEmptyDirs = target.tasks
       .register("deleteEmptyDirs", Delete::class.java) { task ->
         task.description = "Delete all empty directories within a project."
-        task.doLast {
+        task.doLast { _ ->
 
           val subprojectDirs = target.subprojects
             .map { it.projectDir.path }
@@ -54,7 +55,7 @@ public abstract class CleanPlugin : Plugin<Project> {
 
     target.tasks.register("cleanGradle", SourceTask::class.java) { task ->
       task.source(".gradle")
-      task.doLast {
+      task.doLast { _ ->
         target.projectDir.walkBottomUp()
           .filter { it.isDirectory }
           .filter { it.path.contains(".gradle") }
@@ -75,7 +76,7 @@ public abstract class CleanPlugin : Plugin<Project> {
             append("without an associated Gradle project.")
           }
 
-          task.doLast {
+          task.doLast { _ ->
 
             val websiteBuildDir = "${target.rootDir}/website/node_modules"
 

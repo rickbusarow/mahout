@@ -31,6 +31,7 @@ import org.gradle.api.Task
 import org.gradle.api.tasks.TaskCollection
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 
+@Suppress("UndocumentedPublicClass")
 public abstract class DetektConventionPlugin : Plugin<Project> {
   override fun apply(target: Project) {
 

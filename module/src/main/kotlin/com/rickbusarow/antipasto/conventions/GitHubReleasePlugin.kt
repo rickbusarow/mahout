@@ -26,6 +26,7 @@ import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
+@Suppress("UndocumentedPublicClass")
 public abstract class GitHubReleasePlugin : Plugin<Project> {
   override fun apply(target: Project) {
 

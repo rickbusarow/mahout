@@ -25,15 +25,18 @@ import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import javax.inject.Inject
 
+@Suppress("UndocumentedPublicClass")
 public interface BuildLogicShadowExtensionHook {
 
   // val shadow: BuildLogicShadowExtension
 
-  public fun shadow2() {
+  @Suppress("UndocumentedPublicFunction")
+  public fun shadow() {
     // shadow.enabled.set(false)
   }
 
-  public fun shadow3(enabled: Boolean) {
+  @Suppress("UndocumentedPublicFunction")
+  public fun shadow(enabled: Boolean) {
     // shadow.enabled.set(false)
   }
 
@@ -47,14 +50,17 @@ public interface BuildLogicShadowExtensionHook {
   // )
 }
 
+@Suppress("UndocumentedPublicClass")
 public abstract class BuildLogicShadowExtension @Inject constructor(
-  private val project: Project,
-  private val objects: ObjectFactory
+  objects: ObjectFactory
 ) {
-
+  @Suppress("UndocumentedPublicProperty")
   public val enabled: Property<Boolean> = objects.property(Boolean::class.java)
+
+  @Suppress("UndocumentedPublicProperty")
   public abstract val relocatePackages: ListProperty<String>
 
+  @Suppress("UndocumentedPublicFunction")
   public fun Project.shadow(
     shadowConfiguration: Configuration?,
     relocatePackages: List<String> = emptyList()

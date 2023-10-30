@@ -125,6 +125,7 @@ comments:
     ignoreAnnotated:
       - "dagger.Binds"
       - "dagger.Module"
+      - "org.gradle.api.tasks.TaskAction"
   UndocumentedPublicProperty:
     active: true
     excludes:
@@ -928,7 +929,7 @@ style:
     acceptableLength: 4
     allowNonStandardGrouping: false
   UnnecessaryAbstractClass:
-    active: true
+    active: false
   UnnecessaryAnnotationUseSiteTarget:
     active: false
   UnnecessaryApply:

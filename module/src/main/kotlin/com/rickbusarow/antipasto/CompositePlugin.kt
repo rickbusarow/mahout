@@ -15,39 +15,51 @@
 
 package com.rickbusarow.antipasto
 
-import com.github.jengelman.gradle.plugins.shadow.internal.JavaJarExec
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import com.rickbusarow.antipasto.core.AntipastoTask
-import com.rickbusarow.antipasto.curator.ArtifactsCheckTask
-import com.rickbusarow.antipasto.curator.ArtifactsDumpTask
+import com.rickbusarow.antipasto.core.splitInclusive
 import com.rickbusarow.kgx.checkProjectIsRoot
-import com.rickbusarow.kgx.dependsOn
-import com.rickbusarow.kgx.internal.allProjects
-import com.rickbusarow.kgx.undecoratedTypeName
-import com.rickbusarow.ktlint.KtLintTask
-import io.gitlab.arturbosch.detekt.Detekt
-import kotlinx.validation.KotlinApiBuildTask
-import kotlinx.validation.KotlinApiCompareTask
-import modulecheck.gradle.task.AbstractModuleCheckTask
-import modulecheck.gradle.task.MultiRuleModuleCheckTask
-import modulecheck.gradle.task.SingleRuleModuleCheckTask
+import com.rickbusarow.kgx.internal.allIncludedProjects
+import modulecheck.utils.mapToSet
+import org.gradle.api.Action
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.publish.maven.tasks.AbstractPublishToMaven
-import org.gradle.api.publish.maven.tasks.PublishToMavenLocal
-import org.gradle.api.tasks.Copy
-import org.gradle.api.tasks.Delete
-import org.gradle.api.tasks.Exec
-import org.gradle.api.tasks.JavaExec
-import org.gradle.api.tasks.Sync
-import org.gradle.api.tasks.bundling.Zip
-import org.gradle.api.tasks.testing.Test
-import org.gradle.language.base.plugins.LifecycleBasePlugin
-import org.jetbrains.dokka.gradle.AbstractDokkaTask
-import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
-import org.jetbrains.dokka.gradle.DokkaTask
+import org.gradle.api.model.ObjectFactory
+import org.gradle.internal.DefaultTaskExecutionRequest
+import javax.inject.Inject
 
+@Suppress("UndocumentedPublicClass")
+public interface CompositeHandler : java.io.Serializable {
+  /**
+   */
+  public val composite: CompositeTaskSpec
+
+  /**
+   */
+  public fun composite(action: Action<CompositeTaskSpec>)
+}
+
+@Suppress("UndocumentedPublicClass")
+public abstract class DefaultCompositeHandler @Inject constructor(
+  private val target: Project,
+  private val objects: ObjectFactory
+) : CompositeHandler {
+
+  override val composite: CompositeTaskSpec =
+    objects.newInstance(CompositeTaskSpec::class.java)
+
+  override fun composite(action: Action<CompositeTaskSpec>) {
+    action.execute(composite)
+  }
+}
+
+@Suppress("UndocumentedPublicClass")
+public open class CompositeTaskSpec @Inject constructor(
+  private val target: Project,
+  private val objects: ObjectFactory
+)
+
+/** This plugin finds specified tasks in included builds and */
 public abstract class CompositePlugin : Plugin<Project> {
+
   override fun apply(target: Project) {
 
     target.checkProjectIsRoot()
@@ -57,78 +69,60 @@ public abstract class CompositePlugin : Plugin<Project> {
         "so the plugin would just waste time searching the task graph."
     }
 
-    target.afterEvaluate {
+    // val extension = target.extensions.getByType(RootExtension::class.java)
 
-      val propagatedTaskTypes = listOf(
-        /* api validation */
-        KotlinApiBuildTask::class, KotlinApiCompareTask::class,
-        /* curator */
-        ArtifactsCheckTask::class, ArtifactsDumpTask::class,
-        /* ModuleCheck */
-        AbstractModuleCheckTask::class, MultiRuleModuleCheckTask::class, SingleRuleModuleCheckTask::class,
-        /* detekt */
-        Detekt::class,
-        /* dokka */
-        AbstractDokkaTask::class, DokkaMultiModuleTask::class, DokkaTask::class,
-        /* gradle */
-        Copy::class, Delete::class, Exec::class, JavaExec::class, Sync::class, Test::class, Zip::class,
-        /* ktlint-gradle-plugin */
-        KtLintTask::class,
-        /* publishing */
-        AbstractPublishToMaven::class, PublishToMavenLocal::class,
-        /* shadow */
-        JavaJarExec::class, ShadowJar::class
-      )
-      val propagatedTaskTypeNames = propagatedTaskTypes
-        .mapTo(mutableSetOf()) { it.qualifiedName!! }
+    target.gradle.projectsEvaluated { gradle ->
 
-      // tasks which can only be matched by name, probably because their type is just `DefaultTask`
-      val otherNames = setOf(
-        "lintKotlin",
-        "formatKotlin",
-        "ktlintFormat",
-        "ktlintCheck",
-        "moveProtos",
-        "deleteSrcGen",
-        "dependencyGuard",
-        "dependencyGuardBaseline",
-        // The Wire Gradle plugin creates a `generateProtos` which is `DefaultTask`,
-        // even though they have a `WireTask` type
-        "generateProtos",
-        LifecycleBasePlugin.CHECK_TASK_NAME
-      )
+      val oldRequests = gradle.startParameter.taskRequests
 
-      // Loop through all included projects, looking for task types which are commonly invoked from the
-      // root path.  For each of these, look for same-name tasks in the internal modules of included
-      // builds, and make the root task depend upon those as well.
-      target.gradle.includedBuilds
-        .asSequence()
-        .flatMap { it.allProjects() }
-        .flatMap { includedProject ->
-          includedProject.tasks
-            .matching { includedTask ->
-              includedTask.name in otherNames ||
-                includedTask.undecoratedTypeName() in propagatedTaskTypeNames ||
-                propagatedTaskTypes.any { it.isInstance(includedTask) }
+      val newRequests = oldRequests.map { request ->
+
+        val originalSplit = request.args
+          .splitInclusive { !it.startsWith('-') }
+
+        val taskPaths = originalSplit.mapToSet { it.first() }
+
+        val includedProject = gradle.allIncludedProjects()
+
+        val newSplit = originalSplit.flatMap { ta ->
+
+          val tn = ta.first()
+
+          if (tn.startsWith(':')) {
+            // qualified task names aren't propagated
+            return@flatMap listOf(ta)
+          }
+
+          val inRoot = target.taskWillResolveInAny(tn)
+
+          val included = includedProject.mapNotNull { includedProject ->
+
+            val includedPath = "${includedProject.identityPath}:$tn"
+
+            if (!taskPaths.contains(includedPath) && includedProject.taskWillResolve(tn)) {
+              println("included project ${includedProject.identityPath} will resolve $includedPath")
+
+              buildList<String> {
+                add(includedPath)
+                addAll(ta.subList(1, ta.size))
+              }
+            } else {
+              null
             }
-            // Various clean tasks are added by the idea plugin after this runs.
-            .matching { !it.name.startsWith("cleanIdea") }
-            .names
-            .map { it to includedProject.tasks.named(it) }
-        }
-        // Group all tasks from all included projects with the same name, so that we only need to look
-        // up the task once for this target project.
-        .groupBy { it.first }
-        .forEach { (name, pairs) ->
+          }
 
-          val taskProviders = pairs.map { it.second }
-
-          if (target.tasks.names.contains(name)) {
-            target.tasks.named(name).dependsOn(taskProviders)
-          } else {
-            target.tasks.register(name, AntipastoTask::class.java).dependsOn(taskProviders)
+          buildList {
+            if (inRoot || included.isEmpty()) {
+              add(ta)
+            }
+            addAll(included)
           }
         }
+
+        DefaultTaskExecutionRequest.of(newSplit.flatten(), request.projectPath, request.rootDir)
+      }
+
+      gradle.startParameter.setTaskRequests(newRequests)
     }
   }
 }
