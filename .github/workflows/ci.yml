@@ -66,10 +66,10 @@ jobs:
           commit_message: update dependency-guard baseline
           commit_options: "--no-verify --signoff"
 
-      - name: artifacts check
+      - name: curator check
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: artifactsCheck
+          arguments: curatorCheck
           cache-read-only: false
 
       - name: detekt
