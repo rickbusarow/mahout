@@ -16,6 +16,7 @@
 package com.rickbusarow.lattice
 
 import com.rickbusarow.kgx.checkProjectIsRoot
+import com.rickbusarow.kgx.internal.InternalGradleApiAccess
 import com.rickbusarow.kgx.internal.allIncludedProjects
 import com.rickbusarow.lattice.core.splitInclusive
 import modulecheck.utils.mapToSet
@@ -60,6 +61,7 @@ public open class CompositeTaskSpec @Inject constructor(
 /** This plugin finds specified tasks in included builds and */
 public abstract class CompositePlugin : Plugin<Project> {
 
+  @OptIn(InternalGradleApiAccess::class)
   override fun apply(target: Project) {
 
     target.checkProjectIsRoot()
