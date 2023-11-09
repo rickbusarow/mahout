@@ -12,14 +12,6 @@
         "^com\\.square\\.anvil:(?:[\\w-]+)$",
         "^dev\\.drewhamilton\\.poko:(?:[\\w-]+)$"
       ]
-    },
-    {
-      "groupName": "KtLint things",
-      "matchPackagePatterns": [
-        "^com\\.pinterest\\.ktlint:(?:[\\w-]+)$",
-        "^com\\.rickbusarow\\.ktlint:(?:[\\w-]+)$",
-        "^com\\.rickbusarow\\.ktrules:(?:[\\w-]+)$"
-      ]
     }
   ],
   "labels": [
