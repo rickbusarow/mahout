@@ -17,6 +17,7 @@ package com.rickbusarow.antipasto
 
 import com.rickbusarow.antipasto.core.splitInclusive
 import com.rickbusarow.kgx.checkProjectIsRoot
+import com.rickbusarow.kgx.internal.InternalGradleApiAccess
 import com.rickbusarow.kgx.internal.allIncludedProjects
 import modulecheck.utils.mapToSet
 import org.gradle.api.Action
@@ -60,6 +61,7 @@ public open class CompositeTaskSpec @Inject constructor(
 /** This plugin finds specified tasks in included builds and */
 public abstract class CompositePlugin : Plugin<Project> {
 
+  @OptIn(InternalGradleApiAccess::class)
   override fun apply(target: Project) {
 
     target.checkProjectIsRoot()
