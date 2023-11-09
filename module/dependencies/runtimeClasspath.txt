@@ -103,7 +103,7 @@ dev.drewhamilton.poko:poko-gradle-plugin:0.15.0
 dev.equo.ide:solstice:1.7.3
 guru.nidi:graphviz-java-min-deps:0.18.1
 guru.nidi:graphviz-java:0.18.1
-io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.1
+io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.2
 jakarta.activation:jakarta.activation-api:1.2.1
 jakarta.xml.bind:jakarta.xml.bind-api:2.3.2
 javax.inject:javax.inject:1
