@@ -82,6 +82,6 @@ gradleEnterprise {
   }
 }
 
-include(":module")
+include(":lattice-gradle-plugin")
 
 includeBuild("build-logic")
