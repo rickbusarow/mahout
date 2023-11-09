@@ -17,6 +17,7 @@ package com.rickbusarow.antipasto
 
 import com.rickbusarow.antipasto.conventions.BenManesVersionsPlugin
 import com.rickbusarow.antipasto.conventions.DokkaVersionArchivePlugin
+import com.rickbusarow.antipasto.conventions.GitHubReleasePlugin
 import com.rickbusarow.antipasto.conventions.SpotlessConventionPlugin
 import com.rickbusarow.antipasto.curator.CuratorPlugin
 import com.rickbusarow.kgx.checkProjectIsRoot
@@ -39,7 +40,7 @@ public abstract class RootPlugin : BaseModulePlugin() {
     target.plugins.apply(CuratorPlugin::class.java)
     target.plugins.apply(BenManesVersionsPlugin::class.java)
     target.plugins.apply(DokkaVersionArchivePlugin::class.java)
-    // target.plugins.apply(GitHubReleasePlugin::class.java)
+    target.plugins.apply(GitHubReleasePlugin::class.java)
     target.plugins.apply(SpotlessConventionPlugin::class.java)
 
     target.plugins.apply(ModuleCheckPlugin::class.java)
