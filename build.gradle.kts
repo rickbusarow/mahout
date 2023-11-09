@@ -48,14 +48,14 @@ allprojects ap@{
     "ktlint"(rootProject.libs.rickBusarow.ktrules)
   }
 
-  if (innerProject != rootProject) {
-    rootProject.tasks.named("ktlintCheck") {
-      dependsOn(innerProject.tasks.named("ktlintCheck"))
-    }
-    rootProject.tasks.named("ktlintFormat") {
-      dependsOn(innerProject.tasks.named("ktlintFormat"))
-    }
-  }
+  // if (innerProject != rootProject) {
+  //   rootProject.tasks.named("ktlintCheck") {
+  //     dependsOn(innerProject.tasks.named("ktlintCheck"))
+  //   }
+  //   rootProject.tasks.named("ktlintFormat") {
+  //     dependsOn(innerProject.tasks.named("ktlintFormat"))
+  //   }
+  // }
 }
 
 tasks.named("clean") {

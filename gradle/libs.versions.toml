@@ -6,7 +6,7 @@ poko = "0.15.0"
 benManes-versions = "0.49.0"
 buildconfig = "4.1.2"
 dependencyAnalysis = "1.25.0"
-detekt = "1.23.1"
+detekt = "1.23.2"
 diffplug-spotless = "6.22.0"
 dokka = "1.9.10"
 dokkatoo = "2.0.0"
@@ -14,9 +14,9 @@ dropbox-dependencyGuard = "0.4.3"
 ec4j = "0.3.0"
 github-release = "2.5.1"
 integration-test = "1.4.5"
-jUnit = "5.10.0"
+jUnit = "5.10.1"
 johnrengelman-shadow = "8.1.1"
-kotest = "5.7.2"
+kotest = "5.8.0"
 kotlinx-binaryCompatibility = "0.13.2"
 kotlinx-coroutines = "1.7.3"
 kotlinx-serialization = "1.6.0"
@@ -25,8 +25,9 @@ picnic = "0.7.0"
 prettier = "2.8.4"
 prettier-plugin-sh = "0.12.8"
 rickBusarow-doks = "0.1.4"
+rickBusarow-github-release = "2.5.2"
 rickBusarow-kgx = "0.1.7"
-rickBusarow-ktlint = "0.1.8"
+rickBusarow-ktlint = "0.2.1"
 rickBusarow-ktrules = "1.1.4"
 rickBusarow-moduleCheck = "0.12.5"
 square-kotlinPoet = "1.14.2"
@@ -39,7 +40,7 @@ dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version.re
 dokkatoo = { id = "dev.adamko.dokkatoo", version.ref = "dokkatoo" }
 dokkatoo-html = { id = "dev.adamko.dokkatoo-html", version.ref = "dokkatoo" }
 doks = { id = "com.rickbusarow.doks", version.ref = "rickBusarow-doks" }
-github-release = { id = "com.github.breadmoirai.github-release", version.ref = "github-release" }
+github-release = { id = "com.rickbusarow.github-release-fork", version.ref = "rickBusarow-github-release" }
 integration-test = { id = "com.coditory.integration-test", version.ref = "integration-test" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
@@ -127,6 +128,7 @@ poko-compiler = { module = "dev.drewhamilton.poko:poko-compiler-plugin", version
 poko-gradle-plugin = { module = "dev.drewhamilton.poko:poko-gradle-plugin", version.ref = "poko" }
 
 rickBusarow-doks = { module = "com.rickbusarow.doks:doks-gradle-plugin", version.ref = "rickBusarow-doks" }
+rickBusarow-github-release = { module = "com.rickbusarow.githubreleasepluginfork:github-release", version.ref = "rickBusarow-github-release" }
 rickBusarow-kgx-names = { module = "com.rickbusarow.kgx:names", version.ref = "rickBusarow-kgx" }
 rickBusarow-kgx = { module = "com.rickbusarow.kgx:kotlin-gradle-extensions", version.ref = "rickBusarow-kgx" }
 rickBusarow-ktlint = { module = "com.rickbusarow.ktlint:ktlint-gradle-plugin", version.ref = "rickBusarow-ktlint" }
