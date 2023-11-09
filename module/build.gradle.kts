@@ -20,38 +20,38 @@ plugins {
   alias(libs.plugins.poko)
 }
 
-if (rootProject.name == "antipasto") {
-  apply(plugin = "com.rickbusarow.antipasto.jvm-module")
+if (rootProject.name == "lattice") {
+  apply(plugin = "com.rickbusarow.lattice.jvm-module")
 }
 
 gradlePlugin {
   plugins {
     create("composite") {
-      id = "com.rickbusarow.antipasto.composite"
-      implementationClass = "com.rickbusarow.antipasto.CompositePlugin"
+      id = "com.rickbusarow.lattice.composite"
+      implementationClass = "com.rickbusarow.lattice.CompositePlugin"
     }
     create("jvm") {
-      id = "com.rickbusarow.antipasto.jvm-module"
-      implementationClass = "com.rickbusarow.antipasto.KotlinJvmModulePlugin"
+      id = "com.rickbusarow.lattice.jvm-module"
+      implementationClass = "com.rickbusarow.lattice.KotlinJvmModulePlugin"
     }
     create("kmp") {
-      id = "com.rickbusarow.antipasto.kmp-module"
-      implementationClass = "com.rickbusarow.antipasto.KotlinMultiplatformModulePlugin"
+      id = "com.rickbusarow.lattice.kmp-module"
+      implementationClass = "com.rickbusarow.lattice.KotlinMultiplatformModulePlugin"
     }
     create("root") {
-      id = "com.rickbusarow.antipasto.root"
-      implementationClass = "com.rickbusarow.antipasto.RootPlugin"
+      id = "com.rickbusarow.lattice.root"
+      implementationClass = "com.rickbusarow.lattice.RootPlugin"
     }
 
     create("curator") {
-      id = "com.rickbusarow.antipasto.curator"
-      implementationClass = "com.rickbusarow.antipasto.curator.CuratorPlugin"
+      id = "com.rickbusarow.lattice.curator"
+      implementationClass = "com.rickbusarow.lattice.curator.CuratorPlugin"
     }
 
     fun convention(suffix: String, simpleClassName: String) {
       create("convention.$suffix") {
-        id = "com.rickbusarow.antipasto.$suffix"
-        implementationClass = "com.rickbusarow.antipasto.conventions.$simpleClassName"
+        id = "com.rickbusarow.lattice.$suffix"
+        implementationClass = "com.rickbusarow.lattice.conventions.$simpleClassName"
       }
     }
 

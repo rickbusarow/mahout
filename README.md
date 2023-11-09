@@ -1,5 +1,5 @@
-[![Maven Central](https://img.shields.io/maven-central/v/com.rickbusarow.antipasto/antipasto?style=flat-square)](https://search.maven.org/search?q=com.rickbusarow.antipasto)
-[![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/com.rickbusarow.antipasto/antipasto?label=snapshots&server=https%3A%2F%2Foss.sonatype.org&style=flat-square)](https://oss.sonatype.org/#nexus-search;quick~com.rickbusarow.antipasto)
+[![Maven Central](https://img.shields.io/maven-central/v/com.rickbusarow.lattice/lattice?style=flat-square)](https://search.maven.org/search?q=com.rickbusarow.lattice)
+[![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/com.rickbusarow.lattice/lattice?label=snapshots&server=https%3A%2F%2Foss.sonatype.org&style=flat-square)](https://oss.sonatype.org/#nexus-search;quick~com.rickbusarow.lattice)
 [![License](https://img.shields.io/badge/license-apache2.0-blue?style=flat-square.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ## TODO

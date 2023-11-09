@@ -20,8 +20,8 @@ plugins {
   alias(libs.plugins.ktlint) apply false
   alias(libs.plugins.doks)
   alias(libs.plugins.moduleCheck)
-  id("com.rickbusarow.antipasto.jvm-module") apply false
-  id("com.rickbusarow.antipasto.root")
+  id("com.rickbusarow.lattice.jvm-module") apply false
+  id("com.rickbusarow.lattice.root")
 }
 
 moduleCheck {
@@ -29,7 +29,7 @@ moduleCheck {
   checks.sortDependencies = true
 }
 
-antipasto {
+lattice {
 
   composite {
   }

@@ -145,7 +145,7 @@ jobs:
           arguments: moduleCheckAuto
           cache-read-only: false
 
-      # If KtLint generated changes, commit and push those changes.
+      # If ModuleCheck generated changes, commit and push those changes.
       - name: commit changes (used by main repo)
         if: github.event.pull_request.head.repo.full_name == github.repository
         uses: stefanzweifel/git-auto-commit-action@v5

@@ -13,10 +13,7 @@
  * limitations under the License.
  */
 
-import org.gradle.internal.impldep.org.eclipse.jgit.lib.ObjectChecker.tag
-import org.gradle.internal.impldep.org.eclipse.jgit.transport.ReceiveCommand.link
-
-rootProject.name = "antipasto"
+rootProject.name = "lattice"
 
 pluginManagement {
   repositories {
@@ -35,8 +32,8 @@ pluginManagement {
   includeBuild("build-logic")
 
   plugins {
-    id("com.rickbusarow.antipasto.jvm-module") apply false
-    id("com.rickbusarow.antipasto.root") apply false
+    id("com.rickbusarow.lattice.jvm-module") apply false
+    id("com.rickbusarow.lattice.root") apply false
   }
 }
 
