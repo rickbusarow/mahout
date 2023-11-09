@@ -73,14 +73,6 @@ gradlePlugin {
 
 dependencies {
 
-  api(libs.breadmoirai.github.release)
-  api(libs.integration.test) {
-    exclude(group = "org.jetbrains.kotlin")
-  }
-  api(libs.rickBusarow.doks)
-  api(libs.rickBusarow.kgx)
-  api(libs.rickBusarow.ktlint)
-
   compileOnly(gradleApi())
 
   implementation(libs.benManes.versions)
@@ -91,6 +83,10 @@ dependencies {
   implementation(libs.dokka.versioning)
   implementation(libs.dokkatoo.plugin)
   implementation(libs.dropbox.dependencyGuard)
+  implementation(libs.ec4j.core)
+  implementation(libs.integration.test) {
+    exclude(group = "org.jetbrains.kotlin")
+  }
   implementation(libs.johnrengelman.shadowJar)
   implementation(libs.kotlin.gradle.plugin)
   implementation(libs.kotlin.gradle.plugin.api)
@@ -99,6 +95,10 @@ dependencies {
   implementation(libs.kotlinx.serialization.json)
   implementation(libs.picnic)
   implementation(libs.poko.gradle.plugin)
+  implementation(libs.rickBusarow.doks)
+  implementation(libs.rickBusarow.github.release)
+  implementation(libs.rickBusarow.kgx)
+  implementation(libs.rickBusarow.ktlint)
   implementation(libs.rickBusarow.moduleCheck.gradle.plugin) {
     exclude(group = "org.jetbrains.kotlin")
   }
