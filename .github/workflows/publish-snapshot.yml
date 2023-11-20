@@ -31,10 +31,10 @@ jobs:
         with:
           arguments: compileKotlin "${{ env.gradleArgs }}"
 
-      - name: Dokka & DokkaJavadoc
+      - name: dokkaHtml
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: dokkaJavadoc "${{ env.gradleArgs }}"
+          arguments: dokkaHtml "${{ env.gradleArgs }}"
 
       - name: Publish Snapshots
         uses: gradle/gradle-build-action@v2
