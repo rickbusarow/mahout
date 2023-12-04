@@ -15,7 +15,7 @@
 
 package com.rickbusarow.lattice.conventions
 
-import com.rickbusarow.kgx.dependency
+import com.rickbusarow.kgx.library
 import com.rickbusarow.kgx.libsCatalog
 import org.gradle.api.Project
 
@@ -28,15 +28,15 @@ public interface AutoServiceExtension : KspExtension {
 
     dependencies.add(
       "compileOnly",
-      libsCatalog.dependency("google-auto-service-annotations")
+      libsCatalog.library("google-auto-service-annotations")
     )
     dependencies.add(
       "testCompileOnly",
-      libsCatalog.dependency("google-auto-service-annotations")
+      libsCatalog.library("google-auto-service-annotations")
     )
     dependencies.add(
       "ksp",
-      libsCatalog.dependency("zacSweers-auto-service-ksp")
+      libsCatalog.library("zacSweers-auto-service-ksp")
     )
   }
 }

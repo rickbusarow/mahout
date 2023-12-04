@@ -15,7 +15,7 @@
 
 package com.rickbusarow.lattice.conventions
 
-import com.rickbusarow.kgx.dependency
+import com.rickbusarow.kgx.library
 import com.rickbusarow.kgx.libsCatalog
 import org.gradle.api.Project
 
@@ -31,7 +31,7 @@ public interface SerializationExtension {
       dependencies.constraints
         .add(
           "implementation",
-          libsCatalog.dependency("kotlinx-serialization-core")
+          libsCatalog.library("kotlinx-serialization-core")
         )
     }
   }

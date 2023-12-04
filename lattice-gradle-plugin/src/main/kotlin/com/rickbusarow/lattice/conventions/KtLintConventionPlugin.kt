@@ -16,8 +16,8 @@
 package com.rickbusarow.lattice.conventions
 
 import com.rickbusarow.kgx.EagerGradleApi
-import com.rickbusarow.kgx.dependency
 import com.rickbusarow.kgx.isRealRootProject
+import com.rickbusarow.kgx.library
 import com.rickbusarow.kgx.libsCatalog
 import com.rickbusarow.kgx.matchingName
 import com.rickbusarow.ktlint.KtLintPlugin
@@ -38,7 +38,7 @@ public abstract class KtLintConventionPlugin : Plugin<Project> {
     target.plugins.apply(KtLintPlugin::class.java)
 
     target.dependencies
-      .add("ktlint", target.libsCatalog.dependency("rickBusarow-ktrules"))
+      .add("ktlint", target.libsCatalog.library("rickBusarow-ktrules"))
 
     target.tasks.withType(KtLintTask::class.java).configureEach { task ->
       task.dependsOn(":updateEditorConfigVersion")
