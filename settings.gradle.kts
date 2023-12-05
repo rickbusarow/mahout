@@ -38,7 +38,7 @@ pluginManagement {
 }
 
 plugins {
-  id("com.gradle.enterprise") version "3.15.1"
+  id("com.gradle.enterprise") version "3.16"
 }
 
 @Suppress("UnstableApiUsage")
