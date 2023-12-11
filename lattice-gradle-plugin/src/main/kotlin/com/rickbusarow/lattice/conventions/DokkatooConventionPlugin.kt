@@ -15,9 +15,9 @@
 
 package com.rickbusarow.lattice.conventions
 
-import com.rickbusarow.kgx.dependency
 import com.rickbusarow.kgx.dependsOn
 import com.rickbusarow.kgx.isRootProject
+import com.rickbusarow.kgx.library
 import com.rickbusarow.kgx.libsCatalog
 import com.rickbusarow.kgx.projectDependency
 import com.rickbusarow.kgx.version
@@ -118,11 +118,11 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
 
         target.dependencies.add(
           pluginConfig,
-          target.libsCatalog.dependency("dokka-all-modules")
+          target.libsCatalog.library("dokka-all-modules")
         )
         target.dependencies.add(
           pluginConfig,
-          target.libsCatalog.dependency("dokka-versioning")
+          target.libsCatalog.library("dokka-versioning")
         )
 
         val dokkaArchiveBuildDir = target.rootProject.layout

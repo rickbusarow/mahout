@@ -18,8 +18,6 @@ package com.rickbusarow.lattice
 import com.rickbusarow.kgx.extras
 import com.rickbusarow.kgx.getOrPut
 import org.gradle.api.Project
-import org.gradle.api.plugins.ExtraPropertiesExtension
-import kotlin.properties.ReadOnlyProperty
 
 internal fun Project.taskWillResolveInAny(taskName: String): Boolean {
   return allprojects.any { it.taskWillResolve(taskName) }
@@ -27,15 +25,9 @@ internal fun Project.taskWillResolveInAny(taskName: String): Boolean {
 
 internal fun Project.taskWillResolve(taskName: String): Boolean {
 
-  val taskNamesLowercase by extras.getOrPut {
+  val taskNamesLowercase = extras.getOrPut("taskNamesLowercase") {
     tasks.names.mapTo(mutableSetOf(), String::lowercase)
   }
 
   return tasks.names.contains(taskName) || taskNamesLowercase.contains(taskName.lowercase())
-}
-
-private inline fun <reified T> ExtraPropertiesExtension.getOrPut(
-  crossinline block: () -> T
-): ReadOnlyProperty<Any?, T> = ReadOnlyProperty { _, property ->
-  getOrPut(property.name) { block() }
 }

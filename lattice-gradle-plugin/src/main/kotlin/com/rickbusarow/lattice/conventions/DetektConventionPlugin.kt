@@ -17,7 +17,7 @@ package com.rickbusarow.lattice.conventions
 
 import com.rickbusarow.kgx.applyOnce
 import com.rickbusarow.kgx.buildDir
-import com.rickbusarow.kgx.dependency
+import com.rickbusarow.kgx.library
 import com.rickbusarow.kgx.libsCatalog
 import com.rickbusarow.lattice.core.LatticeCodeGeneratorTask
 import io.gitlab.arturbosch.detekt.Detekt
@@ -54,7 +54,7 @@ public abstract class DetektConventionPlugin : Plugin<Project> {
 
     target.dependencies.add(
       "detektPlugins",
-      target.libsCatalog.dependency("detekt-rules-libraries")
+      target.libsCatalog.library("detekt-rules-libraries")
     )
 
     target.extensions.configure(DetektExtension::class.java) { extension ->
