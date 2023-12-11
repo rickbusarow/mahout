@@ -3,9 +3,9 @@ com.diffplug.durian:durian-collect:1.2.0
 com.diffplug.durian:durian-core:1.2.0
 com.diffplug.durian:durian-io:1.2.0
 com.diffplug.durian:durian-swt.os:4.2.1
-com.diffplug.spotless:spotless-lib-extra:2.43.0
-com.diffplug.spotless:spotless-lib:2.43.0
-com.diffplug.spotless:spotless-plugin-gradle:6.23.2
+com.diffplug.spotless:spotless-lib-extra:2.43.1
+com.diffplug.spotless:spotless-lib:2.43.1
+com.diffplug.spotless:spotless-plugin-gradle:6.23.3
 com.dropbox.dependency-guard:dependency-guard:0.4.3
 com.fasterxml.jackson.core:jackson-annotations:2.12.7
 com.fasterxml.jackson.core:jackson-core:2.12.7
@@ -38,8 +38,8 @@ com.jakewharton.picnic:picnic:0.7.0
 com.rickbusarow.dispatch:dispatch-core:1.0.0-beta10
 com.rickbusarow.doks:doks-gradle-plugin:0.1.4
 com.rickbusarow.githubreleasepluginfork:github-release:2.5.2
-com.rickbusarow.kgx:kotlin-gradle-extensions:0.1.8
-com.rickbusarow.kgx:names:0.1.8
+com.rickbusarow.kgx:kotlin-gradle-extensions:0.1.9
+com.rickbusarow.kgx:names:0.1.9
 com.rickbusarow.ktlint:ktlint-gradle-plugin:0.2.1
 com.rickbusarow.modulecheck:modulecheck-api:0.12.5
 com.rickbusarow.modulecheck:modulecheck-config-api:0.12.5
@@ -100,7 +100,7 @@ dev.adamko.dokkatoo:dokkatoo-plugin:2.0.0
 dev.drewhamilton.poko:poko-annotations-jvm:0.15.0
 dev.drewhamilton.poko:poko-annotations:0.15.0
 dev.drewhamilton.poko:poko-gradle-plugin:0.15.0
-dev.equo.ide:solstice:1.7.3
+dev.equo.ide:solstice:1.7.4
 guru.nidi:graphviz-java-min-deps:0.18.1
 guru.nidi:graphviz-java:0.18.1
 io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.4

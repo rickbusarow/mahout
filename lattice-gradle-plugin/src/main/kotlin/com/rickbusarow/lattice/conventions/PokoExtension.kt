@@ -15,7 +15,7 @@
 
 package com.rickbusarow.lattice.conventions
 
-import com.rickbusarow.kgx.dependency
+import com.rickbusarow.kgx.library
 import com.rickbusarow.kgx.libsCatalog
 import com.rickbusarow.kgx.pluginId
 import org.gradle.api.Project
@@ -30,7 +30,7 @@ public interface PokoExtension {
     val implementation = configurations.getByName("implementation")
     val testCompileOnly = configurations.getByName("testCompileOnly")
 
-    val pokoAnnotationsProvider = project.libsCatalog.dependency("poko-annotations")
+    val pokoAnnotationsProvider = project.libsCatalog.library("poko-annotations")
     val pokoAnnotations = pokoAnnotationsProvider.get()
     val pokoAnnotationsModule = pokoAnnotations.module
 
