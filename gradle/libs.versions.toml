@@ -1,6 +1,6 @@
 [versions]
 
-kotlin = "1.9.21"
+kotlin = "1.9.22"
 poko = "0.15.0"
 
 benManes-versions = "0.50.0"
