@@ -52,7 +52,7 @@ jobs:
         if: github.event.repository.fork == false
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: update versions matrix in yaml
+          commit_message: update dependency-guard baseline
           commit_options: "--no-verify --signoff"
 
       - name: dependency-guard check (used by forks)
