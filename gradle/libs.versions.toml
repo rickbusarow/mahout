@@ -1,7 +1,7 @@
 [versions]
 
 kotlin = "1.9.22"
-poko = "0.15.0"
+poko = "0.15.1"
 
 benManes-versions = "0.50.0"
 buildconfig = "5.1.0"
