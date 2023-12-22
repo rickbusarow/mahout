@@ -11,7 +11,7 @@ env:
   windowsGradleArgs: "-Dorg.gradle.jvmargs=-Xmx4g -Dfile.encoding=UTF-8 -XX:+UseParallelGC"
 
 jobs:
-  cancel-previoius-runs:
+  cancel-previous-runs:
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
