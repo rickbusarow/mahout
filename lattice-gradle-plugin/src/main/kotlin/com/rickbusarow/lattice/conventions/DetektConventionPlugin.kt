@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,10 +16,9 @@
 package com.rickbusarow.lattice.conventions
 
 import com.rickbusarow.kgx.applyOnce
-import com.rickbusarow.kgx.buildDir
-import com.rickbusarow.kgx.library
-import com.rickbusarow.kgx.libsCatalog
+import com.rickbusarow.lattice.config.latticeProperties
 import com.rickbusarow.lattice.core.LatticeCodeGeneratorTask
+import com.rickbusarow.lattice.deps.Modules
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import io.gitlab.arturbosch.detekt.DetektGenerateConfigTask
@@ -42,25 +41,26 @@ public abstract class DetektConventionPlugin : Plugin<Project> {
       "**/build/**"
     )
 
-    target.tasks
-      .register("detektReportMerge", ReportMergeTask::class.java) { reportMergeTask ->
-        reportMergeTask.output
-          .set(target.rootProject.buildDir().resolve("reports/detekt/merged.sarif"))
+    val reportsDir = target.rootProject.layout.buildDirectory
+      .map { it.dir("reports/detekt") }
+    val configFile = target.rootProject.file("detekt/detekt-config.yml")
 
-        reportMergeTask.input.from(
-          target.tasks.withType(Detekt::class.java).map { it.sarifReportFile }
-        )
-      }
+    target.tasks.register("detektReportMerge", ReportMergeTask::class.java) { reportMergeTask ->
+      reportMergeTask.output.set(reportsDir.map { it.file("merged.sarif") })
+      reportMergeTask.input.from(
+        target.tasks.withType(Detekt::class.java).map { it.sarifReportFile }
+      )
+    }
 
     target.dependencies.add(
       "detektPlugins",
-      target.libsCatalog.library("detekt-rules-libraries")
+      target.latticeProperties.versions.detekt.map { "${Modules.`detekt-rules-libraries`}:$it" }
     )
 
     target.extensions.configure(DetektExtension::class.java) { extension ->
 
       extension.autoCorrect = false
-      extension.config.from("${target.rootDir}/detekt/detekt-config.yml")
+      extension.config.from(configFile)
       extension.buildUponDefaultConfig = true
 
       extension.source.from(
@@ -77,7 +77,7 @@ public abstract class DetektConventionPlugin : Plugin<Project> {
 
       task.autoCorrect = false
       task.parallel = true
-      task.config.from(target.files("${target.rootDir}/detekt/detekt-config.yml"))
+      task.config.from(configFile)
       task.buildUponDefaultConfig = true
 
       task.reports {

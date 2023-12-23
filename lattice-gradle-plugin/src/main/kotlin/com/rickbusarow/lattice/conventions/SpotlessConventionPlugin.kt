@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -22,19 +22,16 @@ import com.diffplug.gradle.spotless.JsonExtension
 import com.diffplug.gradle.spotless.SpotlessExtension
 import com.diffplug.gradle.spotless.SpotlessPlugin
 import com.diffplug.gradle.spotless.SpotlessTask
-import com.rickbusarow.kgx.EagerGradleApi
-import com.rickbusarow.kgx.allProjectsTasksMatchingName
 import com.rickbusarow.kgx.checkProjectIsRoot
-import com.rickbusarow.kgx.libsCatalog
-import com.rickbusarow.kgx.version
+import com.rickbusarow.lattice.deps.PluginIds
+import com.rickbusarow.lattice.deps.Versions
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.file.ConfigurableFileTree
 import org.gradle.api.tasks.util.PatternFilterable
 
-@Suppress("UndocumentedPublicClass")
 public abstract class SpotlessConventionPlugin : Plugin<Project> {
-  @OptIn(EagerGradleApi::class)
+
   override fun apply(target: Project) {
 
     target.checkProjectIsRoot()
@@ -42,10 +39,21 @@ public abstract class SpotlessConventionPlugin : Plugin<Project> {
     target.plugins.apply(SpotlessPlugin::class.java)
 
     target.tasks.withType(SpotlessTask::class.java).configureEach { spotlessTask ->
-      spotlessTask.mustRunAfter(":curatorDump")
-      spotlessTask.mustRunAfter(target.allProjectsTasksMatchingName("apiDump"))
-      spotlessTask.mustRunAfter(target.allProjectsTasksMatchingName("dependencyGuard"))
-      spotlessTask.mustRunAfter(target.allProjectsTasksMatchingName("dependencyGuardBaseline"))
+      // spotlessTask.mustRunAfter(":curatorDump")
+
+      // if (target.plugins.hasPlugin(PluginIds.`kotlinx-binaryCompatibility`)) {
+      //   // target.subprojects
+      //   //   .forEach { subproject ->
+      //   //     spotlessTask.mustRunAfter(subproject.tasks.named("apiDump"))
+      //   //   }
+      // }
+
+      target.allprojects
+        .filter { it.plugins.hasPlugin(PluginIds.`dropbox-dependency-guard`) }
+        .forEach { subproject ->
+          spotlessTask.mustRunAfter(subproject.tasks.named("dependencyGuard"))
+          spotlessTask.mustRunAfter(subproject.tasks.named("dependencyGuardBaseline"))
+        }
     }
 
     target.extensions.configure(SpotlessExtension::class.java) { spotless ->
@@ -64,7 +72,7 @@ public abstract class SpotlessConventionPlugin : Plugin<Project> {
         include("**/*.yml")
       }
 
-      yaml.prettier(target.libsCatalog.version("prettier"))
+      yaml.prettier(Versions.prettier)
     }
   }
 
@@ -86,7 +94,7 @@ public abstract class SpotlessConventionPlugin : Plugin<Project> {
         include("**/*.mdx")
       }
 
-      markdown.prettier(target.libsCatalog.version("prettier"))
+      markdown.prettier(Versions.prettier)
 
       markdown.withinBlocksRegex(
         "groovy block in markdown",
@@ -110,6 +118,17 @@ public abstract class SpotlessConventionPlugin : Plugin<Project> {
       js.prettier()
     }
   }
+  private inline fun FormatExtension.target(
+    target: Project,
+    crossinline fileTreeConfig: ConfigurableFileTree.() -> Unit
+  ) {
+    target(
+      target.fileTree(target.projectDir) {
+        it.commonExcludes(target)
+        fileTreeConfig(it)
+      }
+    )
+  }
 
   private fun ConfigurableFileTree.commonExcludes(target: Project): PatternFilterable {
     return exclude(
@@ -130,17 +149,5 @@ public abstract class SpotlessConventionPlugin : Plugin<Project> {
         ".gradle/**",
         ".git/**"
       )
-  }
-
-  private inline fun FormatExtension.target(
-    target: Project,
-    crossinline fileTreeConfig: ConfigurableFileTree.() -> Unit
-  ) {
-    target(
-      target.fileTree(target.projectDir) {
-        fileTreeConfig(it)
-        it.commonExcludes(target)
-      }
-    )
   }
 }

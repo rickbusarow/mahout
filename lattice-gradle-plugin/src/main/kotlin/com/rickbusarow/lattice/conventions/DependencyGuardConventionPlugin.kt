@@ -21,7 +21,6 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 
-@Suppress("UndocumentedPublicClass")
 public abstract class DependencyGuardConventionPlugin : Plugin<Project> {
   override fun apply(target: Project) {
 

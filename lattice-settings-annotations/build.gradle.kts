@@ -13,12 +13,13 @@
  * limitations under the License.
  */
 
-package com.rickbusarow.lattice.core
+plugins {
+  alias(libs.plugins.kotlin.jvm)
+}
 
-import org.gradle.api.DefaultTask
+if (rootProject.name == "lattice") {
+  apply(plugin = "com.rickbusarow.lattice.kotlin-jvm")
+}
 
-@Suppress("UndocumentedPublicClass")
-public abstract class LatticeTask : DefaultTask()
-
-@Suppress("UndocumentedPublicClass")
-public abstract class LatticeCodeGeneratorTask : LatticeTask()
+dependencies {
+}

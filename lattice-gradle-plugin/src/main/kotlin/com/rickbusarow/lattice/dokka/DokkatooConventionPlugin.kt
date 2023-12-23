@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,22 +13,21 @@
  * limitations under the License.
  */
 
-package com.rickbusarow.lattice.conventions
+package com.rickbusarow.lattice.dokka
 
 import com.rickbusarow.kgx.dependsOn
+import com.rickbusarow.kgx.extras
+import com.rickbusarow.kgx.getOrPut
 import com.rickbusarow.kgx.isRootProject
-import com.rickbusarow.kgx.library
-import com.rickbusarow.kgx.libsCatalog
 import com.rickbusarow.kgx.projectDependency
-import com.rickbusarow.kgx.version
 import com.rickbusarow.ktlint.KtLintTask
-import com.rickbusarow.lattice.core.GITHUB_REPOSITORY
-import com.rickbusarow.lattice.core.JVM_TARGET_INT
-import com.rickbusarow.lattice.core.KOTLIN_API
-import com.rickbusarow.lattice.core.LatticeTask
+import com.rickbusarow.lattice.conventions.HasGitHubSubExtension
+import com.rickbusarow.lattice.conventions.HasJavaSubExtension
+import com.rickbusarow.lattice.conventions.HasKotlinSubExtension
+import com.rickbusarow.lattice.core.DefaultLatticeJavadocJarTask
 import com.rickbusarow.lattice.core.SEMVER_REGEX
-import com.rickbusarow.lattice.core.VERSION_NAME
-import com.vanniktech.maven.publish.tasks.JavadocJar
+import com.rickbusarow.lattice.deps.Libs
+import com.rickbusarow.lattice.latticeExtension
 import dev.adamko.dokkatoo.DokkatooExtension
 import dev.adamko.dokkatoo.dokka.plugins.DokkaVersioningPluginParameters
 import dev.adamko.dokkatoo.tasks.DokkatooGenerateTask
@@ -36,21 +35,30 @@ import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
+import org.gradle.api.tasks.TaskContainer
+import org.gradle.api.tasks.TaskProvider
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URI
 
-@Suppress("UndocumentedPublicClass")
 public abstract class DokkatooConventionPlugin : Plugin<Project> {
   override fun apply(target: Project) {
 
     target.pluginManager.apply(dev.adamko.dokkatoo.DokkatooPlugin::class.java)
 
+    val latticeExtension = target.latticeExtension
+
+    val dokkaSubExtension = (latticeExtension as HasDokkaSubExtension).dokka
+    val gitHubSubExtension = (latticeExtension as HasGitHubSubExtension).github
+    val kotlinSubExtension = (latticeExtension as HasKotlinSubExtension).kotlin
+    val javaSubExtension = (latticeExtension as HasJavaSubExtension).java
+
     target.extensions.configure(DokkatooExtension::class.java) { dokkatoo ->
 
-      dokkatoo.versions.jetbrainsDokka.set(target.libsCatalog.version("dokka"))
+      dokkatoo.versions.jetbrainsDokka.set(dokkaSubExtension.dokkaVersion)
 
-      dokkatoo.moduleVersion.set(target.VERSION_NAME)
+      dokkatoo.moduleVersion.set(latticeExtension.group)
+
       val fullModuleName = target.path.removePrefix(":")
       dokkatoo.moduleName.set(fullModuleName)
 
@@ -63,8 +71,8 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
           dev.adamko.dokkatoo.dokka.parameters.VisibilityModifier.PUBLIC
         )
 
-        sourceSet.languageVersion.set(target.KOTLIN_API)
-        sourceSet.jdkVersion.set(target.JVM_TARGET_INT)
+        sourceSet.languageVersion.set(kotlinSubExtension.apiLevel)
+        sourceSet.jdkVersion.set(javaSubExtension.jvmTargetInt)
 
         // include all project sources when resolving kdoc samples
         sourceSet.samples.setFrom(target.fileTree(target.file("src")))
@@ -77,14 +85,20 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
         }
 
         sourceSet.sourceLink { sourceLinkBuilder ->
-          sourceLinkBuilder.localDirectory.set(target.file("src/main"))
+
+          sourceLinkBuilder.localDirectory.set(target.file("src/${sourceSet.name}"))
 
           val modulePath = target.path.replace(":", "/")
             .replaceFirst("/", "")
 
           // URL showing where the source code can be accessed through the web browser
           sourceLinkBuilder.remoteUrl.set(
-            URI("${target.GITHUB_REPOSITORY}/blob/main/$modulePath/src/main")
+            gitHubSubExtension.url
+              .map(::URI)
+              .zip(gitHubSubExtension.defaultBranch) { uri, branch ->
+
+                uri.resolve("blob/$branch/$modulePath/src/${sourceSet.name}")
+              }
           )
           // Suffix which is used to append the line number to the URL. Use #L for GitHub
           sourceLinkBuilder.remoteLineSuffix.set("#L")
@@ -93,13 +107,25 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
 
       target.tasks.withType(DokkatooGenerateTask::class.java).configureEach { task ->
 
-        task.workerMinHeapSize.set("512m")
-        task.workerMaxHeapSize.set("1g")
+        task.workerMinHeapSize.set(dokkaSubExtension.generateTaskWorkerMinHeapSize)
+        task.workerMaxHeapSize.set(dokkaSubExtension.generateTaskWorkerMaxHeapSize)
 
         // Dokka uses their outputs but doesn't explicitly depend upon them.
         task.mustRunAfter(target.tasks.withType(KotlinCompile::class.java))
-        task.mustRunAfter(target.tasks.withType(LatticeTask::class.java))
         task.mustRunAfter(target.tasks.withType(KtLintTask::class.java))
+      }
+
+      target.tasks.register("dokkaJavadocJar", DefaultLatticeJavadocJarTask::class.java) {
+        val dokkaTask = target.tasks.named(DOKKATOO_HTML_TASK_NAME)
+
+        val skipDokka = target.extras.getOrPut("skipDokka") { false }
+
+        it.archiveClassifier.set("javadoc")
+
+        if (!skipDokka) {
+          it.dependsOn(dokkaTask)
+          it.from(dokkaTask)
+        }
       }
 
       if (target.isRootProject()) {
@@ -116,14 +142,8 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
 
         val pluginConfig = "dokkatooPluginHtml"
 
-        target.dependencies.add(
-          pluginConfig,
-          target.libsCatalog.library("dokka-all-modules")
-        )
-        target.dependencies.add(
-          pluginConfig,
-          target.libsCatalog.library("dokka-versioning")
-        )
+        target.dependencies.add(pluginConfig, Libs.`dokka-all-modules`)
+        target.dependencies.add(pluginConfig, Libs.`dokka-versioning`)
 
         val dokkaArchiveBuildDir = target.rootProject.layout
           .buildDirectory
@@ -131,8 +151,11 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
 
         dokkatoo.pluginsConfiguration
           .withType(DokkaVersioningPluginParameters::class.java).configureEach { versioning ->
-            versioning.version.set(target.VERSION_NAME)
-            versioning.olderVersionsDir.set(dokkaArchiveBuildDir)
+
+            versioning.version.set(latticeExtension.versionName)
+            if (dokkaArchiveBuildDir.get().asFile.exists()) {
+              versioning.olderVersionsDir.set(dokkaArchiveBuildDir)
+            }
             versioning.renderVersionsNavigationOnAllPages.set(true)
           }
 
@@ -141,11 +164,6 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
         }
       }
     }
-
-    // Make dummy tasks with the original Dokka plugin names, then delegate them to the Dokkatoo tasks
-    target.tasks.register("dokkaHtml").dependsOn(DOKKATOO_HTML_TASK_NAME)
-    target.tasks.register("dokkaHtmlMultiModule")
-      .dependsOn(target.rootProject.tasks.named(DOKKATOO_HTML_TASK_NAME))
 
     target.plugins.withType(MavenPublishPlugin::class.java).configureEach {
 
@@ -156,7 +174,7 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
             "Ensures that generated javadoc.jar artifacts don't include old Dokka versions"
           task.group = "dokka versioning"
 
-          val javadocTasks = target.tasks.withType(JavadocJar::class.java)
+          val javadocTasks = target.tasks.withType(DefaultLatticeJavadocJarTask::class.java)
           task.dependsOn(javadocTasks)
 
           task.inputs.files(javadocTasks.map { it.outputs })
@@ -180,12 +198,15 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
           }
         }
 
-      target.tasks.named(LifecycleBasePlugin.CHECK_TASK_NAME).dependsOn(
-        checkJavadocJarIsNotVersioned
-      )
+      target.tasks.named(LifecycleBasePlugin.CHECK_TASK_NAME)
+        .dependsOn(checkJavadocJarIsNotVersioned)
     }
   }
+
   internal companion object {
     internal const val DOKKATOO_HTML_TASK_NAME = "dokkatooGeneratePublicationHtml"
+
+    internal val TaskContainer.dokkaJavadocJar: TaskProvider<DefaultLatticeJavadocJarTask>
+      get() = named("dokkaJavadocJar", DefaultLatticeJavadocJarTask::class.java)
   }
 }

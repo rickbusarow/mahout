@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,24 +15,25 @@
 
 package com.rickbusarow.lattice.conventions
 
-import com.rickbusarow.kgx.library
-import com.rickbusarow.kgx.libsCatalog
+import com.rickbusarow.lattice.config.latticeProperties
+import com.rickbusarow.lattice.deps.Modules
+import com.rickbusarow.lattice.deps.PluginIds
 import org.gradle.api.Project
 
-@Suppress("UndocumentedPublicClass")
 public interface SerializationExtension {
 
   @Suppress("UndocumentedPublicFunction")
   public fun Project.serialization() {
-    if (!pluginManager.hasPlugin("org.jetbrains.kotlin.plugin.serialization")) {
+    if (!pluginManager.hasPlugin(PluginIds.`kotlin-serialization`)) {
 
-      pluginManager.apply("org.jetbrains.kotlin.plugin.serialization")
+      pluginManager.apply(PluginIds.`kotlin-serialization`)
 
-      dependencies.constraints
-        .add(
-          "implementation",
-          libsCatalog.library("kotlinx-serialization-core")
-        )
+      dependencies.constraints.add(
+        "implementation",
+        latticeProperties.versions.kotlinxSerialization.map {
+          "${Modules.`kotlinx-serialization-core`}:$it"
+        }
+      )
     }
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,23 +15,35 @@
 
 package com.rickbusarow.lattice.conventions
 
+import com.rickbusarow.kgx.applyOnce
+import com.rickbusarow.kgx.checkProjectIsRoot
+import com.rickbusarow.lattice.deps.PluginIds
 import kotlinx.validation.ApiValidationExtension
+import kotlinx.validation.KotlinApiBuildTask
+import kotlinx.validation.KotlinApiCompareTask
 import org.gradle.api.Project
 
 internal fun Project.applyBinaryCompatibility() {
 
-  pluginManager.apply("org.jetbrains.kotlinx.binary-compatibility-validator")
-
-  extensions.configure(ApiValidationExtension::class.java) { extension ->
-
-    // Packages that are excluded from public API dumps even if they contain public API
-    extension.ignoredPackages = mutableSetOf("sample", "samples")
-
-    // Subprojects that are excluded from API validation
-    extension.ignoredProjects = mutableSetOf()
+  checkProjectIsRoot {
+    "Only apply the binary compatibility validator plugin to the root project."
   }
 
-  tasks.named("apiCheck") { task ->
-    task.mustRunAfter("apiDump")
+  if (!plugins.hasPlugin(PluginIds.`kotlinx-binaryCompatibility`)) {
+
+    plugins.applyOnce(PluginIds.`kotlinx-binaryCompatibility`)
+
+    extensions.configure(ApiValidationExtension::class.java) { extension ->
+
+      // Packages that are excluded from public API dumps even if they contain public API
+      extension.ignoredPackages = mutableSetOf("sample", "samples")
+
+      // Subprojects that are excluded from API validation
+      extension.ignoredProjects = mutableSetOf()
+    }
+
+    tasks.withType(KotlinApiCompareTask::class.java).configureEach { task ->
+      task.mustRunAfter(tasks.withType(KotlinApiBuildTask::class.java))
+    }
   }
 }

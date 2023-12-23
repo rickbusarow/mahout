@@ -15,19 +15,16 @@
 
 package com.rickbusarow.lattice
 
-import com.rickbusarow.kgx.extras
-import com.rickbusarow.kgx.getOrPut
-import org.gradle.api.Project
+import com.rickbusarow.kase.gradle.GradleTestVersions
+import com.rickbusarow.kase.gradle.KaseGradleTest
+import com.rickbusarow.kase.gradle.TestVersions
+import com.rickbusarow.kase.gradle.VersionMatrix
 
-internal fun Project.taskWillResolveInAny(taskName: String): Boolean {
-  return allprojects.any { it.taskWillResolve(taskName) }
-}
+interface LatticeGradleTest<K : TestVersions> : KaseGradleTest<K> {
+  override val versionMatrix: VersionMatrix
+    get() = LatticeVersionMatrix()
 
-internal fun Project.taskWillResolve(taskName: String): Boolean {
-
-  val taskNamesLowercase = extras.getOrPut("taskNamesLowercase") {
-    tasks.names.mapTo(mutableSetOf(), String::lowercase)
-  }
-
-  return tasks.names.contains(taskName) || taskNamesLowercase.contains(taskName.lowercase())
+  @Suppress("UNCHECKED_CAST")
+  override val kases: List<K>
+    get() = versionMatrix.versions(GradleTestVersions) as List<K>
 }

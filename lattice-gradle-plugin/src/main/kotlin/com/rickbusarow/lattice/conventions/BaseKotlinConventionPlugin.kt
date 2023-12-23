@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,10 +16,10 @@
 package com.rickbusarow.lattice.conventions
 
 import com.rickbusarow.kgx.javaExtension
-import com.rickbusarow.lattice.core.JDK_INT
-import com.rickbusarow.lattice.core.JVM_TARGET
-import com.rickbusarow.lattice.core.JVM_TARGET_INT
-import com.rickbusarow.lattice.core.KOTLIN_API
+import com.rickbusarow.lattice.config.jvmTargetInt
+import com.rickbusarow.lattice.config.jvmToolchainInt
+import com.rickbusarow.lattice.config.latticeProperties
+import com.rickbusarow.lattice.latticeExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -30,19 +30,14 @@ import org.gradle.api.tasks.compile.JavaCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.targets
-import org.jetbrains.kotlin.gradle.tasks.BaseKotlinCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 import java.io.Serializable
-import kotlin.jvm.java
 import org.jetbrains.kotlin.gradle.dsl.KotlinCompile as KotlinCompileDsl
 
-@Suppress("UndocumentedPublicClass")
 public interface KotlinJvmExtension : KotlinExtension
 
-@Suppress("UndocumentedPublicClass")
 public interface KotlinMultiplatformExtension : KotlinExtension
 
-@Suppress("UndocumentedPublicClass")
 public interface KotlinExtension : Serializable {
 
   @Suppress("UndocumentedPublicProperty")
@@ -52,15 +47,14 @@ public interface KotlinExtension : Serializable {
   public val explicitApi: Property<Boolean>
 }
 
-@Suppress("UndocumentedPublicClass")
 public abstract class BaseKotlinConventionPlugin : Plugin<Project> {
 
   override fun apply(target: Project) {
 
-    val extension = target.extensions.getByType(KotlinExtension::class.java)
+    val extension = (target.latticeExtension as HasKotlinSubExtension).kotlin
 
     val jetbrainsExtension = target.kotlinExtension
-    jetbrainsExtension.jvmToolchain(target.JDK_INT)
+    jetbrainsExtension.jvmToolchain(target.latticeProperties.java.jvmToolchainInt.get())
 
     configureKotlinOptions(target, extension)
 
@@ -76,10 +70,12 @@ public abstract class BaseKotlinConventionPlugin : Plugin<Project> {
 
     target.plugins.withId("java") {
       target.tasks.withType(JavaCompile::class.java).configureEach { task ->
-        task.options.release.set(target.JVM_TARGET_INT)
+        task.options.release.set(target.latticeProperties.java.jvmTargetInt.get())
       }
 
-      target.javaExtension.sourceCompatibility = JavaVersion.toVersion(target.JVM_TARGET)
+      target.javaExtension.sourceCompatibility = JavaVersion.toVersion(
+        target.latticeProperties.java.jvmTarget.get()
+      )
 
       // fixes the error
       // 'Entry classpath.index is a duplicate but no duplicate handling strategy has been set.'
@@ -91,35 +87,34 @@ public abstract class BaseKotlinConventionPlugin : Plugin<Project> {
     }
   }
 
-  private fun configureKotlinOptions(target: Project, extension: KotlinExtension) {
+  private fun configureKotlinOptions(target: Project, extension: KotlinSubExtension) {
+
     target.tasks.withType(KotlinJvmCompile::class.java).configureEach { task ->
-      task.kotlinOptions.jvmTarget = target.JVM_TARGET
+      task.kotlinOptions.jvmTarget = target.latticeProperties.java.jvmTarget.get()
     }
     target.tasks.withType(KotlinCompileDsl::class.java).configureEach { task ->
+
       task.kotlinOptions {
 
         options.allWarningsAsErrors.set(extension.allWarningsAsErrors.orElse(false))
 
-        val kotlinMajor = target.KOTLIN_API
-        languageVersion = kotlinMajor
-        apiVersion = kotlinMajor
-
-        (this as? KotlinJvmOptions)?.jvmTarget = target.JVM_TARGET
+        val kotlinMajor = target.latticeProperties.kotlin.apiLevel.orNull
+        if (kotlinMajor != null) {
+          languageVersion = kotlinMajor
+          apiVersion = kotlinMajor
+        }
+        val jvmTarget = target.latticeProperties.java.jvmTarget.orNull
+        if (jvmTarget != null) {
+          (this as? KotlinJvmOptions)?.jvmTarget = jvmTarget
+        }
 
         @Suppress("SpellCheckingInspection")
         freeCompilerArgs += buildList {
           add("-Xinline-classes")
           add("-Xcontext-receivers")
 
-          val sourceSetName = (task as? BaseKotlinCompile)?.sourceSetName?.orNull
-
-          val shouldBeStrict = when {
-            extension.explicitApi.orNull == false -> false
-            sourceSetName == "test" -> false
-            sourceSetName == null -> false
-            else -> true
-          }
-          if (shouldBeStrict) {
+          val explicitApiEnabled = target.latticeProperties.kotlin.explicitApi.orNull == true
+          if (explicitApiEnabled) {
             add("-Xexplicit-api=strict")
           }
         }

@@ -52,7 +52,10 @@ output-reports:
 
 comments:
   active: true
-  excludes: ["**/build-logic/**"]
+  excludes:
+    - "**/*.gradle.kts"
+    - "**/build-logic/**"
+    - "**/lattice-settings-generator/**"
   AbsentOrWrongFileLicense:
     active: true
     licenseTemplateFile: "license.template"
@@ -73,6 +76,7 @@ comments:
         "**/test/**",
         "**/androidTest/**",
         "**/commonTest/**",
+        "**/gradleTest/**",
         "**/jvmTest/**",
         "**/androidUnitTest/**",
         "**/androidInstrumentedTest/**",
@@ -92,6 +96,7 @@ comments:
         "**/test/**",
         "**/androidTest/**",
         "**/commonTest/**",
+        "**/gradleTest/**",
         "**/jvmTest/**",
         "**/androidUnitTest/**",
         "**/androidInstrumentedTest/**",
@@ -114,6 +119,7 @@ comments:
         "**/test/**",
         "**/androidTest/**",
         "**/commonTest/**",
+        "**/gradleTest/**",
         "**/jvmTest/**",
         "**/androidUnitTest/**",
         "**/androidInstrumentedTest/**",
@@ -133,6 +139,7 @@ comments:
         "**/test/**",
         "**/androidTest/**",
         "**/commonTest/**",
+        "**/gradleTest/**",
         "**/jvmTest/**",
         "**/androidUnitTest/**",
         "**/androidInstrumentedTest/**",

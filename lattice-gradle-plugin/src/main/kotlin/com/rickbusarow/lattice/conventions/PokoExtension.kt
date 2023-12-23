@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,38 +15,55 @@
 
 package com.rickbusarow.lattice.conventions
 
-import com.rickbusarow.kgx.library
-import com.rickbusarow.kgx.libsCatalog
-import com.rickbusarow.kgx.pluginId
+import com.rickbusarow.kgx.javaExtension
+import com.rickbusarow.lattice.config.latticeProperties
+import com.rickbusarow.lattice.deps.Modules
+import com.rickbusarow.lattice.deps.PluginIds
 import org.gradle.api.Project
-import org.gradle.api.artifacts.ModuleVersionSelector
+import org.gradle.api.artifacts.ExternalModuleDependency
 
-@Suppress("UndocumentedPublicClass")
+public interface HasCodeGenExtension {
+  public val codeGen: CodeGenSubExtension
+}
+
+public interface CodeGenSubExtension {
+  // public val generate: GenerateExtension
+}
+
+public interface HasPokoExtension {
+  public val poko: PokoExtension
+}
+
 public interface PokoExtension {
 
   @Suppress("UndocumentedPublicFunction")
   public fun Project.poko() {
-
-    val implementation = configurations.getByName("implementation")
-    val testCompileOnly = configurations.getByName("testCompileOnly")
-
-    val pokoAnnotationsProvider = project.libsCatalog.library("poko-annotations")
-    val pokoAnnotations = pokoAnnotationsProvider.get()
-    val pokoAnnotationsModule = pokoAnnotations.module
-
-    implementation.withDependencies { deps ->
-      deps.removeIf {
-        pokoAnnotationsModule == (it as? ModuleVersionSelector)?.module
-      }
-    }
-
-    val compileOnly = configurations.getByName("compileOnly")
-
     // Poko adds its annotation artifact as 'implementation', which is unnecessary.
     // Replace it with a 'compileOnly' dependency.
-    compileOnly.dependencies.addLater(pokoAnnotationsProvider)
-    testCompileOnly.dependencies.addLater(pokoAnnotationsProvider)
 
-    pluginManager.apply(libsCatalog.pluginId("poko"))
+    val annotationProvider = latticeProperties.versions.poko.map {
+      dependencies.create("${Modules.`drewHamilton-poko-annotations`}:$it")
+        as ExternalModuleDependency
+    }
+
+    val removeImplementation = lazy<Unit> {
+      val dep = annotationProvider.get()
+      val implementation = configurations.getByName("implementation")
+      implementation.dependencies.remove(dep)
+    }
+
+    project.buildscript.dependencies.addProvider("classpath", annotationProvider)
+
+    javaExtension.sourceSets.configureEach { sourceSet ->
+
+      removeImplementation.value
+
+      configurations
+        .getByName(sourceSet.compileOnlyConfigurationName)
+        .dependencies
+        .addLater(annotationProvider)
+    }
+
+    pluginManager.apply(PluginIds.`drewHamilton-poko`)
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,12 +17,11 @@ package com.rickbusarow.lattice.conventions
 
 import com.rickbusarow.kgx.EagerGradleApi
 import com.rickbusarow.kgx.isRealRootProject
-import com.rickbusarow.kgx.library
-import com.rickbusarow.kgx.libsCatalog
 import com.rickbusarow.kgx.matchingName
 import com.rickbusarow.ktlint.KtLintPlugin
 import com.rickbusarow.ktlint.KtLintTask
 import com.rickbusarow.lattice.core.VERSION_NAME
+import com.rickbusarow.lattice.deps.Libs
 import kotlinx.validation.KotlinApiBuildTask
 import kotlinx.validation.KotlinApiCompareTask
 import org.gradle.api.Plugin
@@ -38,7 +37,7 @@ public abstract class KtLintConventionPlugin : Plugin<Project> {
     target.plugins.apply(KtLintPlugin::class.java)
 
     target.dependencies
-      .add("ktlint", target.libsCatalog.library("rickBusarow-ktrules"))
+      .add("ktlint", Libs.`rickBusarow-ktrules`)
 
     target.tasks.withType(KtLintTask::class.java).configureEach { task ->
       task.dependsOn(":updateEditorConfigVersion")

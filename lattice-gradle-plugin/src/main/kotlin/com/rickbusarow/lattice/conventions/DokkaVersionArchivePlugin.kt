@@ -20,6 +20,7 @@ import com.rickbusarow.kgx.dependOn
 import com.rickbusarow.lattice.core.VERSION_NAME
 import com.rickbusarow.lattice.core.versionIsSnapshot
 import com.rickbusarow.lattice.core.zipContentEquals
+import com.rickbusarow.lattice.dokka.DokkatooConventionPlugin.Companion.DOKKATOO_HTML_TASK_NAME
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.Copy
@@ -86,7 +87,7 @@ public abstract class DokkaVersionArchivePlugin : Plugin<Project> {
         }
 
         task.mustRunAfter(target.tasks.withType(DokkaMultiModuleTask::class.java))
-        task.dependsOn("dokkaHtmlMultiModule")
+        task.dependsOn(target.rootProject.tasks.named(DOKKATOO_HTML_TASK_NAME))
       }
 
     target.tasks.register("syncDokkaToArchive", Copy::class.java) { task ->

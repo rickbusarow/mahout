@@ -1,0 +1,18 @@
+public final class com/rickbusarow/lattice/generator/LatticePropertiesProcessor : com/rickbusarow/lattice/generator/LatticeSymbolProcessor {
+	public fun <init> (Lcom/google/devtools/ksp/processing/SymbolProcessorEnvironment;)V
+	public fun process (Lcom/google/devtools/ksp/processing/Resolver;)Ljava/util/List;
+}
+
+public final class com/rickbusarow/lattice/generator/LatticePropertiesProcessorProvider : com/google/devtools/ksp/processing/SymbolProcessorProvider {
+	public fun <init> ()V
+	public fun create (Lcom/google/devtools/ksp/processing/SymbolProcessorEnvironment;)Lcom/google/devtools/ksp/processing/SymbolProcessor;
+}
+
+public abstract class com/rickbusarow/lattice/generator/LatticeSymbolProcessor : com/google/devtools/ksp/processing/SymbolProcessor {
+	public fun <init> (Lcom/google/devtools/ksp/processing/SymbolProcessorEnvironment;)V
+	protected final fun addGeneratedBy (Lcom/squareup/kotlinpoet/FileSpec$Builder;)Lcom/squareup/kotlinpoet/FileSpec$Builder;
+	protected final fun check (Lcom/google/devtools/ksp/symbol/KSNode;ZLkotlin/jvm/functions/Function0;)V
+	protected final fun getCodeGenerator ()Lcom/google/devtools/ksp/processing/CodeGenerator;
+	protected final fun getLogger ()Lcom/google/devtools/ksp/processing/KSPLogger;
+}
+

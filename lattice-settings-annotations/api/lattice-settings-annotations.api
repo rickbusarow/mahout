@@ -1,0 +1,7 @@
+public abstract interface annotation class com/rickbusarow/lattice/generator/DelegateProperty : java/lang/annotation/Annotation {
+	public abstract fun names ()[Ljava/lang/String;
+}
+
+public abstract interface annotation class com/rickbusarow/lattice/generator/LatticePropertiesSchema : java/lang/annotation/Annotation {
+}
+

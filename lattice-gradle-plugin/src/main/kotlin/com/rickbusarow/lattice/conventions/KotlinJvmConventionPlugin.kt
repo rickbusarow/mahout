@@ -18,7 +18,6 @@ package com.rickbusarow.lattice.conventions
 import com.rickbusarow.kgx.applyOnce
 import org.gradle.api.Project
 
-@Suppress("UndocumentedPublicClass")
 public abstract class KotlinJvmConventionPlugin : BaseKotlinConventionPlugin() {
 
   override fun apply(target: Project) {

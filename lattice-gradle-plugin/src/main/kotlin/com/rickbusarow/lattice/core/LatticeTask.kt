@@ -15,30 +15,20 @@
 
 package com.rickbusarow.lattice.core
 
-internal inline fun <E> List<E>.splitInclusive(predicate: (E) -> Boolean): List<List<E>> {
+import org.gradle.api.DefaultTask
+import org.gradle.api.Task
+import org.gradle.api.tasks.bundling.Jar
 
-  val toSplit = this@splitInclusive
+public abstract class DefaultLatticeTask : DefaultTask(), LatticeTask
+public interface LatticeTask : Task
 
-  if (toSplit.isEmpty()) return emptyList()
+public interface FixTask : LatticeTask
+public interface CheckTask : LatticeTask
 
-  val indices = buildList {
-    add(0)
+public abstract class LatticeCodeGeneratorTask : DefaultLatticeTask()
 
-    for (index in (1..toSplit.lastIndex)) {
-      if (predicate(toSplit[index])) {
-        add(index)
-      }
-    }
-  }
-    .distinct()
+public abstract class DefaultLatticeJarTask : Jar(), LatticeJarTask
+public interface LatticeJarTask : LatticeTask
 
-  return buildList {
-    for ((i, fromIndex) in indices.withIndex()) {
-      if (i == indices.lastIndex) {
-        add(toSplit.subList(fromIndex, toSplit.size))
-      } else {
-        add(toSplit.subList(fromIndex, indices[i + 1]))
-      }
-    }
-  }
-}
+public abstract class DefaultLatticeJavadocJarTask : Jar(), LatticeJavadocJarTask
+public interface LatticeJavadocJarTask : LatticeJarTask

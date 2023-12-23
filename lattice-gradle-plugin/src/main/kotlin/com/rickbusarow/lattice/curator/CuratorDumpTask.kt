@@ -17,6 +17,7 @@ package com.rickbusarow.lattice.curator
 
 import com.rickbusarow.lattice.core.Color.Companion.colorized
 import com.rickbusarow.lattice.core.Color.RED
+import com.rickbusarow.lattice.core.FixTask
 import kotlinx.serialization.encodeToString
 import org.gradle.api.GradleException
 import org.gradle.api.file.ProjectLayout
@@ -26,7 +27,7 @@ import javax.inject.Inject
 /** Evaluates all published artifacts in the project and writes the results to `/artifacts.json` */
 public open class CuratorDumpTask @Inject constructor(
   projectLayout: ProjectLayout
-) : AbstractCuratorTask(projectLayout) {
+) : AbstractCuratorTask(projectLayout), FixTask {
 
   init {
     description = "Parses the Maven artifact parameters for all modules " +
@@ -45,20 +46,15 @@ public open class CuratorDumpTask @Inject constructor(
       throw GradleException("The artifacts baseline should only be updated from a macOS machine.")
     }
 
-    val artifactsChanged = baselineArtifacts.sorted() != currentList.sorted()
-
-    if (artifactsChanged && currentList.isNotEmpty()) {
-
-      val json = jsonAdapter.encodeToString(currentList)
-        .let {
-          if (it.endsWith("\n\n")) {
-            it
-          } else {
-            it.plus("\n")
-          }
+    val json = jsonAdapter.encodeToString(currentList.sorted())
+      .let {
+        if (it.endsWith("\n\n")) {
+          it
+        } else {
+          it.plus("\n")
         }
+      }
 
-      reportFile.asFile.writeText(json)
-    }
+    reportFile.asFile.writeText(json)
   }
 }

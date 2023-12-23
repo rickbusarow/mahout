@@ -27,8 +27,6 @@ kotlin_imports_layout = *,java.**,javax.**,kotlin.**,^
 # test methods with descriptive names.
 ktlint_ignore_back_ticked_identifier = true
 
-kt-rules_project_version = 0.1.0-SNAPSHOT
-
 # Disabled rules for 0.48.0+
 ktlint_standard_class-naming = disabled
 ktlint_standard_filename = disabled

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,14 +13,24 @@
  * limitations under the License.
  */
 
+import com.rickbusarow.kgx.buildDir
+import org.gradle.plugins.ide.idea.model.IdeaModel
+
+buildscript {
+  dependencies {
+    classpath(libs.rickBusarow.kgx)
+  }
+}
+
 plugins {
-  alias(libs.plugins.poko) apply false
+  alias(libs.plugins.drewHamilton.poko) apply false
   alias(libs.plugins.kotlin.jvm) apply false
   alias(libs.plugins.kotlin.serialization) apply false
-  alias(libs.plugins.ktlint) apply false
-  alias(libs.plugins.doks)
-  alias(libs.plugins.moduleCheck)
-  id("com.rickbusarow.lattice.jvm-module") apply false
+  alias(libs.plugins.rickBusarow.ktlint) apply false
+  alias(libs.plugins.rickBusarow.doks)
+  alias(libs.plugins.vanniktech.publish.base) apply false
+  alias(libs.plugins.rickBusarow.moduleCheck)
+  id("com.rickbusarow.lattice.kotlin-jvm") apply false
   id("com.rickbusarow.lattice.root")
 }
 
@@ -30,34 +40,49 @@ moduleCheck {
 }
 
 lattice {
-
   composite {
   }
-}
-
-val ktlintPluginId = libs.plugins.ktlint.get().pluginId
-
-allprojects ap@{
-  version = property("VERSION_NAME") as String
-
-  val innerProject = this@ap
-
-  apply(plugin = ktlintPluginId)
-
-  dependencies {
-    "ktlint"(rootProject.libs.rickBusarow.ktrules)
+  github {
   }
-
-  // if (innerProject != rootProject) {
-  //   rootProject.tasks.named("ktlintCheck") {
-  //     dependsOn(innerProject.tasks.named("ktlintCheck"))
-  //   }
-  //   rootProject.tasks.named("ktlintFormat") {
-  //     dependsOn(innerProject.tasks.named("ktlintFormat"))
-  //   }
-  // }
+  dokka {
+  }
+  java {
+  }
+  tasks.addTasksToIdeSync(
+    ":lattice-gradle-plugin:generateBuildConfig",
+    ":lattice-gradle-plugin:kspKotlin"
+  )
 }
 
-tasks.named("clean") {
-  dependsOn(gradle.includedBuild("build-logic").task(":clean"))
+if (gradle.includedBuilds.any { it.name == "build-logic" }) {
+  subprojects sub@{
+
+    val sub = this@sub
+
+    sub.plugins.withId("build-init") {
+
+      val ktlintPluginId = libs.plugins.rickBusarow.ktlint.get().pluginId
+
+      sub.apply(plugin = ktlintPluginId)
+
+      dependencies {
+        "ktlint"(libs.rickBusarow.ktrules)
+      }
+    }
+
+    sub.layout.buildDirectory.set(sub.file("build/build-main"))
+
+    sub.tasks.withType(Test::class).configureEach {
+      systemProperty("kase.baseWorkingDir", buildDir().resolve("kase"))
+    }
+
+    sub.apply(plugin = "idea")
+
+    sub.extensions.configure(IdeaModel::class) {
+      module {
+        generatedSourceDirs.add(sub.file("build"))
+        excludeDirs.add(sub.file("build"))
+      }
+    }
+  }
 }

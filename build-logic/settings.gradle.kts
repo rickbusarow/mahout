@@ -17,12 +17,12 @@ rootProject.name = "build-logic"
 
 pluginManagement {
   val allowMavenLocal = providers
-    .gradleProperty("${rootProject.name}.allow-maven-local")
+    .gradleProperty("lattice.allow-maven-local")
     .orNull.toBoolean()
 
   repositories {
     if (allowMavenLocal) {
-      logger.lifecycle("${rootProject.name} -- allowing mavenLocal for plugins")
+      logger.lifecycle("lattice -- allowing mavenLocal for plugins")
       mavenLocal()
     }
     gradlePluginPortal()
@@ -32,14 +32,14 @@ pluginManagement {
 }
 
 val allowMavenLocal = providers
-  .gradleProperty("${rootProject.name}.allow-maven-local")
+  .gradleProperty("lattice.allow-maven-local")
   .orNull.toBoolean()
 
 @Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
   repositories {
     if (allowMavenLocal) {
-      logger.lifecycle("${rootProject.name} -- allowing mavenLocal for dependencies")
+      logger.lifecycle("lattice -- allowing mavenLocal for dependencies")
       mavenLocal()
     }
     gradlePluginPortal()
@@ -53,7 +53,11 @@ dependencyResolutionManagement {
   }
 }
 
-listOf("lattice-gradle-plugin").forEach { name ->
+listOf(
+  "lattice-gradle-plugin",
+  "lattice-settings-annotations",
+  "lattice-settings-generator"
+).forEach { name ->
   include(":$name")
   project(":$name").projectDir = file("../$name")
 }

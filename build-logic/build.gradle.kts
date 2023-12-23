@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -21,7 +21,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 buildscript {
   dependencies {
     classpath(libs.kotlin.gradle.plugin)
-    classpath(libs.vanniktech.publish)
     classpath(libs.rickBusarow.kgx)
   }
 }
@@ -29,23 +28,23 @@ buildscript {
 plugins {
   alias(libs.plugins.kotlin.jvm) apply false
   alias(libs.plugins.kotlin.serialization) apply false
-  alias(libs.plugins.ktlint)
+  alias(libs.plugins.rickBusarow.ktlint)
+  alias(libs.plugins.vanniktech.publish.base) apply false
   base
 }
 
 val kotlinApiVersion = project.property("KOTLIN_API").toString()
 
 subprojects sub@{
-  this@sub.layout.buildDirectory.set(this@sub.file("build-composite"))
+  this@sub.layout.buildDirectory.set(this@sub.file("build/build-included"))
 }
 
 allprojects ap@{
-  version = property("VERSION_NAME") as String
 
   plugins.withType(KotlinBasePlugin::class.java).configureEach {
 
-    val jdk = project.property("JDK_BUILD_LOGIC").toString()
-    val target = property("JVM_TARGET_BUILD_LOGIC").toString()
+    val jdk = project.property("JVM_TOOLCHAIN").toString()
+    val target = property("JVM_TARGET").toString()
 
     extensions.configure(KotlinJvmProjectExtension::class.java) {
       jvmToolchain {

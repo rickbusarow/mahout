@@ -1,0 +1,849 @@
+public abstract class com/rickbusarow/lattice/BaseLatticeExtension : com/rickbusarow/lattice/CoreLatticeProperties, org/gradle/api/plugins/ExtensionAware {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun getGroup ()Lorg/gradle/api/provider/Property;
+	public fun getVersionName ()Lorg/gradle/api/provider/Property;
+}
+
+public abstract class com/rickbusarow/lattice/BaseModulePlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/CoreLatticeProperties {
+	public abstract fun getGroup ()Lorg/gradle/api/provider/Property;
+	public abstract fun getVersionName ()Lorg/gradle/api/provider/Property;
+}
+
+public class com/rickbusarow/lattice/DefaultCoreLatticeProperties : com/rickbusarow/lattice/CoreLatticeProperties {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun getGroup ()Lorg/gradle/api/provider/Property;
+	public fun getVersionName ()Lorg/gradle/api/provider/Property;
+}
+
+public abstract class com/rickbusarow/lattice/DefaultTasksSubExtension : com/rickbusarow/lattice/conventions/AbstractSubExtension, com/rickbusarow/lattice/TasksSubExtension, com/rickbusarow/lattice/core/SubExtensionInternal {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun addTasksToIdeSync ([Ljava/lang/String;)V
+	public fun configure (Lorg/gradle/api/Action;)V
+}
+
+public abstract class com/rickbusarow/lattice/GradlePluginModuleExtension : com/rickbusarow/lattice/BaseLatticeExtension, com/rickbusarow/lattice/HasTasksSubExtension, com/rickbusarow/lattice/conventions/AutoServiceExtension, com/rickbusarow/lattice/conventions/BuildLogicShadowExtensionHook, com/rickbusarow/lattice/conventions/HasGitHubSubExtension, com/rickbusarow/lattice/conventions/HasJavaSubExtension, com/rickbusarow/lattice/conventions/HasKotlinJvmSubExtension, com/rickbusarow/lattice/conventions/KspExtension, com/rickbusarow/lattice/conventions/PokoExtension, com/rickbusarow/lattice/conventions/SerializationExtension, com/rickbusarow/lattice/dokka/HasDokkaSubExtension, com/rickbusarow/lattice/publishing/HasPublishingMavenSubExtension, com/rickbusarow/lattice/publishing/PublishingGradlePluginHandler {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun autoService (Lorg/gradle/api/Project;)V
+	public fun dokka (Lorg/gradle/api/Action;)V
+	public fun getDokka ()Lcom/rickbusarow/lattice/dokka/DokkaSubExtension;
+	public fun getGithub ()Lcom/rickbusarow/lattice/conventions/GitHubSubExtension;
+	public fun getJava ()Lcom/rickbusarow/lattice/conventions/JavaSubExtension;
+	public fun getKotlin ()Lcom/rickbusarow/lattice/conventions/KotlinJvmSubExtension;
+	public synthetic fun getKotlin ()Lcom/rickbusarow/lattice/conventions/KotlinSubExtension;
+	public fun getPublishing ()Lcom/rickbusarow/lattice/publishing/PublishingMavenSubExtension;
+	public fun getTasks ()Lcom/rickbusarow/lattice/TasksSubExtension;
+	public fun github (Lorg/gradle/api/Action;)V
+	public fun java (Lorg/gradle/api/Action;)V
+	public fun kotlin (Lorg/gradle/api/Action;)V
+	public fun ksp (Lorg/gradle/api/Project;)V
+	public fun poko (Lorg/gradle/api/Project;)V
+	public fun publishPlugin (Lorg/gradle/api/NamedDomainObjectProvider;)V
+	public fun publishing (Lorg/gradle/api/Action;)V
+	public fun serialization (Lorg/gradle/api/Project;)V
+	public fun shadow ()V
+	public fun shadow (Z)V
+	public fun tasks (Lorg/gradle/api/Action;)V
+}
+
+public abstract class com/rickbusarow/lattice/GradlePluginModulePlugin : com/rickbusarow/lattice/BaseModulePlugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/HasTasksSubExtension : java/io/Serializable {
+	public abstract fun getTasks ()Lcom/rickbusarow/lattice/TasksSubExtension;
+	public abstract fun tasks (Lorg/gradle/api/Action;)V
+}
+
+public final class com/rickbusarow/lattice/HasTasksSubExtension$DefaultImpls {
+	public static fun tasks (Lcom/rickbusarow/lattice/HasTasksSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract class com/rickbusarow/lattice/KotlinJvmModuleExtension : com/rickbusarow/lattice/BaseLatticeExtension, com/rickbusarow/lattice/HasTasksSubExtension, com/rickbusarow/lattice/conventions/AutoServiceExtension, com/rickbusarow/lattice/conventions/BuildLogicShadowExtensionHook, com/rickbusarow/lattice/conventions/HasGitHubSubExtension, com/rickbusarow/lattice/conventions/HasJavaSubExtension, com/rickbusarow/lattice/conventions/HasKotlinJvmSubExtension, com/rickbusarow/lattice/conventions/KspExtension, com/rickbusarow/lattice/conventions/PokoExtension, com/rickbusarow/lattice/conventions/SerializationExtension, com/rickbusarow/lattice/dokka/HasDokkaSubExtension, com/rickbusarow/lattice/publishing/HasPublishingMavenSubExtension {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun autoService (Lorg/gradle/api/Project;)V
+	public fun dokka (Lorg/gradle/api/Action;)V
+	public fun getDokka ()Lcom/rickbusarow/lattice/dokka/DokkaSubExtension;
+	public fun getGithub ()Lcom/rickbusarow/lattice/conventions/GitHubSubExtension;
+	public fun getJava ()Lcom/rickbusarow/lattice/conventions/JavaSubExtension;
+	public fun getKotlin ()Lcom/rickbusarow/lattice/conventions/KotlinJvmSubExtension;
+	public synthetic fun getKotlin ()Lcom/rickbusarow/lattice/conventions/KotlinSubExtension;
+	public fun getPublishing ()Lcom/rickbusarow/lattice/publishing/PublishingMavenSubExtension;
+	public fun getTasks ()Lcom/rickbusarow/lattice/TasksSubExtension;
+	public fun github (Lorg/gradle/api/Action;)V
+	public fun java (Lorg/gradle/api/Action;)V
+	public fun kotlin (Lorg/gradle/api/Action;)V
+	public fun ksp (Lorg/gradle/api/Project;)V
+	public fun poko (Lorg/gradle/api/Project;)V
+	public fun publishing (Lorg/gradle/api/Action;)V
+	public fun serialization (Lorg/gradle/api/Project;)V
+	public fun shadow ()V
+	public fun shadow (Z)V
+	public fun tasks (Lorg/gradle/api/Action;)V
+}
+
+public abstract class com/rickbusarow/lattice/KotlinJvmModulePlugin : com/rickbusarow/lattice/BaseModulePlugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/lattice/KotlinMultiplatformModuleExtension : com/rickbusarow/lattice/BaseLatticeExtension, com/rickbusarow/lattice/conventions/AutoServiceExtension, com/rickbusarow/lattice/conventions/BuildLogicShadowExtensionHook, com/rickbusarow/lattice/conventions/KotlinExtension, com/rickbusarow/lattice/conventions/KotlinMultiplatformExtension, com/rickbusarow/lattice/conventions/KspExtension, com/rickbusarow/lattice/conventions/PokoExtension, com/rickbusarow/lattice/conventions/SerializationExtension {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun autoService (Lorg/gradle/api/Project;)V
+	public fun ksp (Lorg/gradle/api/Project;)V
+	public fun poko (Lorg/gradle/api/Project;)V
+	public fun serialization (Lorg/gradle/api/Project;)V
+	public fun shadow ()V
+	public fun shadow (Z)V
+}
+
+public abstract class com/rickbusarow/lattice/KotlinMultiplatformModulePlugin : com/rickbusarow/lattice/BaseModulePlugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/LatticeExtensionInternal : org/gradle/api/plugins/ExtensionAware {
+	public abstract fun getObjects ()Lorg/gradle/api/model/ObjectFactory;
+	public abstract fun getTarget ()Lorg/gradle/api/Project;
+}
+
+public abstract class com/rickbusarow/lattice/RootExtension : com/rickbusarow/lattice/BaseLatticeExtension, com/rickbusarow/lattice/HasTasksSubExtension, com/rickbusarow/lattice/composite/HasCompositeSubExtension, com/rickbusarow/lattice/conventions/AutoServiceExtension, com/rickbusarow/lattice/conventions/BuildLogicShadowExtensionHook, com/rickbusarow/lattice/conventions/HasGitHubSubExtension, com/rickbusarow/lattice/conventions/HasJavaSubExtension, com/rickbusarow/lattice/conventions/HasKotlinSubExtension, com/rickbusarow/lattice/conventions/KspExtension, com/rickbusarow/lattice/conventions/PokoExtension, com/rickbusarow/lattice/conventions/SerializationExtension, com/rickbusarow/lattice/dokka/HasDokkaSubExtension {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun autoService (Lorg/gradle/api/Project;)V
+	public fun composite (Lorg/gradle/api/Action;)V
+	public fun dokka (Lorg/gradle/api/Action;)V
+	public fun getComposite ()Lcom/rickbusarow/lattice/composite/CompositeSubExtension;
+	public fun getDokka ()Lcom/rickbusarow/lattice/dokka/DokkaSubExtension;
+	public fun getGithub ()Lcom/rickbusarow/lattice/conventions/GitHubSubExtension;
+	public fun getJava ()Lcom/rickbusarow/lattice/conventions/JavaSubExtension;
+	public fun getKotlin ()Lcom/rickbusarow/lattice/conventions/KotlinSubExtension;
+	public fun getTasks ()Lcom/rickbusarow/lattice/TasksSubExtension;
+	public fun github (Lorg/gradle/api/Action;)V
+	public fun java (Lorg/gradle/api/Action;)V
+	public fun kotlin (Lorg/gradle/api/Action;)V
+	public fun ksp (Lorg/gradle/api/Project;)V
+	public fun poko (Lorg/gradle/api/Project;)V
+	public fun serialization (Lorg/gradle/api/Project;)V
+	public fun shadow ()V
+	public fun shadow (Z)V
+	public fun tasks (Lorg/gradle/api/Action;)V
+}
+
+public abstract class com/rickbusarow/lattice/RootPlugin : com/rickbusarow/lattice/BaseModulePlugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/TasksSubExtension : com/rickbusarow/lattice/core/SubExtension {
+	public abstract fun addTasksToIdeSync ([Ljava/lang/String;)V
+}
+
+public final class com/rickbusarow/lattice/TasksSubExtension$DefaultImpls {
+	public static fun configure (Lcom/rickbusarow/lattice/TasksSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract class com/rickbusarow/lattice/composite/CompositePlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/lattice/composite/CompositeSubExtension : com/rickbusarow/lattice/core/SubExtension {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun configure (Lorg/gradle/api/Action;)V
+	public final fun excludeRequestedNames ([Ljava/lang/String;)V
+	public final fun includeCompositeTasks (Lorg/gradle/api/specs/Spec;)V
+	public final fun includeRequested (Lorg/gradle/api/specs/Spec;)V
+	public final fun includeRequestedNames ([Ljava/lang/String;)V
+}
+
+public final class com/rickbusarow/lattice/composite/CompositeSubExtension$RequestedTask {
+	public fun <init> (Ljava/lang/String;Lorg/gradle/api/reflect/TypeOf;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Lorg/gradle/api/reflect/TypeOf;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getName ()Ljava/lang/String;
+	public final fun getTypeOrNull ()Lorg/gradle/api/reflect/TypeOf;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/rickbusarow/lattice/composite/CompositeSubExtension$ResolvedTask {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/reflect/TypeOf;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Lorg/gradle/api/reflect/TypeOf;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBuildPath ()Ljava/lang/String;
+	public final fun getTaskName ()Ljava/lang/String;
+	public final fun getTaskPath ()Ljava/lang/String;
+	public final fun getType ()Lorg/gradle/api/reflect/TypeOf;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class com/rickbusarow/lattice/composite/HasCompositeSubExtension : java/io/Serializable {
+	public abstract fun composite (Lorg/gradle/api/Action;)V
+	public abstract fun getComposite ()Lcom/rickbusarow/lattice/composite/CompositeSubExtension;
+}
+
+public final class com/rickbusarow/lattice/composite/HasCompositeSubExtension$DefaultImpls {
+	public static fun composite (Lcom/rickbusarow/lattice/composite/HasCompositeSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/config/LatticeProperties : java/io/Serializable {
+	public abstract fun getGroup ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getJava ()Lcom/rickbusarow/lattice/config/LatticeProperties$JavaSettingsGroup;
+	public abstract fun getKotlin ()Lcom/rickbusarow/lattice/config/LatticeProperties$KotlinSettingsGroup;
+	public abstract fun getPublishing ()Lcom/rickbusarow/lattice/config/LatticeProperties$PublishingSettingsGroup;
+	public abstract fun getRepository ()Lcom/rickbusarow/lattice/config/LatticeProperties$RepositorySettingsGroup;
+	public abstract fun getVersionName ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getVersions ()Lcom/rickbusarow/lattice/config/LatticeProperties$VersionsGroup;
+}
+
+public abstract interface class com/rickbusarow/lattice/config/LatticeProperties$JavaSettingsGroup : java/io/Serializable {
+	public abstract fun getJvmSource ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getJvmTarget ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getJvmToolchain ()Lorg/gradle/api/provider/Provider;
+}
+
+public abstract interface class com/rickbusarow/lattice/config/LatticeProperties$KotlinSettingsGroup : java/io/Serializable {
+	public abstract fun getAllWarningsAsErrors ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getApiLevel ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getCompilerArgs ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getExplicitApi ()Lorg/gradle/api/provider/Provider;
+}
+
+public abstract interface class com/rickbusarow/lattice/config/LatticeProperties$PublishingSettingsGroup : java/io/Serializable {
+	public abstract fun getPom ()Lcom/rickbusarow/lattice/config/LatticeProperties$PublishingSettingsGroup$PomSettingsGroup;
+}
+
+public abstract interface class com/rickbusarow/lattice/config/LatticeProperties$PublishingSettingsGroup$PomSettingsGroup : java/io/Serializable {
+	public abstract fun getArtifactId ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getDescription ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getDeveloper ()Lcom/rickbusarow/lattice/config/LatticeProperties$PublishingSettingsGroup$PomSettingsGroup$DeveloperSettingsGroup;
+	public abstract fun getInceptionYear ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getLicense ()Lcom/rickbusarow/lattice/config/LatticeProperties$PublishingSettingsGroup$PomSettingsGroup$LicenseSettingsGroup;
+	public abstract fun getName ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getScm ()Lcom/rickbusarow/lattice/config/LatticeProperties$PublishingSettingsGroup$PomSettingsGroup$ScmSettingsGroup;
+	public abstract fun getUrl ()Lorg/gradle/api/provider/Provider;
+}
+
+public abstract interface class com/rickbusarow/lattice/config/LatticeProperties$PublishingSettingsGroup$PomSettingsGroup$DeveloperSettingsGroup : java/io/Serializable {
+	public abstract fun getId ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getName ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getUrl ()Lorg/gradle/api/provider/Provider;
+}
+
+public abstract interface class com/rickbusarow/lattice/config/LatticeProperties$PublishingSettingsGroup$PomSettingsGroup$LicenseSettingsGroup : java/io/Serializable {
+	public abstract fun getDist ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getName ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getUrl ()Lorg/gradle/api/provider/Provider;
+}
+
+public abstract interface class com/rickbusarow/lattice/config/LatticeProperties$PublishingSettingsGroup$PomSettingsGroup$ScmSettingsGroup : java/io/Serializable {
+	public abstract fun getConnection ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getDevConnection ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getUrl ()Lorg/gradle/api/provider/Provider;
+}
+
+public abstract interface class com/rickbusarow/lattice/config/LatticeProperties$RepositorySettingsGroup : java/io/Serializable {
+	public abstract fun getDefaultBranch ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getGithub ()Lcom/rickbusarow/lattice/config/LatticeProperties$RepositorySettingsGroup$GithubSettingsGroup;
+}
+
+public abstract interface class com/rickbusarow/lattice/config/LatticeProperties$RepositorySettingsGroup$GithubSettingsGroup : java/io/Serializable {
+	public abstract fun getOwner ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getRepo ()Lorg/gradle/api/provider/Provider;
+}
+
+public abstract interface class com/rickbusarow/lattice/config/LatticeProperties$VersionsGroup : java/io/Serializable {
+	public abstract fun getDetekt ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getDokka ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getKotlinxSerialization ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getKsp ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getPoko ()Lorg/gradle/api/provider/Provider;
+}
+
+public final class com/rickbusarow/lattice/config/LatticePropertiesKt {
+	public static final fun getJvmSourceInt (Lcom/rickbusarow/lattice/config/LatticeProperties$JavaSettingsGroup;)Lorg/gradle/api/provider/Provider;
+	public static final fun getJvmTargetInt (Lcom/rickbusarow/lattice/config/LatticeProperties$JavaSettingsGroup;)Lorg/gradle/api/provider/Provider;
+	public static final fun getJvmToolchainInt (Lcom/rickbusarow/lattice/config/LatticeProperties$JavaSettingsGroup;)Lorg/gradle/api/provider/Provider;
+	public static final fun getLatticeProperties (Lorg/gradle/api/Project;)Lcom/rickbusarow/lattice/config/LatticeProperties;
+	public static final fun getUrl (Lcom/rickbusarow/lattice/config/LatticeProperties$RepositorySettingsGroup$GithubSettingsGroup;)Lorg/gradle/api/provider/Provider;
+}
+
+public abstract class com/rickbusarow/lattice/conventions/AbstractHasSubExtension : com/rickbusarow/lattice/core/HasObjectFactory {
+	public fun <init> ()V
+	protected final fun subExtension (Ljava/lang/Class;)Lkotlin/Lazy;
+	protected final fun subExtension (Lkotlin/reflect/KClass;)Lkotlin/Lazy;
+}
+
+public abstract class com/rickbusarow/lattice/conventions/AbstractSubExtension : com/rickbusarow/lattice/core/SubExtensionInternal, org/gradle/api/model/ObjectFactory, org/gradle/api/plugins/ExtensionAware {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun directoryProperty ()Lorg/gradle/api/file/DirectoryProperty;
+	public fun domainObjectContainer (Ljava/lang/Class;)Lorg/gradle/api/NamedDomainObjectContainer;
+	public fun domainObjectContainer (Ljava/lang/Class;Lorg/gradle/api/NamedDomainObjectFactory;)Lorg/gradle/api/NamedDomainObjectContainer;
+	public fun domainObjectSet (Ljava/lang/Class;)Lorg/gradle/api/DomainObjectSet;
+	public fun fileCollection ()Lorg/gradle/api/file/ConfigurableFileCollection;
+	public fun fileProperty ()Lorg/gradle/api/file/RegularFileProperty;
+	public fun fileTree ()Lorg/gradle/api/file/ConfigurableFileTree;
+	protected final fun getLatticeProperties ()Lcom/rickbusarow/lattice/config/LatticeProperties;
+	public final fun getObjects ()Lorg/gradle/api/model/ObjectFactory;
+	protected final fun getTarget ()Lorg/gradle/api/Project;
+	public fun listProperty (Ljava/lang/Class;)Lorg/gradle/api/provider/ListProperty;
+	public fun mapProperty (Ljava/lang/Class;Ljava/lang/Class;)Lorg/gradle/api/provider/MapProperty;
+	public fun named (Ljava/lang/Class;Ljava/lang/String;)Lorg/gradle/api/Named;
+	public fun namedDomainObjectList (Ljava/lang/Class;)Lorg/gradle/api/NamedDomainObjectList;
+	public fun namedDomainObjectSet (Ljava/lang/Class;)Lorg/gradle/api/NamedDomainObjectSet;
+	public fun newInstance (Ljava/lang/Class;[Ljava/lang/Object;)Ljava/lang/Object;
+	public fun polymorphicDomainObjectContainer (Ljava/lang/Class;)Lorg/gradle/api/ExtensiblePolymorphicDomainObjectContainer;
+	public fun property (Ljava/lang/Class;)Lorg/gradle/api/provider/Property;
+	public fun setProperty (Ljava/lang/Class;)Lorg/gradle/api/provider/SetProperty;
+	public fun sourceDirectorySet (Ljava/lang/String;Ljava/lang/String;)Lorg/gradle/api/file/SourceDirectorySet;
+	protected final fun subExtension (Ljava/lang/Class;)Lkotlin/Lazy;
+}
+
+public abstract interface class com/rickbusarow/lattice/conventions/AutoServiceExtension : com/rickbusarow/lattice/conventions/KspExtension {
+	public abstract fun autoService (Lorg/gradle/api/Project;)V
+}
+
+public final class com/rickbusarow/lattice/conventions/AutoServiceExtension$DefaultImpls {
+	public static fun autoService (Lcom/rickbusarow/lattice/conventions/AutoServiceExtension;Lorg/gradle/api/Project;)V
+	public static fun ksp (Lcom/rickbusarow/lattice/conventions/AutoServiceExtension;Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/lattice/conventions/BaseKotlinConventionPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/lattice/conventions/BenManesVersionsPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/lattice/conventions/BuildLogicShadowExtension {
+	public fun <init> (Lorg/gradle/api/model/ObjectFactory;)V
+	public final fun getEnabled ()Lorg/gradle/api/provider/Property;
+	public abstract fun getRelocatePackages ()Lorg/gradle/api/provider/ListProperty;
+	public final fun shadow (Lorg/gradle/api/Project;Lorg/gradle/api/artifacts/Configuration;Ljava/util/List;)V
+	public static synthetic fun shadow$default (Lcom/rickbusarow/lattice/conventions/BuildLogicShadowExtension;Lorg/gradle/api/Project;Lorg/gradle/api/artifacts/Configuration;Ljava/util/List;ILjava/lang/Object;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/conventions/BuildLogicShadowExtensionHook {
+	public abstract fun shadow ()V
+	public abstract fun shadow (Z)V
+}
+
+public final class com/rickbusarow/lattice/conventions/BuildLogicShadowExtensionHook$DefaultImpls {
+	public static fun shadow (Lcom/rickbusarow/lattice/conventions/BuildLogicShadowExtensionHook;)V
+	public static fun shadow (Lcom/rickbusarow/lattice/conventions/BuildLogicShadowExtensionHook;Z)V
+}
+
+public abstract class com/rickbusarow/lattice/conventions/CheckPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/lattice/conventions/CleanPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/conventions/CodeGenSubExtension {
+}
+
+public abstract class com/rickbusarow/lattice/conventions/DefaultCheckTask : com/rickbusarow/lattice/core/DefaultLatticeTask, com/rickbusarow/lattice/core/CheckTask {
+	public fun <init> ()V
+}
+
+public abstract class com/rickbusarow/lattice/conventions/DefaultFixTask : com/rickbusarow/lattice/core/DefaultLatticeTask, com/rickbusarow/lattice/core/FixTask {
+	public fun <init> ()V
+}
+
+public abstract class com/rickbusarow/lattice/conventions/DefaultGitHubSubExtension : com/rickbusarow/lattice/conventions/AbstractSubExtension, com/rickbusarow/lattice/conventions/GitHubSubExtension, com/rickbusarow/lattice/core/SubExtensionInternal, org/gradle/api/reflect/HasPublicType {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun configure (Lorg/gradle/api/Action;)V
+	public fun getConnection ()Lorg/gradle/api/provider/Provider;
+	public fun getDefaultBranch ()Lorg/gradle/api/provider/Property;
+	public fun getDeveloperConnection ()Lorg/gradle/api/provider/Provider;
+	public final fun getOwner ()Lorg/gradle/api/provider/Property;
+	public fun getPublicType ()Lorg/gradle/api/reflect/TypeOf;
+	public final fun getRepo ()Lorg/gradle/api/provider/Property;
+	public fun getUrl ()Lorg/gradle/api/provider/Provider;
+}
+
+public abstract class com/rickbusarow/lattice/conventions/DefaultJavaSubExtension : com/rickbusarow/lattice/conventions/AbstractSubExtension, com/rickbusarow/lattice/conventions/JavaSubExtension, com/rickbusarow/lattice/core/SubExtensionInternal {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun configure (Lorg/gradle/api/Action;)V
+	public final fun getJvmSource ()Lorg/gradle/api/provider/Property;
+	public fun getJvmSourceInt ()Lorg/gradle/api/provider/Provider;
+	public final fun getJvmTarget ()Lorg/gradle/api/provider/Property;
+	public fun getJvmTargetInt ()Lorg/gradle/api/provider/Provider;
+	public final fun getJvmToolchain ()Lorg/gradle/api/provider/Property;
+	public fun getJvmToolchainInt ()Lorg/gradle/api/provider/Provider;
+}
+
+public abstract class com/rickbusarow/lattice/conventions/DefaultKotlinJvmSubExtension : com/rickbusarow/lattice/conventions/DefaultKotlinSubExtension, com/rickbusarow/lattice/conventions/KotlinJvmSubExtension, com/rickbusarow/lattice/core/SubExtensionInternal {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+}
+
+public abstract class com/rickbusarow/lattice/conventions/DefaultKotlinMultiplatformSubExtension : com/rickbusarow/lattice/conventions/DefaultKotlinSubExtension, com/rickbusarow/lattice/conventions/KotlinMultiplatformSubExtension, com/rickbusarow/lattice/core/SubExtensionInternal {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+}
+
+public abstract class com/rickbusarow/lattice/conventions/DefaultKotlinSubExtension : com/rickbusarow/lattice/conventions/AbstractSubExtension, com/rickbusarow/lattice/conventions/KotlinSubExtension, com/rickbusarow/lattice/core/SubExtensionInternal {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun configure (Lorg/gradle/api/Action;)V
+	public fun getAllWarningsAsErrors ()Lorg/gradle/api/provider/Property;
+	public fun getApiLevel ()Lorg/gradle/api/provider/Property;
+	public fun getExplicitApi ()Lorg/gradle/api/provider/Property;
+}
+
+public abstract class com/rickbusarow/lattice/conventions/DependencyGuardConventionPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/lattice/conventions/DetektConventionPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/lattice/conventions/DokkaVersionArchivePlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/lattice/conventions/GitHubReleasePlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/conventions/GitHubSubExtension : com/rickbusarow/lattice/core/SubExtension {
+	public abstract fun getConnection ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getDefaultBranch ()Lorg/gradle/api/provider/Property;
+	public abstract fun getDeveloperConnection ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getOwner ()Lorg/gradle/api/provider/Property;
+	public abstract fun getRepo ()Lorg/gradle/api/provider/Property;
+	public abstract fun getUrl ()Lorg/gradle/api/provider/Provider;
+}
+
+public final class com/rickbusarow/lattice/conventions/GitHubSubExtension$DefaultImpls {
+	public static fun configure (Lcom/rickbusarow/lattice/conventions/GitHubSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract class com/rickbusarow/lattice/conventions/GradleTestsPlugin : org/gradle/api/Plugin {
+	public static final field Companion Lcom/rickbusarow/lattice/conventions/GradleTestsPlugin$Companion;
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public final class com/rickbusarow/lattice/conventions/GradleTestsPlugin$Companion {
+}
+
+public abstract interface class com/rickbusarow/lattice/conventions/HasCodeGenExtension {
+	public abstract fun getCodeGen ()Lcom/rickbusarow/lattice/conventions/CodeGenSubExtension;
+}
+
+public abstract interface class com/rickbusarow/lattice/conventions/HasGitHubSubExtension : java/io/Serializable {
+	public abstract fun getGithub ()Lcom/rickbusarow/lattice/conventions/GitHubSubExtension;
+	public abstract fun github (Lorg/gradle/api/Action;)V
+}
+
+public final class com/rickbusarow/lattice/conventions/HasGitHubSubExtension$DefaultImpls {
+	public static fun github (Lcom/rickbusarow/lattice/conventions/HasGitHubSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/conventions/HasJavaSubExtension : java/io/Serializable {
+	public abstract fun getJava ()Lcom/rickbusarow/lattice/conventions/JavaSubExtension;
+	public abstract fun java (Lorg/gradle/api/Action;)V
+}
+
+public final class com/rickbusarow/lattice/conventions/HasJavaSubExtension$DefaultImpls {
+	public static fun java (Lcom/rickbusarow/lattice/conventions/HasJavaSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/conventions/HasKotlinJvmSubExtension : com/rickbusarow/lattice/conventions/HasKotlinSubExtension {
+	public abstract fun getKotlin ()Lcom/rickbusarow/lattice/conventions/KotlinJvmSubExtension;
+}
+
+public final class com/rickbusarow/lattice/conventions/HasKotlinJvmSubExtension$DefaultImpls {
+	public static fun kotlin (Lcom/rickbusarow/lattice/conventions/HasKotlinJvmSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/conventions/HasKotlinMultiplatformSubExtension : com/rickbusarow/lattice/conventions/HasKotlinSubExtension {
+	public abstract fun getKotlin ()Lcom/rickbusarow/lattice/conventions/KotlinMultiplatformSubExtension;
+}
+
+public final class com/rickbusarow/lattice/conventions/HasKotlinMultiplatformSubExtension$DefaultImpls {
+	public static fun kotlin (Lcom/rickbusarow/lattice/conventions/HasKotlinMultiplatformSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/conventions/HasKotlinSubExtension : java/io/Serializable {
+	public abstract fun getKotlin ()Lcom/rickbusarow/lattice/conventions/KotlinSubExtension;
+	public abstract fun kotlin (Lorg/gradle/api/Action;)V
+}
+
+public final class com/rickbusarow/lattice/conventions/HasKotlinSubExtension$DefaultImpls {
+	public static fun kotlin (Lcom/rickbusarow/lattice/conventions/HasKotlinSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/conventions/HasPokoExtension {
+	public abstract fun getPoko ()Lcom/rickbusarow/lattice/conventions/PokoExtension;
+}
+
+public abstract interface class com/rickbusarow/lattice/conventions/JavaSubExtension : com/rickbusarow/lattice/core/SubExtension {
+	public abstract fun getJvmSource ()Lorg/gradle/api/provider/Property;
+	public abstract fun getJvmSourceInt ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getJvmTarget ()Lorg/gradle/api/provider/Property;
+	public abstract fun getJvmTargetInt ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getJvmToolchain ()Lorg/gradle/api/provider/Property;
+	public abstract fun getJvmToolchainInt ()Lorg/gradle/api/provider/Provider;
+}
+
+public final class com/rickbusarow/lattice/conventions/JavaSubExtension$DefaultImpls {
+	public static fun configure (Lcom/rickbusarow/lattice/conventions/JavaSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/conventions/KotlinExtension : java/io/Serializable {
+	public abstract fun getAllWarningsAsErrors ()Lorg/gradle/api/provider/Property;
+	public abstract fun getExplicitApi ()Lorg/gradle/api/provider/Property;
+}
+
+public abstract class com/rickbusarow/lattice/conventions/KotlinJvmConventionPlugin : com/rickbusarow/lattice/conventions/BaseKotlinConventionPlugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/conventions/KotlinJvmExtension : com/rickbusarow/lattice/conventions/KotlinExtension {
+}
+
+public abstract interface class com/rickbusarow/lattice/conventions/KotlinJvmSubExtension : com/rickbusarow/lattice/conventions/KotlinSubExtension {
+}
+
+public final class com/rickbusarow/lattice/conventions/KotlinJvmSubExtension$DefaultImpls {
+	public static fun configure (Lcom/rickbusarow/lattice/conventions/KotlinJvmSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract class com/rickbusarow/lattice/conventions/KotlinMultiplatformConventionPlugin : com/rickbusarow/lattice/conventions/BaseKotlinConventionPlugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/conventions/KotlinMultiplatformExtension : com/rickbusarow/lattice/conventions/KotlinExtension {
+}
+
+public abstract interface class com/rickbusarow/lattice/conventions/KotlinMultiplatformSubExtension : com/rickbusarow/lattice/conventions/KotlinSubExtension {
+}
+
+public final class com/rickbusarow/lattice/conventions/KotlinMultiplatformSubExtension$DefaultImpls {
+	public static fun configure (Lcom/rickbusarow/lattice/conventions/KotlinMultiplatformSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/conventions/KotlinSubExtension : com/rickbusarow/lattice/core/SubExtension {
+	public abstract fun getAllWarningsAsErrors ()Lorg/gradle/api/provider/Property;
+	public abstract fun getApiLevel ()Lorg/gradle/api/provider/Property;
+	public abstract fun getExplicitApi ()Lorg/gradle/api/provider/Property;
+}
+
+public final class com/rickbusarow/lattice/conventions/KotlinSubExtension$DefaultImpls {
+	public static fun configure (Lcom/rickbusarow/lattice/conventions/KotlinSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/conventions/KspExtension {
+	public abstract fun ksp (Lorg/gradle/api/Project;)V
+}
+
+public final class com/rickbusarow/lattice/conventions/KspExtension$DefaultImpls {
+	public static fun ksp (Lcom/rickbusarow/lattice/conventions/KspExtension;Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/lattice/conventions/KtLintConventionPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/lattice/conventions/LibsGeneratorPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/lattice/conventions/LibsGeneratorTask : org/gradle/api/DefaultTask {
+	public fun <init> ()V
+	public final fun generateLibs ()V
+	public abstract fun getCatalogProvider ()Lorg/gradle/api/provider/Property;
+	public abstract fun getPackageName ()Lorg/gradle/api/provider/Property;
+}
+
+public abstract interface class com/rickbusarow/lattice/conventions/PokoExtension {
+	public abstract fun poko (Lorg/gradle/api/Project;)V
+}
+
+public final class com/rickbusarow/lattice/conventions/PokoExtension$DefaultImpls {
+	public static fun poko (Lcom/rickbusarow/lattice/conventions/PokoExtension;Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/conventions/SerializationExtension {
+	public abstract fun serialization (Lorg/gradle/api/Project;)V
+}
+
+public final class com/rickbusarow/lattice/conventions/SerializationExtension$DefaultImpls {
+	public static fun serialization (Lcom/rickbusarow/lattice/conventions/SerializationExtension;Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/lattice/conventions/SpotlessConventionPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public class com/rickbusarow/lattice/conventions/SubExtensionRegistry {
+	public fun <init> (Lorg/gradle/api/model/ObjectFactory;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getObjects ()Lorg/gradle/api/model/ObjectFactory;
+	public final fun getSchema ()Ljava/util/Map;
+	public fun hashCode ()I
+	public final fun register (Ljava/lang/String;Ljava/lang/Class;Ljava/lang/Class;)Lcom/rickbusarow/lattice/core/SubExtension;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/rickbusarow/lattice/conventions/SubExtensionRegistry$SubExtensionElement {
+	public fun <init> (Ljava/lang/Class;Ljava/lang/String;Lcom/rickbusarow/lattice/core/SubExtension;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getInstance ()Lcom/rickbusarow/lattice/core/SubExtension;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getPublicType ()Ljava/lang/Class;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract class com/rickbusarow/lattice/conventions/TestConventionPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/core/CheckTask : com/rickbusarow/lattice/core/LatticeTask {
+}
+
+public abstract class com/rickbusarow/lattice/core/DefaultLatticeJarTask : org/gradle/api/tasks/bundling/Jar, com/rickbusarow/lattice/core/LatticeJarTask {
+	public fun <init> ()V
+}
+
+public abstract class com/rickbusarow/lattice/core/DefaultLatticeJavadocJarTask : org/gradle/api/tasks/bundling/Jar, com/rickbusarow/lattice/core/LatticeJavadocJarTask {
+	public fun <init> ()V
+}
+
+public abstract class com/rickbusarow/lattice/core/DefaultLatticeTask : org/gradle/api/DefaultTask, com/rickbusarow/lattice/core/LatticeTask {
+	public fun <init> ()V
+}
+
+public abstract interface class com/rickbusarow/lattice/core/FixTask : com/rickbusarow/lattice/core/LatticeTask {
+}
+
+public abstract interface class com/rickbusarow/lattice/core/HasObjectFactory {
+	public abstract fun getObjects ()Lorg/gradle/api/model/ObjectFactory;
+}
+
+public abstract class com/rickbusarow/lattice/core/LatticeCodeGeneratorTask : com/rickbusarow/lattice/core/DefaultLatticeTask {
+	public fun <init> ()V
+}
+
+public abstract interface class com/rickbusarow/lattice/core/LatticeJarTask : com/rickbusarow/lattice/core/LatticeTask {
+}
+
+public abstract interface class com/rickbusarow/lattice/core/LatticeJavadocJarTask : com/rickbusarow/lattice/core/LatticeJarTask {
+}
+
+public abstract interface class com/rickbusarow/lattice/core/LatticeTask : org/gradle/api/Task {
+}
+
+public final class com/rickbusarow/lattice/core/PropertiesKt {
+	public static final fun getGITHUB_OWNER (Lorg/gradle/api/Project;)Ljava/lang/String;
+	public static final fun getGITHUB_OWNER_REPO (Lorg/gradle/api/Project;)Ljava/lang/String;
+	public static final fun getGITHUB_REPOSITORY (Lorg/gradle/api/Project;)Ljava/lang/String;
+	public static final fun getPrefixedPropertyName (Lorg/gradle/api/Project;Ljava/lang/String;)Ljava/lang/String;
+	public static final fun getVERSION_NAME (Lorg/gradle/api/Project;)Ljava/lang/String;
+	public static final fun getVersionIsSnapshot (Lorg/gradle/api/Project;)Z
+}
+
+public abstract interface class com/rickbusarow/lattice/core/SubExtension : java/io/Serializable, org/gradle/api/plugins/ExtensionAware {
+	public abstract fun configure (Lorg/gradle/api/Action;)V
+}
+
+public final class com/rickbusarow/lattice/core/SubExtension$DefaultImpls {
+	public static fun configure (Lcom/rickbusarow/lattice/core/SubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/core/SubExtensionInternal : com/rickbusarow/lattice/core/HasObjectFactory {
+}
+
+public abstract class com/rickbusarow/lattice/curator/AbstractCuratorTask : com/rickbusarow/lattice/core/DefaultLatticeTask {
+	public fun <init> (Lorg/gradle/api/file/ProjectLayout;)V
+	protected final fun getBaselineArtifacts ()Ljava/util/List;
+	protected final fun getCurrentList ()Ljava/util/List;
+	protected final fun getJsonAdapter ()Lkotlinx/serialization/json/Json;
+	protected final fun getReportFile ()Lorg/gradle/api/file/RegularFile;
+	protected final fun ignoredArtifactsMessage (Ljava/util/List;)Ljava/lang/String;
+	protected final fun isIgnored (Lcom/rickbusarow/lattice/curator/ArtifactConfig;)Z
+	protected final fun message (Lcom/rickbusarow/lattice/curator/ArtifactConfig;)Ljava/lang/String;
+}
+
+public final class com/rickbusarow/lattice/curator/ArtifactConfig : java/io/Serializable, java/lang/Comparable {
+	public static final field Companion Lcom/rickbusarow/lattice/curator/ArtifactConfig$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public fun compareTo (Lcom/rickbusarow/lattice/curator/ArtifactConfig;)I
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getArtifactId ()Ljava/lang/String;
+	public final fun getDescription ()Ljava/lang/String;
+	public final fun getGradlePath ()Ljava/lang/String;
+	public final fun getGroup ()Ljava/lang/String;
+	public final fun getJavaVersion ()Ljava/lang/String;
+	public final fun getKey ()Ljava/lang/String;
+	public final fun getPackaging ()Ljava/lang/String;
+	public final fun getPublicationName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/rickbusarow/lattice/curator/ArtifactConfig$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/rickbusarow/lattice/curator/ArtifactConfig$$serializer;
+	public fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/rickbusarow/lattice/curator/ArtifactConfig;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/rickbusarow/lattice/curator/ArtifactConfig;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/rickbusarow/lattice/curator/ArtifactConfig$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public class com/rickbusarow/lattice/curator/CuratorCheckTask : com/rickbusarow/lattice/curator/AbstractCuratorTask, com/rickbusarow/lattice/core/CheckTask {
+	public fun <init> (Lorg/gradle/api/model/ObjectFactory;Lorg/gradle/api/file/ProjectLayout;)V
+	public final fun getLenientOs ()Z
+	public final fun run ()V
+	public final fun setLenientOs (Z)V
+}
+
+public class com/rickbusarow/lattice/curator/CuratorDumpTask : com/rickbusarow/lattice/curator/AbstractCuratorTask, com/rickbusarow/lattice/core/FixTask {
+	public fun <init> (Lorg/gradle/api/file/ProjectLayout;)V
+	public final fun run ()V
+}
+
+public abstract class com/rickbusarow/lattice/curator/CuratorPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/lattice/dokka/DefaultDokkaSubExtension : com/rickbusarow/lattice/conventions/AbstractSubExtension, com/rickbusarow/lattice/core/SubExtensionInternal, com/rickbusarow/lattice/dokka/DokkaSubExtension {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun configure (Lorg/gradle/api/Action;)V
+	public fun getDokkaVersion ()Lorg/gradle/api/provider/Property;
+	public fun getGenerateTaskWorkerMaxHeapSize ()Lorg/gradle/api/provider/Property;
+	public fun getGenerateTaskWorkerMinHeapSize ()Lorg/gradle/api/provider/Property;
+}
+
+public abstract interface class com/rickbusarow/lattice/dokka/DokkaSubExtension : com/rickbusarow/lattice/core/SubExtension {
+	public abstract fun getDokkaVersion ()Lorg/gradle/api/provider/Property;
+	public abstract fun getGenerateTaskWorkerMaxHeapSize ()Lorg/gradle/api/provider/Property;
+	public abstract fun getGenerateTaskWorkerMinHeapSize ()Lorg/gradle/api/provider/Property;
+}
+
+public final class com/rickbusarow/lattice/dokka/DokkaSubExtension$DefaultImpls {
+	public static fun configure (Lcom/rickbusarow/lattice/dokka/DokkaSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract class com/rickbusarow/lattice/dokka/DokkatooConventionPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/dokka/HasDokkaSubExtension : java/io/Serializable {
+	public abstract fun dokka (Lorg/gradle/api/Action;)V
+	public abstract fun getDokka ()Lcom/rickbusarow/lattice/dokka/DokkaSubExtension;
+}
+
+public final class com/rickbusarow/lattice/dokka/HasDokkaSubExtension$DefaultImpls {
+	public static fun dokka (Lcom/rickbusarow/lattice/dokka/HasDokkaSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public class com/rickbusarow/lattice/publishing/DefaultPublishingGradlePluginHandler : com/rickbusarow/lattice/publishing/PublishingGradlePluginHandler {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun publishPlugin (Lorg/gradle/api/NamedDomainObjectProvider;)V
+}
+
+public abstract class com/rickbusarow/lattice/publishing/DefaultPublishingMavenSubExtension : com/rickbusarow/lattice/conventions/AbstractSubExtension, com/rickbusarow/lattice/core/SubExtensionInternal, com/rickbusarow/lattice/publishing/PublishingMavenSubExtension {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun configure (Lorg/gradle/api/Action;)V
+	public fun getDefaultPom ()Lorg/gradle/api/publish/maven/internal/publication/DefaultMavenPom;
+	public fun publishMaven (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/publishing/HasPublishingMavenSubExtension : java/io/Serializable {
+	public abstract fun getPublishing ()Lcom/rickbusarow/lattice/publishing/PublishingMavenSubExtension;
+	public abstract fun publishing (Lorg/gradle/api/Action;)V
+}
+
+public final class com/rickbusarow/lattice/publishing/HasPublishingMavenSubExtension$DefaultImpls {
+	public static fun publishing (Lcom/rickbusarow/lattice/publishing/HasPublishingMavenSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract class com/rickbusarow/lattice/publishing/LatticePublishPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/publishing/PublishingGradlePluginHandler : java/io/Serializable {
+	public abstract fun publishPlugin (Lorg/gradle/api/NamedDomainObjectProvider;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/publishing/PublishingMavenSubExtension : com/rickbusarow/lattice/core/SubExtension {
+	public abstract fun getDefaultPom ()Lorg/gradle/api/publish/maven/internal/publication/DefaultMavenPom;
+	public abstract fun publishMaven (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;)V
+}
+
+public final class com/rickbusarow/lattice/publishing/PublishingMavenSubExtension$DefaultImpls {
+	public static fun configure (Lcom/rickbusarow/lattice/publishing/PublishingMavenSubExtension;Lorg/gradle/api/Action;)V
+	public static synthetic fun publishMaven$default (Lcom/rickbusarow/lattice/publishing/PublishingMavenSubExtension;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;ILjava/lang/Object;)V
+}
+
+public final class com/rickbusarow/lattice/stdlib/ListKt {
+	public static final fun dropLastView (Ljava/util/List;I)Ljava/util/List;
+	public static final fun dropView (Ljava/util/List;I)Ljava/util/List;
+	public static final fun takeLastView (Ljava/util/List;I)Ljava/util/List;
+	public static final fun takeView (Ljava/util/List;I)Ljava/util/List;
+}
+

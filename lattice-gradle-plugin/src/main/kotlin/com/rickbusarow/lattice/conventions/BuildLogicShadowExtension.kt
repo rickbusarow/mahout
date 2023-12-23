@@ -25,7 +25,6 @@ import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import javax.inject.Inject
 
-@Suppress("UndocumentedPublicClass")
 public interface BuildLogicShadowExtensionHook {
 
   // val shadow: BuildLogicShadowExtension
@@ -50,7 +49,6 @@ public interface BuildLogicShadowExtensionHook {
   // )
 }
 
-@Suppress("UndocumentedPublicClass")
 public abstract class BuildLogicShadowExtension @Inject constructor(
   objects: ObjectFactory
 ) {

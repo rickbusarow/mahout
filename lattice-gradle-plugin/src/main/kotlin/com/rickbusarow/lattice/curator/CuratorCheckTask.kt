@@ -15,6 +15,7 @@
 
 package com.rickbusarow.lattice.curator
 
+import com.rickbusarow.lattice.core.CheckTask
 import com.rickbusarow.lattice.core.Color.Companion.colorized
 import com.rickbusarow.lattice.core.Color.RED
 import com.rickbusarow.lattice.core.Color.YELLOW
@@ -35,7 +36,7 @@ import javax.inject.Inject
 public open class CuratorCheckTask @Inject constructor(
   objectFactory: ObjectFactory,
   projectLayout: ProjectLayout
-) : AbstractCuratorTask(projectLayout) {
+) : AbstractCuratorTask(projectLayout), CheckTask {
 
   init {
     description = "Parses the Maven artifact parameters for all modules " +
@@ -113,7 +114,7 @@ public open class CuratorCheckTask @Inject constructor(
         if (!lenientOs) {
           appendLine()
           append("Add the `--lenient-os` option replace this failure with a warning: ")
-          appendLine("./gradlew artifactsCheck --lenient-os")
+          appendLine("./gradlew curatorCheck --lenient-os")
         }
       }
 
@@ -153,7 +154,7 @@ public open class CuratorCheckTask @Inject constructor(
 
       appendLine(
         "\tArtifact definitions don't match.  If this is intended, " +
-          "run `./gradlew artifactsDump` and commit changes."
+          "run `./gradlew curatorDump` and commit changes."
       )
       appendLine()
 

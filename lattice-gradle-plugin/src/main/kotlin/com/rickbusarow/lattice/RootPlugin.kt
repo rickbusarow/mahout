@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,12 +23,15 @@ import com.rickbusarow.lattice.conventions.DokkaVersionArchivePlugin
 import com.rickbusarow.lattice.conventions.GitHubReleasePlugin
 import com.rickbusarow.lattice.conventions.SpotlessConventionPlugin
 import com.rickbusarow.lattice.curator.CuratorPlugin
+import com.rickbusarow.lattice.libs.LibsGeneratorPlugin
 import modulecheck.gradle.ModuleCheckExtension
 import modulecheck.gradle.ModuleCheckPlugin
 import org.gradle.api.Project
+import javax.inject.Inject
 
 /** Applied to the real project root and the root project of any included build except this one. */
-public abstract class RootPlugin : BaseModulePlugin() {
+public abstract class RootPlugin @Inject constructor() : BaseModulePlugin() {
+
   override fun apply(target: Project) {
 
     target.checkProjectIsRoot()
@@ -36,6 +39,8 @@ public abstract class RootPlugin : BaseModulePlugin() {
     target.extensions.create("lattice", RootExtension::class.java)
 
     super.apply(target)
+
+    target.plugins.apply(LibsGeneratorPlugin::class.java)
 
     target.plugins.apply(CuratorPlugin::class.java)
     target.plugins.apply(BenManesVersionsPlugin::class.java)
@@ -53,7 +58,8 @@ public abstract class RootPlugin : BaseModulePlugin() {
     }
 
     if (target.gradle.includedBuilds.isNotEmpty()) {
-      target.plugins.apply(CompositePlugin::class.java)
+      // @OptIn(InternalGradleApiAccess::class)
+      // target.plugins.apply(CompositePlugin::class.java)
     }
 
     if (inCI() && target.isRealRootProject()) {

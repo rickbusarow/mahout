@@ -17,7 +17,6 @@ package com.rickbusarow.lattice.conventions
 
 import org.gradle.api.Project
 
-@Suppress("UndocumentedPublicClass")
 public interface KspExtension {
 
   @Suppress("UndocumentedPublicFunction")

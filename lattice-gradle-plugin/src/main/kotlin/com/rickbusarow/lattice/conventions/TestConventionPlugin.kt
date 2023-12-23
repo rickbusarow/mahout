@@ -26,7 +26,6 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
 import org.gradle.internal.classpath.Instrumented.systemProperty
 
-@Suppress("UndocumentedPublicClass")
 public abstract class TestConventionPlugin : Plugin<Project> {
 
   override fun apply(target: Project) {

@@ -64,8 +64,7 @@ internal fun File.existsOrNull(): File? = takeIf { it.exists() }
  */
 internal fun File.isDirectoryWithFiles(
   childPredicate: (File) -> Boolean = { it.exists() }
-): Boolean =
-  !isFile && listFiles()?.any(childPredicate) == true
+): Boolean = !isFile && listFiles()?.any(childPredicate) == true
 
 /**
  * Returns true if the receiver [File] is `/build/` or `/.gradle/`, but

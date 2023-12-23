@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,11 +15,9 @@
 
 package com.rickbusarow.lattice.conventions
 
-import com.rickbusarow.kgx.library
-import com.rickbusarow.kgx.libsCatalog
+import com.rickbusarow.lattice.deps.Libs
 import org.gradle.api.Project
 
-@Suppress("UndocumentedPublicClass")
 public interface AutoServiceExtension : KspExtension {
 
   @Suppress("UndocumentedPublicFunction")
@@ -28,15 +26,15 @@ public interface AutoServiceExtension : KspExtension {
 
     dependencies.add(
       "compileOnly",
-      libsCatalog.library("google-auto-service-annotations")
+      Libs.`google-auto-service-annotations`
     )
     dependencies.add(
       "testCompileOnly",
-      libsCatalog.library("google-auto-service-annotations")
+      Libs.`google-auto-service-annotations`
     )
     dependencies.add(
       "ksp",
-      libsCatalog.library("zacSweers-auto-service-ksp")
+      Libs.`zacSweers-auto-service-ksp`
     )
   }
 }

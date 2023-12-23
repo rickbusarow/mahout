@@ -21,7 +21,6 @@ import org.gradle.api.Project
 import org.gradle.api.publish.maven.tasks.AbstractPublishToMaven
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 
-@Suppress("UndocumentedPublicClass")
 public abstract class CuratorPlugin : Plugin<Project> {
 
   override fun apply(target: Project) {
@@ -31,7 +30,7 @@ public abstract class CuratorPlugin : Plugin<Project> {
     target.tasks.register("curatorDump", CuratorDumpTask::class.java)
     val artifactsCheck = target.tasks.register("curatorCheck", CuratorCheckTask::class.java)
 
-    target.plugins.apply("base")
+    target.plugins.apply(LifecycleBasePlugin::class.java)
 
     target.tasks.named(LifecycleBasePlugin.CHECK_TASK_NAME) { task ->
       task.dependsOn(artifactsCheck)

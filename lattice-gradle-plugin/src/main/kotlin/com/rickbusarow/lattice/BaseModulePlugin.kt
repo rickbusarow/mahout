@@ -19,11 +19,12 @@ import com.rickbusarow.lattice.conventions.CheckPlugin
 import com.rickbusarow.lattice.conventions.CleanPlugin
 import com.rickbusarow.lattice.conventions.DependencyGuardConventionPlugin
 import com.rickbusarow.lattice.conventions.DetektConventionPlugin
-import com.rickbusarow.lattice.conventions.DokkatooConventionPlugin
 import com.rickbusarow.lattice.conventions.KotlinJvmConventionPlugin
 import com.rickbusarow.lattice.conventions.KotlinMultiplatformConventionPlugin
 import com.rickbusarow.lattice.conventions.KtLintConventionPlugin
 import com.rickbusarow.lattice.conventions.TestConventionPlugin
+import com.rickbusarow.lattice.dokka.DokkatooConventionPlugin
+import com.rickbusarow.lattice.publishing.LatticePublishPlugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -31,6 +32,7 @@ import org.gradle.api.Project
 public abstract class BaseModulePlugin : Plugin<Project> {
   override fun apply(target: Project) {
 
+    target.plugins.apply(LatticePublishPlugin::class.java)
     target.plugins.apply(CheckPlugin::class.java)
     target.plugins.apply(CleanPlugin::class.java)
     target.plugins.apply(DependencyGuardConventionPlugin::class.java)
@@ -41,11 +43,23 @@ public abstract class BaseModulePlugin : Plugin<Project> {
   }
 }
 
+/** Applies conventions to any kotlin-jvm and `java-gradle-plugin` project. */
+public abstract class GradlePluginModulePlugin : BaseModulePlugin() {
+  override fun apply(target: Project) {
+
+    target.extensions.create("lattice", GradlePluginModuleExtension::class.java)
+
+    target.plugins.apply(KotlinJvmConventionPlugin::class.java)
+
+    super.apply(target)
+  }
+}
+
 /** Applies conventions to any kotlin-jvm project. */
 public abstract class KotlinJvmModulePlugin : BaseModulePlugin() {
   override fun apply(target: Project) {
 
-    target.extensions.create("jvmModule", KotlinJvmModuleExtension::class.java)
+    target.extensions.create("lattice", KotlinJvmModuleExtension::class.java)
 
     target.plugins.apply(KotlinJvmConventionPlugin::class.java)
 
@@ -57,7 +71,7 @@ public abstract class KotlinJvmModulePlugin : BaseModulePlugin() {
 public abstract class KotlinMultiplatformModulePlugin : BaseModulePlugin() {
   override fun apply(target: Project) {
 
-    target.extensions.create("kmpModule", KotlinMultiplatformModuleExtension::class.java)
+    target.extensions.create("lattice", KotlinMultiplatformModuleExtension::class.java)
 
     target.plugins.apply(KotlinMultiplatformConventionPlugin::class.java)
 

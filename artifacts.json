@@ -1,0 +1,47 @@
+[
+  {
+    "gradlePath": ":lattice-gradle-plugin",
+    "group": "com.rickbusarow.lattice.java-gradle-plugin",
+    "artifactId": "com.rickbusarow.lattice.java-gradle-plugin.gradle.plugin",
+    "description": "Convention plugin for a java-gradle-plugin project",
+    "packaging": "pom",
+    "javaVersion": "11",
+    "publicationName": "java-gradle-pluginPluginMarkerMaven"
+  },
+  {
+    "gradlePath": ":lattice-gradle-plugin",
+    "group": "com.rickbusarow.lattice.kotlin-jvm",
+    "artifactId": "com.rickbusarow.lattice.kotlin-jvm.gradle.plugin",
+    "description": "Convention plugin for a Kotlin JVM project",
+    "packaging": "pom",
+    "javaVersion": "11",
+    "publicationName": "jvmPluginMarkerMaven"
+  },
+  {
+    "gradlePath": ":lattice-gradle-plugin",
+    "group": "com.rickbusarow.lattice.kotlin-multiplatform",
+    "artifactId": "com.rickbusarow.lattice.kotlin-multiplatform.gradle.plugin",
+    "description": "Convention plugin for a Kotlin Multiplatform project",
+    "packaging": "pom",
+    "javaVersion": "11",
+    "publicationName": "kmpPluginMarkerMaven"
+  },
+  {
+    "gradlePath": ":lattice-gradle-plugin",
+    "group": "lattice",
+    "artifactId": "lattice-gradle-plugin",
+    "description": "Convention plugins for Gradle builds",
+    "packaging": "jar",
+    "javaVersion": "11",
+    "publicationName": "pluginMaven"
+  },
+  {
+    "gradlePath": ":lattice-gradle-plugin",
+    "group": "com.rickbusarow.lattice.root",
+    "artifactId": "com.rickbusarow.lattice.root.gradle.plugin",
+    "description": "Convention plugin for the root project of a multi-module build",
+    "packaging": "pom",
+    "javaVersion": "11",
+    "publicationName": "rootPluginMarkerMaven"
+  }
+]

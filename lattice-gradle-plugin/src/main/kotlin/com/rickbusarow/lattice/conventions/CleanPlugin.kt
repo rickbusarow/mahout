@@ -25,7 +25,6 @@ import org.gradle.api.tasks.SourceTask
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 import java.io.File
 
-@Suppress("UndocumentedPublicClass")
 public abstract class CleanPlugin : Plugin<Project> {
   override fun apply(target: Project) {
 
@@ -34,12 +33,15 @@ public abstract class CleanPlugin : Plugin<Project> {
     val deleteEmptyDirs = target.tasks
       .register("deleteEmptyDirs", Delete::class.java) { task ->
         task.description = "Delete all empty directories within a project."
+
+        val subprojectDirs = target.subprojects
+          .mapTo(mutableSetOf()) { it.projectDir.absolutePath }
+
+        val projectDir = target.projectDir
+
         task.doLast { _ ->
 
-          val subprojectDirs = target.subprojects
-            .map { it.projectDir.path }
-
-          target.projectDir.walkBottomUp()
+          projectDir.walkBottomUp()
             .filter { it.isDirectory }
             .filterNot { dir -> subprojectDirs.any { dir.path.startsWith(it) } }
             .filterNot { it.path.contains(".gradle") }
@@ -55,8 +57,11 @@ public abstract class CleanPlugin : Plugin<Project> {
 
     target.tasks.register("cleanGradle", SourceTask::class.java) { task ->
       task.source(".gradle")
+
+      val projectDir = target.projectDir
+
       task.doLast { _ ->
-        target.projectDir.walkBottomUp()
+        projectDir.walkBottomUp()
           .filter { it.isDirectory }
           .filter { it.path.contains(".gradle") }
           .all { it.deleteRecursively() }
@@ -76,11 +81,12 @@ public abstract class CleanPlugin : Plugin<Project> {
             append("without an associated Gradle project.")
           }
 
+          val websiteBuildDir = "${target.rootDir}/website/node_modules"
+          val projectDir = target.projectDir
+
           task.doLast { _ ->
 
-            val websiteBuildDir = "${target.rootDir}/website/node_modules"
-
-            target.projectDir.walkBottomUp()
+            projectDir.walkBottomUp()
               .filterNot { it.path.contains(".git") }
               .filterNot { it.path.startsWith(websiteBuildDir) }
               .filter { it.isOrphanedBuildOrGradleDir() || it.isOrphanedGradleProperties() }

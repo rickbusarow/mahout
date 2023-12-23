@@ -21,7 +21,6 @@ import com.rickbusarow.kgx.checkProjectIsRoot
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-@Suppress("UndocumentedPublicClass")
 public abstract class BenManesVersionsPlugin : Plugin<Project> {
 
   override fun apply(target: Project) {
