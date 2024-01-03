@@ -40,7 +40,7 @@ com.rickbusarow.doks:doks-gradle-plugin:0.1.4
 com.rickbusarow.githubreleasepluginfork:github-release:2.5.2
 com.rickbusarow.kgx:kotlin-gradle-extensions:0.1.9
 com.rickbusarow.kgx:names:0.1.9
-com.rickbusarow.ktlint:ktlint-gradle-plugin:0.2.1
+com.rickbusarow.ktlint:ktlint-gradle-plugin:0.2.2
 com.rickbusarow.modulecheck:modulecheck-api:0.12.5
 com.rickbusarow.modulecheck:modulecheck-config-api:0.12.5
 com.rickbusarow.modulecheck:modulecheck-core:0.12.5
