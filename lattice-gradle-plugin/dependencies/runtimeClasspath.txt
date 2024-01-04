@@ -97,9 +97,9 @@ com.vanniktech:nexus:0.26.0
 commons-codec:commons-codec:1.16.0
 commons-io:commons-io:2.13.0
 dev.adamko.dokkatoo:dokkatoo-plugin:2.0.0
-dev.drewhamilton.poko:poko-annotations-jvm:0.15.1
-dev.drewhamilton.poko:poko-annotations:0.15.1
-dev.drewhamilton.poko:poko-gradle-plugin:0.15.1
+dev.drewhamilton.poko:poko-annotations-jvm:0.15.2
+dev.drewhamilton.poko:poko-annotations:0.15.2
+dev.drewhamilton.poko:poko-gradle-plugin:0.15.2
 dev.equo.ide:solstice:1.7.4
 guru.nidi:graphviz-java-min-deps:0.18.1
 guru.nidi:graphviz-java:0.18.1
