@@ -92,8 +92,8 @@ com.squareup.okio:okio-jvm:3.6.0
 com.squareup.okio:okio:3.6.0
 com.squareup.retrofit2:converter-moshi:2.9.0
 com.squareup.retrofit2:retrofit:2.9.0
-com.vanniktech:gradle-maven-publish-plugin:0.26.0
-com.vanniktech:nexus:0.26.0
+com.vanniktech:gradle-maven-publish-plugin:0.27.0
+com.vanniktech:nexus:0.27.0
 commons-codec:commons-codec:1.16.0
 commons-io:commons-io:2.13.0
 dev.adamko.dokkatoo:dokkatoo-plugin:2.0.0
