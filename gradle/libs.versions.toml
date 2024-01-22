@@ -3,7 +3,7 @@
 kotlin = "1.9.22"
 poko = "0.15.2"
 
-benManes-versions = "0.50.0"
+benManes-versions = "0.51.0"
 buildconfig = "5.3.5"
 dependencyAnalysis = "1.29.0"
 detekt = "1.23.4"
