@@ -94,7 +94,7 @@ jobs:
           cache-read-only: false
 
       # If KtLint generated changes, commit and push those changes.
-      - name: commit changes (used by main repo)
+      - name: commit KtLint changes (used by main repo)
         if: github.event.repository.fork == false
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
@@ -108,6 +108,28 @@ jobs:
           arguments: ktlintCheck
           cache-read-only: false
 
+      - name: Spotless format (used by main repo)
+        if: github.event.repository.fork == false
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: SpotlessApply
+          cache-read-only: false
+
+      # If Spotless generated changes, commit and push those changes.
+      - name: commit Spotless changes (used by main repo)
+        if: github.event.repository.fork == false
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Apply Spotless format
+          commit_options: "--no-verify --signoff"
+
+      - name: Spotless check (used by forks)
+        if: github.event.repository.fork == true
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: SpotlessCheck
+          cache-read-only: false
+
       - name: Doks update (used by main repo)
         if: github.event.repository.fork == false
         uses: gradle/gradle-build-action@v2
@@ -116,7 +138,7 @@ jobs:
           cache-read-only: false
 
       # If Doks generated changes, commit and push those changes.
-      - name: commit changes (used by main repo)
+      - name: commit Doks changes (used by main repo)
         if: github.event.repository.fork == false
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
@@ -138,7 +160,7 @@ jobs:
           cache-read-only: false
 
       # If ModuleCheck generated changes, commit and push those changes.
-      - name: commit changes (used by main repo)
+      - name: commit ModuleCheck changes (used by main repo)
         if: github.event.repository.fork == false
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
