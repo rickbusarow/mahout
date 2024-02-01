@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,7 +18,7 @@ package com.rickbusarow.lattice.conventions
 import com.rickbusarow.kgx.EagerGradleApi
 import com.rickbusarow.kgx.applyOnce
 import com.rickbusarow.kgx.matchingName
-import com.rickbusarow.lattice.core.LatticeTask
+import com.rickbusarow.lattice.api.DefaultLatticeTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.language.base.plugins.LifecycleBasePlugin
@@ -31,7 +31,7 @@ public abstract class CheckPlugin : Plugin<Project> {
 
     target.plugins.applyOnce("base")
 
-    val fix = target.tasks.register("fix", LatticeTask::class.java) { task ->
+    val fix = target.tasks.register("fix", DefaultLatticeTask::class.java) { task ->
 
       task.group = "Verification"
       task.description = "Runs all auto-fix linting tasks"
@@ -48,7 +48,7 @@ public abstract class CheckPlugin : Plugin<Project> {
     // This is a convenience task which applies all available fixes before running `check`. Each
     // of the fixable linters use `mustRunAfter` to ensure that their auto-fix task runs before their
     // check-only task.
-    target.tasks.register("checkFix", LatticeTask::class.java) { task ->
+    target.tasks.register("checkFix", DefaultLatticeTask::class.java) { task ->
 
       task.group = "Verification"
       task.description = "Runs all auto-fix linting tasks, then runs all of the normal :check task"

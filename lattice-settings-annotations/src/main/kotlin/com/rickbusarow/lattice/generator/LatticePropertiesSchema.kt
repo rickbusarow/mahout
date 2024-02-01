@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,12 +13,12 @@
  * limitations under the License.
  */
 
-package com.rickbusarow.lattice.core
+package com.rickbusarow.lattice.generator
 
-import org.gradle.api.DefaultTask
+/** */
+@Retention(AnnotationRetention.SOURCE)
+public annotation class LatticePropertiesSchema
 
-@Suppress("UndocumentedPublicClass")
-public abstract class LatticeTask : DefaultTask()
-
-@Suppress("UndocumentedPublicClass")
-public abstract class LatticeCodeGeneratorTask : LatticeTask()
+/** */
+@Retention(AnnotationRetention.SOURCE)
+public annotation class DelegateProperty(public vararg val names: String)

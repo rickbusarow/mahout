@@ -1,4 +1,3 @@
-com.coditory.gradle:integration-test-plugin:1.4.5
 com.diffplug.durian:durian-collect:1.2.0
 com.diffplug.durian:durian-core:1.2.0
 com.diffplug.durian:durian-io:1.2.0
@@ -17,6 +16,7 @@ com.fasterxml.jackson:jackson-bom:2.12.7
 com.fasterxml.woodstox:woodstox-core:6.2.4
 com.github.ben-manes.caffeine:caffeine:3.1.1
 com.github.ben-manes:gradle-versions-plugin:0.51.0
+com.github.breadmoirai:github-release:2.5.2
 com.github.javaparser:javaparser-core:3.24.2
 com.github.javaparser:javaparser-symbol-solver-core:3.24.2
 com.github.johnrengelman:shadow:8.1.1
@@ -30,13 +30,8 @@ com.google.j2objc:j2objc-annotations:1.3
 com.googlecode.concurrent-trees:concurrent-trees:2.6.1
 com.googlecode.javaewah:JavaEWAH:1.2.3
 com.ibm.icu:icu4j:69.1
-com.jakewharton.crossword:crossword-jvm:0.3.0
-com.jakewharton.crossword:crossword:0.3.0
-com.jakewharton.picnic:picnic-jvm:0.7.0
-com.jakewharton.picnic:picnic:0.7.0
 com.rickbusarow.dispatch:dispatch-core:1.0.0-beta10
 com.rickbusarow.doks:doks-gradle-plugin:0.1.4
-com.rickbusarow.githubreleasepluginfork:github-release:2.5.2
 com.rickbusarow.kgx:kotlin-gradle-extensions:0.1.11
 com.rickbusarow.kgx:names:0.1.11
 com.rickbusarow.ktlint:ktlint-gradle-plugin:0.2.2

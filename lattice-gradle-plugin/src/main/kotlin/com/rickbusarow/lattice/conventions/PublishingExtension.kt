@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,10 +16,10 @@
 package com.rickbusarow.lattice.conventions
 
 import com.rickbusarow.kgx.registerOnce
+import com.rickbusarow.lattice.api.LatticeTask
+import com.rickbusarow.lattice.config.latticeProperties
 import com.rickbusarow.lattice.core.GITHUB_OWNER
 import com.rickbusarow.lattice.core.GITHUB_OWNER_REPO
-import com.rickbusarow.lattice.core.GROUP
-import com.rickbusarow.lattice.core.LatticeTask
 import com.rickbusarow.lattice.core.VERSION_NAME
 import com.vanniktech.maven.publish.GradlePlugin
 import com.vanniktech.maven.publish.JavadocJar.Dokka
@@ -41,7 +41,7 @@ public interface PublishingExtension {
   @Suppress("UndocumentedPublicFunction")
   public fun Project.published(artifactId: String, pomDescription: String) {
     published(
-      groupId = GROUP,
+      groupId = latticeProperties.group.get(),
       artifactId = artifactId,
       pomDescription = pomDescription
     )
