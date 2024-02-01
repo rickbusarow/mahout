@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,8 +13,9 @@
  * limitations under the License.
  */
 
-package com.rickbusarow.lattice.core
+package com.rickbusarow.lattice.core.stdlib
 
+import com.rickbusarow.lattice.core.InternalLatticeApi
 import java.io.File
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
@@ -36,7 +37,8 @@ import java.util.zip.ZipFile
  *   File for [relativePath], or `null` if it could not be resolved
  * @see resolveInParent for a version which throws if nothing is resolved
  */
-internal fun File.resolveInParentOrNull(relativePath: String): File? {
+@InternalLatticeApi
+public fun File.resolveInParentOrNull(relativePath: String): File? {
   return resolve(relativePath).existsOrNull()
     ?: parentFile?.resolveInParentOrNull(relativePath)
 }
@@ -47,7 +49,8 @@ internal fun File.resolveInParentOrNull(relativePath: String): File? {
  * @see resolveInParentOrNull for a nullable, non-throwing variant
  * @throws IllegalArgumentException if a file cannot be resolved
  */
-internal fun File.resolveInParent(relativePath: String): File {
+@InternalLatticeApi
+public fun File.resolveInParent(relativePath: String): File {
   return requireNotNull(resolveInParentOrNull(relativePath)) {
     "Could not resolve a file with relative path in any parent paths.\n" +
       "\t       relative path: $relativePath\n" +
@@ -56,16 +59,17 @@ internal fun File.resolveInParent(relativePath: String): File {
 }
 
 /** @return the receiver [File] if it exists in the file system, otherwise null */
-internal fun File.existsOrNull(): File? = takeIf { it.exists() }
+@InternalLatticeApi
+public fun File.existsOrNull(): File? = takeIf { it.exists() }
 
 /**
  * @return true if the receiver [File] is a directory with
  *   at least one child file which satisfies [childPredicate]
  */
-internal fun File.isDirectoryWithFiles(
+@InternalLatticeApi
+public fun File.isDirectoryWithFiles(
   childPredicate: (File) -> Boolean = { it.exists() }
-): Boolean =
-  !isFile && listFiles()?.any(childPredicate) == true
+): Boolean = !isFile && listFiles()?.any(childPredicate) == true
 
 /**
  * Returns true if the receiver [File] is `/build/` or `/.gradle/`, but
@@ -75,7 +79,8 @@ internal fun File.isDirectoryWithFiles(
  * with different module structures. Since `build` and `.gradle` directories
  * are ignored in git, they'll stick around after a branch switch.
  */
-internal fun File.isOrphanedBuildOrGradleDir(): Boolean {
+@InternalLatticeApi
+public fun File.isOrphanedBuildOrGradleDir(): Boolean {
   return when {
     !isDirectory -> false
     name != "build" && name != ".gradle" -> false
@@ -93,7 +98,8 @@ internal fun File.isOrphanedBuildOrGradleDir(): Boolean {
  * different module structures. Since all `gradle.properties` files except
  * the root are ignored in git, they'll stick around after a branch switch.
  */
-internal fun File.isOrphanedGradleProperties(): Boolean {
+@InternalLatticeApi
+public fun File.isOrphanedGradleProperties(): Boolean {
   return when {
     !isFile -> false
     name != "gradle.properties" -> false
@@ -106,7 +112,8 @@ internal fun File.isOrphanedGradleProperties(): Boolean {
  * Returns true if the receiver [File] is a directory which contains at least one of
  * `settings.gradle.kts`, `settings.gradle`, `build.gradle.kts`, or `build.gradle`.
  */
-internal fun File.hasGradleProjectFiles(): Boolean {
+@InternalLatticeApi
+public fun File.hasGradleProjectFiles(): Boolean {
   return when {
     !isDirectory -> false
     resolve("settings.gradle.kts").exists() -> true
@@ -119,7 +126,8 @@ internal fun File.hasGradleProjectFiles(): Boolean {
 
 /** Compares the contents of two zip files, ignoring metadata like timestamps. */
 @Suppress("NestedBlockDepth")
-internal fun File.zipContentEquals(other: File): Boolean {
+@InternalLatticeApi
+public fun File.zipContentEquals(other: File): Boolean {
 
   require(extension == "zip") { "This file is not a zip file: file://$path" }
   require(other.extension == "zip") { "This file is not a zip file: file://$other" }

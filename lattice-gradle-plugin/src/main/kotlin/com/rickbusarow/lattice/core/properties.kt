@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,63 +17,29 @@ package com.rickbusarow.lattice.core
 
 import com.rickbusarow.kgx.extras
 import com.rickbusarow.kgx.getOrPut
+import com.rickbusarow.lattice.config.latticeProperties
+import com.rickbusarow.lattice.config.url
 import org.gradle.api.Project
 
 /**  */
 public val Project.VERSION_NAME: String
-  get() = property("VERSION_NAME") as String
+  get() = latticeProperties.versionName.get()
 
 /**  */
 public val Project.versionIsSnapshot: Boolean
   get() = extras.getOrPut("versionIsSnapshot") { VERSION_NAME.endsWith("-SNAPSHOT") }
 
-/**  */
-public val Project.GROUP: String
-  get() = property("GROUP") as String
-
-/** "1.6", "1.7", "1.8", etc. */
-public val Project.KOTLIN_API: String
-  get() = property("KOTLIN_API") as String
-
 /** ex: `square` */
 public val Project.GITHUB_OWNER: String
-  get() = property("GITHUB_OWNER") as String
+  get() = latticeProperties.repository.github.owner.get()
 
 /** ex: `square/logcat` */
 public val Project.GITHUB_OWNER_REPO: String
-  get() = property("GITHUB_OWNER_REPO") as String
+  get() = latticeProperties.repository.github.repo.get()
 
 /** ex: `https://github.com/square/okio` */
 public val Project.GITHUB_REPOSITORY: String
-  get() = property("GITHUB_REPOSITORY") as String
-
-/**
- * the jdk used in packaging
- *
- * "1.6", "1.8", "11", etc.
- */
-public val Project.JVM_TARGET: String
-  get() = property("JVM_TARGET") as String
-
-/** `6`, `8`, `11`, etc. */
-public val Project.JVM_TARGET_INT: Int
-  get() = JVM_TARGET.substringAfterLast('.').toInt()
-
-/**
- * the jdk used to build the project
- *
- * "1.6", "1.8", "11", etc.
- */
-public val Project.JDK: String
-  get() = property("JDK") as String
-
-/**
- * the jdk used to build the project
- *
- * "1.6", "1.8", "11", etc.
- */
-internal val Project.JDK_INT: Int
-  get() = JDK.substringAfterLast('.').toInt()
+  get() = latticeProperties.repository.github.url.get()
 
 /**
  * Finds a property that's prefixed with the 'commonPrefix'

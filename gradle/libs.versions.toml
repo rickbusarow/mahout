@@ -18,7 +18,9 @@ google-auto-service = "1.1.1"
 gradle-plugin-publish = "1.2.1"
 gradlex-buildParameters = "1.4.3"
 integration-test = "1.4.5"
-jUnit = "5.10.1"
+jUnit5 = "5.10.1"
+jUnit-platform = "1.10.1"
+jUnit4 = "4.13.2"
 johnrengelman-shadow = "8.1.1"
 koin = "3.5.3"
 kotest = "5.8.0"
@@ -69,7 +71,7 @@ vanniktech-publish = { id = "com.vanniktech.maven.publish", version.ref = "vanni
 
 benManes-versions = { module = "com.github.ben-manes:gradle-versions-plugin", version.ref = "benManes-versions" }
 
-breadmoirai-github-release = { module = "com.rickbusarow.githubreleasepluginfork:github-release", version.ref = "breadmoirai-github-release" }
+breadmoirai-github-release = { module = "com.github.breadmoirai:github-release", version.ref = "breadmoirai-github-release" }
 
 buildconfig = { module = "com.github.gmazzo:gradle-buildconfig-plugin", version.ref = "buildconfig" }
 
@@ -90,6 +92,10 @@ dokka-versioning = { module = "org.jetbrains.dokka:versioning-plugin", version.r
 
 dokkatoo-plugin = { module = "dev.adamko.dokkatoo:dokkatoo-plugin", version.ref = "dokkatoo" }
 
+drewHamilton-poko-annotations = { module = "dev.drewhamilton.poko:poko-annotations", version.ref = "drewHamilton-poko" }
+drewHamilton-poko-compiler = { module = "dev.drewhamilton.poko:poko-compiler-plugin", version.ref = "drewHamilton-poko" }
+drewHamilton-poko-gradle-plugin = { module = "dev.drewhamilton.poko:poko-gradle-plugin", version.ref = "drewHamilton-poko" }
+
 dropbox-dependencyGuard = { module = "com.dropbox.dependency-guard:dependency-guard", version.ref = "dropbox-dependencyGuard" }
 
 ec4j-core = { module = "org.ec4j.core:ec4j-core", version.ref = "ec4j" }
@@ -102,10 +108,16 @@ integration-test = { module = "com.coditory.gradle:integration-test-plugin", ver
 
 johnrengelman-shadowJar = { module = "com.github.johnrengelman:shadow", version.ref = "johnrengelman-shadow" }
 
-junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "jUnit" }
-junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "jUnit" }
-junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "jUnit" }
-junit-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "jUnit" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "jUnit5" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "jUnit5" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "jUnit5" }
+junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "jUnit5" }
+junit-platform-suite = { module = "org.junit.platform:junit-platform-suite", version.ref = "jUnit-platform" }
+junit-platform-suite-api = { module = "org.junit.platform:junit-platform-suite-api", version.ref = "jUnit-platform" }
+junit-platform-suite-engine = { module = "org.junit.platform:junit-platform-suite-engine", version.ref = "jUnit-platform" }
+junit-vintage-engine = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "jUnit5" }
+
+junit4 = { module = "junit:junit", version.ref = "jUnit4" }
 
 kase = { module = "com.rickbusarow.kase:kase", version.ref = "rickBusarow-kase" }
 kase-gradle = { module = "com.rickbusarow.kase:kase-gradle", version.ref = "rickBusarow-kase" }
@@ -152,19 +164,16 @@ ksp-gradle-plugin = { module = "com.google.devtools.ksp:symbol-processing-gradle
 
 picnic = { module = "com.jakewharton.picnic:picnic", version.ref = "picnic" }
 
-drewHamilton-poko-annotations = { module = "dev.drewhamilton.poko:poko-annotations", version.ref = "drewHamilton-poko" }
-drewHamilton-poko-compiler = { module = "dev.drewhamilton.poko:poko-compiler-plugin", version.ref = "drewHamilton-poko" }
-drewHamilton-poko-gradle-plugin = { module = "dev.drewhamilton.poko:poko-gradle-plugin", version.ref = "drewHamilton-poko" }
-
 rickBusarow-doks = { module = "com.rickbusarow.doks:doks-gradle-plugin", version.ref = "rickBusarow-doks" }
-rickBusarow-kgx-names = { module = "com.rickbusarow.kgx:names", version.ref = "rickBusarow-kgx" }
 rickBusarow-kgx = { module = "com.rickbusarow.kgx:kotlin-gradle-extensions", version.ref = "rickBusarow-kgx" }
+rickBusarow-kgx-names = { module = "com.rickbusarow.kgx:names", version.ref = "rickBusarow-kgx" }
 rickBusarow-ktlint = { module = "com.rickbusarow.ktlint:ktlint-gradle-plugin", version.ref = "rickBusarow-ktlint" }
 rickBusarow-ktrules = { module = "com.rickbusarow.ktrules:ktrules", version.ref = "rickBusarow-ktrules" }
 rickBusarow-moduleCheck-gradle-plugin = { module = "com.rickbusarow.modulecheck:plugin", version.ref = "rickBusarow-moduleCheck" }
 
 square-kotlinPoet = { module = "com.squareup:kotlinpoet", version.ref = "square-kotlinPoet" }
 square-kotlinPoet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "square-kotlinPoet" }
+
 square-okio = { module = "com.squareup.okio:okio", version.ref = "square-okio" }
 
 vanniktech-publish-nexus = { module = "com.vanniktech:nexus", version.ref = "vanniktech-publish" }
@@ -172,12 +181,13 @@ vanniktech-publish-plugin = { module = "com.vanniktech:gradle-maven-publish-plug
 
 zacSweers-auto-service-ksp = "dev.zacsweers.autoservice:auto-service-ksp:1.1.0"
 
+
 [bundles]
 jUnit = [
-  "junit-engine",
   "junit-jupiter",
   "junit-jupiter-api",
-  "junit-params",
+  "junit-jupiter-engine",
+  "junit-jupiter-params",
 ]
 kotest = [
   "kotest-assertions-api",

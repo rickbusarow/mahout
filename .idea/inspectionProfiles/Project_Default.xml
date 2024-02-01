@@ -1,0 +1,36 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="398d6832-20cd-387f-b5dd-1548cac4b477" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="ClassName" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <scope name="Tests" level="WEAK WARNING" enabled="false" />
+    </inspection_tool>
+    <inspection_tool class="CustomRegExpInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myConfigurations">
+        <list>
+          <RegExpInspectionConfiguration>
+            <option name="cleanup" value="true" />
+            <option name="description" value="If a KDoc comment spans multiple lines, the closing tag must be on its own line." />
+            <option name="name" value="Misplaced multi-line KDoc closing tag" />
+            <option name="problemDescriptor" value="Misplaced multi-line KDoc closing tag" />
+            <option name="suppressId" value="misplaced_multi_line_kdoc_closing_tag" />
+            <option name="uuid" value="398d6832-20cd-387f-b5dd-1548cac4b477" />
+            <option name="patterns">
+              <list>
+                <InspectionPattern>
+                  <option name="regExp" value="(\/\*\* *\n)( *)(\*[\s\S]*(?=\*\/))(\*\/)" />
+                  <option name="_fileType" value="Kotlin" />
+                  <option name="searchContext" value="IN_COMMENTS" />
+                  <option name="replacement" value="$1$2$3&#10;$2$4" />
+                </InspectionPattern>
+              </list>
+            </option>
+          </RegExpInspectionConfiguration>
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="RemoveRedundantBackticks" enabled="true" level="WARNING" enabled_by_default="true">
+      <scope name="Tests" level="WARNING" enabled="false" editorAttributes="WARNING_ATTRIBUTES" />
+    </inspection_tool>
+  </profile>
+</component>

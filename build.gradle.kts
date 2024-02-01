@@ -14,7 +14,13 @@
  */
 
 import com.rickbusarow.kgx.withBuildInitPlugin
+import com.rickbusarow.kgx.withKotlinJvmPlugin
+import com.rickbusarow.lattice.core.InternalLatticeApi
 import com.rickbusarow.lattice.core.VERSION_NAME
+import com.rickbusarow.lattice.core.gradle.addTasksToStartParameter
+import org.gradle.plugins.ide.idea.model.IdeaModel
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
+import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 
 plugins {
   alias(libs.plugins.poko) apply false
@@ -35,6 +41,34 @@ moduleCheck {
 lattice {
 
   composite {
+  }
+
+  @OptIn(InternalLatticeApi::class)
+  addTasksToStartParameter(
+    ":lattice-gradle-plugin:generateBuildConfig",
+    ":lattice-gradle-plugin:kspKotlin"
+  )
+}
+
+subprojects sub@{
+  val sub = this@sub
+  sub.layout.buildDirectory.set(sub.file("build/root"))
+
+  sub.plugins.apply("idea")
+  sub.extensions.configure(IdeaModel::class) {
+    module {
+      generatedSourceDirs.add(sub.file("build"))
+      excludeDirs = excludeDirs + sub.file("build")
+    }
+  }
+
+  if (!sub.name.startsWith("lattice-settings-")) {
+    sub.plugins.withKotlinJvmPlugin {
+      (sub.kotlinExtension as KotlinJvmProjectExtension)
+        .compilerOptions
+        .optIn
+        .add("com.rickbusarow.lattice.core.InternalLatticeApi")
+    }
   }
 }
 

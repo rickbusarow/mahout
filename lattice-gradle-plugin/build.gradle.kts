@@ -13,15 +13,49 @@
  * limitations under the License.
  */
 
+import com.rickbusarow.kgx.library
+import com.rickbusarow.kgx.libsCatalog
+import com.rickbusarow.kgx.pluginId
+import com.rickbusarow.kgx.version
+
 plugins {
   `java-gradle-plugin`
   alias(libs.plugins.kotlin.jvm)
   alias(libs.plugins.kotlin.serialization)
+  alias(libs.plugins.ksp)
   alias(libs.plugins.poko)
+  alias(libs.plugins.buildconfig)
 }
 
 if (rootProject.name == "lattice") {
   apply(plugin = "com.rickbusarow.lattice.jvm-module")
+}
+
+buildConfig {
+  packageName.set("com.rickbusarow.lattice")
+  useKotlinOutput {
+    internalVisibility = true
+  }
+
+  listOf<Triple<String, List<String>, (String) -> String>>(
+    Triple("Versions", libsCatalog.versionAliases) { libsCatalog.version(it) },
+    Triple("PluginIds", libsCatalog.pluginAliases) { libsCatalog.pluginId(it) },
+    Triple("Libs", libsCatalog.libraryAliases) { libsCatalog.library(it).get().toString() },
+    Triple("Modules", libsCatalog.libraryAliases) {
+      libsCatalog.library(it).get().module.toString()
+    }
+  )
+    .forEach { (className, aliases, value) ->
+      forClass(packageName = "com.rickbusarow.lattice.deps", className = className) {
+        for (alias in aliases) {
+          buildConfigField(alias.replace('.', '-'), value(alias))
+        }
+      }
+    }
+}
+
+kotlin {
+  explicitApi()
 }
 
 gradlePlugin {
@@ -73,7 +107,12 @@ gradlePlugin {
 
 dependencies {
 
+  api(project(":lattice-api"))
+  api(project(":lattice-core"))
+
   compileOnly(gradleApi())
+
+  compileOnly(project(":lattice-settings-annotations"))
 
   implementation(libs.benManes.versions)
   implementation(libs.breadmoirai.github.release)
@@ -86,16 +125,12 @@ dependencies {
   implementation(libs.drewHamilton.poko.gradle.plugin)
   implementation(libs.dropbox.dependencyGuard)
   implementation(libs.ec4j.core)
-  implementation(libs.integration.test) {
-    exclude(group = "org.jetbrains.kotlin")
-  }
   implementation(libs.johnrengelman.shadowJar)
   implementation(libs.kotlin.gradle.plugin)
   implementation(libs.kotlin.gradle.plugin.api)
   implementation(libs.kotlin.reflect)
   implementation(libs.kotlinx.binaryCompatibility)
   implementation(libs.kotlinx.serialization.json)
-  implementation(libs.picnic)
   implementation(libs.rickBusarow.doks)
   implementation(libs.rickBusarow.kgx)
   implementation(libs.rickBusarow.ktlint)
@@ -103,4 +138,15 @@ dependencies {
     exclude(group = "org.jetbrains.kotlin")
   }
   implementation(libs.vanniktech.publish.plugin)
+
+  ksp(project(":lattice-settings-generator"))
+
+  testImplementation(libs.junit.jupiter)
+  testImplementation(libs.junit.jupiter.api)
+  testImplementation(libs.junit.jupiter.engine)
+  testImplementation(libs.junit.jupiter.params)
+  testImplementation(libs.kase)
+  testImplementation(libs.kotest.assertions.api)
+  testImplementation(libs.kotest.assertions.core.jvm)
+  testImplementation(libs.kotest.assertions.shared)
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -22,12 +22,12 @@ import com.rickbusarow.kgx.libsCatalog
 import com.rickbusarow.kgx.projectDependency
 import com.rickbusarow.kgx.version
 import com.rickbusarow.ktlint.KtLintTask
+import com.rickbusarow.lattice.api.LatticeTask
+import com.rickbusarow.lattice.config.jvmTargetInt
+import com.rickbusarow.lattice.config.latticeProperties
 import com.rickbusarow.lattice.core.GITHUB_REPOSITORY
-import com.rickbusarow.lattice.core.JVM_TARGET_INT
-import com.rickbusarow.lattice.core.KOTLIN_API
-import com.rickbusarow.lattice.core.LatticeTask
-import com.rickbusarow.lattice.core.SEMVER_REGEX
 import com.rickbusarow.lattice.core.VERSION_NAME
+import com.rickbusarow.lattice.core.stdlib.SEMVER_REGEX
 import com.vanniktech.maven.publish.tasks.JavadocJar
 import dev.adamko.dokkatoo.DokkatooExtension
 import dev.adamko.dokkatoo.dokka.plugins.DokkaVersioningPluginParameters
@@ -63,8 +63,8 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
           dev.adamko.dokkatoo.dokka.parameters.VisibilityModifier.PUBLIC
         )
 
-        sourceSet.languageVersion.set(target.KOTLIN_API)
-        sourceSet.jdkVersion.set(target.JVM_TARGET_INT)
+        sourceSet.languageVersion.set(target.latticeProperties.kotlin.apiLevel)
+        sourceSet.jdkVersion.set(target.latticeProperties.java.jvmTargetInt)
 
         // include all project sources when resolving kdoc samples
         sourceSet.samples.setFrom(target.fileTree(target.file("src")))
@@ -185,6 +185,7 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
       )
     }
   }
+
   internal companion object {
     internal const val DOKKATOO_HTML_TASK_NAME = "dokkatooGeneratePublicationHtml"
   }

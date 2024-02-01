@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,7 +18,7 @@ package com.rickbusarow.lattice
 import com.rickbusarow.kgx.checkProjectIsRoot
 import com.rickbusarow.kgx.internal.InternalGradleApiAccess
 import com.rickbusarow.kgx.internal.allIncludedProjects
-import com.rickbusarow.lattice.core.splitInclusive
+import com.rickbusarow.lattice.core.stdlib.splitInclusive
 import modulecheck.utils.mapToSet
 import org.gradle.api.Action
 import org.gradle.api.Plugin

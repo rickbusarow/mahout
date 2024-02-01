@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,9 +18,9 @@ package com.rickbusarow.lattice.conventions
 import com.github.breadmoirai.githubreleaseplugin.GithubReleaseExtension
 import com.github.breadmoirai.githubreleaseplugin.GithubReleasePlugin
 import com.rickbusarow.kgx.applyOnce
-import com.rickbusarow.lattice.core.SEMVER_REGEX
 import com.rickbusarow.lattice.core.VERSION_NAME
-import com.rickbusarow.lattice.core.splitInclusive
+import com.rickbusarow.lattice.core.stdlib.SEMVER_REGEX
+import com.rickbusarow.lattice.core.stdlib.splitInclusive
 import com.rickbusarow.lattice.core.versionIsSnapshot
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
