@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -21,7 +21,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 buildscript {
   dependencies {
     classpath(libs.kotlin.gradle.plugin)
-    classpath(libs.vanniktech.publish)
+    classpath(libs.vanniktech.publish.plugin)
     classpath(libs.rickBusarow.kgx)
   }
 }
@@ -29,7 +29,7 @@ buildscript {
 plugins {
   alias(libs.plugins.kotlin.jvm) apply false
   alias(libs.plugins.kotlin.serialization) apply false
-  alias(libs.plugins.ktlint)
+  alias(libs.plugins.rickBusarow.ktlint)
   base
 }
 
