@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,13 +13,16 @@
  * limitations under the License.
  */
 
+import com.rickbusarow.kgx.withBuildInitPlugin
+import com.rickbusarow.lattice.core.VERSION_NAME
+
 plugins {
   alias(libs.plugins.poko) apply false
   alias(libs.plugins.kotlin.jvm) apply false
   alias(libs.plugins.kotlin.serialization) apply false
-  alias(libs.plugins.ktlint) apply false
-  alias(libs.plugins.doks)
-  alias(libs.plugins.moduleCheck)
+  alias(libs.plugins.rickBusarow.ktlint) apply false
+  alias(libs.plugins.rickBusarow.doks)
+  alias(libs.plugins.rickBusarow.moduleCheck)
   id("com.rickbusarow.lattice.jvm-module") apply false
   id("com.rickbusarow.lattice.root")
 }
@@ -35,29 +38,15 @@ lattice {
   }
 }
 
-val ktlintPluginId = libs.plugins.ktlint.get().pluginId
-
 allprojects ap@{
-  version = property("VERSION_NAME") as String
 
-  val innerProject = this@ap
+  version = VERSION_NAME
 
-  apply(plugin = ktlintPluginId)
+  this@ap.plugins.withBuildInitPlugin {
+    apply(plugin = libs.plugins.rickBusarow.ktlint.get().pluginId)
 
-  dependencies {
-    "ktlint"(rootProject.libs.rickBusarow.ktrules)
+    dependencies {
+      "ktlint"(rootProject.libs.rickBusarow.ktrules)
+    }
   }
-
-  // if (innerProject != rootProject) {
-  //   rootProject.tasks.named("ktlintCheck") {
-  //     dependsOn(innerProject.tasks.named("ktlintCheck"))
-  //   }
-  //   rootProject.tasks.named("ktlintFormat") {
-  //     dependsOn(innerProject.tasks.named("ktlintFormat"))
-  //   }
-  // }
-}
-
-tasks.named("clean") {
-  dependsOn(gradle.includedBuild("build-logic").task(":clean"))
 }
