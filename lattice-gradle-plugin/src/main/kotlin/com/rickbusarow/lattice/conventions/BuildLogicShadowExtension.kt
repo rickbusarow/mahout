@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,6 +25,7 @@ import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import javax.inject.Inject
 
+/** */
 public interface BuildLogicShadowExtensionHook {
 
   // val shadow: BuildLogicShadowExtension
@@ -49,6 +50,7 @@ public interface BuildLogicShadowExtensionHook {
   // )
 }
 
+/** */
 public abstract class BuildLogicShadowExtension @Inject constructor(
   objects: ObjectFactory
 ) {

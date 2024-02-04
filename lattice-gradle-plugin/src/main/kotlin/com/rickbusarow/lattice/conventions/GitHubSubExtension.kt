@@ -28,9 +28,13 @@ import org.gradle.api.reflect.TypeOf
 import org.gradle.api.reflect.TypeOf.typeOf
 import javax.inject.Inject
 
+/** */
 public interface HasGitHubSubExtension : java.io.Serializable {
+
+/** */
   public val github: GitHubSubExtension
 
+/** */
   public fun github(action: Action<in GitHubSubExtension>) {
     action.execute(github)
   }
@@ -43,15 +47,29 @@ internal abstract class DefaultHasGitHubSubExtension @Inject constructor(
   override val github: GitHubSubExtension by subExtension(DefaultGitHubSubExtension::class)
 }
 
+/** */
 public interface GitHubSubExtension : SubExtension<GitHubSubExtension> {
+
+/** */
   public val owner: Property<String>
+
+/** */
   public val repo: Property<String>
+
+/** */
   public val defaultBranch: Property<String>
+
+/** */
   public val url: Provider<String>
+
+/** */
   public val connection: Provider<String>
+
+/** */
   public val developerConnection: Provider<String>
 }
 
+/** */
 public abstract class DefaultGitHubSubExtension @Inject constructor(
   target: Project,
   objects: ObjectFactory

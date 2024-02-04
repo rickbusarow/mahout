@@ -25,8 +25,13 @@ import org.gradle.api.Project
 import org.gradle.api.model.ObjectFactory
 import javax.inject.Inject
 
+/** */
 public interface HasTasksSubExtension : java.io.Serializable {
+
+/** */
   public val tasks: TasksSubExtension
+
+/** */
   public fun tasks(action: Action<in TasksSubExtension>) {
     action.execute(tasks)
   }
@@ -38,6 +43,7 @@ internal abstract class DefaultHasTasksSubExtension @Inject constructor(
   override val tasks: TasksSubExtension by subExtension(DefaultTasksSubExtension::class)
 }
 
+/** */
 public interface TasksSubExtension : SubExtension<TasksSubExtension> {
 
   /**
@@ -47,6 +53,7 @@ public interface TasksSubExtension : SubExtension<TasksSubExtension> {
   public fun addTasksToIdeSync(vararg taskNames: String)
 }
 
+/** */
 public abstract class DefaultTasksSubExtension @Inject constructor(
   target: Project,
   objects: ObjectFactory

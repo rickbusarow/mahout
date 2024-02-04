@@ -24,7 +24,7 @@ public interface SubExtension<SELF : SubExtension<SELF>> :
   ExtensionAware,
   java.io.Serializable {
 
-  /** */
+/** */
   public fun configure(action: Action<in SELF>) {
     @Suppress("UNCHECKED_CAST")
     action.execute(this as SELF)
@@ -33,7 +33,8 @@ public interface SubExtension<SELF : SubExtension<SELF>> :
 
 /** */
 public interface HasObjectFactory {
-  /** */
+
+/** */
   public val objects: ObjectFactory
 }
 

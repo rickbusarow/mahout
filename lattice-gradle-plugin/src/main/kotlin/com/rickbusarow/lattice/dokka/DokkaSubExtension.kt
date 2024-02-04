@@ -27,10 +27,13 @@ import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
 import javax.inject.Inject
 
+/** */
 public interface HasDokkaSubExtension : java.io.Serializable {
 
+/** */
   public val dokka: DokkaSubExtension
 
+/** */
   public fun dokka(action: Action<in DokkaSubExtension>) {
     action.execute(dokka)
   }
@@ -43,13 +46,20 @@ internal abstract class DefaultHasDokkaSubExtension @Inject constructor(
   override val dokka: DokkaSubExtension by subExtension(DefaultDokkaSubExtension::class)
 }
 
+/** */
 public interface DokkaSubExtension : SubExtension<DokkaSubExtension> {
+
+/** */
   public val dokkaVersion: Property<String>
 
+/** */
   public val generateTaskWorkerMinHeapSize: Property<String>
+
+/** */
   public val generateTaskWorkerMaxHeapSize: Property<String>
 }
 
+/** */
 public abstract class DefaultDokkaSubExtension @Inject constructor(
   target: Project,
   objects: ObjectFactory

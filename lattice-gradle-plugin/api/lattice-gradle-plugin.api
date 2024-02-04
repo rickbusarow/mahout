@@ -66,7 +66,7 @@ public final class com/rickbusarow/lattice/HasTasksSubExtension$DefaultImpls {
 	public static fun tasks (Lcom/rickbusarow/lattice/HasTasksSubExtension;Lorg/gradle/api/Action;)V
 }
 
-public abstract class com/rickbusarow/lattice/KotlinJvmModuleExtension : com/rickbusarow/lattice/BaseLatticeExtension, com/rickbusarow/lattice/HasTasksSubExtension, com/rickbusarow/lattice/conventions/AutoServiceExtension, com/rickbusarow/lattice/conventions/BuildLogicShadowExtensionHook, com/rickbusarow/lattice/conventions/HasGitHubSubExtension, com/rickbusarow/lattice/conventions/HasJavaSubExtension, com/rickbusarow/lattice/conventions/HasKotlinJvmSubExtension, com/rickbusarow/lattice/conventions/KspExtension, com/rickbusarow/lattice/conventions/PokoExtension, com/rickbusarow/lattice/conventions/SerializationExtension, com/rickbusarow/lattice/dokka/HasDokkaSubExtension, com/rickbusarow/lattice/publishing/HasPublishingMavenSubExtension {
+public abstract class com/rickbusarow/lattice/KotlinJvmModuleExtension : com/rickbusarow/lattice/BaseLatticeExtension, com/rickbusarow/lattice/HasTasksSubExtension, com/rickbusarow/lattice/conventions/AutoServiceExtension, com/rickbusarow/lattice/conventions/BuildLogicShadowExtensionHook, com/rickbusarow/lattice/conventions/GradleTestsExtension, com/rickbusarow/lattice/conventions/HasGitHubSubExtension, com/rickbusarow/lattice/conventions/HasJavaSubExtension, com/rickbusarow/lattice/conventions/HasKotlinJvmSubExtension, com/rickbusarow/lattice/conventions/KspExtension, com/rickbusarow/lattice/conventions/PokoExtension, com/rickbusarow/lattice/conventions/SerializationExtension, com/rickbusarow/lattice/dokka/HasDokkaSubExtension, com/rickbusarow/lattice/publishing/HasPublishingMavenSubExtension {
 	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
 	public fun autoService (Lorg/gradle/api/Project;)V
 	public fun dokka (Lorg/gradle/api/Action;)V
@@ -78,6 +78,7 @@ public abstract class com/rickbusarow/lattice/KotlinJvmModuleExtension : com/ric
 	public fun getPublishing ()Lcom/rickbusarow/lattice/publishing/PublishingMavenSubExtension;
 	public fun getTasks ()Lcom/rickbusarow/lattice/TasksSubExtension;
 	public fun github (Lorg/gradle/api/Action;)V
+	public fun gradleTests (Lorg/gradle/api/Project;)V
 	public fun java (Lorg/gradle/api/Action;)V
 	public fun kotlin (Lorg/gradle/api/Action;)V
 	public fun ksp (Lorg/gradle/api/Project;)V
@@ -292,6 +293,7 @@ public abstract class com/rickbusarow/lattice/conventions/AbstractHasSubExtensio
 
 public abstract class com/rickbusarow/lattice/conventions/AbstractSubExtension : com/rickbusarow/lattice/core/SubExtensionInternal, org/gradle/api/model/ObjectFactory, org/gradle/api/plugins/ExtensionAware {
 	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun dependencyCollector ()Lorg/gradle/api/artifacts/dsl/DependencyCollector;
 	public fun directoryProperty ()Lorg/gradle/api/file/DirectoryProperty;
 	public fun domainObjectContainer (Ljava/lang/Class;)Lorg/gradle/api/NamedDomainObjectContainer;
 	public fun domainObjectContainer (Ljava/lang/Class;Lorg/gradle/api/NamedDomainObjectFactory;)Lorg/gradle/api/NamedDomainObjectContainer;
@@ -369,14 +371,6 @@ public abstract class com/rickbusarow/lattice/conventions/CleanPlugin : org/grad
 public abstract interface class com/rickbusarow/lattice/conventions/CodeGenSubExtension {
 }
 
-public abstract class com/rickbusarow/lattice/conventions/DefaultCheckTask : com/rickbusarow/lattice/core/DefaultLatticeTask, com/rickbusarow/lattice/core/CheckTask {
-	public fun <init> ()V
-}
-
-public abstract class com/rickbusarow/lattice/conventions/DefaultFixTask : com/rickbusarow/lattice/core/DefaultLatticeTask, com/rickbusarow/lattice/core/FixTask {
-	public fun <init> ()V
-}
-
 public abstract class com/rickbusarow/lattice/conventions/DefaultGitHubSubExtension : com/rickbusarow/lattice/conventions/AbstractSubExtension, com/rickbusarow/lattice/conventions/GitHubSubExtension, com/rickbusarow/lattice/core/SubExtensionInternal, org/gradle/api/reflect/HasPublicType {
 	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
 	public fun configure (Lorg/gradle/api/Action;)V
@@ -451,6 +445,14 @@ public abstract interface class com/rickbusarow/lattice/conventions/GitHubSubExt
 
 public final class com/rickbusarow/lattice/conventions/GitHubSubExtension$DefaultImpls {
 	public static fun configure (Lcom/rickbusarow/lattice/conventions/GitHubSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/conventions/GradleTestsExtension {
+	public abstract fun gradleTests (Lorg/gradle/api/Project;)V
+}
+
+public final class com/rickbusarow/lattice/conventions/GradleTestsExtension$DefaultImpls {
+	public static fun gradleTests (Lcom/rickbusarow/lattice/conventions/GradleTestsExtension;Lorg/gradle/api/Project;)V
 }
 
 public abstract class com/rickbusarow/lattice/conventions/GradleTestsPlugin : org/gradle/api/Plugin {
@@ -588,19 +590,6 @@ public abstract class com/rickbusarow/lattice/conventions/KtLintConventionPlugin
 	public fun apply (Lorg/gradle/api/Project;)V
 }
 
-public abstract class com/rickbusarow/lattice/conventions/LibsGeneratorPlugin : org/gradle/api/Plugin {
-	public fun <init> ()V
-	public synthetic fun apply (Ljava/lang/Object;)V
-	public fun apply (Lorg/gradle/api/Project;)V
-}
-
-public abstract class com/rickbusarow/lattice/conventions/LibsGeneratorTask : org/gradle/api/DefaultTask {
-	public fun <init> ()V
-	public final fun generateLibs ()V
-	public abstract fun getCatalogProvider ()Lorg/gradle/api/provider/Property;
-	public abstract fun getPackageName ()Lorg/gradle/api/provider/Property;
-}
-
 public abstract interface class com/rickbusarow/lattice/conventions/PokoExtension {
 	public abstract fun poko (Lorg/gradle/api/Project;)V
 }
@@ -649,39 +638,8 @@ public abstract class com/rickbusarow/lattice/conventions/TestConventionPlugin :
 	public fun apply (Lorg/gradle/api/Project;)V
 }
 
-public abstract interface class com/rickbusarow/lattice/core/CheckTask : com/rickbusarow/lattice/core/LatticeTask {
-}
-
-public abstract class com/rickbusarow/lattice/core/DefaultLatticeJarTask : org/gradle/api/tasks/bundling/Jar, com/rickbusarow/lattice/core/LatticeJarTask {
-	public fun <init> ()V
-}
-
-public abstract class com/rickbusarow/lattice/core/DefaultLatticeJavadocJarTask : org/gradle/api/tasks/bundling/Jar, com/rickbusarow/lattice/core/LatticeJavadocJarTask {
-	public fun <init> ()V
-}
-
-public abstract class com/rickbusarow/lattice/core/DefaultLatticeTask : org/gradle/api/DefaultTask, com/rickbusarow/lattice/core/LatticeTask {
-	public fun <init> ()V
-}
-
-public abstract interface class com/rickbusarow/lattice/core/FixTask : com/rickbusarow/lattice/core/LatticeTask {
-}
-
 public abstract interface class com/rickbusarow/lattice/core/HasObjectFactory {
 	public abstract fun getObjects ()Lorg/gradle/api/model/ObjectFactory;
-}
-
-public abstract class com/rickbusarow/lattice/core/LatticeCodeGeneratorTask : com/rickbusarow/lattice/core/DefaultLatticeTask {
-	public fun <init> ()V
-}
-
-public abstract interface class com/rickbusarow/lattice/core/LatticeJarTask : com/rickbusarow/lattice/core/LatticeTask {
-}
-
-public abstract interface class com/rickbusarow/lattice/core/LatticeJavadocJarTask : com/rickbusarow/lattice/core/LatticeJarTask {
-}
-
-public abstract interface class com/rickbusarow/lattice/core/LatticeTask : org/gradle/api/Task {
 }
 
 public final class com/rickbusarow/lattice/core/PropertiesKt {
@@ -691,6 +649,41 @@ public final class com/rickbusarow/lattice/core/PropertiesKt {
 	public static final fun getPrefixedPropertyName (Lorg/gradle/api/Project;Ljava/lang/String;)Ljava/lang/String;
 	public static final fun getVERSION_NAME (Lorg/gradle/api/Project;)Ljava/lang/String;
 	public static final fun getVersionIsSnapshot (Lorg/gradle/api/Project;)Z
+}
+
+public final class com/rickbusarow/lattice/core/SimpleMultimap : java/io/Serializable {
+	public fun <init> ()V
+	public final fun add (Ljava/lang/Object;Ljava/lang/Object;)Z
+	public final fun addAll (Ljava/lang/Object;Ljava/lang/Iterable;)Z
+	public final fun addAll (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Z
+	public final fun contains (Ljava/lang/Object;)Z
+	public final fun contains (Ljava/lang/Object;Ljava/lang/Object;)Z
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun get (Ljava/lang/Object;)Ljava/util/Set;
+	public final fun getKeys ()Ljava/util/Set;
+	public final fun getSize ()I
+	public final fun getValues ()Ljava/util/Collection;
+	public fun hashCode ()I
+	public final fun isEmpty ()Z
+	public final fun remove (Ljava/lang/Object;)Ljava/util/Set;
+	public final fun remove (Ljava/lang/Object;Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/rickbusarow/lattice/core/StringKt {
+	public static final fun indent (Ljava/lang/StringBuilder;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public static synthetic fun indent$default (Ljava/lang/StringBuilder;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public static final fun indentByBrackets (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public static synthetic fun indentByBrackets$default (Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/String;
+	public static final fun joinToStringIndexed (Ljava/util/List;Ljava/lang/CharSequence;Ljava/lang/CharSequence;Ljava/lang/CharSequence;ILjava/lang/CharSequence;Lkotlin/jvm/functions/Function2;)Ljava/lang/String;
+	public static synthetic fun joinToStringIndexed$default (Ljava/util/List;Ljava/lang/CharSequence;Ljava/lang/CharSequence;Ljava/lang/CharSequence;ILjava/lang/CharSequence;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Ljava/lang/String;
+	public static final fun mapLines (Ljava/lang/CharSequence;Lkotlin/jvm/functions/Function1;)Ljava/lang/String;
+	public static final fun mapLinesIndexed (Ljava/lang/CharSequence;Lkotlin/jvm/functions/Function2;)Ljava/lang/String;
+	public static final fun prependContinuationIndent (Ljava/lang/CharSequence;Ljava/lang/String;Z)Ljava/lang/String;
+	public static synthetic fun prependContinuationIndent$default (Ljava/lang/CharSequence;Ljava/lang/String;ZILjava/lang/Object;)Ljava/lang/String;
+	public static final fun prettyToString (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun replaceIndent (Ljava/lang/String;I)Ljava/lang/String;
+	public static final fun toStringPretty (Ljava/lang/Object;)Ljava/lang/String;
 }
 
 public abstract interface class com/rickbusarow/lattice/core/SubExtension : java/io/Serializable, org/gradle/api/plugins/ExtensionAware {
@@ -704,7 +697,7 @@ public final class com/rickbusarow/lattice/core/SubExtension$DefaultImpls {
 public abstract interface class com/rickbusarow/lattice/core/SubExtensionInternal : com/rickbusarow/lattice/core/HasObjectFactory {
 }
 
-public abstract class com/rickbusarow/lattice/curator/AbstractCuratorTask : com/rickbusarow/lattice/core/DefaultLatticeTask {
+public abstract class com/rickbusarow/lattice/curator/AbstractCuratorTask : com/rickbusarow/lattice/api/DefaultLatticeTask {
 	public fun <init> (Lorg/gradle/api/file/ProjectLayout;)V
 	protected final fun getBaselineArtifacts ()Ljava/util/List;
 	protected final fun getCurrentList ()Ljava/util/List;
@@ -748,14 +741,14 @@ public final class com/rickbusarow/lattice/curator/ArtifactConfig$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public class com/rickbusarow/lattice/curator/CuratorCheckTask : com/rickbusarow/lattice/curator/AbstractCuratorTask, com/rickbusarow/lattice/core/CheckTask {
+public class com/rickbusarow/lattice/curator/CuratorCheckTask : com/rickbusarow/lattice/curator/AbstractCuratorTask, com/rickbusarow/lattice/api/LatticeCheckTask {
 	public fun <init> (Lorg/gradle/api/model/ObjectFactory;Lorg/gradle/api/file/ProjectLayout;)V
 	public final fun getLenientOs ()Z
 	public final fun run ()V
 	public final fun setLenientOs (Z)V
 }
 
-public class com/rickbusarow/lattice/curator/CuratorDumpTask : com/rickbusarow/lattice/curator/AbstractCuratorTask, com/rickbusarow/lattice/core/FixTask {
+public class com/rickbusarow/lattice/curator/CuratorDumpTask : com/rickbusarow/lattice/curator/AbstractCuratorTask, com/rickbusarow/lattice/api/LatticeFixTask {
 	public fun <init> (Lorg/gradle/api/file/ProjectLayout;)V
 	public final fun run ()V
 }
@@ -799,6 +792,72 @@ public final class com/rickbusarow/lattice/dokka/HasDokkaSubExtension$DefaultImp
 	public static fun dokka (Lcom/rickbusarow/lattice/dokka/HasDokkaSubExtension;Lorg/gradle/api/Action;)V
 }
 
+public final class com/rickbusarow/lattice/libs/CatalogSection {
+	public fun <init> (Ljava/util/List;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;)Lcom/rickbusarow/lattice/libs/CatalogSection;
+	public static synthetic fun copy$default (Lcom/rickbusarow/lattice/libs/CatalogSection;Ljava/util/List;ILjava/lang/Object;)Lcom/rickbusarow/lattice/libs/CatalogSection;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun get (Ljava/lang/String;)Ljava/lang/String;
+	public final fun getAliasToValue ()Ljava/util/List;
+	public final fun getAliases ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/rickbusarow/lattice/libs/CatalogSection$AliasToValue : java/lang/Comparable {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public fun compareTo (Lcom/rickbusarow/lattice/libs/CatalogSection$AliasToValue;)I
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lcom/rickbusarow/lattice/libs/CatalogSection$AliasToValue;
+	public static synthetic fun copy$default (Lcom/rickbusarow/lattice/libs/CatalogSection$AliasToValue;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/rickbusarow/lattice/libs/CatalogSection$AliasToValue;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAlias ()Ljava/lang/String;
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract class com/rickbusarow/lattice/libs/LibsGeneratorPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/lattice/libs/LibsGeneratorTask : org/gradle/api/DefaultTask {
+	public fun <init> ()V
+	public final fun generateLibs ()V
+	public abstract fun getCatalogProvider ()Lorg/gradle/api/provider/Property;
+	public abstract fun getPackageName ()Lorg/gradle/api/provider/Property;
+	public abstract fun getSrcGenDir ()Lorg/gradle/api/file/DirectoryProperty;
+}
+
+public final class com/rickbusarow/lattice/libs/Node : java/lang/Comparable {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Set;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Set;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun compareTo (Lcom/rickbusarow/lattice/libs/Node;)I
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getChildren ()Ljava/util/Set;
+	public final fun getQualifiedName ()Ljava/lang/String;
+	public final fun getSimpleName ()Ljava/lang/String;
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public final fun setValue (Ljava/lang/String;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/rickbusarow/lattice/libs/VersionCatalogSerializable : java/io/Serializable {
+	public fun <init> (Lorg/gradle/api/artifacts/VersionCatalog;)V
+	public final fun getBundles ()Ljava/util/List;
+	public final fun getLibraries ()Ljava/util/List;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getPlugins ()Ljava/util/List;
+	public final fun getVersions ()Ljava/util/List;
+}
+
 public class com/rickbusarow/lattice/publishing/DefaultPublishingGradlePluginHandler : com/rickbusarow/lattice/publishing/PublishingGradlePluginHandler {
 	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
 	public fun publishPlugin (Lorg/gradle/api/NamedDomainObjectProvider;)V
@@ -838,12 +897,5 @@ public abstract interface class com/rickbusarow/lattice/publishing/PublishingMav
 public final class com/rickbusarow/lattice/publishing/PublishingMavenSubExtension$DefaultImpls {
 	public static fun configure (Lcom/rickbusarow/lattice/publishing/PublishingMavenSubExtension;Lorg/gradle/api/Action;)V
 	public static synthetic fun publishMaven$default (Lcom/rickbusarow/lattice/publishing/PublishingMavenSubExtension;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;ILjava/lang/Object;)V
-}
-
-public final class com/rickbusarow/lattice/stdlib/ListKt {
-	public static final fun dropLastView (Ljava/util/List;I)Ljava/util/List;
-	public static final fun dropView (Ljava/util/List;I)Ljava/util/List;
-	public static final fun takeLastView (Ljava/util/List;I)Ljava/util/List;
-	public static final fun takeView (Ljava/util/List;I)Ljava/util/List;
 }
 

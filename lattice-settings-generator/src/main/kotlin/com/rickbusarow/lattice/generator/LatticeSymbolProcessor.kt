@@ -26,7 +26,7 @@ import com.squareup.kotlinpoet.FileSpec
 import javax.annotation.processing.Generated
 
 /** */
-public abstract class LatticeSymbolProcessor(
+abstract class LatticeSymbolProcessor(
   private val environment: SymbolProcessorEnvironment
 ) : SymbolProcessor {
 

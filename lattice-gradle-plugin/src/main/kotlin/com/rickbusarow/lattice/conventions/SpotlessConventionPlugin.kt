@@ -30,6 +30,7 @@ import org.gradle.api.Project
 import org.gradle.api.file.ConfigurableFileTree
 import org.gradle.api.tasks.util.PatternFilterable
 
+/** */
 public abstract class SpotlessConventionPlugin : Plugin<Project> {
 
   override fun apply(target: Project) {
@@ -118,6 +119,7 @@ public abstract class SpotlessConventionPlugin : Plugin<Project> {
       js.prettier()
     }
   }
+
   private inline fun FormatExtension.target(
     target: Project,
     crossinline fileTreeConfig: ConfigurableFileTree.() -> Unit

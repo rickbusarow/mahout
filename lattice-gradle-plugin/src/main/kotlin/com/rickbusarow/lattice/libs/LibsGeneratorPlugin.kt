@@ -34,6 +34,7 @@ import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 import javax.inject.Inject
 
+/** */
 public abstract class LibsGeneratorPlugin : Plugin<Project> {
   override fun apply(target: Project) {
     target.tasks.register("generateLibs", LibsGeneratorTask::class.java) { task ->
@@ -44,14 +45,18 @@ public abstract class LibsGeneratorPlugin : Plugin<Project> {
   }
 }
 
+/** */
 public abstract class LibsGeneratorTask @Inject constructor() : DefaultTask() {
 
+/** */
   @get:OutputDirectory
   public abstract val srcGenDir: DirectoryProperty
 
+/** */
   @get:Input
   public abstract val packageName: Property<String>
 
+/** */
   @get:Input
   public abstract val catalogProvider: Property<VersionCatalogSerializable>
 

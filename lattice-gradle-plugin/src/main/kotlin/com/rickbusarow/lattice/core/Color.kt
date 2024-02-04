@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -21,7 +21,7 @@ package com.rickbusarow.lattice.core
  * @property code
  */
 @Suppress("MagicNumber")
-internal enum class Color(public val code: Int) {
+internal enum class Color(val code: Int) {
   BLACK(30),
   RED(31),
   GREEN(32),

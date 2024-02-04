@@ -24,17 +24,24 @@ import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
 import javax.inject.Inject
 
+/** */
 public interface HasKotlinSubExtension : java.io.Serializable {
+
+/** */
   public val kotlin: KotlinSubExtension
+
+/** */
   public fun kotlin(action: Action<in KotlinSubExtension>) {
     action.execute(kotlin)
   }
 }
 
+/** */
 public interface HasKotlinJvmSubExtension : HasKotlinSubExtension {
   public override val kotlin: KotlinJvmSubExtension
 }
 
+/** */
 public interface HasKotlinMultiplatformSubExtension : HasKotlinSubExtension {
   public override val kotlin: KotlinMultiplatformSubExtension
 }
@@ -62,12 +69,20 @@ internal abstract class DefaultHasKotlinMultiplatformSubExtension @Inject constr
     by subExtension(DefaultKotlinMultiplatformSubExtension::class)
 }
 
+/** */
 public interface KotlinSubExtension : SubExtension<KotlinSubExtension> {
+
+/** */
   public val apiLevel: Property<String>
+
+/** */
   public val allWarningsAsErrors: Property<Boolean>
+
+/** */
   public val explicitApi: Property<Boolean>
 }
 
+/** */
 public abstract class DefaultKotlinSubExtension @Inject constructor(
   target: Project,
   objects: ObjectFactory
@@ -83,7 +98,10 @@ public abstract class DefaultKotlinSubExtension @Inject constructor(
     objects.property(latticeProperties.kotlin.explicitApi)
 }
 
+/** */
 public interface KotlinJvmSubExtension : KotlinSubExtension
+
+/** */
 public abstract class DefaultKotlinJvmSubExtension @Inject constructor(
   target: Project,
   objects: ObjectFactory
@@ -91,7 +109,10 @@ public abstract class DefaultKotlinJvmSubExtension @Inject constructor(
   KotlinJvmSubExtension,
   SubExtensionInternal
 
+/** */
 public interface KotlinMultiplatformSubExtension : KotlinSubExtension
+
+/** */
 public abstract class DefaultKotlinMultiplatformSubExtension @Inject constructor(
   target: Project,
   objects: ObjectFactory

@@ -36,10 +36,13 @@ import org.gradle.api.tasks.bundling.Jar
 import org.gradle.plugins.signing.Sign
 import javax.inject.Inject
 
+/** */
 public interface HasPublishingMavenSubExtension : java.io.Serializable {
 
+/** */
   public val publishing: PublishingMavenSubExtension
 
+/** */
   public fun publishing(action: Action<in PublishingMavenSubExtension>) {
     action.execute(publishing)
   }
@@ -55,10 +58,13 @@ internal abstract class DefaultHasPublishingMavenSubExtension @Inject constructo
     subExtension(DefaultPublishingMavenSubExtension::class)
 }
 
+/** */
 public interface PublishingMavenSubExtension : SubExtension<PublishingMavenSubExtension> {
 
+/** */
   public val defaultPom: DefaultMavenPom
 
+/** */
   public fun publishMaven(
     artifactId: String? = null,
     pomDescription: String? = null,
@@ -70,6 +76,7 @@ public interface PublishingMavenSubExtension : SubExtension<PublishingMavenSubEx
   )
 }
 
+/** */
 public abstract class DefaultPublishingMavenSubExtension @Inject constructor(
   target: Project,
   objects: ObjectFactory

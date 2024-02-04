@@ -22,7 +22,7 @@ import com.google.devtools.ksp.processing.SymbolProcessorProvider
 
 /** */
 @AutoService(SymbolProcessorProvider::class)
-public class LatticePropertiesProcessorProvider : SymbolProcessorProvider {
+class LatticePropertiesProcessorProvider : SymbolProcessorProvider {
   override fun create(
     environment: SymbolProcessorEnvironment
   ): SymbolProcessor = LatticePropertiesProcessor(environment)

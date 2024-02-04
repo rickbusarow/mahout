@@ -21,11 +21,17 @@ import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
 import javax.inject.Inject
 
+/** */
 public interface CoreLatticeProperties {
+
+/** */
   public val group: Property<String>
+
+/** */
   public val versionName: Property<String>
 }
 
+/** */
 public open class DefaultCoreLatticeProperties @Inject constructor(
   target: Project,
   objects: ObjectFactory

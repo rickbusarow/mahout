@@ -90,6 +90,8 @@ public abstract class LatticePublishPlugin : Plugin<Project> {
 
       val groupId = target.group.toString()
 
+      task.onlyIf { artifactIds.isNotEmpty() }
+
       task.doLast {
 
         val allowedRegex = "^[A-Za-z0-9_\\-.]+$".toRegex()

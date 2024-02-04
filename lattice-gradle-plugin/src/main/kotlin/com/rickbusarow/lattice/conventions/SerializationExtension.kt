@@ -20,6 +20,7 @@ import com.rickbusarow.lattice.deps.Modules
 import com.rickbusarow.lattice.deps.PluginIds
 import org.gradle.api.Project
 
+/** */
 public interface SerializationExtension {
 
   @Suppress("UndocumentedPublicFunction")

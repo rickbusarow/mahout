@@ -36,6 +36,7 @@ import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.gradle.plugin.devel.GradlePluginDevelopmentExtension
 import org.gradle.plugins.ide.idea.model.IdeaModel
 
+/** */
 public interface GradleTestsExtension {
 
   /**

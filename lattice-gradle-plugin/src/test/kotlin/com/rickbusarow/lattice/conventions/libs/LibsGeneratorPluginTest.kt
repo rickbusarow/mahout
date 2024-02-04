@@ -17,9 +17,7 @@ package com.rickbusarow.lattice.conventions.libs
 
 import com.rickbusarow.lattice.conventions.LibsGeneratorTestUtils
 import com.rickbusarow.lattice.libs.CatalogSection
-import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
-import java.util.Map.entry
 
 class LibsGeneratorPluginTest : LibsGeneratorTestUtils {
 

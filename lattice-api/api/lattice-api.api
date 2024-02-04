@@ -1,0 +1,64 @@
+public abstract class com/rickbusarow/lattice/api/DefaultLatticeCheckTask : com/rickbusarow/lattice/api/DefaultLatticeTask, com/rickbusarow/lattice/api/LatticeCheckTask {
+	public fun <init> ()V
+}
+
+public abstract class com/rickbusarow/lattice/api/DefaultLatticeCodeGeneratorTask : com/rickbusarow/lattice/api/DefaultLatticeTask, com/rickbusarow/lattice/api/LatticeCodeGeneratorTask {
+	public fun <init> ()V
+}
+
+public abstract class com/rickbusarow/lattice/api/DefaultLatticeFixTask : com/rickbusarow/lattice/api/DefaultLatticeTask, com/rickbusarow/lattice/api/LatticeFixTask {
+	public fun <init> ()V
+}
+
+public abstract class com/rickbusarow/lattice/api/DefaultLatticeJarTask : org/gradle/api/tasks/bundling/Jar, com/rickbusarow/lattice/api/LatticeJarTask {
+	public fun <init> ()V
+}
+
+public abstract class com/rickbusarow/lattice/api/DefaultLatticeJavadocJarTask : org/gradle/api/tasks/bundling/Jar, com/rickbusarow/lattice/api/LatticeJavadocJarTask {
+	public fun <init> ()V
+}
+
+public abstract class com/rickbusarow/lattice/api/DefaultLatticeSourcesJarTask : org/gradle/api/tasks/bundling/Jar, com/rickbusarow/lattice/api/LatticeSourcesJarTask {
+	public fun <init> ()V
+}
+
+public abstract class com/rickbusarow/lattice/api/DefaultLatticeTask : org/gradle/api/DefaultTask, com/rickbusarow/lattice/api/LatticeTask {
+	public fun <init> ()V
+}
+
+public abstract interface class com/rickbusarow/lattice/api/HasObjectFactory {
+	public abstract fun getObjects ()Lorg/gradle/api/model/ObjectFactory;
+}
+
+public abstract interface class com/rickbusarow/lattice/api/LatticeCheckTask : com/rickbusarow/lattice/api/LatticeTask {
+}
+
+public abstract interface class com/rickbusarow/lattice/api/LatticeCodeGeneratorTask : com/rickbusarow/lattice/api/LatticeTask {
+}
+
+public abstract interface class com/rickbusarow/lattice/api/LatticeFixTask : com/rickbusarow/lattice/api/LatticeTask {
+}
+
+public abstract interface class com/rickbusarow/lattice/api/LatticeJarTask : com/rickbusarow/lattice/api/LatticeTask {
+}
+
+public abstract interface class com/rickbusarow/lattice/api/LatticeJavadocJarTask : com/rickbusarow/lattice/api/LatticeJarTask {
+}
+
+public abstract interface class com/rickbusarow/lattice/api/LatticeSourcesJarTask : com/rickbusarow/lattice/api/LatticeJarTask {
+}
+
+public abstract interface class com/rickbusarow/lattice/api/LatticeTask : org/gradle/api/Task {
+}
+
+public abstract interface class com/rickbusarow/lattice/api/SubExtension : java/io/Serializable, org/gradle/api/plugins/ExtensionAware {
+	public abstract fun configure (Lorg/gradle/api/Action;)V
+}
+
+public final class com/rickbusarow/lattice/api/SubExtension$DefaultImpls {
+	public static fun configure (Lcom/rickbusarow/lattice/api/SubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/lattice/api/SubExtensionInternal : com/rickbusarow/lattice/api/HasObjectFactory {
+}
+

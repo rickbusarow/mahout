@@ -37,18 +37,18 @@ public val Project.latticeProperties: LatticeProperties
 @LatticePropertiesSchema
 public interface LatticeProperties : JavaSerializable {
 
-  /** */
+/** */
   @DelegateProperty("GROUP")
   public val group: Provider<String>
 
-  /** */
+/** */
   @DelegateProperty("VERSION_NAME")
   public val versionName: Provider<String>
 
-  /** */
+/** */
   public val versions: VersionsGroup
 
-  /** */
+/** */
   public interface VersionsGroup : JavaSerializable {
 
     /**
@@ -89,16 +89,16 @@ public interface LatticeProperties : JavaSerializable {
     public val poko: Provider<String>
   }
 
-  /** */
+/** */
   public val kotlin: KotlinSettingsGroup
 
-  /** */
+/** */
   public interface KotlinSettingsGroup : JavaSerializable {
 
     /** Any additional Kotlin compiler arguments, such as `-Xjvm-default=all`. */
     public val compilerArgs: Provider<List<String>>
 
-    /** */
+/** */
     public val apiLevel: Provider<String>
 
     /** If true, Kotlin's `warningsAsErrors` functionality is enabled full-time. */
@@ -115,7 +115,7 @@ public interface LatticeProperties : JavaSerializable {
    */
   public val java: JavaSettingsGroup
 
-  /** */
+/** */
   public interface JavaSettingsGroup : JavaSerializable {
 
     /**
@@ -140,113 +140,114 @@ public interface LatticeProperties : JavaSerializable {
     public val jvmToolchain: Provider<String>
   }
 
-  /** */
+/** */
   public val repository: RepositorySettingsGroup
 
-  /** */
+/** */
   public interface RepositorySettingsGroup : JavaSerializable {
 
-    /** */
+/** */
     public val defaultBranch: Provider<String>
 
-    /** */
+/** */
     public val github: GithubSettingsGroup
 
-    /** */
+/** */
     public interface GithubSettingsGroup : JavaSerializable {
 
-      /** */
+/** */
       public val owner: Provider<String>
 
-      /** */
+/** */
       public val repo: Provider<String>
     }
   }
 
-  /** */
+/** */
   public val publishing: PublishingSettingsGroup
 
-  /** */
+/** */
   public interface PublishingSettingsGroup : JavaSerializable {
 
-    /** */
+/** */
     public val pom: PomSettingsGroup
 
-    /** */
+/** */
     public interface PomSettingsGroup : JavaSerializable {
 
-      /** */
+/** */
       @DelegateProperty("POM_ARTIFACT_ID")
       public val artifactId: Provider<String>
 
-      /** */
+/** */
       @DelegateProperty("POM_NAME")
       public val name: Provider<String>
 
-      /** */
+/** */
       @DelegateProperty("POM_DESCRIPTION")
       public val description: Provider<String>
 
-      /** */
+/** */
       @DelegateProperty("POM_INCEPTION_YEAR")
       public val inceptionYear: Provider<String>
 
-      /** */
+/** */
       @DelegateProperty("POM_URL")
       public val url: Provider<String>
 
-      /** */
+/** */
       public val license: LicenseSettingsGroup
 
-      /** */
+/** */
       public interface LicenseSettingsGroup : JavaSerializable {
-        /** */
+
+/** */
         @DelegateProperty("POM_LICENSE_NAME")
         public val name: Provider<String>
 
-        /** */
+/** */
         @DelegateProperty("POM_LICENSE_URL")
         public val url: Provider<String>
 
-        /** */
+/** */
         @DelegateProperty("POM_LICENSE_DIST")
         public val dist: Provider<String>
       }
 
-      /** */
+/** */
       public val scm: ScmSettingsGroup
 
-      /** */
+/** */
       public interface ScmSettingsGroup : JavaSerializable {
 
-        /** */
+/** */
         @DelegateProperty("POM_SCM_URL")
         public val url: Provider<String>
 
-        /** */
+/** */
         @DelegateProperty("POM_SCM_CONNECTION")
         public val connection: Provider<String>
 
-        /** */
+/** */
         @DelegateProperty("POM_SCM_DEV_CONNECTION")
         public val devConnection: Provider<String>
       }
 
-      /** */
+/** */
       public val developer: DeveloperSettingsGroup
 
-      /** */
+/** */
       public interface DeveloperSettingsGroup : JavaSerializable {
 
-        /** */
+/** */
         @DelegateProperty("POM_DEVELOPER_ID")
         public val id: Provider<String>
 
-        /** */
+/** */
         @DelegateProperty("POM_DEVELOPER_NAME")
         public val name: Provider<String>
 
-        /** */
+/** */
         @DelegateProperty("POM_DEVELOPER_URL")
         public val url: Provider<String>
       }

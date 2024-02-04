@@ -78,7 +78,7 @@ subprojects sub@{
     systemProperty("kase.baseWorkingDir", buildDir().resolve("kase"))
   }
 
-  if (!sub.name.startsWith("lattice-settings-")) {
+  if (!sub.name.startsWith("lattice-settings-") && sub.name != "lattice-api") {
     sub.plugins.withKotlinJvmPlugin {
       (sub.kotlinExtension as KotlinJvmProjectExtension)
         .compilerOptions

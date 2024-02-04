@@ -40,7 +40,7 @@ import com.squareup.kotlinpoet.ksp.toClassName
 import com.squareup.kotlinpoet.ksp.toTypeName
 
 /** */
-public class LatticePropertiesProcessor(
+class LatticePropertiesProcessor(
   environment: SymbolProcessorEnvironment
 ) : LatticeSymbolProcessor(environment) {
 

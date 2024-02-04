@@ -29,12 +29,14 @@ import org.gradle.api.plugins.ExtensionAware
 import javax.inject.Inject
 import kotlin.reflect.KClass
 
+/** */
 @Poko
 public open class SubExtensionRegistry @Inject constructor(
   @PublishedApi internal val objects: ObjectFactory
 ) {
-  public val schema: MutableMap<String, SubExtensionElement<*>> =
-    mutableMapOf<String, SubExtensionElement<*>>()
+
+/** */
+  public val schema: MutableMap<String, SubExtensionElement<*>> = mutableMapOf()
 
   internal inline fun <reified T : Any, reified R : T> delegate(
     rClass: KClass<out R> = R::class
@@ -42,6 +44,7 @@ public open class SubExtensionRegistry @Inject constructor(
     return objects.newInstance(rClass.java, this) as T
   }
 
+/** */
   public fun <T : SubExtension<*>> register(
     name: String,
     type: Class<T>,
@@ -52,6 +55,7 @@ public open class SubExtensionRegistry @Inject constructor(
     return instance
   }
 
+/** */
   public inline fun <reified T : SubExtension<T>, reified R : T> register(
     name: String,
     instanceType: KClass<out R>
@@ -62,14 +66,22 @@ public open class SubExtensionRegistry @Inject constructor(
     return instance
   }
 
+/** */
   @Poko
   public class SubExtensionElement<out T : SubExtension<*>>(
+
+/** */
     public val publicType: Class<out T>,
+
+/** */
     public val name: String,
+
+/** */
     public val instance: T
   )
 }
 
+/** */
 public abstract class AbstractHasSubExtension : HasObjectFactory {
 
   protected inline fun <reified T : SubExtension<T>> subExtension(): Lazy<T> {
@@ -89,6 +101,7 @@ public abstract class AbstractHasSubExtension : HasObjectFactory {
   }
 }
 
+/** */
 public abstract class AbstractSubExtension @Inject constructor(
   protected val target: Project,
   final override val objects: ObjectFactory

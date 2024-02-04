@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,19 +16,19 @@
 package com.rickbusarow.lattice.publishing
 
 import org.gradle.api.NamedDomainObjectProvider
-import org.gradle.api.Project
-import org.gradle.api.model.ObjectFactory
 import org.gradle.plugin.devel.PluginDeclaration
 import javax.inject.Inject
 
+/** */
 public interface PublishingGradlePluginHandler : java.io.Serializable {
+
+/** */
   public fun publishPlugin(pluginDeclaration: NamedDomainObjectProvider<PluginDeclaration>)
 }
 
-public open class DefaultPublishingGradlePluginHandler @Inject constructor(
-  private val target: Project,
-  private val objects: ObjectFactory
-) : PublishingGradlePluginHandler {
+/** */
+public open class DefaultPublishingGradlePluginHandler @Inject constructor() :
+  PublishingGradlePluginHandler {
 
   override fun publishPlugin(pluginDeclaration: NamedDomainObjectProvider<PluginDeclaration>) {
     TODO()

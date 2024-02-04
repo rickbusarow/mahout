@@ -22,31 +22,39 @@ import com.rickbusarow.lattice.core.indent
 import com.rickbusarow.lattice.core.stdlib.takeView
 import org.gradle.api.artifacts.VersionCatalog
 
+/** */
 public class VersionCatalogSerializable(versionCatalog: VersionCatalog) : java.io.Serializable {
+
+/** */
   public val name: String = versionCatalog.name
+
+/** */
   public val versions: List<Pair<String, String>> = versionCatalog.versionAliases
     .sorted()
     .filterNot { it.startsWith("config.") }
     .map { alias -> alias to versionCatalog.version(alias) }
 
+/** */
   public val plugins: List<Pair<String, String>> = versionCatalog.pluginAliases
     .sorted()
     .map { alias -> alias to versionCatalog.pluginId(alias) }
 
+/** */
   public val libraries: List<Pair<String, String>> = versionCatalog.libraryAliases
     .sorted()
     .map { alias -> alias to versionCatalog.library(alias).get().toString() }
 
+/** */
   public val bundles: List<Pair<String, String>> = versionCatalog.bundleAliases
     .sorted()
     .map { alias -> alias to versionCatalog.findBundle(alias).get().toString() }
 }
 
-public class Node(
-  public val qualifiedName: String,
-  public val simpleName: String,
-  public var value: String? = null,
-  public val children: MutableSet<Node> = mutableSetOf()
+internal class Node(
+  val qualifiedName: String,
+  val simpleName: String,
+  var value: String? = null,
+  val children: MutableSet<Node> = mutableSetOf()
 ) : Comparable<Node> {
   override fun compareTo(other: Node): Int = simpleName.compareTo(other.simpleName)
 
@@ -76,12 +84,12 @@ public class Node(
   }
 }
 
-public data class CatalogSection(val aliasToValue: List<AliasToValue>) {
+internal data class CatalogSection(val aliasToValue: List<AliasToValue>) {
 
   private val map = aliasToValue.associate { it.alias to it.value }
-  public val aliases: List<String> = map.keys.sorted()
+  val aliases: List<String> = map.keys.sorted()
 
-  public operator fun get(alias: String): String? = map[alias]
+  operator fun get(alias: String): String? = map[alias]
 
   internal fun asNodes(): List<Node> {
 
@@ -145,7 +153,7 @@ public data class CatalogSection(val aliasToValue: List<AliasToValue>) {
       }
   }
 
-  public data class AliasToValue(
+  data class AliasToValue(
     val alias: String,
     val value: String
   ) : Comparable<AliasToValue> {

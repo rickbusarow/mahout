@@ -17,6 +17,7 @@ package com.rickbusarow.lattice.conventions
 
 import org.gradle.api.Project
 
+/** */
 public abstract class KotlinJvmConventionPlugin : BaseKotlinConventionPlugin() {
 
   override fun apply(target: Project) {

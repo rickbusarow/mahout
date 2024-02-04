@@ -18,6 +18,7 @@ package com.rickbusarow.lattice.conventions
 import com.rickbusarow.lattice.deps.Libs
 import org.gradle.api.Project
 
+/** */
 public interface AutoServiceExtension : KspExtension {
 
   @Suppress("UndocumentedPublicFunction")

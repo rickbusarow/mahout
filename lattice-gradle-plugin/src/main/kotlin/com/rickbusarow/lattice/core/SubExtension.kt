@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -24,16 +24,21 @@ public interface SubExtension<SELF : SubExtension<SELF>> :
   ExtensionAware,
   java.io.Serializable {
 
+/** */
   public fun configure(action: Action<in SELF>) {
     @Suppress("UNCHECKED_CAST")
     action.execute(this as SELF)
   }
 }
 
+/** */
 public interface HasObjectFactory {
+
+/** */
   public val objects: ObjectFactory
 }
 
+/** */
 public interface SubExtensionInternal : HasObjectFactory
 
 public typealias GradleSourceSet = org.gradle.api.tasks.SourceSet

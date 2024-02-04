@@ -45,8 +45,13 @@ import org.gradle.api.model.ObjectFactory
 import org.gradle.api.plugins.ExtensionAware
 import javax.inject.Inject
 
+/** */
 public interface LatticeExtensionInternal : ExtensionAware {
+
+/** */
   public val objects: ObjectFactory
+
+/** */
   public val target: Project
 }
 
