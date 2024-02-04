@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.rickbusarow.lattice.stdlib
+package com.rickbusarow.lattice.core.stdlib
 
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
@@ -73,6 +73,6 @@ class SplitInclusiveTest {
   fun `splitInclusive should return empty list when input list is empty`() {
     val list = emptyList<Int>()
     val result = list.splitInclusive { it % 2 == 0 }
-    result shouldBe listOf()
+    result shouldBe emptyList()
   }
 }

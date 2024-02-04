@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,8 +16,8 @@
 package com.rickbusarow.lattice.conventions
 
 import com.rickbusarow.kgx.applyOnce
-import com.rickbusarow.lattice.core.isOrphanedBuildOrGradleDir
-import com.rickbusarow.lattice.core.isOrphanedGradleProperties
+import com.rickbusarow.lattice.core.stdlib.isOrphanedBuildOrGradleDir
+import com.rickbusarow.lattice.core.stdlib.isOrphanedGradleProperties
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.Delete

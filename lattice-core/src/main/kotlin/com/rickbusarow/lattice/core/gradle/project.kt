@@ -13,13 +13,23 @@
  * limitations under the License.
  */
 
-package com.rickbusarow.lattice.core
+package com.rickbusarow.lattice.core.gradle
 
 import com.rickbusarow.kgx.isPartOfRootBuild
 import com.rickbusarow.kgx.parents
+import com.rickbusarow.lattice.core.InternalLatticeApi
+import com.rickbusarow.lattice.core.stdlib.prefixIfNot
 import org.gradle.api.Project
 
-internal fun Project.addTasksToStartParameter(taskNames: Iterable<String>) {
+/** */
+@InternalLatticeApi
+public fun Project.addTasksToStartParameter(vararg taskNames: String) {
+  return addTasksToStartParameter(taskNames.asIterable())
+}
+
+/** */
+@InternalLatticeApi
+public fun Project.addTasksToStartParameter(taskNames: Iterable<String>) {
 
   if (isPartOfRootBuild) {
     /* Root of composite build: We can just add the task name */

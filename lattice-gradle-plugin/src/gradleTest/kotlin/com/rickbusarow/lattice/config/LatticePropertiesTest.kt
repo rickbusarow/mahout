@@ -16,15 +16,16 @@
 package com.rickbusarow.lattice.config
 
 import com.rickbusarow.kase.gradle.GradleTestVersions
+import com.rickbusarow.kase.gradle.versions
 import com.rickbusarow.lattice.LatticeGradleTest
 import io.kotest.matchers.collections.shouldContainAll
 import org.junit.jupiter.api.TestFactory
 import java.io.File
 
-class LatticePropertiesTest : LatticeGradleTest<GradleTestVersions> {
+class LatticePropertiesTest : LatticeGradleTest {
 
-  override val kases: List<GradleTestVersions>
-    get() = versionMatrix.versions(GradleTestVersions).takeLast(1)
+  override val params: List<GradleTestVersions>
+    get() = kaseMatrix.versions(GradleTestVersions).takeLast(1)
 
   @TestFactory
   fun `vanniktech publishing properties become lattice properties`() = testFactory {

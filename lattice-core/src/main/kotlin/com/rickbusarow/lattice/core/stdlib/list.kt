@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,7 +13,9 @@
  * limitations under the License.
  */
 
-package com.rickbusarow.lattice.stdlib
+package com.rickbusarow.lattice.core.stdlib
+
+import com.rickbusarow.lattice.core.InternalLatticeApi
 
 /**
  * Shorthand for `subList(count, size)`.
@@ -25,6 +27,7 @@ package com.rickbusarow.lattice.stdlib
  * @return A view of the portion of this list starting from the specified [count] index.
  * @see List.subList for more information about list views.
  */
+@InternalLatticeApi
 public fun <E> List<E>.dropView(count: Int): List<E> = subList(count, size)
 
 /**
@@ -37,6 +40,7 @@ public fun <E> List<E>.dropView(count: Int): List<E> = subList(count, size)
  * @return A view of the portion of this list starting from the specified [count] index.
  * @see List.subList for more information about list views.
  */
+@InternalLatticeApi
 public fun <E> List<E>.takeView(count: Int): List<E> = subList(0, count)
 
 /**
@@ -49,6 +53,7 @@ public fun <E> List<E>.takeView(count: Int): List<E> = subList(0, count)
  * @return A view of the portion of this list starting from the specified [count] index.
  * @see List.subList for more information about list views.
  */
+@InternalLatticeApi
 public fun <E> List<E>.dropLastView(count: Int): List<E> = subList(0, size - count)
 
 /**
@@ -61,4 +66,5 @@ public fun <E> List<E>.dropLastView(count: Int): List<E> = subList(0, size - cou
  * @return A view of the portion of this list starting from the specified [count] index.
  * @see List.subList for more information about list views.
  */
+@InternalLatticeApi
 public fun <E> List<E>.takeLastView(count: Int): List<E> = subList(size - count, size)

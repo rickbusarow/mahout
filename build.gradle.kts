@@ -14,7 +14,12 @@
  */
 
 import com.rickbusarow.kgx.buildDir
+import com.rickbusarow.kgx.withBuildInitPlugin
+import com.rickbusarow.kgx.withKotlinJvmPlugin
+import com.rickbusarow.lattice.core.VERSION_NAME
 import org.gradle.plugins.ide.idea.model.IdeaModel
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
+import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 
 buildscript {
   dependencies {
@@ -23,13 +28,13 @@ buildscript {
 }
 
 plugins {
-  alias(libs.plugins.drewHamilton.poko) apply false
   alias(libs.plugins.kotlin.jvm) apply false
   alias(libs.plugins.kotlin.serialization) apply false
-  alias(libs.plugins.rickBusarow.ktlint) apply false
+  alias(libs.plugins.drewHamilton.poko) apply false
   alias(libs.plugins.rickBusarow.doks)
-  alias(libs.plugins.vanniktech.publish.base) apply false
+  alias(libs.plugins.rickBusarow.ktlint) apply false
   alias(libs.plugins.rickBusarow.moduleCheck)
+  alias(libs.plugins.vanniktech.publish.base) apply false
   id("com.rickbusarow.lattice.kotlin-jvm") apply false
   id("com.rickbusarow.lattice.root")
 }
@@ -40,6 +45,7 @@ moduleCheck {
 }
 
 lattice {
+
   composite {
   }
   github {
@@ -54,35 +60,43 @@ lattice {
   )
 }
 
-if (gradle.includedBuilds.any { it.name == "build-logic" }) {
-  subprojects sub@{
+subprojects sub@{
+  val sub = this@sub
+  sub.layout.buildDirectory.set(sub.file("build/root"))
 
-    val sub = this@sub
-
-    sub.plugins.withId("build-init") {
-
-      val ktlintPluginId = libs.plugins.rickBusarow.ktlint.get().pluginId
-
-      sub.apply(plugin = ktlintPluginId)
-
-      dependencies {
-        "ktlint"(libs.rickBusarow.ktrules)
-      }
+  sub.plugins.apply("idea")
+  sub.extensions.configure(IdeaModel::class) {
+    module {
+      generatedSourceDirs.add(sub.file("build"))
+      excludeDirs = excludeDirs + sub.file("build")
     }
+  }
 
-    sub.layout.buildDirectory.set(sub.file("build/build-main"))
+  sub.layout.buildDirectory.set(sub.file("build/build-main"))
 
-    sub.tasks.withType(Test::class).configureEach {
-      systemProperty("kase.baseWorkingDir", buildDir().resolve("kase"))
+  sub.tasks.withType(Test::class).configureEach {
+    systemProperty("kase.baseWorkingDir", buildDir().resolve("kase"))
+  }
+
+  if (!sub.name.startsWith("lattice-settings-")) {
+    sub.plugins.withKotlinJvmPlugin {
+      (sub.kotlinExtension as KotlinJvmProjectExtension)
+        .compilerOptions
+        .optIn
+        .add("com.rickbusarow.lattice.core.InternalLatticeApi")
     }
+  }
+}
 
-    sub.apply(plugin = "idea")
+allprojects ap@{
 
-    sub.extensions.configure(IdeaModel::class) {
-      module {
-        generatedSourceDirs.add(sub.file("build"))
-        excludeDirs.add(sub.file("build"))
-      }
+  version = VERSION_NAME
+
+  this@ap.plugins.withBuildInitPlugin {
+    apply(plugin = libs.plugins.rickBusarow.ktlint.get().pluginId)
+
+    dependencies {
+      "ktlint"(rootProject.libs.rickBusarow.ktrules)
     }
   }
 }

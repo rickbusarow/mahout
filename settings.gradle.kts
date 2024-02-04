@@ -82,6 +82,8 @@ gradleEnterprise {
   }
 }
 
+include(":lattice-api")
+include(":lattice-core")
 include(":lattice-gradle-plugin")
 include(":lattice-settings-annotations")
 include(":lattice-settings-generator")

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,8 +18,8 @@ package com.rickbusarow.lattice.conventions
 import com.rickbusarow.kgx.checkProjectIsRoot
 import com.rickbusarow.kgx.dependOn
 import com.rickbusarow.lattice.core.VERSION_NAME
+import com.rickbusarow.lattice.core.stdlib.zipContentEquals
 import com.rickbusarow.lattice.core.versionIsSnapshot
-import com.rickbusarow.lattice.core.zipContentEquals
 import com.rickbusarow.lattice.dokka.DokkatooConventionPlugin.Companion.DOKKATOO_HTML_TASK_NAME
 import org.gradle.api.Plugin
 import org.gradle.api.Project

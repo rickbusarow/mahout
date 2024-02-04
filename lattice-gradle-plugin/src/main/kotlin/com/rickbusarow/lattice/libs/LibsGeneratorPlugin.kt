@@ -16,8 +16,8 @@
 package com.rickbusarow.lattice.libs
 
 import com.rickbusarow.kgx.libsCatalog
-import com.rickbusarow.lattice.core.capitalize
-import com.rickbusarow.lattice.stdlib.applyEach
+import com.rickbusarow.lattice.core.stdlib.applyEach
+import com.rickbusarow.lattice.core.stdlib.capitalize
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
@@ -40,8 +40,6 @@ public abstract class LibsGeneratorPlugin : Plugin<Project> {
       task.srcGenDir.set(target.layout.buildDirectory.dir("generated/source/kotlin"))
       task.packageName.set("boogers")
       task.catalogProvider.set(VersionCatalogSerializable(target.libsCatalog))
-
-      println("libsCatalog type -- ${target.libsCatalog.javaClass}")
     }
   }
 }

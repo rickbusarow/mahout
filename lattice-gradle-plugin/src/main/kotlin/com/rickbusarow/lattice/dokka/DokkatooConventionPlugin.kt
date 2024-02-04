@@ -21,11 +21,11 @@ import com.rickbusarow.kgx.getOrPut
 import com.rickbusarow.kgx.isRootProject
 import com.rickbusarow.kgx.projectDependency
 import com.rickbusarow.ktlint.KtLintTask
+import com.rickbusarow.lattice.api.DefaultLatticeJavadocJarTask
 import com.rickbusarow.lattice.conventions.HasGitHubSubExtension
 import com.rickbusarow.lattice.conventions.HasJavaSubExtension
 import com.rickbusarow.lattice.conventions.HasKotlinSubExtension
-import com.rickbusarow.lattice.core.DefaultLatticeJavadocJarTask
-import com.rickbusarow.lattice.core.SEMVER_REGEX
+import com.rickbusarow.lattice.core.stdlib.SEMVER_REGEX
 import com.rickbusarow.lattice.deps.Libs
 import com.rickbusarow.lattice.latticeExtension
 import dev.adamko.dokkatoo.DokkatooExtension

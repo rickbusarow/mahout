@@ -16,7 +16,7 @@
 package com.rickbusarow.lattice.publishing
 
 import com.rickbusarow.kgx.registerOnce
-import com.rickbusarow.lattice.conventions.DefaultCheckTask
+import com.rickbusarow.lattice.api.DefaultLatticeCheckTask
 import com.rickbusarow.lattice.conventions.applyBinaryCompatibility
 import com.rickbusarow.lattice.deps.PluginIds
 import com.vanniktech.maven.publish.SonatypeHost
@@ -81,7 +81,7 @@ public abstract class LatticePublishPlugin : Plugin<Project> {
 
     val checkTask = target.tasks.registerOnce(
       "checkMavenCoordinatesStrings",
-      DefaultCheckTask::class.java
+      DefaultLatticeCheckTask::class.java
     ) { task ->
       task.group = "publishing"
       task.description = "checks that the project's maven group and artifact ID are valid for Maven"
@@ -124,7 +124,7 @@ public abstract class LatticePublishPlugin : Plugin<Project> {
   }
 
   private fun Project.registerSnapshotVersionCheckTask() {
-    tasks.registerOnce("checkVersionIsSnapshot", DefaultCheckTask::class.java) { task ->
+    tasks.registerOnce("checkVersionIsSnapshot", DefaultLatticeCheckTask::class.java) { task ->
       task.group = "publishing"
       task.description = "ensures that the project version has a -SNAPSHOT suffix"
       val versionString = version as String
@@ -136,7 +136,7 @@ public abstract class LatticePublishPlugin : Plugin<Project> {
         }
       }
     }
-    tasks.registerOnce("checkVersionIsNotSnapshot", DefaultCheckTask::class.java) { task ->
+    tasks.registerOnce("checkVersionIsNotSnapshot", DefaultLatticeCheckTask::class.java) { task ->
       task.group = "publishing"
       task.description = "ensures that the project version does not have a -SNAPSHOT suffix"
       val versionString = version as String

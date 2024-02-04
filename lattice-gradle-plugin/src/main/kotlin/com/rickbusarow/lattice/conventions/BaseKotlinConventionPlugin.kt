@@ -96,9 +96,9 @@ public abstract class BaseKotlinConventionPlugin : Plugin<Project> {
 
       task.kotlinOptions {
 
-        options.allWarningsAsErrors.set(extension.allWarningsAsErrors.orElse(false))
+        // options.allWarningsAsErrors.set(extension.allWarningsAsErrors.orElse(false))
 
-        val kotlinMajor = target.latticeProperties.kotlin.apiLevel.orNull
+        val kotlinMajor = extension.apiLevel.orNull
         if (kotlinMajor != null) {
           languageVersion = kotlinMajor
           apiVersion = kotlinMajor
@@ -113,7 +113,7 @@ public abstract class BaseKotlinConventionPlugin : Plugin<Project> {
           add("-Xinline-classes")
           add("-Xcontext-receivers")
 
-          val explicitApiEnabled = target.latticeProperties.kotlin.explicitApi.orNull == true
+          val explicitApiEnabled = extension.explicitApi.orNull == true
           if (explicitApiEnabled) {
             add("-Xexplicit-api=strict")
           }

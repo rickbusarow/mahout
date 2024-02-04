@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,27 +13,22 @@
  * limitations under the License.
  */
 
-package com.rickbusarow.lattice.stdlib
+package com.rickbusarow.lattice.core.stdlib
 
+import com.rickbusarow.kase.HasParams
 import com.rickbusarow.kase.Kase1
-import com.rickbusarow.kase.KaseTestFactory
-import com.rickbusarow.kase.TestEnvironment
+import com.rickbusarow.kase.asTests
 import com.rickbusarow.kase.kase
+import com.rickbusarow.kase.testFactory
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.types.shouldBeSameInstanceAs
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.TestFactory
 import java.util.*
 
-class AsConversionTest : KaseTestFactory<TestEnvironment, Kase1<Iterable<Int>>> {
+class AsConversionTest : HasParams<Kase1<Iterable<Int>>> {
 
-  fun <E> priorityQueueOf(vararg elements: E): PriorityQueue<E> {
-    return PriorityQueue<E>().also { queue ->
-      elements.forEach { queue.add(it) }
-    }
-  }
-
-  override val kases: List<Kase1<Iterable<Int>>>
+  override val params: List<Kase1<Iterable<Int>>>
     get() = listOf(
       kase("iterable", 1..3),
       kase("collection", priorityQueueOf(1, 2, 3)),
@@ -42,6 +37,15 @@ class AsConversionTest : KaseTestFactory<TestEnvironment, Kase1<Iterable<Int>>> 
       kase("list", listOf(1, 2, 3)),
       kase("mutable list", mutableListOf(1, 2, 3))
     )
+
+  private fun <E> priorityQueueOf(
+    @Suppress("SameParameterValue")
+    vararg elements: E
+  ): PriorityQueue<E> {
+    return PriorityQueue<E>().also { queue ->
+      elements.forEach { queue.add(it) }
+    }
+  }
 
   @Nested
   inner class `asList` {
@@ -53,7 +57,7 @@ class AsConversionTest : KaseTestFactory<TestEnvironment, Kase1<Iterable<Int>>> 
     }
 
     @TestFactory
-    fun `calling asList on a list just returns the original instance`() = kases
+    fun `calling asList on a list just returns the original instance`() = params
       .filter { it.a1 is List<Int> }
       .asTests { (iterable) ->
         iterable.asList() shouldBeSameInstanceAs iterable
@@ -70,7 +74,7 @@ class AsConversionTest : KaseTestFactory<TestEnvironment, Kase1<Iterable<Int>>> 
     }
 
     @TestFactory
-    fun `calling asSet on a set just returns the original instance`() = kases
+    fun `calling asSet on a set just returns the original instance`() = params
       .filter { it.a1 is Set<Int> }
       .asTests { (iterable) ->
         iterable.asSet() shouldBeSameInstanceAs iterable
@@ -88,7 +92,7 @@ class AsConversionTest : KaseTestFactory<TestEnvironment, Kase1<Iterable<Int>>> 
       }
 
     @TestFactory
-    fun `calling asCollection on a collection just returns the original instance`() = kases
+    fun `calling asCollection on a collection just returns the original instance`() = params
       .filter { it.a1 is Collection<Int> }
       .asTests { (iterable) ->
         iterable.asCollection() shouldBeSameInstanceAs iterable

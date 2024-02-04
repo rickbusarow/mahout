@@ -19,7 +19,7 @@ import com.rickbusarow.kgx.library
 import com.rickbusarow.kgx.pluginId
 import com.rickbusarow.kgx.version
 import com.rickbusarow.lattice.core.indent
-import com.rickbusarow.lattice.stdlib.takeView
+import com.rickbusarow.lattice.core.stdlib.takeView
 import org.gradle.api.artifacts.VersionCatalog
 
 public class VersionCatalogSerializable(versionCatalog: VersionCatalog) : java.io.Serializable {

@@ -13,14 +13,20 @@
  * limitations under the License.
  */
 
+import com.rickbusarow.kgx.extras
 import com.rickbusarow.kgx.javaExtension
+import com.rickbusarow.kgx.propertyAs
+import com.rickbusarow.kgx.withKotlinJvmPlugin
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
+import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinBasePlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.util.*
 
 buildscript {
   dependencies {
     classpath(libs.kotlin.gradle.plugin)
+    classpath(libs.vanniktech.publish.plugin)
     classpath(libs.rickBusarow.kgx)
   }
 }
@@ -33,18 +39,37 @@ plugins {
   base
 }
 
-val kotlinApiVersion = project.property("KOTLIN_API").toString()
+rootProject.file("../gradle.properties")
+  .inputStream()
+  .use { Properties().apply { load(it) } }
+  .forEach { key, value ->
+    extras.set(key.toString(), value.toString())
+  }
+
+val kotlinApiVersion = propertyAs<String>("lattice.kotlin.apiLevel")
 
 subprojects sub@{
-  this@sub.layout.buildDirectory.set(this@sub.file("build/build-included"))
+  val sub = this@sub
+  sub.layout.buildDirectory.set(sub.file("build/composite"))
+
+  if (!sub.name.startsWith("lattice-settings-")) {
+    sub.plugins.withKotlinJvmPlugin {
+      (sub.kotlinExtension as KotlinJvmProjectExtension)
+        .compilerOptions
+        .optIn
+        .add("com.rickbusarow.lattice.core.InternalLatticeApi")
+    }
+  }
 }
 
 allprojects ap@{
 
+  version = propertyAs<String>("lattice.versionName")
+
   plugins.withType(KotlinBasePlugin::class.java).configureEach {
 
-    val jdk = project.property("JVM_TOOLCHAIN").toString()
-    val target = property("JVM_TARGET").toString()
+    val jdk = propertyAs<String>("lattice.java.jvmToolchain")
+    val target = propertyAs<String>("lattice.java.jvmTarget")
 
     extensions.configure(KotlinJvmProjectExtension::class.java) {
       jvmToolchain {

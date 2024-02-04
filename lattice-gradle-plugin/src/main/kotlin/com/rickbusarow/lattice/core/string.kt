@@ -15,55 +15,7 @@
 
 package com.rickbusarow.lattice.core
 
-import org.gradle.util.internal.TextUtil
-import java.util.*
-
-internal val SEMVER_REGEX = buildString {
-  append("(?:0|[1-9]\\d*)\\.")
-  append("(?:0|[1-9]\\d*)\\.")
-  append("(?:0|[1-9]\\d*)")
-  append("(?:-(?:(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)")
-  append("(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?")
-  append("(?:\\+(?:[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?")
-}
-
-/** Replaces the deprecated Kotlin version, but hard-codes `Locale.US` */
-internal fun String.capitalize(): String = replaceFirstChar {
-  if (it.isLowerCase()) it.titlecase(Locale.US) else it.toString()
-}
-
-/**
- * Removes trailing whitespaces from all lines in a string.
- *
- * Shorthand for `lines().joinToString("\n") { it.trimEnd() }`
- */
-internal fun String.trimLineEnds(): String = mapLines { it.trimEnd() }
-
-/** performs [transform] on each line */
-internal fun String.mapLines(transform: (String) -> CharSequence): String = lineSequence()
-  .joinToString("\n", transform = transform)
-
-internal fun String.normaliseLineSeparators(): String = TextUtil.convertLineSeparatorsToUnix(this)
-internal fun String.prefixIfNot(
-  prefix: String
-) = if (this.startsWith(prefix)) this else "$prefix$this"
-
-internal fun CharSequence.normaliseLineSeparators(): String {
-  return when (this) {
-    is String -> TextUtil.convertLineSeparatorsToUnix(this)
-    else -> TextUtil.convertLineSeparatorsToUnix(toString())
-  }
-}
-
-/** shorthand for `replace(___, "")` against multiple tokens */
-internal fun String.remove(vararg strings: String): String = strings.fold(this) { acc, string ->
-  acc.replace(string, "")
-}
-
-/** shorthand for `replace(___, "")` against multiple tokens */
-internal fun String.remove(vararg regex: Regex): String = regex.fold(this) { acc, reg ->
-  acc.replace(reg, "")
-}
+import com.rickbusarow.lattice.core.stdlib.remove
 
 /**
  * example:

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,11 +15,11 @@
 
 package com.rickbusarow.lattice
 
+import com.rickbusarow.kase.KaseMatrix
 import com.rickbusarow.kase.gradle.AgpDependencyVersion
 import com.rickbusarow.kase.gradle.DaggerDependencyVersion
 import com.rickbusarow.kase.gradle.GradleDependencyVersion
 import com.rickbusarow.kase.gradle.KotlinDependencyVersion
-import com.rickbusarow.kase.gradle.VersionMatrix
 import org.gradle.util.GradleVersion
 
 class LatticeVersionMatrix(
@@ -27,7 +27,7 @@ class LatticeVersionMatrix(
   kotlin: List<KotlinDependencyVersion> = kotlinList,
   gradle: List<GradleDependencyVersion> = gradleList,
   dagger: List<DaggerDependencyVersion> = daggerList
-) : VersionMatrix by VersionMatrix(agp + kotlin + gradle + dagger) {
+) : KaseMatrix by KaseMatrix(agp + kotlin + gradle + dagger) {
   private companion object {
     val agpList =
       setOf("7.3.1", "7.4.2", "8.0.2", "8.1.1", "8.2.0")

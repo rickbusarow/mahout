@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,13 +15,12 @@
 
 package com.rickbusarow.lattice.conventions
 
-import com.rickbusarow.kgx.applyOnce
 import org.gradle.api.Project
 
 public abstract class KotlinJvmConventionPlugin : BaseKotlinConventionPlugin() {
 
   override fun apply(target: Project) {
-    target.plugins.applyOnce("org.jetbrains.kotlin.jvm")
+    target.plugins.apply("org.jetbrains.kotlin.jvm")
 
     super.apply(target)
   }

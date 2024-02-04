@@ -17,27 +17,76 @@ package com.rickbusarow.lattice.core
 
 import java.io.Serializable
 
-internal class SimpleMultimap<K, V> : Serializable {
+/** A simple Multimap implementation that's mostly a wrapper around a `Map<K, Set<V>>`. */
+@InternalLatticeApi
+public class SimpleMultimap<K, V> : Serializable {
   private val map: MutableMap<K, MutableSet<V>> = HashMap()
 
-  val keys: Set<K> get() = map.keys
-  val size: Int get() = map.size
-  val values: Collection<Set<V>> get() = map.values
+  /** All keys in the map. */
+  public val keys: Set<K> get() = map.keys
 
-  operator fun get(key: K): Set<V>? = map[key]?.toSet()
-  fun getOrEmpty(key: K): Set<V> = get(key).orEmpty()
-  operator fun contains(key: K): Boolean = map.containsKey(key)
+  /** The number of key-value pairs in the map. */
+  public val size: Int get() = map.size
 
-  fun contains(key: K, value: V): Boolean = map[key]?.contains(value) ?: false
+  /** All sets of values in the map. */
+  public val values: Collection<Set<V>> get() = map.values
 
-  fun add(key: K, value: V): Boolean = map.getOrPut(key) { mutableSetOf() }.add(value)
-  fun addAll(
+  /**
+   * Returns the set of values associated with the given
+   * key, or an empty set if the key is not present.
+   */
+  public operator fun get(key: K): Set<V> = map[key].orEmpty()
+
+  /** True if the key is present in the map. */
+  public operator fun contains(key: K): Boolean = map.containsKey(key)
+
+  /** True if the [key] is present in the map and [value] is in its set of values. */
+  public fun contains(key: K, value: V): Boolean = map[key]?.contains(value) ?: false
+
+  /**
+   * Adds [value] to the set of values associated with [key].
+   *
+   * @return `true` if the set value set for [key] changed as a result of this operation.
+   */
+  public fun add(key: K, value: V): Boolean = map.getOrPut(key) { mutableSetOf() }.add(value)
+
+  /**
+   * Adds all [values] to the set of values associated with [key].
+   *
+   * @return `true` if the set value set for [key] changed as a result of this operation.
+   */
+  public fun addAll(
     key: K,
     values: Iterable<V>
-  ): Boolean = map.getOrPut(key) { mutableSetOf() }.addAll(values)
+  ): Boolean {
+    if (!values.iterator().hasNext()) return true
+    return map.getOrPut(key) { mutableSetOf() }.addAll(values)
+  }
 
-  fun remove(key: K): Set<V>? = map.remove(key)?.toSet()
-  fun remove(key: K, value: V): Boolean {
+  /**
+   * Adds all [values] to the set of values associated with [key].
+   *
+   * @return `true` if the set value set for [key] changed as a result of this operation.
+   */
+  public fun addAll(
+    key: K,
+    value: V,
+    vararg additionalValues: V
+  ): Boolean = addAll(key, listOf(value) + additionalValues)
+
+  /**
+   * Removes all values associated with [key].
+   *
+   * @return the set of values previously associated with [key], or `null` if [key] was not present.
+   */
+  public fun remove(key: K): Set<V>? = map.remove(key)?.toSet()
+
+  /**
+   * Removes [value] from the set of values associated with [key].
+   *
+   * @return `true` if [value] was present in the set of values associated with [key].
+   */
+  public fun remove(key: K, value: V): Boolean {
     val values = map[key] ?: return false
 
     val removed = values.remove(value)
@@ -47,7 +96,8 @@ internal class SimpleMultimap<K, V> : Serializable {
     return removed
   }
 
-  fun isEmpty(): Boolean = map.isEmpty()
+  /** @return `true` if there are no keys in the map */
+  public fun isEmpty(): Boolean = map.isEmpty()
 
   override fun toString(): String = map.entries.joinToString("\n") { "${it.key} : ${it.value}" }
   override fun equals(other: Any?): Boolean {

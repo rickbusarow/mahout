@@ -35,6 +35,7 @@ plugins {
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.ksp)
   alias(libs.plugins.drewHamilton.poko)
+
   alias(libs.plugins.plugin.publish)
   alias(libs.plugins.vanniktech.publish.base) apply false
   alias(libs.plugins.buildconfig)
@@ -47,30 +48,25 @@ buildConfig {
     internalVisibility = true
   }
 
-  forClass("com.rickbusarow.lattice.deps", "Versions") {
-
-    for (alias in libsCatalog.versionAliases) {
-      buildConfigField(alias.replace('.', '-'), libsCatalog.version(alias))
+  listOf<Triple<String, List<String>, (String) -> String>>(
+    Triple("Versions", libsCatalog.versionAliases) { libsCatalog.version(it) },
+    Triple("PluginIds", libsCatalog.pluginAliases) { libsCatalog.pluginId(it) },
+    Triple("Libs", libsCatalog.libraryAliases) { libsCatalog.library(it).get().toString() },
+    Triple("Modules", libsCatalog.libraryAliases) {
+      libsCatalog.library(it).get().module.toString()
     }
-  }
-  forClass("com.rickbusarow.lattice.deps", "PluginIds") {
-
-    for (alias in libsCatalog.pluginAliases) {
-      buildConfigField(alias.replace('.', '-'), libsCatalog.pluginId(alias))
+  )
+    .forEach { (className, aliases, value) ->
+      forClass(packageName = "com.rickbusarow.lattice.deps", className = className) {
+        for (alias in aliases) {
+          buildConfigField(alias.replace('.', '-'), value(alias))
+        }
+      }
     }
-  }
-  forClass("com.rickbusarow.lattice.deps", "Libs") {
+}
 
-    for (alias in libsCatalog.libraryAliases) {
-      buildConfigField(alias.replace('.', '-'), libsCatalog.library(alias).get().toString())
-    }
-  }
-  forClass("com.rickbusarow.lattice.deps", "Modules") {
-
-    for (alias in libsCatalog.libraryAliases) {
-      buildConfigField(alias.replace('.', '-'), libsCatalog.library(alias).get().module.toString())
-    }
-  }
+kotlin {
+  explicitApi()
 }
 
 val gradleTest by sourceSets.registering {
@@ -116,14 +112,17 @@ val gradleTestImplementation: Configuration by configurations.getting
 
 dependencies {
 
+  api(project(":lattice-api"))
+  api(project(":lattice-core"))
+
   compileOnly(gradleApi())
 
   compileOnly(project(":lattice-settings-annotations"))
 
-  gradleTestImplementation(libs.junit.engine)
   gradleTestImplementation(libs.junit.jupiter)
   gradleTestImplementation(libs.junit.jupiter.api)
-  gradleTestImplementation(libs.junit.params)
+  gradleTestImplementation(libs.junit.jupiter.engine)
+  gradleTestImplementation(libs.junit.jupiter.params)
   gradleTestImplementation(libs.kase)
   gradleTestImplementation(libs.kase.gradle)
   gradleTestImplementation(libs.kase.gradle.dsl)
@@ -161,10 +160,10 @@ dependencies {
 
   ksp(project(":lattice-settings-generator"))
 
-  testImplementation(libs.junit.engine)
   testImplementation(libs.junit.jupiter)
   testImplementation(libs.junit.jupiter.api)
-  testImplementation(libs.junit.params)
+  testImplementation(libs.junit.jupiter.engine)
+  testImplementation(libs.junit.jupiter.params)
   testImplementation(libs.kase)
   testImplementation(libs.kotest.assertions.api)
   testImplementation(libs.kotest.assertions.core.jvm)

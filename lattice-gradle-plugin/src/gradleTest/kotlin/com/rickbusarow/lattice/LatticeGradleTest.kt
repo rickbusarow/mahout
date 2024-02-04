@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,16 +15,20 @@
 
 package com.rickbusarow.lattice
 
+import com.rickbusarow.kase.KaseMatrix
+import com.rickbusarow.kase.gradle.DefaultGradleTestEnvironment
 import com.rickbusarow.kase.gradle.GradleTestVersions
 import com.rickbusarow.kase.gradle.KaseGradleTest
-import com.rickbusarow.kase.gradle.TestVersions
-import com.rickbusarow.kase.gradle.VersionMatrix
+import com.rickbusarow.kase.gradle.versions
 
-interface LatticeGradleTest<K : TestVersions> : KaseGradleTest<K> {
-  override val versionMatrix: VersionMatrix
+interface LatticeGradleTest :
+  KaseGradleTest<GradleTestVersions, DefaultGradleTestEnvironment, DefaultGradleTestEnvironment.Factory> {
+
+  override val testEnvironmentFactory get() = DefaultGradleTestEnvironment.Factory()
+
+  override val kaseMatrix: KaseMatrix
     get() = LatticeVersionMatrix()
 
-  @Suppress("UNCHECKED_CAST")
-  override val kases: List<K>
-    get() = versionMatrix.versions(GradleTestVersions) as List<K>
+  override val params: List<GradleTestVersions>
+    get() = kaseMatrix.versions(GradleTestVersions)
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,14 +13,24 @@
  * limitations under the License.
  */
 
-package com.rickbusarow.lattice.stdlib
+plugins {
+  alias(libs.plugins.kotlin.jvm)
+  alias(libs.plugins.kotlin.serialization)
+  alias(libs.plugins.drewHamilton.poko)
+}
 
-/**
- * Returns a list of all elements sorted according to the specified [selectors].
- *
- * The sort is _stable_. It means that equal elements
- * preserve their order relative to each other after sorting.
- */
-internal fun <T> Sequence<T>.sortedBy(vararg selectors: (T) -> Comparable<*>): Sequence<T> {
-  return sortedWith(compareBy(*selectors))
+if (rootProject.name == "lattice") {
+  apply(plugin = "com.rickbusarow.lattice.kotlin-jvm")
+}
+
+kotlin {
+  explicitApi()
+}
+
+dependencies {
+
+  compileOnly(gradleApi())
+
+  compileOnly(libs.kotlin.gradle.plugin)
+  compileOnly(libs.kotlin.gradle.plugin.api)
 }

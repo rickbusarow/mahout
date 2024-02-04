@@ -17,8 +17,8 @@ package com.rickbusarow.lattice.generator
 
 /** */
 @Retention(AnnotationRetention.SOURCE)
-annotation class LatticePropertiesSchema
+public annotation class LatticePropertiesSchema
 
 /** */
 @Retention(AnnotationRetention.SOURCE)
-annotation class DelegateProperty(vararg val names: String)
+public annotation class DelegateProperty(public vararg val names: String)

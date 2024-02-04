@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,9 +15,9 @@
 
 package com.rickbusarow.lattice.curator
 
+import com.rickbusarow.lattice.api.LatticeFixTask
 import com.rickbusarow.lattice.core.Color.Companion.colorized
 import com.rickbusarow.lattice.core.Color.RED
-import com.rickbusarow.lattice.core.FixTask
 import kotlinx.serialization.encodeToString
 import org.gradle.api.GradleException
 import org.gradle.api.file.ProjectLayout
@@ -27,7 +27,7 @@ import javax.inject.Inject
 /** Evaluates all published artifacts in the project and writes the results to `/artifacts.json` */
 public open class CuratorDumpTask @Inject constructor(
   projectLayout: ProjectLayout
-) : AbstractCuratorTask(projectLayout), FixTask {
+) : AbstractCuratorTask(projectLayout), LatticeFixTask {
 
   init {
     description = "Parses the Maven artifact parameters for all modules " +

@@ -19,7 +19,7 @@ import com.rickbusarow.lattice.conventions.AbstractHasSubExtension
 import com.rickbusarow.lattice.conventions.AbstractSubExtension
 import com.rickbusarow.lattice.core.SubExtension
 import com.rickbusarow.lattice.core.SubExtensionInternal
-import com.rickbusarow.lattice.core.addTasksToStartParameter
+import com.rickbusarow.lattice.core.gradle.addTasksToStartParameter
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.model.ObjectFactory

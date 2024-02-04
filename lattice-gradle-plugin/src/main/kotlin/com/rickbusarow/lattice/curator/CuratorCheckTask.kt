@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,7 +15,7 @@
 
 package com.rickbusarow.lattice.curator
 
-import com.rickbusarow.lattice.core.CheckTask
+import com.rickbusarow.lattice.api.LatticeCheckTask
 import com.rickbusarow.lattice.core.Color.Companion.colorized
 import com.rickbusarow.lattice.core.Color.RED
 import com.rickbusarow.lattice.core.Color.YELLOW
@@ -36,7 +36,7 @@ import javax.inject.Inject
 public open class CuratorCheckTask @Inject constructor(
   objectFactory: ObjectFactory,
   projectLayout: ProjectLayout
-) : AbstractCuratorTask(projectLayout), CheckTask {
+) : AbstractCuratorTask(projectLayout), LatticeCheckTask {
 
   init {
     description = "Parses the Maven artifact parameters for all modules " +

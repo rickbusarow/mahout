@@ -13,7 +13,9 @@
  * limitations under the License.
  */
 
-package com.rickbusarow.lattice.stdlib
+package com.rickbusarow.lattice.core.stdlib
+
+import com.rickbusarow.lattice.core.InternalLatticeApi
 
 /**
  * Applies the given block to each kaseParam in the iterable and returns the receiver object.
@@ -22,6 +24,7 @@ package com.rickbusarow.lattice.stdlib
  * @param block The block of code to apply to each kaseParam.
  * @return The receiver object after applying the block to each kaseParam.
  */
+@InternalLatticeApi
 public inline fun <T, E> T.applyEach(elements: Iterable<E>, block: T.(e: E) -> Unit): T = apply {
   for (element in elements) {
     block(element)
@@ -35,6 +38,7 @@ public inline fun <T, E> T.applyEach(elements: Iterable<E>, block: T.(e: E) -> U
  * @param block The block of code to apply to each kaseParam.
  * @return The receiver object after applying the block to each kaseParam.
  */
+@InternalLatticeApi
 public inline fun <T, E> T.applyEachIndexed(
   elements: Iterable<E>,
   block: T.(index: Int, e: E) -> Unit
@@ -51,6 +55,7 @@ public inline fun <T, E> T.applyEachIndexed(
  * @param block The block of code to apply to each kaseParam.
  * @return The receiver object after applying the block to each kaseParam.
  */
+@InternalLatticeApi
 public inline fun <T, E> T.applyEachIndexed(
   elements: Array<E>,
   block: T.(index: Int, e: E) -> Unit
@@ -70,6 +75,7 @@ public inline fun <T, E> T.applyEachIndexed(
  * @return The receiver object after applying the block to each kaseParam.
  */
 @Suppress("NOTHING_TO_INLINE")
+@InternalLatticeApi
 public inline fun <T> T.applyEach(blocks: Iterable<T.() -> Unit>): T = apply {
   for (block in blocks) block()
 }
@@ -83,6 +89,7 @@ public inline fun <T> T.applyEach(blocks: Iterable<T.() -> Unit>): T = apply {
  * @return The receiver object after applying the block to each kaseParam.
  */
 @Suppress("NOTHING_TO_INLINE")
+@InternalLatticeApi
 public inline fun <T> T.applyEach(vararg blocks: T.() -> Unit): T = apply {
   for (block in blocks) block()
 }
@@ -96,6 +103,7 @@ public inline fun <T> T.applyEach(vararg blocks: T.() -> Unit): T = apply {
  * @return The modified receiver object if the predicate
  *   is true, or the original receiver object otherwise.
  */
+@InternalLatticeApi
 public inline fun <T> T.applyIf(predicate: Boolean, body: T.() -> T): T = apply {
   if (predicate) {
     body()
@@ -112,6 +120,7 @@ public inline fun <T> T.applyIf(predicate: Boolean, body: T.() -> T): T = apply 
  * @return The result of the transform function if the
  *   predicate is true, or the receiver object itself otherwise.
  */
+@InternalLatticeApi
 public inline fun <T> T.letIf(predicate: Boolean, transform: (T) -> T): T {
   return if (predicate) transform(this) else this
 }
@@ -126,6 +135,7 @@ public inline fun <T> T.letIf(predicate: Boolean, transform: (T) -> T): T {
  * @return The result of the transformation function if the
  *   predicate is true, or the receiver object itself otherwise.
  */
+@InternalLatticeApi
 public inline fun <T> T.alsoIf(predicate: Boolean, body: (T) -> Unit): T {
   if (predicate) {
     body(this)

@@ -1,4 +1,4 @@
-com.google.devtools.ksp:symbol-processing-api:1.9.22-1.0.16
+com.google.devtools.ksp:symbol-processing-api:1.9.22-1.0.17
 com.squareup:kotlinpoet-jvm:1.16.0
 com.squareup:kotlinpoet-ksp:1.16.0
 com.squareup:kotlinpoet:1.16.0

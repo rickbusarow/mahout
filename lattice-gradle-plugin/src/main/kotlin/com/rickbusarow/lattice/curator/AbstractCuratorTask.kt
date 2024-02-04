@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Rick Busarow
+ * Copyright (C) 2024 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,8 +15,8 @@
 
 package com.rickbusarow.lattice.curator
 
-import com.rickbusarow.lattice.core.DefaultLatticeTask
-import com.rickbusarow.lattice.core.existsOrNull
+import com.rickbusarow.lattice.api.DefaultLatticeTask
+import com.rickbusarow.lattice.core.stdlib.existsOrNull
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import org.apache.tools.ant.taskdefs.condition.Os
@@ -29,8 +29,7 @@ import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.OutputFile
 
-/**
- */
+/** */
 public abstract class AbstractCuratorTask(
   private val projectLayout: ProjectLayout
 ) : DefaultLatticeTask() {
