@@ -1,3 +1,5 @@
+:lattice-api
+:lattice-core
 com.diffplug.durian:durian-collect:1.2.0
 com.diffplug.durian:durian-core:1.2.0
 com.diffplug.durian:durian-io:1.2.0

@@ -18,7 +18,7 @@ package com.rickbusarow.lattice.conventions
 import com.rickbusarow.lattice.libs.CatalogSection
 import com.rickbusarow.lattice.libs.CatalogSection.AliasToValue
 
-object TestLibData {
+internal object TestLibData {
   val versions = CatalogSection(
     listOf(
       AliasToValue("benManes.versions", "0.50.0"),

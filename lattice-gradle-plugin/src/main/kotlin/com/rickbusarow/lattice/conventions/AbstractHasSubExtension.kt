@@ -47,11 +47,11 @@ public open class SubExtensionRegistry @Inject constructor(
   /** */
   public fun <T : SubExtension<*>> register(
     name: String,
-    type: Class<T>,
+    publicType: Class<T>,
     instanceType: Class<out T>
   ): T {
     val instance = objects.newInstance(instanceType)
-    schema[name] = SubExtensionElement(type, name, instance)
+    schema[name] = SubExtensionElement(publicType = publicType, name = name, instance = instance)
     return instance
   }
 
@@ -84,9 +84,9 @@ public open class SubExtensionRegistry @Inject constructor(
 /** */
 public abstract class AbstractHasSubExtension : HasObjectFactory {
 
-  protected inline fun <reified T : SubExtension<T>> subExtension(): Lazy<T> {
-    return objects.newInstanceLazy<T>()
-  }
+  // protected inline fun <reified T : SubExtension<T>> subExtension(): Lazy<T> {
+  //   return objects.newInstanceLazy<T>()
+  // }
 
   protected fun <T : SubExtension<T>, R : T> subExtension(clazz: KClass<out R>): Lazy<R> {
     return objects.newInstanceLazy(clazz.java)

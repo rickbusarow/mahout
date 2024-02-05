@@ -47,6 +47,8 @@ public abstract class DetektConventionPlugin : Plugin<Project> {
       .map { it.dir("reports/detekt") }
     val configFile = target.rootProject.file("detekt/detekt-config.yml")
 
+    val detektVersion = target.latticeProperties.versions.detekt
+
     target.tasks.register("detektReportMerge", ReportMergeTask::class.java) { reportMergeTask ->
       reportMergeTask.output.set(reportsDir.map { it.file("merged.sarif") })
       reportMergeTask.input.from(
@@ -56,7 +58,7 @@ public abstract class DetektConventionPlugin : Plugin<Project> {
 
     target.dependencies.add(
       "detektPlugins",
-      target.latticeProperties.versions.detekt.map { "${Modules.`detekt-rules-libraries`}:$it" }
+      detektVersion.map { "${Modules.`detekt-rules-libraries`}:$it" }
     )
 
     target.extensions.configure(DetektExtension::class.java) { extension ->

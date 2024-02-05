@@ -17,6 +17,7 @@ package com.rickbusarow.lattice.conventions
 
 import com.dropbox.gradle.plugins.dependencyguard.DependencyGuardPluginExtension
 import com.rickbusarow.kgx.applyOnce
+import com.rickbusarow.kgx.isRootProject
 import com.rickbusarow.kgx.withJavaBasePlugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -25,6 +26,8 @@ import org.gradle.language.base.plugins.LifecycleBasePlugin
 /** */
 public abstract class DependencyGuardConventionPlugin : Plugin<Project> {
   override fun apply(target: Project) {
+
+    if (target.isRootProject()) return
 
     target.plugins.applyOnce("com.dropbox.dependency-guard")
 

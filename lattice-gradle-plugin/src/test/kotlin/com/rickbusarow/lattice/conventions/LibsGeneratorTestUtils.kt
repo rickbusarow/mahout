@@ -15,12 +15,12 @@
 
 package com.rickbusarow.lattice.conventions
 
-import com.rickbusarow.lattice.core.prefixIfNot
+import com.rickbusarow.lattice.core.stdlib.prefixIfNot
 import com.rickbusarow.lattice.libs.CatalogSection
 import com.rickbusarow.lattice.libs.Node
 import io.kotest.matchers.shouldBe
 
-interface LibsGeneratorTestUtils {
+internal interface LibsGeneratorTestUtils {
   infix fun List<Node>.shouldBe(expected: List<Node>) {
     val actualString = joinToString("\n").prefixIfNot("\n")
     val expectedString = expected.joinToString("\n").prefixIfNot("\n")

@@ -160,7 +160,7 @@ public abstract class com/rickbusarow/lattice/composite/CompositePlugin : org/gr
 }
 
 public abstract class com/rickbusarow/lattice/composite/CompositeSubExtension : com/rickbusarow/lattice/core/SubExtension {
-	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun <init> ()V
 	public fun configure (Lorg/gradle/api/Action;)V
 	public final fun excludeRequestedNames ([Ljava/lang/String;)V
 	public final fun includeCompositeTasks (Lorg/gradle/api/specs/Spec;)V
@@ -792,34 +792,6 @@ public final class com/rickbusarow/lattice/dokka/HasDokkaSubExtension$DefaultImp
 	public static fun dokka (Lcom/rickbusarow/lattice/dokka/HasDokkaSubExtension;Lorg/gradle/api/Action;)V
 }
 
-public final class com/rickbusarow/lattice/libs/CatalogSection {
-	public fun <init> (Ljava/util/List;)V
-	public final fun component1 ()Ljava/util/List;
-	public final fun copy (Ljava/util/List;)Lcom/rickbusarow/lattice/libs/CatalogSection;
-	public static synthetic fun copy$default (Lcom/rickbusarow/lattice/libs/CatalogSection;Ljava/util/List;ILjava/lang/Object;)Lcom/rickbusarow/lattice/libs/CatalogSection;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun get (Ljava/lang/String;)Ljava/lang/String;
-	public final fun getAliasToValue ()Ljava/util/List;
-	public final fun getAliases ()Ljava/util/List;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class com/rickbusarow/lattice/libs/CatalogSection$AliasToValue : java/lang/Comparable {
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
-	public fun compareTo (Lcom/rickbusarow/lattice/libs/CatalogSection$AliasToValue;)I
-	public synthetic fun compareTo (Ljava/lang/Object;)I
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lcom/rickbusarow/lattice/libs/CatalogSection$AliasToValue;
-	public static synthetic fun copy$default (Lcom/rickbusarow/lattice/libs/CatalogSection$AliasToValue;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/rickbusarow/lattice/libs/CatalogSection$AliasToValue;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getAlias ()Ljava/lang/String;
-	public final fun getValue ()Ljava/lang/String;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
 public abstract class com/rickbusarow/lattice/libs/LibsGeneratorPlugin : org/gradle/api/Plugin {
 	public fun <init> ()V
 	public synthetic fun apply (Ljava/lang/Object;)V
@@ -834,21 +806,6 @@ public abstract class com/rickbusarow/lattice/libs/LibsGeneratorTask : org/gradl
 	public abstract fun getSrcGenDir ()Lorg/gradle/api/file/DirectoryProperty;
 }
 
-public final class com/rickbusarow/lattice/libs/Node : java/lang/Comparable {
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Set;)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Set;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun compareTo (Lcom/rickbusarow/lattice/libs/Node;)I
-	public synthetic fun compareTo (Ljava/lang/Object;)I
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getChildren ()Ljava/util/Set;
-	public final fun getQualifiedName ()Ljava/lang/String;
-	public final fun getSimpleName ()Ljava/lang/String;
-	public final fun getValue ()Ljava/lang/String;
-	public fun hashCode ()I
-	public final fun setValue (Ljava/lang/String;)V
-	public fun toString ()Ljava/lang/String;
-}
-
 public final class com/rickbusarow/lattice/libs/VersionCatalogSerializable : java/io/Serializable {
 	public fun <init> (Lorg/gradle/api/artifacts/VersionCatalog;)V
 	public final fun getBundles ()Ljava/util/List;
@@ -859,7 +816,7 @@ public final class com/rickbusarow/lattice/libs/VersionCatalogSerializable : jav
 }
 
 public class com/rickbusarow/lattice/publishing/DefaultPublishingGradlePluginHandler : com/rickbusarow/lattice/publishing/PublishingGradlePluginHandler {
-	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun <init> ()V
 	public fun publishPlugin (Lorg/gradle/api/NamedDomainObjectProvider;)V
 }
 

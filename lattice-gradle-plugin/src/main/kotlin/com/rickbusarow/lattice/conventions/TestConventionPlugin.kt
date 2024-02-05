@@ -15,6 +15,7 @@
 
 package com.rickbusarow.lattice.conventions
 
+import com.rickbusarow.kgx.buildDir
 import com.rickbusarow.kgx.isRealRootProject
 import com.rickbusarow.lattice.core.commonPropertyPrefix
 import com.rickbusarow.lattice.core.prefixedPropertyOrNull
@@ -42,6 +43,8 @@ public abstract class TestConventionPlugin : Plugin<Project> {
 
     target.tasks.withType(Test::class.java).configureEach { task ->
       task.useJUnitPlatform()
+
+      task.systemProperty("kase.baseWorkingDir", target.buildDir().resolve("kase"))
 
       val junitPlatformOptions = task.testFrameworkProperty
         .map { frameWork ->
