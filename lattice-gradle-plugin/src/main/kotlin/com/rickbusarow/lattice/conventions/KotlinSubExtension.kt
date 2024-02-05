@@ -27,10 +27,10 @@ import javax.inject.Inject
 /** */
 public interface HasKotlinSubExtension : java.io.Serializable {
 
-/** */
+  /** */
   public val kotlin: KotlinSubExtension
 
-/** */
+  /** */
   public fun kotlin(action: Action<in KotlinSubExtension>) {
     action.execute(kotlin)
   }
@@ -72,13 +72,13 @@ internal abstract class DefaultHasKotlinMultiplatformSubExtension @Inject constr
 /** */
 public interface KotlinSubExtension : SubExtension<KotlinSubExtension> {
 
-/** */
+  /** */
   public val apiLevel: Property<String>
 
-/** */
+  /** */
   public val allWarningsAsErrors: Property<Boolean>
 
-/** */
+  /** */
   public val explicitApi: Property<Boolean>
 }
 

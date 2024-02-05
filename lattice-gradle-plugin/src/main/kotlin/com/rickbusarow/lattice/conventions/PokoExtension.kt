@@ -25,7 +25,7 @@ import org.gradle.api.artifacts.ExternalModuleDependency
 /** */
 public interface HasCodeGenExtension {
 
-/** */
+  /** */
   public val codeGen: CodeGenSubExtension
 }
 
@@ -37,7 +37,7 @@ public interface CodeGenSubExtension {
 /** */
 public interface HasPokoExtension {
 
-/** */
+  /** */
   public val poko: PokoExtension
 }
 

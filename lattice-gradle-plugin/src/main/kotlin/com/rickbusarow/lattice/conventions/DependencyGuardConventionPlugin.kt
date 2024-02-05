@@ -17,6 +17,7 @@ package com.rickbusarow.lattice.conventions
 
 import com.dropbox.gradle.plugins.dependencyguard.DependencyGuardPluginExtension
 import com.rickbusarow.kgx.applyOnce
+import com.rickbusarow.kgx.withJavaBasePlugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.language.base.plugins.LifecycleBasePlugin
@@ -25,16 +26,17 @@ import org.gradle.language.base.plugins.LifecycleBasePlugin
 public abstract class DependencyGuardConventionPlugin : Plugin<Project> {
   override fun apply(target: Project) {
 
-    if (target == target.rootProject) {
-      return
-    }
-
-    target.plugins.applyOnce("org.jetbrains.kotlin.jvm")
     target.plugins.applyOnce("com.dropbox.dependency-guard")
 
+    target.plugins.withJavaBasePlugin {
+      configureDependencyGuard(target)
+    }
+  }
+
+  private fun configureDependencyGuard(target: Project) {
     target.extensions.configure(DependencyGuardPluginExtension::class.java) { extension ->
       extension.configuration("runtimeClasspath") {
-        it.modules = false
+        it.modules = true
       }
     }
 

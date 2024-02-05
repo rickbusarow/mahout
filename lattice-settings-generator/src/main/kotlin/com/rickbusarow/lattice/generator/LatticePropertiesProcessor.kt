@@ -28,16 +28,22 @@ import com.rickbusarow.lattice.generator.utils.applyEach
 import com.rickbusarow.lattice.generator.utils.hasSuperType
 import com.rickbusarow.lattice.generator.utils.maybeAddKdoc
 import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.CodeBlock
+import com.squareup.kotlinpoet.Dynamic
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.LambdaTypeName
 import com.squareup.kotlinpoet.ParameterizedTypeName
-import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
+import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.TypeVariableName
+import com.squareup.kotlinpoet.WildcardTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.ksp.toClassName
 import com.squareup.kotlinpoet.ksp.toTypeName
+import com.squareup.kotlinpoet.withIndent
 
 /** */
 class LatticePropertiesProcessor(
@@ -46,30 +52,30 @@ class LatticePropertiesProcessor(
 
   override fun process(resolver: Resolver): List<KSAnnotated> {
 
-    resolver.getSymbolsWithAnnotation(LatticePropertiesSchema::class.qualifiedName!!)
-      .forEach { symbol ->
+    val schemaFqName = requireNotNull(LatticePropertiesSchema::class.qualifiedName)
 
-        val latticeProperties = parseClass(symbol as KSClassDeclaration, listOf())
+    for (symbol in resolver.getSymbolsWithAnnotation(schemaFqName)) {
+      val latticeProperties = parseClass(symbol as KSClassDeclaration, emptyList())
 
-        val implClassName = symbol.toClassName().impl()
+      val implClassName = symbol.toClassName().impl()
 
-        val fileSpec = FileSpec.builder(implClassName)
-          .addGeneratedBy()
-          .addType(latticeProperties)
-          .addAnnotation(Suppress::class, "AbsentOrWrongFileLicense")
-          .build()
+      val fileSpec = FileSpec.builder(implClassName)
+        .addGeneratedBy()
+        .addType(latticeProperties)
+        .addAnnotation(Suppress::class, "AbsentOrWrongFileLicense")
+        .build()
 
-        codeGenerator.createNewFile(
-          dependencies = Dependencies(false, symbol.containingFile!!),
-          packageName = implClassName.packageName,
-          fileName = implClassName.simpleName
-        ).bufferedWriter().use { writer ->
+      codeGenerator.createNewFile(
+        dependencies = Dependencies(aggregating = false, requireNotNull(symbol.containingFile)),
+        packageName = implClassName.packageName,
+        fileName = implClassName.simpleName
+      ).bufferedWriter().use { writer ->
 
-          fileSpec.toString()
-            .replace("`internal`", "internal")
-            .let(writer::write)
-        }
+        fileSpec.toString()
+          .replace("`internal`", "internal")
+          .also { writer.write(it) }
       }
+    }
 
     return emptyList()
   }
@@ -151,9 +157,15 @@ class LatticePropertiesProcessor(
               addStatement("appendLine(%P)", "$qualifiedPropertyName=\${$simpleName.orNull}")
             }
 
-            for (g in groups) {
+            if (values.isNotEmpty() && groups.isNotEmpty()) {
               addStatement("appendLine()")
+            }
+
+            for ((index, g) in groups.withIndex()) {
               addStatement("appendLine(%L)", g.simpleName.asString())
+              if (index < groups.lastIndex) {
+                addStatement("appendLine()")
+              }
             }
 
             endControlFlow()
@@ -172,13 +184,6 @@ class LatticePropertiesProcessor(
     val valueType = value.type.toTypeName() as ParameterizedTypeName
 
     val docString = value.docString?.trimIndent()
-
-    // validateValuePropertyKdoc(
-    //   value = value,
-    //   docString = docString,
-    //   simpleName = simpleName,
-    //   qualifiedPropertyName = qualifiedPropertyName
-    // )
 
     addProperty(
       PropertySpec.builder(simpleName, valueType, KModifier.OVERRIDE)
@@ -205,11 +210,8 @@ class LatticePropertiesProcessor(
               add("\n.orElse(providers.gradleProperty(%S))", dn)
             }
 
-            when (propertyType) {
-              names.list.parameterizedBy(names.string) -> add("\n.map { it.split(',', ' ') }")
-              names.boolean -> add("\n.map { it.toBoolean() }")
-              names.int -> add("\n.map { it.toInt() }")
-              else -> Unit
+            propertyType.propertyMapperOrNull()?.let { mapper ->
+              add(mapper)
             }
 
             // ex: `defaults.kotlin.allWarningsAsErrors`
@@ -225,6 +227,47 @@ class LatticePropertiesProcessor(
         )
         .build()
     )
+  }
+
+  private fun TypeName.propertyMapperOrNull(): CodeBlock? {
+    return when (val typeName = this) {
+      is ParameterizedTypeName -> when (typeName.rawType) {
+        names.set, names.list -> {
+          buildCodeBlock {
+            add("\n.map { string ->\n")
+            withIndent {
+              add("string.split(',', ' ')")
+
+              typeName.typeArguments.single()
+                .propertyMapperOrNull()
+                ?.let { elementMapper ->
+                  add("\n")
+                  withIndent {
+                    add("%L", elementMapper)
+                  }
+                }
+            }
+            add("\n}")
+          }
+        }
+
+        else -> error("unsupported type: ${typeName.rawType}")
+      }
+
+      is ClassName ->
+        @Suppress("ElseCaseInsteadOfExhaustiveWhen")
+        when (typeName) {
+          names.string -> null
+          names.boolean -> CodeBlock.of(".map { it.toBoolean() }")
+          names.int -> CodeBlock.of(".map { it.toInt() }")
+          else -> error("unsupported type: $this")
+        }
+
+      Dynamic -> null
+      is LambdaTypeName -> null
+      is TypeVariableName -> null
+      is WildcardTypeName -> null
+    }
   }
 
   private fun TypeSpec.Builder.addGroupProperty(

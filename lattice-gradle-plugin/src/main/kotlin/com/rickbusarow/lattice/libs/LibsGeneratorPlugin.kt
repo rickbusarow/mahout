@@ -48,15 +48,15 @@ public abstract class LibsGeneratorPlugin : Plugin<Project> {
 /** */
 public abstract class LibsGeneratorTask @Inject constructor() : DefaultTask() {
 
-/** */
+  /** */
   @get:OutputDirectory
   public abstract val srcGenDir: DirectoryProperty
 
-/** */
+  /** */
   @get:Input
   public abstract val packageName: Property<String>
 
-/** */
+  /** */
   @get:Input
   public abstract val catalogProvider: Property<VersionCatalogSerializable>
 

@@ -105,7 +105,7 @@ public abstract class LatticePublishPlugin : Plugin<Project> {
           "groupId ($actualString) is not a valid Maven identifier ($allowedRegex)."
         }
 
-        val invalid = artifactIds.filterNot { it.matches(allowedRegex) }
+        val invalid = artifactIds.filterNot { artifactId -> artifactId.matches(allowedRegex) }
 
         check(invalid.isEmpty()) {
           invalid.joinToString("\n") { artifactId ->

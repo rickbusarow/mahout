@@ -24,10 +24,10 @@ import javax.inject.Inject
 /** */
 public interface CoreLatticeProperties {
 
-/** */
+  /** */
   public val group: Property<String>
 
-/** */
+  /** */
   public val versionName: Property<String>
 }
 

@@ -27,10 +27,10 @@ import javax.inject.Inject
 /** */
 public interface HasJavaSubExtension : java.io.Serializable {
 
-/** */
+  /** */
   public val java: JavaSubExtension
 
-/** */
+  /** */
   public fun java(action: Action<in JavaSubExtension>) {
     action.execute(java)
   }
@@ -46,22 +46,22 @@ internal abstract class DefaultHasJavaSubExtension @Inject constructor(
 /** */
 public interface JavaSubExtension : SubExtension<JavaSubExtension> {
 
-/** */
+  /** */
   public val jvmTarget: Property<String>
 
-/** */
+  /** */
   public val jvmTargetInt: Provider<Int>
 
-/** */
+  /** */
   public val jvmSource: Property<String>
 
-/** */
+  /** */
   public val jvmSourceInt: Provider<Int>
 
-/** */
+  /** */
   public val jvmToolchain: Property<String>
 
-/** */
+  /** */
   public val jvmToolchainInt: Provider<Int>
 }
 

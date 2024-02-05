@@ -48,10 +48,10 @@ import javax.inject.Inject
 /** */
 public interface LatticeExtensionInternal : ExtensionAware {
 
-/** */
+  /** */
   public val objects: ObjectFactory
 
-/** */
+  /** */
   public val target: Project
 }
 

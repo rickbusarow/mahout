@@ -31,10 +31,10 @@ import javax.inject.Inject
 /** */
 public interface HasGitHubSubExtension : java.io.Serializable {
 
-/** */
+  /** */
   public val github: GitHubSubExtension
 
-/** */
+  /** */
   public fun github(action: Action<in GitHubSubExtension>) {
     action.execute(github)
   }
@@ -50,22 +50,22 @@ internal abstract class DefaultHasGitHubSubExtension @Inject constructor(
 /** */
 public interface GitHubSubExtension : SubExtension<GitHubSubExtension> {
 
-/** */
+  /** */
   public val owner: Property<String>
 
-/** */
+  /** */
   public val repo: Property<String>
 
-/** */
+  /** */
   public val defaultBranch: Property<String>
 
-/** */
+  /** */
   public val url: Provider<String>
 
-/** */
+  /** */
   public val connection: Provider<String>
 
-/** */
+  /** */
   public val developerConnection: Provider<String>
 }
 

@@ -30,10 +30,10 @@ import javax.inject.Inject
 /** */
 public interface HasDokkaSubExtension : java.io.Serializable {
 
-/** */
+  /** */
   public val dokka: DokkaSubExtension
 
-/** */
+  /** */
   public fun dokka(action: Action<in DokkaSubExtension>) {
     action.execute(dokka)
   }
@@ -49,13 +49,13 @@ internal abstract class DefaultHasDokkaSubExtension @Inject constructor(
 /** */
 public interface DokkaSubExtension : SubExtension<DokkaSubExtension> {
 
-/** */
+  /** */
   public val dokkaVersion: Property<String>
 
-/** */
+  /** */
   public val generateTaskWorkerMinHeapSize: Property<String>
 
-/** */
+  /** */
   public val generateTaskWorkerMaxHeapSize: Property<String>
 }
 

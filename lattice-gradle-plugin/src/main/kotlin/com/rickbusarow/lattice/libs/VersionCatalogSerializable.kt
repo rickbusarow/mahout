@@ -25,26 +25,26 @@ import org.gradle.api.artifacts.VersionCatalog
 /** */
 public class VersionCatalogSerializable(versionCatalog: VersionCatalog) : java.io.Serializable {
 
-/** */
+  /** */
   public val name: String = versionCatalog.name
 
-/** */
+  /** */
   public val versions: List<Pair<String, String>> = versionCatalog.versionAliases
     .sorted()
     .filterNot { it.startsWith("config.") }
     .map { alias -> alias to versionCatalog.version(alias) }
 
-/** */
+  /** */
   public val plugins: List<Pair<String, String>> = versionCatalog.pluginAliases
     .sorted()
     .map { alias -> alias to versionCatalog.pluginId(alias) }
 
-/** */
+  /** */
   public val libraries: List<Pair<String, String>> = versionCatalog.libraryAliases
     .sorted()
     .map { alias -> alias to versionCatalog.library(alias).get().toString() }
 
-/** */
+  /** */
   public val bundles: List<Pair<String, String>> = versionCatalog.bundleAliases
     .sorted()
     .map { alias -> alias to versionCatalog.findBundle(alias).get().toString() }
@@ -133,7 +133,7 @@ internal data class CatalogSection(val aliasToValue: List<AliasToValue>) {
           val childNodes = childrenSegments.map { segs ->
             nodeWithChildren(
               parentSegments = segs,
-              childrenSegments = pathSegmentsToChildPathSegments[segs] ?: emptySet()
+              childrenSegments = pathSegmentsToChildPathSegments[segs].orEmpty()
             )
           }
           root.children.addAll(childNodes)

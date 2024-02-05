@@ -22,7 +22,7 @@ import javax.inject.Inject
 /** */
 public interface PublishingGradlePluginHandler : java.io.Serializable {
 
-/** */
+  /** */
   public fun publishPlugin(pluginDeclaration: NamedDomainObjectProvider<PluginDeclaration>)
 }
 

@@ -28,10 +28,10 @@ import javax.inject.Inject
 /** */
 public interface HasCompositeSubExtension : java.io.Serializable {
 
-/** */
+  /** */
   public val composite: CompositeSubExtension
 
-/** */
+  /** */
   public fun composite(action: Action<in CompositeSubExtension>) {
     action.execute(composite)
   }
@@ -50,22 +50,22 @@ public abstract class CompositeSubExtension @Inject constructor() : SubExtension
   internal var includeRequested: AndSpec<RequestedTask> = AndSpec()
   internal var includeCompositeTasks: AndSpec<ResolvedTask> = AndSpec()
 
-/** */
+  /** */
   public fun includeRequested(spec: Spec<RequestedTask>) {
     includeRequested = includeRequested.and(spec)
   }
 
-/** */
+  /** */
   public fun includeRequestedNames(vararg names: String) {
     includeRequested = includeRequested.and { names.contains(it.name) }
   }
 
-/** */
+  /** */
   public fun excludeRequestedNames(vararg names: String) {
     includeRequested = includeRequested.and { !names.contains(it.name) }
   }
 
-/** */
+  /** */
   public fun includeCompositeTasks(spec: Spec<ResolvedTask>) {
     includeCompositeTasks = includeCompositeTasks.and(spec)
   }
@@ -80,10 +80,10 @@ public abstract class CompositeSubExtension @Inject constructor() : SubExtension
     public val typeOrNull: TypeOf<*>?
   ) {
 
-/** */
+    /** */
     public operator fun component1(): String = name
 
-/** */
+    /** */
     public operator fun component2(): TypeOf<*>? = typeOrNull
   }
 
@@ -101,16 +101,16 @@ public abstract class CompositeSubExtension @Inject constructor() : SubExtension
     public val type: TypeOf<*>
   ) {
 
-/** */
+    /** */
     public operator fun component1(): String = buildPath
 
-/** */
+    /** */
     public operator fun component2(): String = taskPath
 
-/** */
+    /** */
     public operator fun component3(): String = taskName
 
-/** */
+    /** */
     public operator fun component4(): TypeOf<*> = type
   }
 }

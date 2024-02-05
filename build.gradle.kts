@@ -72,7 +72,7 @@ subprojects sub@{
     }
   }
 
-  sub.layout.buildDirectory.set(sub.file("build/build-main"))
+  sub.layout.buildDirectory.set(sub.file("build/main"))
 
   sub.tasks.withType(Test::class).configureEach {
     systemProperty("kase.baseWorkingDir", buildDir().resolve("kase"))

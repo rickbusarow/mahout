@@ -28,10 +28,10 @@ import javax.inject.Inject
 /** */
 public interface HasTasksSubExtension : java.io.Serializable {
 
-/** */
+  /** */
   public val tasks: TasksSubExtension
 
-/** */
+  /** */
   public fun tasks(action: Action<in TasksSubExtension>) {
     action.execute(tasks)
   }

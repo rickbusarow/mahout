@@ -45,10 +45,3 @@ local.properties
 
 # Version control
 vcs.xml
-
-# ignore the gradle.properties of any subproject,
-# since they're created and updated automatically by the main settings script
-/**/gradle.properties
-!gradle.properties
-
-/**/build-composite/
