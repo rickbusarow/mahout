@@ -1,6 +1,6 @@
 name: Dependency Submission
 
-on: [ push ]
+on: [push]
 
 permissions:
   contents: write
