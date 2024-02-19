@@ -21,7 +21,7 @@ package com.rickbusarow.mahout.core
  * @property code
  */
 @Suppress("MagicNumber")
-internal enum class Color(public val code: Int) {
+internal enum class Color(val code: Int) {
   BLACK(30),
   RED(31),
   GREEN(32),
