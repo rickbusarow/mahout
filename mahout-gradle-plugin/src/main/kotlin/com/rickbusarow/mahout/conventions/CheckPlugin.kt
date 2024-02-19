@@ -15,10 +15,13 @@
 
 package com.rickbusarow.mahout.conventions
 
+import com.diffplug.gradle.spotless.SpotlessApply
 import com.rickbusarow.kgx.EagerGradleApi
 import com.rickbusarow.kgx.applyOnce
 import com.rickbusarow.kgx.matchingName
+import com.rickbusarow.ktlint.KtLintFormatTask
 import com.rickbusarow.mahout.api.DefaultMahoutTask
+import com.rickbusarow.mahout.api.MahoutFixTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.language.base.plugins.LifecycleBasePlugin
@@ -36,13 +39,14 @@ public abstract class CheckPlugin : Plugin<Project> {
       task.group = "Verification"
       task.description = "Runs all auto-fix linting tasks"
 
-      task.dependsOn(target.rootProject.tasks.matchingName("artifactsDump"))
-      task.dependsOn(target.rootProject.tasks.matchingName("spotlessApply"))
+      task.dependsOn(target.rootProject.tasks.withType(MahoutFixTask::class.java))
+      task.dependsOn(target.rootProject.tasks.withType(SpotlessApply::class.java))
       task.dependsOn(target.tasks.matchingName("apiDump"))
-      task.dependsOn(target.tasks.matchingName("dependencyGuardBaseline"))
-      task.dependsOn(target.tasks.matchingName("ktlintFormat"))
       task.dependsOn(target.tasks.matchingName("deleteEmptyDirs"))
+      task.dependsOn(target.tasks.matchingName("dependencyGuardBaseline"))
       task.dependsOn(target.tasks.matchingName("moduleCheckAuto"))
+      task.dependsOn(target.tasks.withType(KtLintFormatTask::class.java))
+      task.dependsOn(target.tasks.withType(MahoutFixTask::class.java))
     }
 
     // This is a convenience task which applies all available fixes before running `check`. Each

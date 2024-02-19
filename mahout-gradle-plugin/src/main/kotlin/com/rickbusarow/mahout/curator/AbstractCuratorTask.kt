@@ -15,10 +15,10 @@
 
 package com.rickbusarow.mahout.curator
 
+import com.rickbusarow.mahout.api.DefaultMahoutTask
 import com.rickbusarow.mahout.core.stdlib.existsOrNull
 import kotlinx.serialization.json.Json
 import org.apache.tools.ant.taskdefs.condition.Os
-import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.file.ProjectLayout
 import org.gradle.api.file.RegularFile
@@ -31,7 +31,7 @@ import org.gradle.api.tasks.OutputFile
 /** */
 public abstract class AbstractCuratorTask(
   private val projectLayout: ProjectLayout
-) : DefaultTask() {
+) : DefaultMahoutTask() {
 
   /**
    * This file contains all definitions for published artifacts.

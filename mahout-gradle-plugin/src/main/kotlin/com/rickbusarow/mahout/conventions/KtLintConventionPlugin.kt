@@ -16,7 +16,6 @@
 package com.rickbusarow.mahout.conventions
 
 import com.rickbusarow.kgx.EagerGradleApi
-import com.rickbusarow.kgx.isRealRootProject
 import com.rickbusarow.kgx.library
 import com.rickbusarow.kgx.libsCatalog
 import com.rickbusarow.kgx.matchingName
@@ -27,7 +26,6 @@ import kotlinx.validation.KotlinApiBuildTask
 import kotlinx.validation.KotlinApiCompareTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import kotlin.text.RegexOption.MULTILINE
 
 @Suppress("UndocumentedPublicClass")
 public abstract class KtLintConventionPlugin : Plugin<Project> {
@@ -41,7 +39,8 @@ public abstract class KtLintConventionPlugin : Plugin<Project> {
       .add("ktlint", target.libsCatalog.library("rickBusarow-ktrules"))
 
     target.tasks.withType(KtLintTask::class.java).configureEach { task ->
-      task.dependsOn(":updateEditorConfigVersion")
+      System.setProperty("ktrules.project_version", target.VERSION_NAME)
+
       task.mustRunAfter(
         target.tasks.matchingName("apiDump"),
         target.tasks.matchingName("dependencyGuard"),
@@ -49,26 +48,6 @@ public abstract class KtLintConventionPlugin : Plugin<Project> {
         target.tasks.withType(KotlinApiBuildTask::class.java),
         target.tasks.withType(KotlinApiCompareTask::class.java)
       )
-    }
-
-    if (target.isRealRootProject()) {
-
-      target.tasks.register("updateEditorConfigVersion") { task ->
-
-        val file = target.file(".editorconfig")
-
-        task.doLast {
-          val oldText = file.readText()
-
-          val reg = """^(kt-rules_project_version *?= *?)\S*$""".toRegex(MULTILINE)
-
-          val newText = oldText.replace(reg, "$1${target.VERSION_NAME}")
-
-          if (newText != oldText) {
-            file.writeText(newText)
-          }
-        }
-      }
     }
   }
 }

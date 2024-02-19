@@ -16,11 +16,13 @@
 package com.rickbusarow.mahout.publishing
 
 import com.rickbusarow.kgx.registerOnce
-import com.rickbusarow.mahout.api.MahoutTask
+import com.rickbusarow.mahout.api.DefaultMahoutCheckTask
+import com.rickbusarow.mahout.api.DefaultMahoutTask
+import com.rickbusarow.mahout.config.gitUrl
 import com.rickbusarow.mahout.config.mahoutProperties
 import com.rickbusarow.mahout.conventions.applyBinaryCompatibility
-import com.rickbusarow.mahout.core.GITHUB_OWNER
-import com.rickbusarow.mahout.core.GITHUB_OWNER_REPO
+import com.rickbusarow.mahout.config.sshUrl
+import com.rickbusarow.mahout.config.url
 import com.rickbusarow.mahout.core.VERSION_NAME
 import com.vanniktech.maven.publish.GradlePlugin
 import com.vanniktech.maven.publish.JavadocJar.Dokka
@@ -52,7 +54,7 @@ public interface PublishingExtension {
   public fun Project.published(groupId: String, artifactId: String, pomDescription: String) {
 
     plugins.apply("com.vanniktech.maven.publish.base")
-    plugins.apply("builds.dokka")
+    plugins.apply("com.rickbusarow.mahout.dokkatoo")
 
     configurePublish(
       artifactId = artifactId,
@@ -78,7 +80,7 @@ private fun Project.configurePublish(artifactId: String, pomDescription: String,
       mavenPom.description.set(pomDescription)
       mavenPom.name.set(artifactId)
 
-      mavenPom.url.set("https://www.github.com/$GITHUB_OWNER_REPO/")
+      mavenPom.url.set(mahoutProperties.repository.github.url)
 
       mavenPom.licenses { licenseSpec ->
         licenseSpec.license { license ->
@@ -88,15 +90,16 @@ private fun Project.configurePublish(artifactId: String, pomDescription: String,
         }
       }
       mavenPom.scm { scm ->
-        scm.url.set("https://www.github.com/$GITHUB_OWNER_REPO/")
-        scm.connection.set("scm:git:git://github.com/$GITHUB_OWNER_REPO.git")
-        scm.developerConnection.set("scm:git:ssh://git@github.com/$GITHUB_OWNER_REPO.git")
+        scm.url.set(mahoutProperties.repository.github.url)
+        scm.connection.set(mahoutProperties.repository.github.gitUrl)
+        scm.developerConnection.set(mahoutProperties.repository.github.sshUrl)
       }
       mavenPom.developers { developerSpec ->
         developerSpec.developer { developer ->
-          developer.id.set(GITHUB_OWNER)
-          developer.name.set(property("DEVELOPER_NAME") as String)
-          developer.url.set(property("DEVELOPER_URL") as String)
+
+          developer.id.convention(mahoutProperties.publishing.pom.developer.id)
+          developer.name.convention(mahoutProperties.publishing.pom.developer.name)
+          developer.url.convention(mahoutProperties.publishing.pom.developer.url)
         }
       }
     }
@@ -162,7 +165,7 @@ private fun Project.registerCoordinatesStringsCheckTask(groupId: String, artifac
 
   val checkTask = tasks.registerOnce(
     "checkMavenCoordinatesStrings",
-    MahoutTask::class.java
+    DefaultMahoutCheckTask::class.java
   ) { task ->
     task.group = "publishing"
     task.description = "checks that the project's maven group and artifact ID are valid for Maven"
@@ -199,7 +202,7 @@ private fun Project.registerCoordinatesStringsCheckTask(groupId: String, artifac
 private fun Project.registerSnapshotVersionCheckTask() {
   tasks.registerOnce(
     "checkVersionIsSnapshot",
-    MahoutTask::class.java
+    DefaultMahoutCheckTask::class.java
   ) { task ->
     task.group = "publishing"
     task.description = "ensures that the project version has a -SNAPSHOT suffix"
@@ -212,7 +215,7 @@ private fun Project.registerSnapshotVersionCheckTask() {
       }
     }
   }
-  tasks.registerOnce("checkVersionIsNotSnapshot", MahoutTask::class.java) { task ->
+  tasks.registerOnce("checkVersionIsNotSnapshot", DefaultMahoutCheckTask::class.java) { task ->
     task.group = "publishing"
     task.description = "ensures that the project version does not have a -SNAPSHOT suffix"
     val versionString = version as String
@@ -238,7 +241,7 @@ private fun Project.configureSkipDokka() {
   var skipDokka = false
   val setSkipDokka = tasks.register(
     "setSkipDokka",
-    MahoutTask::class.java
+    DefaultMahoutTask::class.java
   ) { task ->
 
     task.group = "publishing"
@@ -248,7 +251,7 @@ private fun Project.configureSkipDokka() {
     task.onlyIf { true }
   }
 
-  tasks.register("publishToMavenLocalNoDokka", MahoutTask::class.java) {
+  tasks.register("publishToMavenLocalNoDokka", DefaultMahoutTask::class.java) {
 
     it.group = "publishing"
     it.description = "Delegates to `publishToMavenLocal`, " +

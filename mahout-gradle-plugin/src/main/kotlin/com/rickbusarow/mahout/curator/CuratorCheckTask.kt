@@ -15,6 +15,7 @@
 
 package com.rickbusarow.mahout.curator
 
+import com.rickbusarow.mahout.api.MahoutCheckTask
 import com.rickbusarow.mahout.core.Color.Companion.colorized
 import com.rickbusarow.mahout.core.Color.RED
 import com.rickbusarow.mahout.core.Color.YELLOW
@@ -32,10 +33,10 @@ import javax.inject.Inject
  *
  * If there are any differences, the task will fail with a descriptive message.
  */
-public open class CuratorCheckTask @Inject constructor(
+public abstract class CuratorCheckTask @Inject constructor(
   objectFactory: ObjectFactory,
   projectLayout: ProjectLayout
-) : AbstractCuratorTask(projectLayout) {
+) : AbstractCuratorTask(projectLayout), MahoutCheckTask {
 
   init {
     description = "Parses the Maven artifact parameters for all modules " +

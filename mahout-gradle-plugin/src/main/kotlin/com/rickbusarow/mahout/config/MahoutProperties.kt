@@ -254,9 +254,17 @@ public interface MahoutProperties : JavaSerializable {
   }
 }
 
-/** */
+/** `"https://github.com/$owner/$repo"` */
 public val GithubSettingsGroup.url: Provider<String>
   get() = owner.zip(repo) { owner, repo -> "https://github.com/$owner/$repo" }
+
+/** `"scm:git:git://github.com//$owner/$repo.git"` */
+public val GithubSettingsGroup.gitUrl: Provider<String>
+  get() = owner.zip(repo) { owner, repo -> "scm:git:git://github.com//$owner/$repo.git" }
+
+/** `"scm:git:ssh://git@github.com/$owner/$repo.git"` */
+public val GithubSettingsGroup.sshUrl: Provider<String>
+  get() = owner.zip(repo) { owner, repo -> "scm:git:ssh://git@github.com/$owner/$repo.git" }
 
 /** */
 public val JavaSettingsGroup.jvmTargetInt: Provider<Int>
