@@ -13,12 +13,11 @@
  * limitations under the License.
  */
 
-package com.rickbusarow.mahout.config
+package com.rickbusarow.mahout.curator
 
 import com.rickbusarow.mahout.core.Color.Companion.colorized
 import com.rickbusarow.mahout.core.Color.RED
 import com.rickbusarow.mahout.core.Color.YELLOW
-import com.rickbusarow.mahout.curator.AbstractCuratorTask
 import org.gradle.api.GradleException
 import org.gradle.api.file.ProjectLayout
 import org.gradle.api.model.ObjectFactory

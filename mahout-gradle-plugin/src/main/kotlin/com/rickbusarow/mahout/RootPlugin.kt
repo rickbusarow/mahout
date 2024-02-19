@@ -18,11 +18,11 @@ package com.rickbusarow.mahout
 import com.rickbusarow.kgx.checkProjectIsRoot
 import com.rickbusarow.kgx.inCI
 import com.rickbusarow.kgx.isRealRootProject
-import com.rickbusarow.mahout.config.CuratorPlugin
 import com.rickbusarow.mahout.conventions.BenManesVersionsPlugin
 import com.rickbusarow.mahout.conventions.DokkaVersionArchivePlugin
 import com.rickbusarow.mahout.conventions.GitHubReleasePlugin
 import com.rickbusarow.mahout.conventions.SpotlessConventionPlugin
+import com.rickbusarow.mahout.curator.CuratorPlugin
 import modulecheck.gradle.ModuleCheckExtension
 import modulecheck.gradle.ModuleCheckPlugin
 import org.gradle.api.Project

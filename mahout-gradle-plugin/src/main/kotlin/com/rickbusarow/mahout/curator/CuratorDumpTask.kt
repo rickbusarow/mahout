@@ -13,11 +13,10 @@
  * limitations under the License.
  */
 
-package com.rickbusarow.mahout.config
+package com.rickbusarow.mahout.curator
 
 import com.rickbusarow.mahout.core.Color.Companion.colorized
 import com.rickbusarow.mahout.core.Color.RED
-import com.rickbusarow.mahout.curator.AbstractCuratorTask
 import kotlinx.serialization.encodeToString
 import org.gradle.api.GradleException
 import org.gradle.api.file.ProjectLayout
@@ -46,7 +45,7 @@ public open class CuratorDumpTask @Inject constructor(
       throw GradleException("The artifacts baseline should only be updated from a macOS machine.")
     }
 
-    val artifactsChanged = baselineArtifacts.sorted() != currentList.sorted()
+    val artifactsChanged = baselineArtifacts.toSet() != currentList.toSet()
 
     if (artifactsChanged && currentList.isNotEmpty()) {
 
