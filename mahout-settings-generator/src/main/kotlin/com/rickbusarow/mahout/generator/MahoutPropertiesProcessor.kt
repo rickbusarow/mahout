@@ -46,10 +46,10 @@ class MahoutPropertiesProcessor(
 
   override fun process(resolver: Resolver): List<KSAnnotated> {
 
-    resolver.getSymbolsWithAnnotation(MahoutPropertiesSchema::class.qualifiedName!!)
+    resolver.getSymbolsWithAnnotation(requireNotNull(MahoutPropertiesSchema::class.qualifiedName))
       .forEach { symbol ->
 
-        val mahoutProperties = parseClass(symbol as KSClassDeclaration, listOf())
+        val mahoutProperties = parseClass(symbol as KSClassDeclaration, emptyList())
 
         val implClassName = symbol.toClassName().impl()
 
@@ -60,14 +60,15 @@ class MahoutPropertiesProcessor(
           .build()
 
         codeGenerator.createNewFile(
-          dependencies = Dependencies(false, symbol.containingFile!!),
+          dependencies = Dependencies(aggregating = false, requireNotNull(symbol.containingFile)),
           packageName = implClassName.packageName,
           fileName = implClassName.simpleName
         ).bufferedWriter().use { writer ->
 
-          fileSpec.toString()
-            .replace("`internal`", "internal")
-            .let(writer::write)
+          writer.write(
+            fileSpec.toString()
+              .replace("`internal`", "internal")
+          )
         }
       }
 
@@ -205,6 +206,7 @@ class MahoutPropertiesProcessor(
               add("\n.orElse(providers.gradleProperty(%S))", dn)
             }
 
+            @Suppress("ElseCaseInsteadOfExhaustiveWhen")
             when (propertyType) {
               names.list.parameterizedBy(names.string) -> add("\n.map { it.split(',', ' ') }")
               names.boolean -> add("\n.map { it.toBoolean() }")

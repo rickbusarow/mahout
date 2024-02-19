@@ -19,6 +19,6 @@ package com.rickbusarow.mahout.generator
 @Retention(AnnotationRetention.SOURCE)
 annotation class MahoutPropertiesSchema
 
-/** */
+/** @property names */
 @Retention(AnnotationRetention.SOURCE)
 annotation class DelegateProperty(vararg val names: String)

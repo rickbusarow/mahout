@@ -63,10 +63,6 @@ public abstract class CleanPlugin : Plugin<Project> {
       }
     }
 
-    target.tasks.register("deleteSrcGen", Delete::class.java) { task ->
-      task.setDelete("src-gen")
-    }
-
     if (target == target.rootProject) {
       val deleteOrphanedProjectDirs = target.tasks
         .register("deleteOrphanedProjectDirs", Delete::class.java) { task ->
