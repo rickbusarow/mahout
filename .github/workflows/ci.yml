@@ -42,7 +42,7 @@ jobs:
 
       - name: dependency-guard baseline (used by main repo)
         if: github.event.repository.fork == false
-        uses: gradle/actions/setup-gradle@ec92e829475ac0c2315ea8f9eced72db85bb337a # v3
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3
         with:
           arguments: dependencyGuardBaseline
           cache-read-only: false --refresh-dependencies
@@ -57,38 +57,38 @@ jobs:
 
       - name: dependency-guard check (used by forks)
         if: github.event.repository.fork == true
-        uses: gradle/actions/setup-gradle@ec92e829475ac0c2315ea8f9eced72db85bb337a # v3
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3
         with:
           arguments: dependencyGuard
           cache-read-only: false --refresh-dependencies
 
       - name: curator check
-        uses: gradle/actions/setup-gradle@ec92e829475ac0c2315ea8f9eced72db85bb337a # v3
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3
         with:
           arguments: curatorCheck
           cache-read-only: false
 
       - name: detekt
-        uses: gradle/actions/setup-gradle@ec92e829475ac0c2315ea8f9eced72db85bb337a # v3
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3
         with:
           arguments: detektAll
           cache-read-only: false
 
       - name: merge detekt SARIF reports
-        uses: gradle/actions/setup-gradle@ec92e829475ac0c2315ea8f9eced72db85bb337a # v3
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3
         with:
           arguments: detektReportMerge
           cache-read-only: false
 
       - name: Upload Detekt's SARIF report
-        uses: github/codeql-action/upload-sarif@e8893c57a1f3a2b659b6b55564fdfdbbd2982911 # v3
+        uses: github/codeql-action/upload-sarif@379614612a29c9e28f31f39a59013eb8012a51f0 # v3
         if: failure()
         with:
           sarif_file: build/reports/detekt/merged.sarif
 
       - name: KtLint format (used by main repo)
         if: github.event.repository.fork == false
-        uses: gradle/actions/setup-gradle@ec92e829475ac0c2315ea8f9eced72db85bb337a # v3
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3
         with:
           arguments: ktlintFormat
           cache-read-only: false
@@ -103,14 +103,14 @@ jobs:
 
       - name: KtLint check (used by forks)
         if: github.event.repository.fork == true
-        uses: gradle/actions/setup-gradle@ec92e829475ac0c2315ea8f9eced72db85bb337a # v3
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3
         with:
           arguments: ktlintCheck
           cache-read-only: false
 
       - name: Spotless format (used by main repo)
         if: github.event.repository.fork == false
-        uses: gradle/actions/setup-gradle@ec92e829475ac0c2315ea8f9eced72db85bb337a # v3
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3
         with:
           arguments: SpotlessApply
           cache-read-only: false
@@ -125,14 +125,14 @@ jobs:
 
       - name: Spotless check (used by forks)
         if: github.event.repository.fork == true
-        uses: gradle/actions/setup-gradle@ec92e829475ac0c2315ea8f9eced72db85bb337a # v3
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3
         with:
           arguments: SpotlessCheck
           cache-read-only: false
 
       - name: Doks update (used by main repo)
         if: github.event.repository.fork == false
-        uses: gradle/actions/setup-gradle@ec92e829475ac0c2315ea8f9eced72db85bb337a # v3
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3
         with:
           arguments: doks
           cache-read-only: false
@@ -147,14 +147,14 @@ jobs:
 
       - name: Doks check (used by forks)
         if: github.event.repository.fork == true
-        uses: gradle/actions/setup-gradle@ec92e829475ac0c2315ea8f9eced72db85bb337a # v3
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3
         with:
           arguments: doksCheck
           cache-read-only: false
 
       - name: ModuleCheck with auto-correct (used by main repo)
         if: github.event.repository.fork == false
-        uses: gradle/actions/setup-gradle@ec92e829475ac0c2315ea8f9eced72db85bb337a # v3
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3
         with:
           arguments: moduleCheckAuto
           cache-read-only: false
@@ -169,7 +169,7 @@ jobs:
 
       - name: ModuleCheck check (used by forks)
         if: github.event.repository.fork == true
-        uses: gradle/actions/setup-gradle@ec92e829475ac0c2315ea8f9eced72db85bb337a # v3
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3
         with:
           arguments: moduleCheck
           cache-read-only: false
@@ -188,13 +188,13 @@ jobs:
           java-version: "17"
 
       - name: all tests
-        uses: gradle/actions/setup-gradle@ec92e829475ac0c2315ea8f9eced72db85bb337a # v3
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3
         with:
           arguments: test "${{ env.ubuntuGradleArgs }}"
           cache-read-only: false
 
       - name: Archive test results
-        uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4
         if: failure()
         with:
           name: test-results-ubuntu
@@ -222,13 +222,13 @@ jobs:
           java-version: "17"
 
       - name: all integration tests
-        uses: gradle/actions/setup-gradle@ec92e829475ac0c2315ea8f9eced72db85bb337a # v3
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3
         with:
           arguments: test "${{ env.ubuntuGradleArgs }}"
           cache-read-only: false
 
       - name: Archive test results
-        uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4
         if: failure()
         with:
           name: test-results-ubuntu
@@ -256,13 +256,13 @@ jobs:
           java-version: "17"
 
       - name: all tests
-        uses: gradle/actions/setup-gradle@ec92e829475ac0c2315ea8f9eced72db85bb337a # v3
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3
         with:
           arguments: test "${{ env.windowsGradleArgs }}"
           cache-read-only: false
 
       - name: Archive test results
-        uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4
         if: failure()
         with:
           name: test-results-windows
