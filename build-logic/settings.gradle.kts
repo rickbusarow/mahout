@@ -54,11 +54,11 @@ dependencyResolutionManagement {
 }
 
 listOf(
-  "lattice-api",
-  "lattice-core",
-  "lattice-gradle-plugin",
-  "lattice-settings-annotations",
-  "lattice-settings-generator"
+  "mahout-api",
+  "mahout-core",
+  "mahout-gradle-plugin",
+  "mahout-settings-annotations",
+  "mahout-settings-generator"
 ).forEach { name ->
   include(":$name")
   project(":$name").let {

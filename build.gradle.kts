@@ -15,9 +15,9 @@
 
 import com.rickbusarow.kgx.withBuildInitPlugin
 import com.rickbusarow.kgx.withKotlinJvmPlugin
-import com.rickbusarow.lattice.core.InternalLatticeApi
-import com.rickbusarow.lattice.core.VERSION_NAME
-import com.rickbusarow.lattice.core.gradle.addTasksToStartParameter
+import com.rickbusarow.mahout.core.InternalMahoutApi
+import com.rickbusarow.mahout.core.VERSION_NAME
+import com.rickbusarow.mahout.core.gradle.addTasksToStartParameter
 import org.gradle.plugins.ide.idea.model.IdeaModel
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
@@ -29,8 +29,8 @@ plugins {
   alias(libs.plugins.rickBusarow.ktlint) apply false
   alias(libs.plugins.rickBusarow.doks)
   alias(libs.plugins.rickBusarow.moduleCheck)
-  id("com.rickbusarow.lattice.jvm-module") apply false
-  id("com.rickbusarow.lattice.root")
+  id("com.rickbusarow.mahout.jvm-module") apply false
+  id("com.rickbusarow.mahout.root")
 }
 
 moduleCheck {
@@ -38,15 +38,15 @@ moduleCheck {
   checks.sortDependencies = true
 }
 
-lattice {
+mahout {
 
   composite {
   }
 
-  @OptIn(InternalLatticeApi::class)
+  @OptIn(InternalMahoutApi::class)
   addTasksToStartParameter(
-    ":lattice-gradle-plugin:generateBuildConfig",
-    ":lattice-gradle-plugin:kspKotlin"
+    ":mahout-gradle-plugin:generateBuildConfig",
+    ":mahout-gradle-plugin:kspKotlin"
   )
 }
 
@@ -62,12 +62,12 @@ subprojects sub@{
     }
   }
 
-  if (!sub.name.startsWith("lattice-settings-")) {
+  if (!sub.name.startsWith("mahout-settings-")) {
     sub.plugins.withKotlinJvmPlugin {
       (sub.kotlinExtension as KotlinJvmProjectExtension)
         .compilerOptions
         .optIn
-        .add("com.rickbusarow.lattice.core.InternalLatticeApi")
+        .add("com.rickbusarow.mahout.core.InternalMahoutApi")
     }
   }
 }

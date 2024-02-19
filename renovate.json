@@ -41,7 +41,7 @@
         "com.rickbusarow.kgx:",
         "com.rickbusarow.ktlint:",
         "com.rickbusarow.ktrules:",
-        "com.rickbusarow.lattice:",
+        "com.rickbusarow.mahout:",
         "com.rickbusarow.modulecheck:"
       ],
       "automerge": true,
