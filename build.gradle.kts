@@ -15,7 +15,6 @@
 
 import com.rickbusarow.kgx.withBuildInitPlugin
 import com.rickbusarow.kgx.withKotlinJvmPlugin
-import com.rickbusarow.mahout.core.InternalMahoutApi
 import com.rickbusarow.mahout.core.VERSION_NAME
 import com.rickbusarow.mahout.core.gradle.addTasksToStartParameter
 import org.gradle.plugins.ide.idea.model.IdeaModel
@@ -43,7 +42,6 @@ mahout {
   composite {
   }
 
-  @OptIn(InternalMahoutApi::class)
   addTasksToStartParameter(
     ":mahout-gradle-plugin:generateBuildConfig",
     ":mahout-gradle-plugin:kspKotlin"
@@ -61,8 +59,7 @@ subprojects sub@{
       excludeDirs = excludeDirs + sub.file("build")
     }
   }
-
-  if (!sub.name.startsWith("mahout-settings-")) {
+  if (!sub.name.startsWith("mahout-settings-") && sub.name != "mahout-api") {
     sub.plugins.withKotlinJvmPlugin {
       (sub.kotlinExtension as KotlinJvmProjectExtension)
         .compilerOptions

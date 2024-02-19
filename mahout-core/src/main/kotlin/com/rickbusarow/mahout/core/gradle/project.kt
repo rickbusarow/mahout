@@ -17,18 +17,15 @@ package com.rickbusarow.mahout.core.gradle
 
 import com.rickbusarow.kgx.isPartOfRootBuild
 import com.rickbusarow.kgx.parents
-import com.rickbusarow.mahout.core.InternalMahoutApi
 import com.rickbusarow.mahout.core.stdlib.prefixIfNot
 import org.gradle.api.Project
 
 /** */
-@InternalMahoutApi
 public fun Project.addTasksToStartParameter(vararg taskNames: String) {
   return addTasksToStartParameter(taskNames.asIterable())
 }
 
 /** */
-@InternalMahoutApi
 public fun Project.addTasksToStartParameter(taskNames: Iterable<String>) {
 
   if (isPartOfRootBuild) {

@@ -51,7 +51,7 @@ subprojects sub@{
   val sub = this@sub
   sub.layout.buildDirectory.set(sub.file("build/composite"))
 
-  if (!sub.name.startsWith("mahout-settings-")) {
+  if (!sub.name.startsWith("mahout-settings-") && sub.name != "mahout-api") {
     sub.plugins.withKotlinJvmPlugin {
       (sub.kotlinExtension as KotlinJvmProjectExtension)
         .compilerOptions
