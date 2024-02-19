@@ -15,7 +15,6 @@
 
 package com.rickbusarow.mahout.curator
 
-import com.rickbusarow.mahout.config.ArtifactConfig
 import com.rickbusarow.mahout.core.stdlib.existsOrNull
 import kotlinx.serialization.json.Json
 import org.apache.tools.ant.taskdefs.condition.Os

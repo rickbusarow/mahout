@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.rickbusarow.mahout.config
+package com.rickbusarow.mahout.curator
 
 import com.rickbusarow.kgx.checkProjectIsRoot
 import org.gradle.api.Plugin
