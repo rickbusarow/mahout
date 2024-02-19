@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-rootProject.name = "lattice"
+rootProject.name = "mahout"
 
 pluginManagement {
   repositories {
@@ -32,8 +32,8 @@ pluginManagement {
   includeBuild("build-logic")
 
   plugins {
-    id("com.rickbusarow.lattice.jvm-module") apply false
-    id("com.rickbusarow.lattice.root") apply false
+    id("com.rickbusarow.mahout.jvm-module") apply false
+    id("com.rickbusarow.mahout.root") apply false
   }
 }
 
@@ -82,10 +82,10 @@ gradleEnterprise {
   }
 }
 
-include(":lattice-api")
-include(":lattice-core")
-include(":lattice-gradle-plugin")
-include(":lattice-settings-annotations")
-include(":lattice-settings-generator")
+include(":mahout-api")
+include(":mahout-core")
+include(":mahout-gradle-plugin")
+include(":mahout-settings-annotations")
+include(":mahout-settings-generator")
 
 includeBuild("build-logic")
