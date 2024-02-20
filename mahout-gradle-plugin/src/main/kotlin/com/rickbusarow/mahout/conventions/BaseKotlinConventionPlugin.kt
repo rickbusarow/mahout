@@ -16,6 +16,7 @@
 package com.rickbusarow.mahout.conventions
 
 import com.rickbusarow.kgx.javaExtension
+import com.rickbusarow.mahout.config.jvmTargetInt
 import com.rickbusarow.mahout.config.jvmToolchainInt
 import com.rickbusarow.mahout.config.mahoutProperties
 import org.gradle.api.JavaVersion
@@ -24,6 +25,7 @@ import org.gradle.api.Project
 import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.bundling.Jar
+import org.gradle.api.tasks.compile.JavaCompile
 import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode.Strict
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
@@ -77,6 +79,12 @@ public abstract class BaseKotlinConventionPlugin : Plugin<Project> {
       target.javaExtension.targetCompatibility = JavaVersion.toVersion(
         target.mahoutProperties.java.jvmTarget.get()
       )
+      target.javaExtension.sourceCompatibility = JavaVersion.toVersion(
+        target.mahoutProperties.java.jvmSource.get()
+      )
+      target.tasks.withType(JavaCompile::class.java).configureEach { task ->
+        task.options.release.set(target.mahoutProperties.java.jvmTargetInt.get())
+      }
 
       // fixes the error
       // 'Entry classpath.index is a duplicate but no duplicate handling strategy has been set.'
