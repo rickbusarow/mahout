@@ -19,7 +19,7 @@ plugins {
 }
 
 if (rootProject.name == "mahout") {
-  apply(plugin = "com.rickbusarow.mahout.kotlin-jvm")
+  apply(plugin = "com.rickbusarow.mahout.jvm-module")
 }
 
 dependencies {
