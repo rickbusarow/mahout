@@ -25,7 +25,7 @@ import org.gradle.api.provider.Provider
 import java.io.Serializable as JavaSerializable
 
 /** */
-public val Project.mahoutProperties: MahoutProperties
+internal val Project.mahoutProperties: MahoutProperties
   get() = extras.getOrPut("mahoutProperties") {
     objects.newInstance(
       com.rickbusarow.mahout.config.internal.MahoutPropertiesImpl::class.java
@@ -123,7 +123,7 @@ public interface MahoutProperties : JavaSerializable {
      * mahout.java.jvmSource=1.8
      * ```
      */
-    public val jvmSource: Provider<JvmVersion>
+    public val jvmSource: Provider<JavaVersion>
 
     /**
      * ```properties
@@ -131,7 +131,7 @@ public interface MahoutProperties : JavaSerializable {
      * mahout.java.jvmTarget=1.8
      * ```
      */
-    public val jvmTarget: Provider<JvmVersion>
+    public val jvmTarget: Provider<JavaVersion>
 
     /**
      * ```properties
@@ -139,7 +139,15 @@ public interface MahoutProperties : JavaSerializable {
      * mahout.java.jvmToolchain=17
      * ```
      */
-    public val jvmToolchain: Provider<JvmVersion>
+    public val jvmToolchain: Provider<JavaVersion>
+
+    /**
+     * ```properties
+     * # e.g. `1.8`, `11`, `17`, etc.
+     * mahout.java.testJvmTargets=1.8,11,17
+     * ```
+     */
+    public val testJvmTargets: Provider<List<JavaVersion>>
   }
 
   /** */

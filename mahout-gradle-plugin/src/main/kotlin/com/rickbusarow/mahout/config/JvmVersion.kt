@@ -16,10 +16,10 @@
 package com.rickbusarow.mahout.config
 
 import com.rickbusarow.kgx.fromInt
-import org.gradle.api.JavaVersion
 import org.gradle.api.provider.Provider
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import java.io.Serializable
+import org.gradle.api.JavaVersion as GradleJavaVersion
 import org.jetbrains.kotlin.config.JvmTarget as JvmTargetKotlinConfig
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget as JvmTargetKotlinGradle
 
@@ -30,7 +30,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget as JvmTargetKotlinGradle
  * @property version The JDK version as a String (e.g. `"1.8"`, `"11"`, `"17"`, etc.)
  */
 @JvmInline
-public value class JvmVersion(public val version: String) : Serializable, Comparable<JvmVersion> {
+public value class JavaVersion(public val version: String) : Serializable, Comparable<JavaVersion> {
   /**
    * The `Int` representation of [version].
    * For String values like `"1.8"`, this value will be `8`.
@@ -43,9 +43,9 @@ public value class JvmVersion(public val version: String) : Serializable, Compar
   public val javaLanguageVersion: JavaLanguageVersion get() = JavaLanguageVersion.of(major)
 
   /**
-   * The [JavaVersion] representation of [version].
+   * The [org.gradle.api.JavaVersion] representation of [version].
    */
-  public val javaVersion: JavaVersion get() = JavaVersion.toVersion(version)
+  public val javaVersionGradle: GradleJavaVersion get() = GradleJavaVersion.toVersion(version)
 
   /**
    * The [org.jetbrains.kotlin.gradle.dsl.JvmTarget] representation of [version].
@@ -67,18 +67,18 @@ public value class JvmVersion(public val version: String) : Serializable, Compar
   public val jvmTargetKotlinConfig: JvmTargetKotlinConfig
     get() = JvmTargetKotlinConfig.fromInt(major)
 
-  override fun compareTo(other: JvmVersion): Int = version.compareTo(other.version)
+  override fun compareTo(other: JavaVersion): Int = version.compareTo(other.version)
 
   public companion object {
 
-    internal val Provider<JvmVersion>.major: Provider<Int> get() = map { it.major }
-    internal val Provider<JvmVersion>.javaLanguageVersion: Provider<JavaLanguageVersion>
+    internal val Provider<JavaVersion>.major: Provider<Int> get() = map { it.major }
+    internal val Provider<JavaVersion>.javaLanguageVersion: Provider<JavaLanguageVersion>
       get() = map { it.javaLanguageVersion }
-    internal val Provider<JvmVersion>.javaVersion: Provider<JavaVersion>
-      get() = map { it.javaVersion }
-    internal val Provider<JvmVersion>.jvmTargetKotlinGradle: Provider<JvmTargetKotlinGradle>
+    internal val Provider<JavaVersion>.javaVersionGradle: Provider<GradleJavaVersion>
+      get() = map { it.javaVersionGradle }
+    internal val Provider<JavaVersion>.jvmTargetKotlinGradle: Provider<JvmTargetKotlinGradle>
       get() = map { it.jvmTargetKotlinGradle }
-    internal val Provider<JvmVersion>.jvmTargetKotlinConfig: Provider<JvmTargetKotlinConfig>
+    internal val Provider<JavaVersion>.jvmTargetKotlinConfig: Provider<JvmTargetKotlinConfig>
       get() = map { it.jvmTargetKotlinConfig }
   }
 }

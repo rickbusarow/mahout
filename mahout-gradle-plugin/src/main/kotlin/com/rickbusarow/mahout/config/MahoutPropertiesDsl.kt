@@ -17,19 +17,26 @@
 
 package org.gradle.kotlin.dsl
 
-import com.rickbusarow.mahout.config.JvmVersion
+import com.rickbusarow.mahout.config.JavaVersion
+import com.rickbusarow.mahout.config.MahoutProperties
+import org.gradle.api.Project
 import org.gradle.api.provider.Property
+import com.rickbusarow.mahout.config.mahoutProperties as mahoutPropertiesInternal
 
 /** */
-public fun Property<JvmVersion>.set(value: String) {
-  set(JvmVersion(value))
+public fun Property<JavaVersion>.set(value: String) {
+  set(JavaVersion(value))
 }
 
 /** */
-public fun Property<JvmVersion>.set(value: Int) {
+public fun Property<JavaVersion>.set(value: Int) {
   @Suppress("MagicNumber")
   when {
-    value < 9 -> set(JvmVersion("1.$value"))
-    else -> set(JvmVersion(value.toString()))
+    value < 9 -> set(JavaVersion("1.$value"))
+    else -> set(JavaVersion(value.toString()))
   }
 }
+
+/** */
+public val Project.mahoutProperties: MahoutProperties
+  get() = mahoutPropertiesInternal

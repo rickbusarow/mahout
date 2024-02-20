@@ -15,8 +15,14 @@
 
 package com.rickbusarow.mahout.conventions
 
+import com.rickbusarow.kgx.dependsOn
 import com.rickbusarow.kgx.isRealRootProject
+import com.rickbusarow.kgx.withJavaPlugin
+import com.rickbusarow.mahout.api.MahoutCheckTask
+import com.rickbusarow.mahout.config.mahoutProperties
+import com.rickbusarow.mahout.core.check
 import com.rickbusarow.mahout.core.commonPropertyPrefix
+import com.rickbusarow.mahout.core.javaToolchainService
 import com.rickbusarow.mahout.core.prefixedPropertyOrNull
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -108,5 +114,36 @@ public abstract class TestConventionPlugin : Plugin<Project> {
         }
       }
     }
+
+    target.plugins.withJavaPlugin {
+      val javaSettings = target.mahoutProperties.java
+
+      for (jdk in javaSettings.testJvmTargets.getOrElse(emptyList())) {
+        val testJdk = target.tasks.register(
+          "testJdk${jdk.major}",
+          MahoutTestJdkTask::class.java
+        ) { task ->
+
+          task.javaLauncher.set(
+            target.javaToolchainService
+              .launcherFor { it.languageVersion.set(jdk.javaLanguageVersion) }
+          )
+
+          task.description = "test using JDK ${jdk.major}"
+          task.group = "Verification"
+
+          val testTask = target.tasks.named("test", Test::class.java).get()
+
+          task.classpath = testTask.classpath
+          task.testClassesDirs = testTask.testClassesDirs
+        }
+        target.tasks.check.dependsOn(testJdk)
+      }
+    }
   }
 }
+
+/**
+ * A [Test] task that has an overridden `javaLauncher` property.
+ */
+public abstract class MahoutTestJdkTask : Test(), MahoutCheckTask

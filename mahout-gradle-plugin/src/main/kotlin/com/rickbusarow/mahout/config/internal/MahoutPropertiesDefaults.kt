@@ -15,7 +15,7 @@
 
 package com.rickbusarow.mahout.config.internal
 
-import com.rickbusarow.mahout.config.JvmVersion
+import com.rickbusarow.mahout.config.JavaVersion
 import com.rickbusarow.mahout.config.MahoutProperties
 import com.rickbusarow.mahout.config.MahoutProperties.JavaSettingsGroup
 import com.rickbusarow.mahout.config.MahoutProperties.KotlinSettingsGroup
@@ -67,9 +67,10 @@ internal class MahoutPropertiesDefaults(
   override val java: JavaSettingsGroup = JavaSettingsGroupDefault()
 
   internal inner class JavaSettingsGroupDefault : JavaSettingsGroup {
-    override val jvmTarget: Provider<JvmVersion> = provider { JvmVersion("11") }
-    override val jvmSource: Provider<JvmVersion> = provider { JvmVersion("11") }
-    override val jvmToolchain: Provider<JvmVersion> = provider { JvmVersion("17") }
+    override val jvmTarget: Provider<JavaVersion> = provider { JavaVersion("11") }
+    override val jvmSource: Provider<JavaVersion> = provider { JavaVersion("11") }
+    override val jvmToolchain: Provider<JavaVersion> = provider { JavaVersion("17") }
+    override val testJvmTargets: Provider<List<JavaVersion>> = nullValue()
   }
 
   override val repository: RepositorySettingsGroup = RepositorySettingsGroupDefault()

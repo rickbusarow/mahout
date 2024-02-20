@@ -28,16 +28,19 @@ import com.rickbusarow.mahout.generator.utils.applyEach
 import com.rickbusarow.mahout.generator.utils.hasSuperType
 import com.rickbusarow.mahout.generator.utils.maybeAddKdoc
 import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
+import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.ksp.toClassName
 import com.squareup.kotlinpoet.ksp.toTypeName
+import com.squareup.kotlinpoet.withIndent
 
 /** */
 class MahoutPropertiesProcessor(
@@ -206,14 +209,7 @@ class MahoutPropertiesProcessor(
               add("\n.orElse(providers.gradleProperty(%S))", dn)
             }
 
-            @Suppress("ElseCaseInsteadOfExhaustiveWhen")
-            when (propertyType) {
-              names.list.parameterizedBy(names.string) -> add("\n.map { it.split(',', ' ') }")
-              names.jvmVersion -> add("\n.map { %T(it) }", names.jvmVersion)
-              names.boolean -> add("\n.map { it.toBoolean() }")
-              names.int -> add("\n.map { it.toInt() }")
-              else -> Unit
-            }
+            add(mapper(propertyType))
 
             // ex: `defaults.kotlin.allWarningsAsErrors`
             val defaultName = listOf(
@@ -228,6 +224,39 @@ class MahoutPropertiesProcessor(
         )
         .build()
     )
+  }
+
+  @Suppress("ElseCaseInsteadOfExhaustiveWhen")
+  private fun mapper(type: TypeName, level: Int = 0): CodeBlock {
+    return when (type) {
+      is ParameterizedTypeName -> when {
+        type == names.list.parameterizedBy(names.string) ->
+          CodeBlock.of("\n.map { it.split(',', ' ') }")
+
+        type.rawType == names.list -> buildCodeBlock {
+
+          val next = mapper(type.typeArguments.first(), level + 1)
+
+          val it = "it$level"
+          add("\n.map { $it ->\n")
+          withIndent {
+            add("$it.split(',', ' ')")
+            withIndent {
+              add(next)
+            }
+            add("\n}")
+          }
+        }
+
+        else -> error("unsupported type: $type")
+      }
+
+      names.javaVersion -> CodeBlock.of("\n.map(::%T)", names.javaVersion)
+      names.boolean -> CodeBlock.of("\n.map { it.toBoolean() }")
+      names.int -> CodeBlock.of("\n.map { it.toInt() }")
+      names.string -> CodeBlock.of("")
+      else -> error("unsupported type: $type")
+    }
   }
 
   private fun TypeSpec.Builder.addGroupProperty(

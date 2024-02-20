@@ -24,7 +24,7 @@ import com.rickbusarow.kgx.version
 import com.rickbusarow.ktlint.KtLintTask
 import com.rickbusarow.mahout.api.DefaultMahoutCheckTask
 import com.rickbusarow.mahout.api.MahoutFixTask
-import com.rickbusarow.mahout.config.JvmVersion.Companion.major
+import com.rickbusarow.mahout.config.JavaVersion.Companion.major
 import com.rickbusarow.mahout.config.mahoutProperties
 import com.rickbusarow.mahout.config.url
 import com.rickbusarow.mahout.core.VERSION_NAME
