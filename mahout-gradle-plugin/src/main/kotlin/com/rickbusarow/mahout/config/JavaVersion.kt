@@ -32,27 +32,24 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget as JvmTargetKotlinGradle
 @JvmInline
 public value class JavaVersion(public val version: String) : Serializable, Comparable<JavaVersion> {
   /**
-   * The `Int` representation of [version].
-   * For String values like `"1.8"`, this value will be `8`.
+   * The `Int` representation of [version]. For String values like `"1.8"`, this value will be `8`.
    */
   public val major: Int get() = version.substringAfterLast('.').toInt()
 
-  /**
-   * The [JavaLanguageVersion] representation of [version].
-   */
+  /** The [JavaLanguageVersion] representation of [version]. */
   public val javaLanguageVersion: JavaLanguageVersion get() = JavaLanguageVersion.of(major)
 
-  /**
-   * The [org.gradle.api.JavaVersion] representation of [version].
-   */
+  /** The [org.gradle.api.JavaVersion] representation of [version]. */
   public val javaVersionGradle: GradleJavaVersion get() = GradleJavaVersion.toVersion(version)
 
   /**
    * The [org.jetbrains.kotlin.gradle.dsl.JvmTarget] representation of [version].
    *
-   * There are two JVM value enums from Kotlin, and this is the one that's used in the Kotlin Gradle Plugin.
+   * There are two JVM value enums from Kotlin, and this
+   * is the one that's used in the Kotlin Gradle Plugin.
    *
-   * @see jvmTargetKotlinConfig for the other enum, returning [org.jetbrains.kotlin.config.JvmTarget]
+   * @see jvmTargetKotlinConfig for the other enum,
+   *   returning [org.jetbrains.kotlin.config.JvmTarget]
    */
   public val jvmTargetKotlinGradle: JvmTargetKotlinGradle
     get() = JvmTargetKotlinGradle.fromInt(major)
@@ -60,9 +57,11 @@ public value class JavaVersion(public val version: String) : Serializable, Compa
   /**
    * The [org.jetbrains.kotlin.config.JvmTarget] representation of [version].
    *
-   * There are two JVM value enums from Kotlin, and this is the one that's used in the Kotlin compiler.
+   * There are two JVM value enums from Kotlin, and
+   * this is the one that's used in the Kotlin compiler.
    *
-   * @see jvmTargetKotlinGradle for the other enum, returning [org.jetbrains.kotlin.gradle.dsl.JvmTarget]
+   * @see jvmTargetKotlinGradle for the other enum,
+   *   returning [org.jetbrains.kotlin.gradle.dsl.JvmTarget]
    */
   public val jvmTargetKotlinConfig: JvmTargetKotlinConfig
     get() = JvmTargetKotlinConfig.fromInt(major)
