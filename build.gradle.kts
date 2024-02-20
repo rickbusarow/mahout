@@ -14,9 +14,9 @@
  */
 
 import com.rickbusarow.kgx.buildDir
+import com.rickbusarow.kgx.java
 import com.rickbusarow.kgx.withBuildInitPlugin
 import com.rickbusarow.kgx.withKotlinJvmPlugin
-import com.rickbusarow.lattice.core.VERSION_NAME
 import org.gradle.plugins.ide.idea.model.IdeaModel
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
@@ -35,8 +35,8 @@ plugins {
   alias(libs.plugins.rickBusarow.ktlint) apply false
   alias(libs.plugins.rickBusarow.moduleCheck)
   alias(libs.plugins.vanniktech.publish.base) apply false
-  id("com.rickbusarow.lattice.kotlin-jvm") apply false
-  id("com.rickbusarow.lattice.root")
+  id("com.rickbusarow.mahout.jvm-module") apply false
+  id("com.rickbusarow.mahout.root")
 }
 
 moduleCheck {
@@ -44,7 +44,7 @@ moduleCheck {
   checks.sortDependencies = true
 }
 
-lattice {
+mahout {
 
   composite {
   }
@@ -55,8 +55,8 @@ lattice {
   java {
   }
   tasks.addTasksToIdeSync(
-    ":lattice-gradle-plugin:generateBuildConfig",
-    ":lattice-gradle-plugin:kspKotlin"
+    ":mahout-gradle-plugin:generateBuildConfig",
+    ":mahout-gradle-plugin:kspKotlin"
   )
 }
 
@@ -65,6 +65,7 @@ subprojects sub@{
   sub.layout.buildDirectory.set(sub.file("build/root"))
 
   sub.plugins.apply("idea")
+
   sub.extensions.configure(IdeaModel::class) {
     module {
       generatedSourceDirs.add(sub.file("build"))
@@ -78,19 +79,19 @@ subprojects sub@{
     systemProperty("kase.baseWorkingDir", buildDir().resolve("kase"))
   }
 
-  if (!sub.name.startsWith("lattice-settings-") && sub.name != "lattice-api") {
+  if (!sub.name.startsWith("mahout-settings-") && sub.name != "mahout-api") {
     sub.plugins.withKotlinJvmPlugin {
       (sub.kotlinExtension as KotlinJvmProjectExtension)
         .compilerOptions
         .optIn
-        .add("com.rickbusarow.lattice.core.InternalLatticeApi")
+        .add("com.rickbusarow.mahout.core.InternalMahoutApi")
     }
   }
 }
 
 allprojects ap@{
 
-  version = VERSION_NAME
+  // version = VERSION_NAME
 
   this@ap.plugins.withBuildInitPlugin {
     apply(plugin = libs.plugins.rickBusarow.ktlint.get().pluginId)

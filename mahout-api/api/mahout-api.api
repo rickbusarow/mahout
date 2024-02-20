@@ -1,0 +1,63 @@
+public abstract class com/rickbusarow/mahout/api/DefaultMahoutCheckTask : com/rickbusarow/mahout/api/DefaultMahoutTask, com/rickbusarow/mahout/api/MahoutCheckTask {
+	public fun <init> ()V
+}
+
+public abstract class com/rickbusarow/mahout/api/DefaultMahoutCodeGeneratorTask : com/rickbusarow/mahout/api/DefaultMahoutTask, com/rickbusarow/mahout/api/MahoutCodeGeneratorTask {
+	public fun <init> ()V
+}
+
+public abstract class com/rickbusarow/mahout/api/DefaultMahoutFixTask : com/rickbusarow/mahout/api/DefaultMahoutTask, com/rickbusarow/mahout/api/MahoutFixTask {
+	public fun <init> ()V
+}
+
+public abstract class com/rickbusarow/mahout/api/DefaultMahoutJarTask : org/gradle/api/tasks/bundling/Jar, com/rickbusarow/mahout/api/MahoutJarTask {
+	public fun <init> ()V
+}
+
+public abstract class com/rickbusarow/mahout/api/DefaultMahoutJavadocJarTask : org/gradle/api/tasks/bundling/Jar, com/rickbusarow/mahout/api/MahoutJavadocJarTask {
+	public fun <init> ()V
+}
+
+public abstract class com/rickbusarow/mahout/api/DefaultMahoutSourcesJarTask : org/gradle/api/tasks/bundling/Jar, com/rickbusarow/mahout/api/MahoutSourcesJarTask {
+	public fun <init> ()V
+}
+
+public abstract class com/rickbusarow/mahout/api/DefaultMahoutTask : org/gradle/api/DefaultTask, com/rickbusarow/mahout/api/MahoutTask {
+	public fun <init> ()V
+}
+
+public abstract interface class com/rickbusarow/mahout/api/HasObjectFactory {
+	public abstract fun getObjects ()Lorg/gradle/api/model/ObjectFactory;
+}
+
+public abstract interface class com/rickbusarow/mahout/api/MahoutCheckTask : com/rickbusarow/mahout/api/MahoutTask {
+}
+
+public abstract interface class com/rickbusarow/mahout/api/MahoutCodeGeneratorTask : com/rickbusarow/mahout/api/MahoutTask {
+}
+
+public abstract interface class com/rickbusarow/mahout/api/MahoutFixTask : com/rickbusarow/mahout/api/MahoutTask {
+}
+
+public abstract interface class com/rickbusarow/mahout/api/MahoutJarTask : com/rickbusarow/mahout/api/MahoutTask {
+}
+
+public abstract interface class com/rickbusarow/mahout/api/MahoutJavadocJarTask : com/rickbusarow/mahout/api/MahoutJarTask {
+}
+
+public abstract interface class com/rickbusarow/mahout/api/MahoutSourcesJarTask : com/rickbusarow/mahout/api/MahoutJarTask {
+}
+
+public abstract interface class com/rickbusarow/mahout/api/MahoutTask : org/gradle/api/Task {
+}
+
+public abstract interface class com/rickbusarow/mahout/api/SubExtension : java/io/Serializable, org/gradle/api/plugins/ExtensionAware {
+	public abstract fun configure (Lorg/gradle/api/Action;)V
+}
+
+public final class com/rickbusarow/mahout/api/SubExtension$DefaultImpls {
+	public static fun configure (Lcom/rickbusarow/mahout/api/SubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/api/SubExtensionInternal : com/rickbusarow/mahout/api/HasObjectFactory {
+}

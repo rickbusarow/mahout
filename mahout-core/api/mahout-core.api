@@ -1,0 +1,61 @@
+public abstract interface annotation class com/rickbusarow/mahout/core/InternalMahoutApi : java/lang/annotation/Annotation {
+}
+
+public final class com/rickbusarow/mahout/core/gradle/ProjectKt {
+	public static final fun addTasksToStartParameter (Lorg/gradle/api/Project;Ljava/lang/Iterable;)V
+	public static final fun addTasksToStartParameter (Lorg/gradle/api/Project;[Ljava/lang/String;)V
+}
+
+public final class com/rickbusarow/mahout/core/stdlib/ApplyKt {
+	public static final fun alsoIf (Ljava/lang/Object;ZLkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+	public static final fun applyEach (Ljava/lang/Object;Ljava/lang/Iterable;)Ljava/lang/Object;
+	public static final fun applyEach (Ljava/lang/Object;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function2;)Ljava/lang/Object;
+	public static final fun applyEach (Ljava/lang/Object;[Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+	public static final fun applyEachIndexed (Ljava/lang/Object;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;)Ljava/lang/Object;
+	public static final fun applyEachIndexed (Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)Ljava/lang/Object;
+	public static final fun applyIf (Ljava/lang/Object;ZLkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+	public static final fun letIf (Ljava/lang/Object;ZLkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+}
+
+public final class com/rickbusarow/mahout/core/stdlib/FileKt {
+	public static final fun existsOrNull (Ljava/io/File;)Ljava/io/File;
+	public static final fun hasGradleProjectFiles (Ljava/io/File;)Z
+	public static final fun isDirectoryWithFiles (Ljava/io/File;Lkotlin/jvm/functions/Function1;)Z
+	public static synthetic fun isDirectoryWithFiles$default (Ljava/io/File;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Z
+	public static final fun isOrphanedBuildOrGradleDir (Ljava/io/File;)Z
+	public static final fun isOrphanedGradleProperties (Ljava/io/File;)Z
+	public static final fun resolveInParent (Ljava/io/File;Ljava/lang/String;)Ljava/io/File;
+	public static final fun resolveInParentOrNull (Ljava/io/File;Ljava/lang/String;)Ljava/io/File;
+	public static final fun zipContentEquals (Ljava/io/File;Ljava/io/File;)Z
+}
+
+public final class com/rickbusarow/mahout/core/stdlib/IterableKt {
+	public static final fun asCollection (Ljava/lang/Iterable;)Ljava/util/Collection;
+	public static final fun asList (Ljava/lang/Iterable;)Ljava/util/List;
+	public static final fun asSet (Ljava/lang/Iterable;)Ljava/util/Set;
+	public static final fun sortedBy (Ljava/lang/Iterable;[Lkotlin/jvm/functions/Function1;)Ljava/util/List;
+	public static final fun splitInclusive (Ljava/lang/Iterable;Lkotlin/jvm/functions/Function1;)Ljava/util/List;
+}
+
+public final class com/rickbusarow/mahout/core/stdlib/ListKt {
+	public static final fun dropLastView (Ljava/util/List;I)Ljava/util/List;
+	public static final fun dropView (Ljava/util/List;I)Ljava/util/List;
+	public static final fun takeLastView (Ljava/util/List;I)Ljava/util/List;
+	public static final fun takeView (Ljava/util/List;I)Ljava/util/List;
+}
+
+public final class com/rickbusarow/mahout/core/stdlib/SequenceKt {
+	public static final fun sortedBy (Lkotlin/sequences/Sequence;[Lkotlin/jvm/functions/Function1;)Lkotlin/sequences/Sequence;
+}
+
+public final class com/rickbusarow/mahout/core/stdlib/StringKt {
+	public static final fun capitalize (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun getSEMVER_REGEX ()Ljava/lang/String;
+	public static final fun mapLines (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Ljava/lang/String;
+	public static final fun normaliseLineSeparators (Ljava/lang/CharSequence;)Ljava/lang/String;
+	public static final fun normaliseLineSeparators (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun prefixIfNot (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public static final fun remove (Ljava/lang/String;[Ljava/lang/String;)Ljava/lang/String;
+	public static final fun remove (Ljava/lang/String;[Lkotlin/text/Regex;)Ljava/lang/String;
+	public static final fun trimLineEnds (Ljava/lang/String;)Ljava/lang/String;
+}

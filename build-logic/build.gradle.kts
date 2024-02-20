@@ -46,30 +46,30 @@ rootProject.file("../gradle.properties")
     extras.set(key.toString(), value.toString())
   }
 
-val kotlinApiVersion = propertyAs<String>("lattice.kotlin.apiLevel")
+val kotlinApiVersion = propertyAs<String>("mahout.kotlin.apiLevel")
 
 subprojects sub@{
   val sub = this@sub
   sub.layout.buildDirectory.set(sub.file("build/composite"))
 
-  if (!sub.name.startsWith("lattice-settings-")) {
+  if (!sub.name.startsWith("mahout-settings-")) {
     sub.plugins.withKotlinJvmPlugin {
       (sub.kotlinExtension as KotlinJvmProjectExtension)
         .compilerOptions
         .optIn
-        .add("com.rickbusarow.lattice.core.InternalLatticeApi")
+        .add("com.rickbusarow.mahout.core.InternalMahoutApi")
     }
   }
 }
 
 allprojects ap@{
 
-  version = propertyAs<String>("lattice.versionName")
+  version = propertyAs<String>("mahout.versionName")
 
   plugins.withType(KotlinBasePlugin::class.java).configureEach {
 
-    val jdk = propertyAs<String>("lattice.java.jvmToolchain")
-    val target = propertyAs<String>("lattice.java.jvmTarget")
+    val jdk = propertyAs<String>("mahout.java.jvmToolchain")
+    val target = propertyAs<String>("mahout.java.jvmTarget")
 
     extensions.configure(KotlinJvmProjectExtension::class.java) {
       jvmToolchain {

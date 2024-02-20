@@ -17,12 +17,12 @@ rootProject.name = "build-logic"
 
 pluginManagement {
   val allowMavenLocal = providers
-    .gradleProperty("lattice.allow-maven-local")
+    .gradleProperty("mahout.allow-maven-local")
     .orNull.toBoolean()
 
   repositories {
     if (allowMavenLocal) {
-      logger.lifecycle("lattice -- allowing mavenLocal for plugins")
+      logger.lifecycle("mahout -- allowing mavenLocal for plugins")
       mavenLocal()
     }
     gradlePluginPortal()
@@ -32,14 +32,14 @@ pluginManagement {
 }
 
 val allowMavenLocal = providers
-  .gradleProperty("lattice.allow-maven-local")
+  .gradleProperty("mahout.allow-maven-local")
   .orNull.toBoolean()
 
 @Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
   repositories {
     if (allowMavenLocal) {
-      logger.lifecycle("lattice -- allowing mavenLocal for dependencies")
+      logger.lifecycle("mahout -- allowing mavenLocal for dependencies")
       mavenLocal()
     }
     gradlePluginPortal()
@@ -54,11 +54,11 @@ dependencyResolutionManagement {
 }
 
 listOf(
-  "lattice-api",
-  "lattice-core",
-  "lattice-gradle-plugin",
-  "lattice-settings-annotations",
-  "lattice-settings-generator"
+  "mahout-api",
+  "mahout-core",
+  "mahout-gradle-plugin",
+  "mahout-settings-annotations",
+  "mahout-settings-generator"
 ).forEach { name ->
   include(":$name")
   project(":$name").let {

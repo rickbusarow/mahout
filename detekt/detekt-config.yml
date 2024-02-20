@@ -15,11 +15,11 @@ anchors:
   gradleFiles: &gradleFiles
     - "**/*.gradle.kts"
   settingsGeneratorFolders: &settingsGeneratorFolders
-    - "**/lattice-settings-generator/**"
+    - "**/mahout-settings-generator/**"
   settingsGeneratorFoldersAndGradleFiles:
     &settingsGeneratorFoldersAndGradleFiles
     - "**/*.gradle.kts"
-    - "**/lattice-settings-generator/**"
+    - "**/mahout-settings-generator/**"
   testFolders: &testFolders
     - "**/test/**"
     - "**/gradleTest/**"
