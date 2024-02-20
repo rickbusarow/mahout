@@ -104,7 +104,7 @@ public abstract class TestConventionPlugin : Plugin<Project> {
         )
       )
 
-      // Allow JUnit4 tests to run in parallel
+      // Allow JUnit tests to run in parallel
       task.maxParallelForks = Runtime.getRuntime().availableProcessors()
 
       if (target.isRealRootProject()) {
@@ -117,6 +117,11 @@ public abstract class TestConventionPlugin : Plugin<Project> {
 
     target.plugins.withJavaPlugin {
       val javaSettings = target.mahoutProperties.java
+
+      val testAll = target.tasks.register("testAll", Test::class.java) { task ->
+        task.description = "Run all tests"
+        task.group = "Verification"
+      }
 
       for (jdk in javaSettings.testJvmTargets.getOrElse(emptyList())) {
         val testJdk = target.tasks.register(
@@ -138,6 +143,7 @@ public abstract class TestConventionPlugin : Plugin<Project> {
           task.testClassesDirs = testTask.testClassesDirs
         }
         target.tasks.check.dependsOn(testJdk)
+        testAll.dependsOn(testJdk)
       }
     }
   }
