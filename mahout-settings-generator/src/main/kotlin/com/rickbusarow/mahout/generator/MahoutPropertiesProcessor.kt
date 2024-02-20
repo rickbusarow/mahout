@@ -209,6 +209,7 @@ class MahoutPropertiesProcessor(
             @Suppress("ElseCaseInsteadOfExhaustiveWhen")
             when (propertyType) {
               names.list.parameterizedBy(names.string) -> add("\n.map { it.split(',', ' ') }")
+              names.jvmVersion -> add("\n.map { %T(it) }", names.jvmVersion)
               names.boolean -> add("\n.map { it.toBoolean() }")
               names.int -> add("\n.map { it.toInt() }")
               else -> Unit

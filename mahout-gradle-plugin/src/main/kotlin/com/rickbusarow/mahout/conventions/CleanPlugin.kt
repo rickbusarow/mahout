@@ -16,6 +16,7 @@
 package com.rickbusarow.mahout.conventions
 
 import com.rickbusarow.kgx.applyOnce
+import com.rickbusarow.kgx.dependsOn
 import com.rickbusarow.kgx.isRootProject
 import com.rickbusarow.mahout.api.MahoutTask
 import com.rickbusarow.mahout.core.stdlib.isOrphanedBuildOrGradleDir
@@ -36,23 +37,18 @@ public abstract class CleanPlugin : Plugin<Project> {
       .register("deleteEmptyDirs", DeleteEmptyDirsTask::class.java) { task ->
         task.description = "Delete all empty directories within a project."
 
-        val subprojectDirs = target.subprojects.map { it.projectDir.path }
-
-        task.delete(
-          target.fileTree(target.projectDir) { tree ->
-            tree
-              .exclude("**/build/", "**/.gradle/", "**/.git/")
-              .exclude(subprojectDirs)
-              .include { it.file.hasOnlyEmptySubdirectories() }
-          }
-        )
+        val theFiles = target.fileTree(target.projectDir) { tree ->
+          tree
+            .exclude("**/build/", "**/.gradle/", "**/.git/")
+            .exclude(target.subprojects.map { it.projectDir.path })
+            .include { it.file.hasOnlyEmptySubdirectories() }
+        }
+        task.delete(theFiles)
       }
 
-    target.tasks.named(LifecycleBasePlugin.CLEAN_TASK_NAME) { task ->
-      task.dependsOn(deleteEmptyDirs)
-    }
+    target.tasks.named(LifecycleBasePlugin.CLEAN_TASK_NAME).dependsOn(deleteEmptyDirs)
 
-    target.tasks.register("cleanGradle", MahoutCleanTask::class.java) { task ->
+    target.tasks.register("cleanGradle", CleanGradleTask::class.java) { task ->
       task.delete(".gradle")
     }
 
@@ -74,15 +70,16 @@ public abstract class CleanPlugin : Plugin<Project> {
           )
         }
 
-      deleteEmptyDirs.configure {
-        it.dependsOn(deleteOrphanedProjectDirs)
-      }
+      deleteEmptyDirs.dependsOn(deleteOrphanedProjectDirs)
     }
   }
 }
 
 /** */
 public abstract class MahoutCleanTask : Delete(), MahoutTask
+
+/** */
+public abstract class CleanGradleTask : Delete(), MahoutTask
 
 /** */
 public abstract class DeleteEmptyDirsTask : MahoutCleanTask(), MahoutTask

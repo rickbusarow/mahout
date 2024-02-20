@@ -15,24 +15,16 @@
 
 package com.rickbusarow.mahout.conventions
 
-import com.rickbusarow.kgx.javaExtension
-import com.rickbusarow.mahout.config.jvmTargetInt
-import com.rickbusarow.mahout.config.jvmToolchainInt
+import com.rickbusarow.kgx.applyOnce
 import com.rickbusarow.mahout.config.mahoutProperties
-import com.rickbusarow.mahout.core.Color
-import com.rickbusarow.mahout.core.Color.Companion.colorized
-import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.bundling.Jar
-import org.gradle.api.tasks.compile.JavaCompile
-import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode.Strict
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.targets
 import org.jetbrains.kotlin.gradle.tasks.BaseKotlinCompile
-import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 import java.io.Serializable
 import kotlin.jvm.java
 import org.jetbrains.kotlin.gradle.dsl.KotlinCompile as KotlinCompileDsl
@@ -58,76 +50,36 @@ public abstract class BaseKotlinConventionPlugin : Plugin<Project> {
 
   override fun apply(target: Project) {
 
-    val kotlinExtension = target.extensions
+    target.plugins.applyOnce<JdkVersionsConventionPlugin>()
+
+    val kotlinExtension = target.extensions.getByType(KotlinExtension::class.java)
+    val kotlinExtensionJB = target.extensions
       .getByType(KotlinProjectExtension::class.java)
-
-    val javaSettings = target.mahoutProperties.java
-
-    kotlinExtension.jvmToolchain(javaSettings.jvmToolchainInt.get())
 
     configureKotlinOptions(target, kotlinExtension)
 
-    kotlinExtension.sourceSets.configureEach { sourceSet ->
-      sourceSet.kotlin.srcDirs("src/${sourceSet.name}/kotlin")
-    }
-
     target.tasks.register("buildAll") { buildAll ->
-      buildAll.dependsOn(kotlinExtension.targets.map { it.artifactsTaskName })
+      buildAll.dependsOn(kotlinExtensionJB.targets.map { it.artifactsTaskName })
     }
 
     target.plugins.withId("java") {
-      target.tasks.withType(JavaCompile::class.java).configureEach { task ->
-
-        println(
-          "${task.path}  -- set release to ${javaSettings.jvmTargetInt.get()}",
-          color = Color.CYAN
-        )
-
-        task.options.release.set(javaSettings.jvmTargetInt.get())
-      }
-
-      target.javaExtension.run {
-
-        targetCompatibility = JavaVersion.toVersion(javaSettings.jvmTarget.get())
-        sourceCompatibility = JavaVersion.toVersion(javaSettings.jvmSource.get())
-      }
 
       // fixes the error
       // 'Entry classpath.index is a duplicate but no duplicate handling strategy has been set.'
       // when executing a Jar task
       // https://github.com/gradle/gradle/issues/17236
       target.tasks.withType(Jar::class.java).configureEach { task ->
-        task.duplicatesStrategy = DuplicatesStrategy.INCLUDE
+        task.duplicatesStrategy = DuplicatesStrategy.EXCLUDE
       }
     }
   }
 
-  // TODO (rbusarow) delete me
-  @Deprecated("debugging -- delete me")
-  internal fun println(vararg msg: Any?, color: Color = Color.LIGHT_GREEN) {
-    check(System.getenv("CI") == null) { "delete me" }
-    for (m in msg) kotlin.io.println(m.toString().colorized(color))
-  }
+  private fun configureKotlinOptions(target: Project, extension: KotlinExtension) {
 
-  private fun configureKotlinOptions(target: Project, extension: KotlinProjectExtension) {
-    target.tasks.withType(KotlinJvmCompile::class.java).configureEach { task ->
-
-      // TODO (rbusarow) delete me
-      check(System.getenv("CI") == null) { "delete me" }.run {
-
-        val jt = target.mahoutProperties.java.jvmTarget.get()
-        println(
-          "${task.path}  -- set kotlinOptions.jvmTarget to $jt",
-          color = Color.MAGENTA
-        )
-      }
-
-      task.kotlinOptions.jvmTarget = target.mahoutProperties.java.jvmTarget.get()
-    }
     target.tasks.withType(KotlinCompileDsl::class.java).configureEach { task ->
       task.kotlinOptions {
 
-        // options.allWarningsAsErrors.set(extension.allWarningsAsErrors.orElse(false))
+        options.allWarningsAsErrors.set(extension.allWarningsAsErrors.orElse(false))
 
         val kotlinMajor = target.mahoutProperties.kotlin.apiLevel.orNull
         if (kotlinMajor != null) {
@@ -142,11 +94,10 @@ public abstract class BaseKotlinConventionPlugin : Plugin<Project> {
 
           val sourceSetName = (task as? BaseKotlinCompile)?.sourceSetName?.orNull
 
-          val shouldBeStrict = when {
-            extension.explicitApi != Strict -> false
-            sourceSetName == "test" -> false
-            sourceSetName == null -> false
-            else -> true
+          val shouldBeStrict = when (sourceSetName) {
+            "test" -> false
+            null -> false
+            else -> extension.explicitApi.orNull == true
           }
           if (shouldBeStrict) {
             add("-Xexplicit-api=strict")

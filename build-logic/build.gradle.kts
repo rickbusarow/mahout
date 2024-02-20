@@ -21,7 +21,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinBasePlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.util.*
+import java.util.Properties
 
 buildscript {
   dependencies {
@@ -72,7 +72,7 @@ allprojects ap@{
 
     extensions.configure(KotlinJvmProjectExtension::class.java) {
       jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(jdk))
+        languageVersion.set(JavaLanguageVersion.of(jdk.substringAfterLast('.')))
       }
     }
 

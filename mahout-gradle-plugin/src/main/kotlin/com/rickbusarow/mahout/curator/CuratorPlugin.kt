@@ -29,17 +29,17 @@ public abstract class CuratorPlugin : Plugin<Project> {
     target.checkProjectIsRoot()
 
     target.tasks.register("curatorDump", CuratorDumpTask::class.java)
-    val artifactsCheck = target.tasks.register("curatorCheck", CuratorCheckTask::class.java)
+    val curatorCheck = target.tasks.register("curatorCheck", CuratorCheckTask::class.java)
 
     target.plugins.apply("base")
 
     target.tasks.named(LifecycleBasePlugin.CHECK_TASK_NAME) { task ->
-      task.dependsOn(artifactsCheck)
+      task.dependsOn(curatorCheck)
     }
 
     target.allprojects {
       it.tasks.withType(AbstractPublishToMaven::class.java).configureEach { task ->
-        task.dependsOn(artifactsCheck)
+        task.dependsOn(curatorCheck)
       }
     }
   }

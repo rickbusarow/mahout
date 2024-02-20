@@ -22,10 +22,11 @@ import com.rickbusarow.kgx.libsCatalog
 import com.rickbusarow.kgx.projectDependency
 import com.rickbusarow.kgx.version
 import com.rickbusarow.ktlint.KtLintTask
-import com.rickbusarow.mahout.api.MahoutTask
-import com.rickbusarow.mahout.config.jvmTargetInt
+import com.rickbusarow.mahout.api.DefaultMahoutCheckTask
+import com.rickbusarow.mahout.api.MahoutFixTask
+import com.rickbusarow.mahout.config.JvmVersion.Companion.major
 import com.rickbusarow.mahout.config.mahoutProperties
-import com.rickbusarow.mahout.core.GITHUB_REPOSITORY
+import com.rickbusarow.mahout.config.url
 import com.rickbusarow.mahout.core.VERSION_NAME
 import com.rickbusarow.mahout.core.stdlib.SEMVER_REGEX
 import com.vanniktech.maven.publish.tasks.JavadocJar
@@ -64,7 +65,7 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
         )
 
         sourceSet.languageVersion.set(target.mahoutProperties.kotlin.apiLevel)
-        sourceSet.jdkVersion.set(target.mahoutProperties.java.jvmTargetInt)
+        sourceSet.jdkVersion.set(target.mahoutProperties.java.jvmTarget.major)
 
         // include all project sources when resolving kdoc samples
         sourceSet.samples.setFrom(target.fileTree(target.file("src")))
@@ -84,7 +85,8 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
 
           // URL showing where the source code can be accessed through the web browser
           sourceLinkBuilder.remoteUrl.set(
-            URI("${target.GITHUB_REPOSITORY}/blob/main/$modulePath/src/main")
+            target.mahoutProperties.repository.github.url
+              .map { URI("$it/blob/main/$modulePath/src/main") }
           )
           // Suffix which is used to append the line number to the URL. Use #L for GitHub
           sourceLinkBuilder.remoteLineSuffix.set("#L")
@@ -93,9 +95,11 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
 
       target.tasks.withType(DokkatooGenerateTask::class.java).configureEach { task ->
 
+        task.workerIsolation.set(dokkatoo.ClassLoaderIsolation())
+
         // Dokka uses their outputs but doesn't explicitly depend upon them.
         task.mustRunAfter(target.tasks.withType(KotlinCompile::class.java))
-        task.mustRunAfter(target.tasks.withType(MahoutTask::class.java))
+        task.mustRunAfter(target.tasks.withType(MahoutFixTask::class.java))
         task.mustRunAfter(target.tasks.withType(KtLintTask::class.java))
       }
 
@@ -129,8 +133,10 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
         dokkatoo.pluginsConfiguration
           .withType(DokkaVersioningPluginParameters::class.java).configureEach { versioning ->
             versioning.version.set(target.VERSION_NAME)
-            versioning.olderVersionsDir.set(dokkaArchiveBuildDir)
             versioning.renderVersionsNavigationOnAllPages.set(true)
+
+            dokkaArchiveBuildDir.get().asFile.mkdirs()
+            versioning.olderVersionsDir.set(dokkaArchiveBuildDir)
           }
 
         dokkatoo.dokkatooPublications.configureEach {
@@ -147,7 +153,7 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
     target.plugins.withType(MavenPublishPlugin::class.java).configureEach {
 
       val checkJavadocJarIsNotVersioned = target.tasks
-        .register("checkJavadocJarIsNotVersioned") { task ->
+        .register("checkJavadocJarIsNotVersioned", DefaultMahoutCheckTask::class.java) { task ->
 
           task.description =
             "Ensures that generated javadoc.jar artifacts don't include old Dokka versions"
@@ -177,9 +183,8 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
           }
         }
 
-      target.tasks.named(LifecycleBasePlugin.CHECK_TASK_NAME).dependsOn(
-        checkJavadocJarIsNotVersioned
-      )
+      target.tasks.named(LifecycleBasePlugin.CHECK_TASK_NAME)
+        .dependsOn(checkJavadocJarIsNotVersioned)
     }
   }
 
