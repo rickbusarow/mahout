@@ -13,12 +13,14 @@
  * limitations under the License.
  */
 
-package com.rickbusarow.mahout
+package com.rickbusarow.mahout.composite
 
 import com.rickbusarow.kgx.checkProjectIsRoot
 import com.rickbusarow.kgx.internal.InternalGradleApiAccess
 import com.rickbusarow.kgx.internal.allIncludedProjects
 import com.rickbusarow.mahout.core.stdlib.splitInclusive
+import com.rickbusarow.mahout.taskWillResolve
+import com.rickbusarow.mahout.taskWillResolveInAny
 import modulecheck.utils.mapToSet
 import org.gradle.api.Action
 import org.gradle.api.Plugin

@@ -18,6 +18,7 @@ package com.rickbusarow.mahout
 import com.rickbusarow.kgx.checkProjectIsRoot
 import com.rickbusarow.kgx.inCI
 import com.rickbusarow.kgx.isRealRootProject
+import com.rickbusarow.mahout.composite.CompositePlugin
 import com.rickbusarow.mahout.conventions.BenManesVersionsPlugin
 import com.rickbusarow.mahout.conventions.DokkaVersionArchivePlugin
 import com.rickbusarow.mahout.conventions.GitHubReleasePlugin

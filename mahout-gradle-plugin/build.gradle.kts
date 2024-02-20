@@ -62,7 +62,7 @@ gradlePlugin {
   plugins {
     create("composite") {
       id = "com.rickbusarow.mahout.composite"
-      implementationClass = "com.rickbusarow.mahout.CompositePlugin"
+      implementationClass = "com.rickbusarow.mahout.composite.CompositePlugin"
     }
     create("jvm") {
       id = "com.rickbusarow.mahout.jvm-module"
@@ -82,26 +82,26 @@ gradlePlugin {
       implementationClass = "com.rickbusarow.mahout.curator.CuratorPlugin"
     }
 
-    fun convention(suffix: String, simpleClassName: String) {
+    fun convention(suffix: String, relativeClassName: String) {
       create("convention.$suffix") {
         id = "com.rickbusarow.mahout.$suffix"
-        implementationClass = "com.rickbusarow.mahout.conventions.$simpleClassName"
+        implementationClass = "com.rickbusarow.mahout.$relativeClassName"
       }
     }
 
-    convention("ben-manes", "BenManesVersionsPlugin")
-    convention("check", "CheckPlugin")
-    convention("clean", "CleanPlugin")
-    convention("dependency-guard", "DependencyGuardConventionPlugin")
-    convention("detekt", "DetektConventionPlugin")
-    convention("dokkatoo", "DokkatooConventionPlugin")
-    convention("dokka-versioning", "DokkaVersionArchivePlugin")
-    convention("github-release", "GitHubReleasePlugin")
-    convention("integration-tests", "IntegrationTestsConventionPlugin")
-    convention("kotlin-jvm", "KotlinJvmConventionPlugin")
-    convention("ktlint", "KtLintConventionPlugin")
-    convention("spotless", "SpotlessConventionPlugin")
-    convention("test", "TestConventionPlugin")
+    convention("ben-manes", "conventions.BenManesVersionsPlugin")
+    convention("check", "conventions.CheckPlugin")
+    convention("clean", "conventions.CleanPlugin")
+    convention("dependency-guard", "conventions.DependencyGuardConventionPlugin")
+    convention("detekt", "conventions.DetektConventionPlugin")
+    convention("dokkatoo", "dokka.DokkatooConventionPlugin")
+    convention("dokka-versioning", "conventions.DokkaVersionArchivePlugin")
+    convention("github-release", "conventions.GitHubReleasePlugin")
+    convention("integration-tests", "conventions.IntegrationTestsConventionPlugin")
+    // convention("kotlin-jvm", "conventions.KotlinJvmConventionPlugin")
+    convention("ktlint", "conventions.KtLintConventionPlugin")
+    convention("spotless", "conventions.SpotlessConventionPlugin")
+    convention("test", "conventions.TestConventionPlugin")
   }
 }
 
