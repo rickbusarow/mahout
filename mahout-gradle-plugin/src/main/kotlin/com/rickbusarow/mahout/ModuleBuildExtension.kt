@@ -15,6 +15,8 @@
 
 package com.rickbusarow.mahout
 
+import com.rickbusarow.mahout.composite.CompositeHandler
+import com.rickbusarow.mahout.composite.DefaultCompositeHandler
 import com.rickbusarow.mahout.conventions.AutoServiceExtension
 import com.rickbusarow.mahout.conventions.BuildLogicShadowExtensionHook
 import com.rickbusarow.mahout.conventions.KotlinExtension
@@ -22,8 +24,8 @@ import com.rickbusarow.mahout.conventions.KotlinJvmExtension
 import com.rickbusarow.mahout.conventions.KotlinMultiplatformExtension
 import com.rickbusarow.mahout.conventions.KspExtension
 import com.rickbusarow.mahout.conventions.PokoExtension
-import com.rickbusarow.mahout.conventions.PublishingExtension
 import com.rickbusarow.mahout.conventions.SerializationExtension
+import com.rickbusarow.mahout.publishing.PublishingExtension
 import org.gradle.api.model.ObjectFactory
 import javax.inject.Inject
 

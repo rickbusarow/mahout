@@ -19,11 +19,11 @@ import com.rickbusarow.mahout.conventions.CheckPlugin
 import com.rickbusarow.mahout.conventions.CleanPlugin
 import com.rickbusarow.mahout.conventions.DependencyGuardConventionPlugin
 import com.rickbusarow.mahout.conventions.DetektConventionPlugin
-import com.rickbusarow.mahout.conventions.DokkatooConventionPlugin
 import com.rickbusarow.mahout.conventions.KotlinJvmConventionPlugin
 import com.rickbusarow.mahout.conventions.KotlinMultiplatformConventionPlugin
 import com.rickbusarow.mahout.conventions.KtLintConventionPlugin
 import com.rickbusarow.mahout.conventions.TestConventionPlugin
+import com.rickbusarow.mahout.dokka.DokkatooConventionPlugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 

@@ -13,11 +13,12 @@
  * limitations under the License.
  */
 
-package com.rickbusarow.mahout.conventions
+package com.rickbusarow.mahout.publishing
 
 import com.rickbusarow.kgx.registerOnce
 import com.rickbusarow.mahout.api.MahoutTask
 import com.rickbusarow.mahout.config.mahoutProperties
+import com.rickbusarow.mahout.conventions.applyBinaryCompatibility
 import com.rickbusarow.mahout.core.GITHUB_OWNER
 import com.rickbusarow.mahout.core.GITHUB_OWNER_REPO
 import com.rickbusarow.mahout.core.VERSION_NAME

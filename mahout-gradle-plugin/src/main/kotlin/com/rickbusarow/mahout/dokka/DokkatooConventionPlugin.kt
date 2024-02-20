@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.rickbusarow.mahout.conventions
+package com.rickbusarow.mahout.dokka
 
 import com.rickbusarow.kgx.dependsOn
 import com.rickbusarow.kgx.isRootProject
