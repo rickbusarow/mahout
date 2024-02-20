@@ -19,6 +19,8 @@ import com.rickbusarow.kgx.javaExtension
 import com.rickbusarow.mahout.config.jvmTargetInt
 import com.rickbusarow.mahout.config.jvmToolchainInt
 import com.rickbusarow.mahout.config.mahoutProperties
+import com.rickbusarow.mahout.core.Color
+import com.rickbusarow.mahout.core.Color.Companion.colorized
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -27,9 +29,7 @@ import org.gradle.api.provider.Property
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.api.tasks.compile.JavaCompile
 import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode.Strict
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
-import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.targets
 import org.jetbrains.kotlin.gradle.tasks.BaseKotlinCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
@@ -58,32 +58,38 @@ public abstract class BaseKotlinConventionPlugin : Plugin<Project> {
 
   override fun apply(target: Project) {
 
-    val extension = target.extensions.getByType(KotlinProjectExtension::class.java)
+    val kotlinExtension = target.extensions
+      .getByType(KotlinProjectExtension::class.java)
 
-    val jetbrainsExtension = target.kotlinExtension
-    jetbrainsExtension.jvmToolchain(target.mahoutProperties.java.jvmToolchainInt.get())
+    val javaSettings = target.mahoutProperties.java
 
-    configureKotlinOptions(target, extension)
+    kotlinExtension.jvmToolchain(javaSettings.jvmToolchainInt.get())
 
-    jetbrainsExtension.sourceSets.configureEach { sourceSet ->
+    configureKotlinOptions(target, kotlinExtension)
+
+    kotlinExtension.sourceSets.configureEach { sourceSet ->
       sourceSet.kotlin.srcDirs("src/${sourceSet.name}/kotlin")
     }
-    target.tasks.register("buildTests") { buildTests ->
-      buildTests.dependsOn(jetbrainsExtension.targets.map { it.artifactsTaskName })
-    }
+
     target.tasks.register("buildAll") { buildAll ->
-      buildAll.dependsOn(jetbrainsExtension.targets.map { it.artifactsTaskName })
+      buildAll.dependsOn(kotlinExtension.targets.map { it.artifactsTaskName })
     }
 
     target.plugins.withId("java") {
-      target.javaExtension.targetCompatibility = JavaVersion.toVersion(
-        target.mahoutProperties.java.jvmTarget.get()
-      )
-      target.javaExtension.sourceCompatibility = JavaVersion.toVersion(
-        target.mahoutProperties.java.jvmSource.get()
-      )
       target.tasks.withType(JavaCompile::class.java).configureEach { task ->
-        task.options.release.set(target.mahoutProperties.java.jvmTargetInt.get())
+
+        println(
+          "${task.path}  -- set release to ${javaSettings.jvmTargetInt.get()}",
+          color = Color.CYAN
+        )
+
+        task.options.release.set(javaSettings.jvmTargetInt.get())
+      }
+
+      target.javaExtension.run {
+
+        targetCompatibility = JavaVersion.toVersion(javaSettings.jvmTarget.get())
+        sourceCompatibility = JavaVersion.toVersion(javaSettings.jvmSource.get())
       }
 
       // fixes the error
@@ -96,8 +102,26 @@ public abstract class BaseKotlinConventionPlugin : Plugin<Project> {
     }
   }
 
+  // TODO (rbusarow) delete me
+  @Deprecated("debugging -- delete me")
+  internal fun println(vararg msg: Any?, color: Color = Color.LIGHT_GREEN) {
+    check(System.getenv("CI") == null) { "delete me" }
+    for (m in msg) kotlin.io.println(m.toString().colorized(color))
+  }
+
   private fun configureKotlinOptions(target: Project, extension: KotlinProjectExtension) {
     target.tasks.withType(KotlinJvmCompile::class.java).configureEach { task ->
+
+      // TODO (rbusarow) delete me
+      check(System.getenv("CI") == null) { "delete me" }.run {
+
+        val jt = target.mahoutProperties.java.jvmTarget.get()
+        println(
+          "${task.path}  -- set kotlinOptions.jvmTarget to $jt",
+          color = Color.MAGENTA
+        )
+      }
+
       task.kotlinOptions.jvmTarget = target.mahoutProperties.java.jvmTarget.get()
     }
     target.tasks.withType(KotlinCompileDsl::class.java).configureEach { task ->
@@ -109,10 +133,6 @@ public abstract class BaseKotlinConventionPlugin : Plugin<Project> {
         if (kotlinMajor != null) {
           languageVersion = kotlinMajor
           apiVersion = kotlinMajor
-        }
-        val jvmTarget = target.mahoutProperties.java.jvmTarget.orNull
-        if (jvmTarget != null) {
-          (this as? KotlinJvmOptions)?.jvmTarget = jvmTarget
         }
 
         @Suppress("SpellCheckingInspection")
