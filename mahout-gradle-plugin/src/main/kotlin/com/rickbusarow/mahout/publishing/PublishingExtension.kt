@@ -23,6 +23,7 @@ import com.rickbusarow.mahout.config.mahoutProperties
 import com.rickbusarow.mahout.conventions.applyBinaryCompatibility
 import com.rickbusarow.mahout.config.sshUrl
 import com.rickbusarow.mahout.config.url
+import com.rickbusarow.mahout.conventions.applyBinaryCompatibility
 import com.rickbusarow.mahout.core.VERSION_NAME
 import com.vanniktech.maven.publish.GradlePlugin
 import com.vanniktech.maven.publish.JavadocJar.Dokka
