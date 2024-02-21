@@ -71,11 +71,12 @@ class MahoutPropertiesProcessor(
         fileName = implClassName.simpleName
       ).bufferedWriter().use { writer ->
 
-        fileSpec.toString()
-          .replace("`internal`", "internal")
-          .also { writer.write(it) }
+          writer.write(
+            fileSpec.toString()
+              .replace("`internal`", "internal")
+          )
+        }
       }
-    }
 
     return emptyList()
   }
@@ -229,25 +230,27 @@ class MahoutPropertiesProcessor(
     )
   }
 
-  private fun TypeName.propertyMapperOrNull(): CodeBlock? {
+  private fun TypeName.propertyMapperOrNull(level: Int = 0): CodeBlock? {
     return when (val typeName = this) {
       is ParameterizedTypeName -> when (typeName.rawType) {
         names.set, names.list -> {
           buildCodeBlock {
-            add("\n.map { string ->\n")
-            withIndent {
-              add("string.split(',', ' ')")
 
-              typeName.typeArguments.single()
-                .propertyMapperOrNull()
-                ?.let { elementMapper ->
-                  add("\n")
+            val next = typeName.typeArguments.single().propertyMapperOrNull(level + 1)
+
+            val it = "it$level"
+
+            add("\n.map { $it ->\n")
+            withIndent {
+              add("$it.split(',', ' ')")
+
+              if (next != null) {
                   withIndent {
-                    add("%L", elementMapper)
+                    add(next)
                   }
-                }
+                  }
+              add("\n}")
             }
-            add("\n}")
           }
         }
 
@@ -260,6 +263,7 @@ class MahoutPropertiesProcessor(
           names.string -> null
           names.boolean -> CodeBlock.of(".map { it.toBoolean() }")
           names.int -> CodeBlock.of(".map { it.toInt() }")
+          names.javaVersion -> CodeBlock.of("\n.map(::%T)", names.javaVersion)
           else -> error("unsupported type: $this")
         }
 

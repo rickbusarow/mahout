@@ -15,6 +15,13 @@
 
 package com.rickbusarow.mahout.conventions
 
+import com.diffplug.gradle.spotless.SpotlessApply
+import com.rickbusarow.ktlint.KtLintFormatTask
+import com.rickbusarow.mahout.api.DefaultMahoutFixTask
+import com.rickbusarow.mahout.api.DefaultMahoutTask
+import com.rickbusarow.mahout.api.MahoutFixTask
+import kotlinx.validation.KotlinApiBuildTask
+import modulecheck.gradle.task.AbstractModuleCheckTask
 import com.rickbusarow.kgx.applyOnce
 import com.rickbusarow.mahout.api.DefaultMahoutCheckTask
 import com.rickbusarow.mahout.api.DefaultMahoutFixTask
@@ -22,6 +29,12 @@ import com.rickbusarow.mahout.deps.PluginIds
 import kotlinx.validation.KotlinApiBuildTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.Task
+import org.gradle.api.provider.Provider
+import org.gradle.api.provider.ProviderFactory
+import org.gradle.api.reflect.TypeOf
+import org.gradle.api.tasks.TaskCollection
+import org.gradle.api.tasks.TaskProvider
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 
 /** */
@@ -29,7 +42,7 @@ public abstract class CheckPlugin : Plugin<Project> {
 
   override fun apply(target: Project) {
 
-    target.plugins.applyOnce("base")
+    target.plugins.apply("base")
 
     val fix = target.tasks.register("fix", DefaultMahoutFixTask::class.java) { task ->
 
@@ -37,24 +50,29 @@ public abstract class CheckPlugin : Plugin<Project> {
       task.description = "Runs all auto-fix linting tasks"
 
       task.dependsOn(
-        target.rootProject.tasks
-          .withType(DefaultMahoutFixTask::class.java)
-          .matching { it != task }
+        target.tasks.withType(SpotlessApply::class.java),
+        target.tasks.withType(KotlinApiBuildTask::class.java),
+        target.tasks.withType(DeleteEmptyDirsTask::class.java),
+        target.tasks.withType(KtLintFormatTask::class.java),
+        target.tasks.withType(MahoutFixTask::class.java)
+          .namedFromSchema(target.providers) { name, _ -> name != "fix" }
       )
-      task.dependsOn(target.rootProject.tasks.named("spotlessApply"))
-      task.dependsOn(target.tasks.withType(KotlinApiBuildTask::class.java))
-
       if (target.plugins.hasPlugin(PluginIds.`dropbox-dependency-guard`)) {
         task.dependsOn(target.tasks.named("dependencyGuardBaseline"))
       }
-
-      task.dependsOn(target.tasks.named("deleteEmptyDirs"))
-
       if (target.plugins.hasPlugin(PluginIds.`rickBusarow-moduleCheck`)) {
         task.dependsOn(target.tasks.named("moduleCheckAuto"))
       }
-      task.dependsOn(target.tasks.named("ktlintFormat"))
     }
+
+    val mcCheckTasks = target.tasks
+      .withType(AbstractModuleCheckTask::class.java)
+      .providers(target.providers) { !it.name.endsWith("Auto") }
+
+    target.tasks.withType(AbstractModuleCheckTask::class.java)
+      .configureEach { task ->
+        if (task.name.endsWith("Auto")) task.mustRunAfter(mcCheckTasks)
+      }
 
     // This is a convenience task which applies all available fixes before running `check`. Each
     // of the fixable linters use `mustRunAfter` to ensure that their auto-fix task runs before their
@@ -69,3 +87,25 @@ public abstract class CheckPlugin : Plugin<Project> {
     }
   }
 }
+
+internal fun <T : Task> TaskCollection<T>.namedFromSchema(
+  target: ProviderFactory,
+  predicate: (name: String, publicType: TypeOf<*>) -> Boolean
+): Provider<List<TaskProvider<T>>> = target.provider {
+  collectionSchema.elements
+    .filter { predicate(it.name, it.publicType) }
+    .map { named(it.name) }
+}
+
+/** */
+public fun <T : Task> TaskCollection<T>.providers(
+  providerFactory: ProviderFactory
+): Provider<List<TaskProvider<T>>> =
+  providerFactory.provider { collectionSchema.elements.map { named(it.name) } }
+
+/** */
+public fun <T : Task> TaskCollection<T>.providers(
+  providerFactory: ProviderFactory,
+  predicate: (TaskProvider<T>) -> Boolean
+): Provider<List<TaskProvider<T>>> = providers(providerFactory)
+  .map { it.filter(predicate) }

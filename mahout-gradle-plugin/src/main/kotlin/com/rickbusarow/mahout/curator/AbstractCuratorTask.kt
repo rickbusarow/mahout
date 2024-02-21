@@ -109,7 +109,7 @@ public abstract class AbstractCuratorTask(
             //  will change what's in .module but that won't be reflected upstream in the extension.
             val javaVersion = sub.extensions
               .getByType(JavaPluginExtension::class.java)
-              .sourceCompatibility
+              .targetCompatibility
               .toString()
 
             ArtifactConfig(
@@ -151,12 +151,13 @@ public abstract class AbstractCuratorTask(
 
   protected fun ArtifactConfig.message(): String {
     return """
-            |                     gradlePath  - $gradlePath
-            |                          group  - $group
-            |                     artifactId  - $artifactId
-            |                pom description  - $description
-            |                      packaging  - $packaging
-            |                publicationName  - $publicationName
+      |                     gradlePath  - $gradlePath
+      |                          group  - $group
+      |                     artifactId  - $artifactId
+      |                pom description  - $description
+      |                      packaging  - $packaging
+      |                   java version  - $javaVersion
+      |                publicationName  - $publicationName
     """.trimMargin()
   }
 }

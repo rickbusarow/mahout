@@ -17,7 +17,6 @@ package com.rickbusarow.mahout.config
 
 import com.rickbusarow.kgx.extras
 import com.rickbusarow.kgx.getOrPut
-import com.rickbusarow.mahout.config.MahoutProperties.JavaSettingsGroup
 import com.rickbusarow.mahout.config.MahoutProperties.RepositorySettingsGroup.GithubSettingsGroup
 import com.rickbusarow.mahout.generator.DelegateProperty
 import com.rickbusarow.mahout.generator.MahoutPropertiesSchema
@@ -26,7 +25,7 @@ import org.gradle.api.provider.Provider
 import java.io.Serializable as JavaSerializable
 
 /** */
-public val Project.mahoutProperties: MahoutProperties
+internal val Project.mahoutProperties: MahoutProperties
   get() = extras.getOrPut("mahoutProperties") {
     objects.newInstance(
       com.rickbusarow.mahout.config.internal.MahoutPropertiesImpl::class.java
@@ -120,24 +119,35 @@ public interface MahoutProperties : JavaSerializable {
 
     /**
      * ```properties
-     * mahout.java.jvmSource=1.8 # or 11, etc.
+     * # e.g. `1.8`, `11`, `17`, etc.
+     * mahout.java.jvmSource=1.8
      * ```
      */
-    public val jvmSource: Provider<String>
+    public val jvmSource: Provider<JavaVersion>
 
     /**
      * ```properties
-     * mahout.java.jvmTarget=1.8 # or 11, etc.
+     * # e.g. `1.8`, `11`, `17`, etc.
+     * mahout.java.jvmTarget=1.8
      * ```
      */
-    public val jvmTarget: Provider<String>
+    public val jvmTarget: Provider<JavaVersion>
 
     /**
      * ```properties
-     * mahout.java.jvmToolchain=1.8 # or 11, etc.
+     * # e.g. `1.8`, `11`, `17`, etc.
+     * mahout.java.jvmToolchain=17
      * ```
      */
-    public val jvmToolchain: Provider<String>
+    public val jvmToolchain: Provider<JavaVersion>
+
+    /**
+     * ```properties
+     * # e.g. `1.8`, `11`, `17`, etc.
+     * mahout.java.testJvmTargets=1.8,11,17
+     * ```
+     */
+    public val testJvmTargets: Provider<List<JavaVersion>>
   }
 
   /** */
@@ -255,18 +265,14 @@ public interface MahoutProperties : JavaSerializable {
   }
 }
 
-/** */
+/** `"https://github.com/$owner/$repo"` */
 public val GithubSettingsGroup.url: Provider<String>
   get() = owner.zip(repo) { owner, repo -> "https://github.com/$owner/$repo" }
 
-/** */
-public val JavaSettingsGroup.jvmTargetInt: Provider<Int>
-  get() = jvmTarget.map { it.substringAfterLast('.').toInt() }
+/** `"scm:git:git://github.com//$owner/$repo.git"` */
+public val GithubSettingsGroup.gitUrl: Provider<String>
+  get() = owner.zip(repo) { owner, repo -> "scm:git:git://github.com//$owner/$repo.git" }
 
-/** */
-public val JavaSettingsGroup.jvmSourceInt: Provider<Int>
-  get() = jvmSource.map { it.substringAfterLast('.').toInt() }
-
-/** */
-public val JavaSettingsGroup.jvmToolchainInt: Provider<Int>
-  get() = jvmToolchain.map { it.substringAfterLast('.').toInt() }
+/** `"scm:git:ssh://git@github.com/$owner/$repo.git"` */
+public val GithubSettingsGroup.sshUrl: Provider<String>
+  get() = owner.zip(repo) { owner, repo -> "scm:git:ssh://git@github.com/$owner/$repo.git" }

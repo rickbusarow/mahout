@@ -25,7 +25,7 @@ import org.gradle.api.tasks.TaskAction
 import javax.inject.Inject
 
 /** Evaluates all published artifacts in the project and writes the results to `/artifacts.json` */
-public open class CuratorDumpTask @Inject constructor(
+public abstract class CuratorDumpTask @Inject constructor(
   projectLayout: ProjectLayout
 ) : AbstractCuratorTask(projectLayout), MahoutFixTask {
 

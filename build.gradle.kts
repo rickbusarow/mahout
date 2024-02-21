@@ -21,6 +21,7 @@ import com.rickbusarow.mahout.core.gradle.addTasksToStartParameter
 import org.gradle.plugins.ide.idea.model.IdeaModel
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
+import org.gradle.kotlin.dsl.mahoutProperties as mahoutPropertiesDsl
 
 buildscript {
   dependencies {
@@ -93,7 +94,7 @@ subprojects sub@{
 
 allprojects ap@{
 
-  // version = VERSION_NAME
+  version = mahoutPropertiesDsl.versionName.get()
 
   this@ap.plugins.withBuildInitPlugin {
     apply(plugin = libs.plugins.rickBusarow.ktlint.get().pluginId)

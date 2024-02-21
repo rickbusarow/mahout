@@ -16,12 +16,14 @@
 package com.rickbusarow.mahout.conventions
 
 import com.rickbusarow.kgx.applyOnce
+import com.rickbusarow.kgx.dependsOn
+import com.rickbusarow.kgx.isRootProject
+import com.rickbusarow.mahout.api.MahoutTask
 import com.rickbusarow.mahout.core.stdlib.isOrphanedBuildOrGradleDir
 import com.rickbusarow.mahout.core.stdlib.isOrphanedGradleProperties
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.Delete
-import org.gradle.api.tasks.SourceTask
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 import java.io.File
 
@@ -32,72 +34,59 @@ public abstract class CleanPlugin : Plugin<Project> {
     target.plugins.applyOnce("base")
 
     val deleteEmptyDirs = target.tasks
-      .register("deleteEmptyDirs", Delete::class.java) { task ->
+      .register("deleteEmptyDirs", DeleteEmptyDirsTask::class.java) { task ->
         task.description = "Delete all empty directories within a project."
 
-        val subprojectDirs = target.subprojects
-          .mapTo(mutableSetOf()) { it.projectDir.absolutePath }
-
-        val projectDir = target.projectDir
-
-        task.doLast { _ ->
-
-          projectDir.walkBottomUp()
-            .filter { it.isDirectory }
-            .filterNot { dir -> subprojectDirs.any { dir.path.startsWith(it) } }
-            .filterNot { it.path.contains(".gradle") }
-            .filterNot { it.path.contains(".git") }
-            .filter { it.listFiles().isNullOrEmpty() }
-            .forEach { it.deleteRecursively() }
+        val theFiles = target.fileTree(target.projectDir) { tree ->
+          tree
+            .exclude("**/build/", "**/.gradle/", "**/.git/")
+            .exclude(target.subprojects.map { it.projectDir.path })
+            .include { it.file.hasOnlyEmptySubdirectories() }
         }
+        task.delete(theFiles)
       }
 
-    target.tasks.named(LifecycleBasePlugin.CLEAN_TASK_NAME) { task ->
-      task.dependsOn(deleteEmptyDirs)
+    target.tasks.named(LifecycleBasePlugin.CLEAN_TASK_NAME).dependsOn(deleteEmptyDirs)
+
+    target.tasks.register("cleanGradle", CleanGradleTask::class.java) { task ->
+      task.delete(".gradle")
     }
 
-    target.tasks.register("cleanGradle", SourceTask::class.java) { task ->
-      task.source(".gradle")
-
-      val projectDir = target.projectDir
-
-      task.doLast { _ ->
-        projectDir.walkBottomUp()
-          .filter { it.isDirectory }
-          .filter { it.path.contains(".gradle") }
-          .all { it.deleteRecursively() }
-      }
-    }
-
-    target.tasks.register("deleteSrcGen", Delete::class.java) { task ->
-      task.setDelete("src-gen")
-    }
-
-    if (target == target.rootProject) {
+    if (target.isRootProject()) {
       val deleteOrphanedProjectDirs = target.tasks
-        .register("deleteOrphanedProjectDirs", Delete::class.java) { task ->
+        .register("deleteOrphanedProjectDirs", DeleteOrphanedProjectDirsTask::class.java) { task ->
 
           task.description = buildString {
             append("Delete any 'build' or `.gradle` directory or `gradle.properties` file ")
             append("without an associated Gradle project.")
           }
 
-          val websiteBuildDir = "${target.rootDir}/website/node_modules"
-          val projectDir = target.projectDir
-
-          task.doLast { _ ->
-
-            projectDir.walkBottomUp()
-              .filterNot { it.path.contains(".git") }
-              .filterNot { it.path.startsWith(websiteBuildDir) }
-              .filter { it.isOrphanedBuildOrGradleDir() || it.isOrphanedGradleProperties() }
-              .forEach(File::deleteRecursively)
-          }
+          task.delete(
+            target.fileTree(target.projectDir) { tree ->
+              tree.exclude("**/.git/")
+                .exclude("${target.rootDir}/website/node_modules")
+                .include { it.file.isOrphanedBuildOrGradleDir() || it.file.isOrphanedGradleProperties() }
+            }
+          )
         }
 
-      deleteEmptyDirs.configure {
-        it.dependsOn(deleteOrphanedProjectDirs)
-      }
+      deleteEmptyDirs.dependsOn(deleteOrphanedProjectDirs)
     }
   }
+}
+
+/** */
+public abstract class MahoutCleanTask : Delete(), MahoutTask
+
+/** */
+public abstract class CleanGradleTask : Delete(), MahoutTask
+
+/** */
+public abstract class DeleteEmptyDirsTask : MahoutCleanTask(), MahoutTask
+
+/** */
+public abstract class DeleteOrphanedProjectDirsTask : MahoutCleanTask(), MahoutTask
+
+internal fun File.hasOnlyEmptySubdirectories(): Boolean {
+  return !isFile && walkBottomUp().any { it.isFile }
 }

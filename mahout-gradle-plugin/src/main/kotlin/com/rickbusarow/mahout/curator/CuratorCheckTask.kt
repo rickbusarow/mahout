@@ -33,7 +33,7 @@ import javax.inject.Inject
  *
  * If there are any differences, the task will fail with a descriptive message.
  */
-public open class CuratorCheckTask @Inject constructor(
+public abstract class CuratorCheckTask @Inject constructor(
   objectFactory: ObjectFactory,
   projectLayout: ProjectLayout
 ) : AbstractCuratorTask(projectLayout), MahoutCheckTask {
