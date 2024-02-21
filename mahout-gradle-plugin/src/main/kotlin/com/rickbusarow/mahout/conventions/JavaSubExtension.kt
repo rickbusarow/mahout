@@ -15,6 +15,7 @@
 
 package com.rickbusarow.mahout.conventions
 
+import com.rickbusarow.mahout.config.JavaVersion.Companion.version
 import com.rickbusarow.mahout.core.SubExtension
 import com.rickbusarow.mahout.core.SubExtensionInternal
 import org.gradle.api.Action
@@ -74,15 +75,15 @@ public abstract class DefaultJavaSubExtension @Inject constructor(
   SubExtensionInternal {
 
   final override val jvmTarget: Property<String> = objects.property(String::class.java)
-    .convention(mahoutProperties.java.jvmTarget)
+    .convention(mahoutProperties.java.jvmTarget.version)
   override val jvmTargetInt: Provider<Int> = jvmTarget.map { it.substringAfterLast('.').toInt() }
 
   final override val jvmSource: Property<String> = objects.property(String::class.java)
-    .convention(mahoutProperties.java.jvmSource)
+    .convention(mahoutProperties.java.jvmSource.version)
   override val jvmSourceInt: Provider<Int> = jvmSource.map { it.substringAfterLast('.').toInt() }
 
   final override val jvmToolchain: Property<String> = objects.property(String::class.java)
-    .convention(mahoutProperties.java.jvmToolchain)
+    .convention(mahoutProperties.java.jvmToolchain.version)
   override val jvmToolchainInt: Provider<Int> = jvmToolchain.map {
     it.substringAfterLast('.').toInt()
   }

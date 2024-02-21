@@ -71,12 +71,12 @@ class MahoutPropertiesProcessor(
         fileName = implClassName.simpleName
       ).bufferedWriter().use { writer ->
 
-          writer.write(
-            fileSpec.toString()
-              .replace("`internal`", "internal")
-          )
-        }
+        writer.write(
+          fileSpec.toString()
+            .replace("`internal`", "internal")
+        )
       }
+    }
 
     return emptyList()
   }
@@ -245,10 +245,10 @@ class MahoutPropertiesProcessor(
               add("$it.split(',', ' ')")
 
               if (next != null) {
-                  withIndent {
-                    add(next)
-                  }
-                  }
+                withIndent {
+                  add(next)
+                }
+              }
               add("\n}")
             }
           }

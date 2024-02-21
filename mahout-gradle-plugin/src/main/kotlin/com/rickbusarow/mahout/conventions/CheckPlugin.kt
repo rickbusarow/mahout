@@ -17,16 +17,12 @@ package com.rickbusarow.mahout.conventions
 
 import com.diffplug.gradle.spotless.SpotlessApply
 import com.rickbusarow.ktlint.KtLintFormatTask
-import com.rickbusarow.mahout.api.DefaultMahoutFixTask
-import com.rickbusarow.mahout.api.DefaultMahoutTask
-import com.rickbusarow.mahout.api.MahoutFixTask
-import kotlinx.validation.KotlinApiBuildTask
-import modulecheck.gradle.task.AbstractModuleCheckTask
-import com.rickbusarow.kgx.applyOnce
 import com.rickbusarow.mahout.api.DefaultMahoutCheckTask
 import com.rickbusarow.mahout.api.DefaultMahoutFixTask
+import com.rickbusarow.mahout.api.MahoutFixTask
 import com.rickbusarow.mahout.deps.PluginIds
 import kotlinx.validation.KotlinApiBuildTask
+import modulecheck.gradle.task.AbstractModuleCheckTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task

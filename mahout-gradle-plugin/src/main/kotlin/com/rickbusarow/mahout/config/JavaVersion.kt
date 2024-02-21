@@ -70,6 +70,7 @@ public value class JavaVersion(public val version: String) : Serializable, Compa
 
   public companion object {
 
+    internal val Provider<JavaVersion>.version: Provider<String> get() = map { it.version }
     internal val Provider<JavaVersion>.major: Provider<Int> get() = map { it.major }
     internal val Provider<JavaVersion>.javaLanguageVersion: Provider<JavaLanguageVersion>
       get() = map { it.javaLanguageVersion }

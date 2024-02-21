@@ -21,16 +21,12 @@ import com.rickbusarow.kgx.getOrPut
 import com.rickbusarow.kgx.isRootProject
 import com.rickbusarow.kgx.projectDependency
 import com.rickbusarow.ktlint.KtLintTask
+import com.rickbusarow.mahout.api.DefaultMahoutCheckTask
 import com.rickbusarow.mahout.api.DefaultMahoutJavadocJarTask
+import com.rickbusarow.mahout.api.MahoutFixTask
 import com.rickbusarow.mahout.conventions.HasGitHubSubExtension
 import com.rickbusarow.mahout.conventions.HasJavaSubExtension
 import com.rickbusarow.mahout.conventions.HasKotlinSubExtension
-import com.rickbusarow.mahout.api.DefaultMahoutCheckTask
-import com.rickbusarow.mahout.api.MahoutFixTask
-import com.rickbusarow.mahout.config.JavaVersion.Companion.major
-import com.rickbusarow.mahout.config.mahoutProperties
-import com.rickbusarow.mahout.config.url
-import com.rickbusarow.mahout.core.VERSION_NAME
 import com.rickbusarow.mahout.core.stdlib.SEMVER_REGEX
 import com.rickbusarow.mahout.deps.Libs
 import com.rickbusarow.mahout.mahoutExtension
@@ -79,7 +75,7 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
         )
 
         sourceSet.languageVersion.set(kotlinSubExtension.apiLevel)
-        sourceSet.jdkVersion.set(javaSubExtension.jvmTarget.major)
+        sourceSet.jdkVersion.set(javaSubExtension.jvmTargetInt)
 
         // include all project sources when resolving kdoc samples
         sourceSet.samples.setFrom(target.fileTree(target.file("src")))
