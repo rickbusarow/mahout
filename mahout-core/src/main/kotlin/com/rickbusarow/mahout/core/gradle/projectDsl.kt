@@ -13,13 +13,19 @@
  * limitations under the License.
  */
 
-plugins {
-  alias(libs.plugins.kotlin.jvm)
+@file:Suppress("PackageDirectoryMismatch")
+
+package org.gradle.kotlin.dsl
+
+import org.gradle.api.Project
+import com.rickbusarow.mahout.core.gradle.addTasksToStartParameter as addTasksToStartParameterInternal
+
+/** */
+public fun Project.addTasksToStartParameter(vararg taskNames: String) {
+  return addTasksToStartParameter(taskNames.asIterable())
 }
 
-if (rootProject.name == "mahout") {
-  apply(plugin = "com.rickbusarow.mahout.kotlin-jvm-module")
-}
-
-dependencies {
+/** */
+public fun Project.addTasksToStartParameter(taskNames: Iterable<String>) {
+  addTasksToStartParameterInternal(taskNames)
 }

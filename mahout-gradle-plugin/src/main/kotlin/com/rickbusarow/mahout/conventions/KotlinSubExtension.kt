@@ -16,11 +16,13 @@
 package com.rickbusarow.mahout.conventions
 
 import com.rickbusarow.kgx.property
-import com.rickbusarow.mahout.core.SubExtension
-import com.rickbusarow.mahout.core.SubExtensionInternal
+import com.rickbusarow.mahout.api.SubExtension
+import com.rickbusarow.mahout.api.SubExtensionInternal
+import com.rickbusarow.mahout.config.MahoutProperties.KotlinSettingsGroup
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.model.ObjectFactory
+import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import javax.inject.Inject
 
@@ -70,16 +72,12 @@ internal abstract class DefaultHasKotlinMultiplatformSubExtension @Inject constr
 }
 
 /** */
-public interface KotlinSubExtension : SubExtension<KotlinSubExtension> {
+public interface KotlinSubExtension : SubExtension<KotlinSubExtension>, KotlinSettingsGroup {
 
-  /** */
-  public val apiLevel: Property<String>
-
-  /** */
-  public val allWarningsAsErrors: Property<Boolean>
-
-  /** */
-  public val explicitApi: Property<Boolean>
+  override val apiLevel: Property<String>
+  override val allWarningsAsErrors: Property<Boolean>
+  override val explicitApi: Property<Boolean>
+  override val compilerArgs: ListProperty<String>
 }
 
 /** */
@@ -89,7 +87,7 @@ public abstract class DefaultKotlinSubExtension @Inject constructor(
 ) : AbstractSubExtension(target, objects), KotlinSubExtension, SubExtensionInternal {
 
   override val apiLevel: Property<String> =
-    objects.property(convention = mahoutProperties.kotlin.apiLevel)
+    objects.property(mahoutProperties.kotlin.apiLevel)
 
   override val allWarningsAsErrors: Property<Boolean> =
     objects.property(mahoutProperties.kotlin.allWarningsAsErrors)

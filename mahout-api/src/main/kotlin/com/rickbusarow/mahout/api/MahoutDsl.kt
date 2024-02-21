@@ -13,13 +13,8 @@
  * limitations under the License.
  */
 
-plugins {
-  alias(libs.plugins.kotlin.jvm)
-}
+package com.rickbusarow.mahout.api
 
-if (rootProject.name == "mahout") {
-  apply(plugin = "com.rickbusarow.mahout.kotlin-jvm-module")
-}
-
-dependencies {
-}
+/** */
+@DslMarker
+public annotation class MahoutDsl

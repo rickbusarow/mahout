@@ -15,13 +15,17 @@
 
 package com.rickbusarow.mahout.conventions
 
-import com.rickbusarow.mahout.core.SubExtension
-import com.rickbusarow.mahout.core.SubExtensionInternal
+import com.rickbusarow.kgx.listPropertyLazy
+import com.rickbusarow.kgx.property
+import com.rickbusarow.mahout.api.SubExtension
+import com.rickbusarow.mahout.api.SubExtensionInternal
+import com.rickbusarow.mahout.config.JavaVersion
+import com.rickbusarow.mahout.config.MahoutProperties.JavaSettingsGroup
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.model.ObjectFactory
+import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
-import org.gradle.api.provider.Provider
 import javax.inject.Inject
 
 /** */
@@ -44,25 +48,12 @@ internal abstract class DefaultHasJavaSubExtension @Inject constructor(
 }
 
 /** */
-public interface JavaSubExtension : SubExtension<JavaSubExtension> {
+public interface JavaSubExtension : SubExtension<JavaSubExtension>, JavaSettingsGroup {
 
-  /** */
-  public val jvmTarget: Property<String>
-
-  /** */
-  public val jvmTargetInt: Provider<Int>
-
-  /** */
-  public val jvmSource: Property<String>
-
-  /** */
-  public val jvmSourceInt: Provider<Int>
-
-  /** */
-  public val jvmToolchain: Property<String>
-
-  /** */
-  public val jvmToolchainInt: Provider<Int>
+  override val jvmSource: Property<JavaVersion>
+  override val jvmTarget: Property<JavaVersion>
+  override val jvmToolchain: Property<JavaVersion>
+  override val testJvmTargets: ListProperty<JavaVersion>
 }
 
 /** */
@@ -73,17 +64,14 @@ public abstract class DefaultJavaSubExtension @Inject constructor(
   JavaSubExtension,
   SubExtensionInternal {
 
-  final override val jvmTarget: Property<String> = objects.property(String::class.java)
-    .convention(mahoutProperties.java.jvmTarget)
-  override val jvmTargetInt: Provider<Int> = jvmTarget.map { it.substringAfterLast('.').toInt() }
+  final override val jvmTarget: Property<JavaVersion> =
+    objects.property(mahoutProperties.java.jvmTarget)
 
-  final override val jvmSource: Property<String> = objects.property(String::class.java)
-    .convention(mahoutProperties.java.jvmSource)
-  override val jvmSourceInt: Provider<Int> = jvmSource.map { it.substringAfterLast('.').toInt() }
+  final override val jvmSource: Property<JavaVersion> =
+    objects.property(mahoutProperties.java.jvmSource)
 
-  final override val jvmToolchain: Property<String> = objects.property(String::class.java)
-    .convention(mahoutProperties.java.jvmToolchain)
-  override val jvmToolchainInt: Provider<Int> = jvmToolchain.map {
-    it.substringAfterLast('.').toInt()
-  }
+  final override val jvmToolchain: Property<JavaVersion> =
+    objects.property(mahoutProperties.java.jvmToolchain)
+
+  final override val testJvmTargets: ListProperty<JavaVersion> by objects.listPropertyLazy()
 }

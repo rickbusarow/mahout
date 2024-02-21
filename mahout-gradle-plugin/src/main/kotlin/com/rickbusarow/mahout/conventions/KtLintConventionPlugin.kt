@@ -15,11 +15,6 @@
 
 package com.rickbusarow.mahout.conventions
 
-import com.rickbusarow.kgx.EagerGradleApi
-import com.rickbusarow.kgx.isRealRootProject
-import com.rickbusarow.kgx.matchingName
-import com.rickbusarow.kgx.library
-import com.rickbusarow.kgx.libsCatalog
 import com.rickbusarow.ktlint.KtLintPlugin
 import com.rickbusarow.ktlint.KtLintTask
 import com.rickbusarow.mahout.core.VERSION_NAME

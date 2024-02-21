@@ -16,6 +16,7 @@
 package com.rickbusarow.mahout
 
 import com.rickbusarow.kgx.newInstance
+import com.rickbusarow.mahout.api.MahoutDsl
 import com.rickbusarow.mahout.composite.DefaultHasCompositeSubExtension
 import com.rickbusarow.mahout.composite.HasCompositeSubExtension
 import com.rickbusarow.mahout.conventions.AutoServiceExtension
@@ -60,6 +61,7 @@ internal val Project.mahoutExtension: BaseMahoutExtension
   get() = extensions.getByType(BaseMahoutExtension::class.java)
 
 /** */
+@MahoutDsl
 public abstract class BaseMahoutExtension @Inject constructor(
   private val target: Project,
   private val objects: ObjectFactory

@@ -16,55 +16,18 @@
 package com.rickbusarow.mahout.conventions
 
 import com.rickbusarow.kgx.applyOnce
-import com.rickbusarow.kgx.javaExtension
-import com.rickbusarow.kgx.javaExtension
-import com.rickbusarow.mahout.config.jvmTargetInt
-import com.rickbusarow.mahout.config.jvmToolchainInt
-import com.rickbusarow.mahout.config.jvmToolchainInt
-import com.rickbusarow.mahout.config.mahoutProperties
-import com.rickbusarow.mahout.config.mahoutProperties
 import com.rickbusarow.mahout.config.mahoutProperties
 import com.rickbusarow.mahout.mahoutExtension
-import java.io.Serializable
-import java.io.Serializable
+import org.gradle.api.Plugin
+import org.gradle.api.Project
+import org.gradle.api.file.DuplicatesStrategy
+import org.gradle.api.provider.Property
+import org.gradle.api.tasks.bundling.Jar
+import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.targets
 import java.io.Serializable
 import kotlin.jvm.java
-import kotlin.jvm.java
-import org.gradle.api.JavaVersion
-import org.gradle.api.JavaVersion
-import org.gradle.api.Plugin
-import org.gradle.api.Plugin
-import org.gradle.api.Plugin
-import org.gradle.api.Project
-import org.gradle.api.Project
-import org.gradle.api.Project
-import org.gradle.api.file.DuplicatesStrategy
-import org.gradle.api.file.DuplicatesStrategy
-import org.gradle.api.file.DuplicatesStrategy
-import org.gradle.api.provider.Property
-import org.gradle.api.provider.Property
-import org.gradle.api.provider.Property
-import org.gradle.api.tasks.bundling.Jar
-import org.gradle.api.tasks.bundling.Jar
-import org.gradle.api.tasks.bundling.Jar
-import org.gradle.api.tasks.compile.JavaCompile
-import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode.Strict
 import org.jetbrains.kotlin.gradle.dsl.KotlinCompile as KotlinCompileDsl
-import org.jetbrains.kotlin.gradle.dsl.KotlinCompile as KotlinCompileDsl
-import org.jetbrains.kotlin.gradle.dsl.KotlinCompile as KotlinCompileDsl
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
-import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
-import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
-import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.targets
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.targets
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.targets
-import org.jetbrains.kotlin.gradle.tasks.BaseKotlinCompile
-import org.jetbrains.kotlin.gradle.tasks.BaseKotlinCompile
-import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
-import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 /** */
 public interface KotlinJvmExtension : KotlinExtension
@@ -90,11 +53,12 @@ public abstract class BaseKotlinConventionPlugin : Plugin<Project> {
     target.plugins.applyOnce<JdkVersionsConventionPlugin>()
     val extension = (target.mahoutExtension as HasKotlinSubExtension).kotlin
 
-    val kotlinExtension = target.extensions.getByType(KotlinExtension::class.java)
+    // val kotlinExtension = target.extensions.getByType(KotlinExtension::class.java)
+
     val kotlinExtensionJB = target.extensions
       .getByType(KotlinProjectExtension::class.java)
 
-    configureKotlinOptions(target, kotlinExtension)
+    configureKotlinOptions(target, extension)
 
     target.tasks.register("buildAll") { buildAll ->
       buildAll.dependsOn(kotlinExtensionJB.targets.map { it.artifactsTaskName })

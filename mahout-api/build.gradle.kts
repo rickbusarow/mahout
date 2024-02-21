@@ -20,7 +20,7 @@ plugins {
 }
 
 if (rootProject.name == "mahout") {
-  apply(plugin = "com.rickbusarow.mahout.jvm-module")
+  apply(plugin = "com.rickbusarow.mahout.kotlin-jvm-module")
 }
 
 kotlin {

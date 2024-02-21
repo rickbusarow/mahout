@@ -27,9 +27,7 @@ import java.io.Serializable as JavaSerializable
 /** */
 internal val Project.mahoutProperties: MahoutProperties
   get() = extras.getOrPut("mahoutProperties") {
-    objects.newInstance(
-      com.rickbusarow.mahout.config.internal.MahoutPropertiesImpl::class.java
-    )
+    objects.newInstance(com.rickbusarow.mahout.config.internal.MahoutPropertiesImpl::class.java)
   }
 
 /** */

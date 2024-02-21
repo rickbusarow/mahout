@@ -15,9 +15,9 @@
 
 package com.rickbusarow.mahout.conventions
 
+import com.rickbusarow.mahout.api.SubExtension
+import com.rickbusarow.mahout.api.SubExtensionInternal
 import com.rickbusarow.mahout.config.url
-import com.rickbusarow.mahout.core.SubExtension
-import com.rickbusarow.mahout.core.SubExtensionInternal
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.model.ObjectFactory

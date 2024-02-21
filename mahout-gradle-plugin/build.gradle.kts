@@ -190,49 +190,95 @@ dependencies {
   testImplementation(libs.kotest.assertions.shared)
 }
 
-fun PluginDeclaration.tags(vararg v: String) {
-  @Suppress("UnstableApiUsage")
-  tags.set(v.toList())
-}
-
 gradlePlugin {
 
   plugins {
-    create("composite") {
-      id = "com.rickbusarow.mahout.composite"
-      implementationClass = "com.rickbusarow.mahout.composite.CompositePlugin"
+
+    plugin(
+      name = "composite",
+      implementationClass = "com.rickbusarow.mahout.composite.CompositePlugin",
+      description = "Propagates unqualified task requests from the root build to all included builds",
+      additionalTags = emptyList()
+    )
+
+    plugin(
+      name = "curator",
+      implementationClass = "com.rickbusarow.mahout.curator.CuratorPlugin",
+      description = "Verifies the consistency of a project's published artifacts",
+      additionalTags = emptyList()
+    )
+
+    plugin(
+      name = "gradle-test",
+      implementationClass = "com.rickbusarow.mahout.conventions.GradleTestsPlugin",
+      description = "Configures a source set for Gradle integration tests",
+      additionalTags = listOf("testing", "gradle-plugin", "plugin", "kotlin-jvm")
+    )
+
+    plugin(
+      name = "java-gradle-plugin",
+      implementationClass = "com.rickbusarow.mahout.GradlePluginModulePlugin",
+      description = "Convention plugin for a java-gradle-plugin project",
+      additionalTags = listOf("plugin", "java", "jvm", "kotlin-jvm")
+    )
+
+    plugin(
+      name = "kotlin-jvm-module",
+      implementationClass = "com.rickbusarow.mahout.KotlinJvmModulePlugin",
+      description = "Convention plugin for a Kotlin JVM project",
+      additionalTags = listOf("java", "jvm", "kotlin-jvm")
+    )
+
+    plugin(
+      name = "kotlin-multiplatform-module",
+      implementationClass = "com.rickbusarow.mahout.KotlinMultiplatformModulePlugin",
+      description = "Convention plugin for a Kotlin Multiplatform project",
+      additionalTags = listOf("multiplatform", "kotlin-multiplatform")
+    )
+
+    plugin(
+      name = "root",
+      implementationClass = "com.rickbusarow.mahout.RootPlugin",
+      description = "Convention plugin for the root project of a multi-module build",
+      additionalTags = emptyList()
+    )
+
+    fun convention(simpleId: String, implementationClass: String) {
+      plugin(
+        name = simpleId,
+        implementationClass = "com.rickbusarow.mahout.$implementationClass",
+        description = "                ",
+        additionalTags = emptyList()
+      )
     }
 
-    register("root") {
-      id = "com.rickbusarow.mahout.root"
-      implementationClass = "com.rickbusarow.mahout.RootPlugin"
-      description = "Convention plugin for the root project of a multi-module build"
-      tags("convention-plugin", "kotlin", "java", "jvm", "kotlin-jvm")
-    }
-    register("java-gradle-plugin") {
-      id = "com.rickbusarow.mahout.java-gradle-plugin"
-      implementationClass = "com.rickbusarow.mahout.GradlePluginModulePlugin"
-      description = "Convention plugin for a java-gradle-plugin project"
-      tags("convention-plugin", "kotlin", "plugin", "java", "jvm", "kotlin-jvm")
-    }
-    register("jvm") {
-      id = "com.rickbusarow.mahout.jvm-module"
-      implementationClass = "com.rickbusarow.mahout.KotlinJvmModulePlugin"
-      description = "Convention plugin for a Kotlin JVM project"
-      tags("convention-plugin", "kotlin", "java", "jvm", "kotlin-jvm")
-    }
-    register("kmp") {
-      id = "com.rickbusarow.mahout.kotlin-multiplatform"
-      implementationClass = "com.rickbusarow.mahout.KotlinMultiplatformModulePlugin"
-      description = "Convention plugin for a Kotlin Multiplatform project"
-      tags("convention-plugin", "kotlin", "multiplatform", "kotlin-multiplatform")
-    }
-
-    create("curator") {
-      id = "com.rickbusarow.mahout.curator"
-      implementationClass = "com.rickbusarow.mahout.curator.CuratorPlugin"
-    }
+    convention("convention.ben-manes", "conventions.BenManesVersionsPlugin")
+    convention("convention.clean", "conventions.CleanPlugin")
+    convention("convention.dependency-guard", "conventions.DependencyGuardConventionPlugin")
+    convention("convention.detekt", "conventions.DetektConventionPlugin")
+    convention("convention.dokka-versioning", "conventions.DokkaVersionArchivePlugin")
+    convention("convention.dokkatoo", "dokka.DokkatooConventionPlugin")
+    convention("convention.fix", "conventions.FixPlugin")
+    convention("convention.github-release", "conventions.GitHubReleasePlugin")
+    convention("convention.kotlin-jvm", "conventions.KotlinJvmConventionPlugin")
+    convention("convention.ktlint", "conventions.KtLintConventionPlugin")
+    convention("convention.spotless", "conventions.SpotlessConventionPlugin")
+    convention("convention.test", "conventions.TestConventionPlugin")
   }
+}
+
+fun NamedDomainObjectContainer<PluginDeclaration>.plugin(
+  name: String,
+  implementationClass: String,
+  description: String,
+  additionalTags: List<String>
+): NamedDomainObjectProvider<PluginDeclaration> = register(name) {
+  val declaration = this@register
+  declaration.id = "com.rickbusarow.mahout.$name"
+  declaration.implementationClass = implementationClass
+  declaration.description = description
+  @Suppress("UnstableApiUsage")
+  declaration.tags.addAll("convention-plugin", "kotlin", *additionalTags.toTypedArray())
 }
 
 if (rootProject.name == "mahout") {

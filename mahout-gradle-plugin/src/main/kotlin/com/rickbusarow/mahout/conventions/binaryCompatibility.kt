@@ -15,11 +15,9 @@
 
 package com.rickbusarow.mahout.conventions
 
-import com.rickbusarow.kgx.applyOnce
 import com.rickbusarow.kgx.checkProjectIsRoot
 import com.rickbusarow.mahout.deps.PluginIds
 import kotlinx.validation.ApiValidationExtension
-import kotlinx.validation.KotlinApiBuildTask
 import kotlinx.validation.KotlinApiCompareTask
 import org.gradle.api.Project
 
@@ -31,7 +29,7 @@ internal fun Project.applyBinaryCompatibility() {
 
   if (!plugins.hasPlugin(PluginIds.`kotlinx-binaryCompatibility`)) {
 
-    plugins.applyOnce(PluginIds.`kotlinx-binaryCompatibility`)
+    plugins.apply(PluginIds.`kotlinx-binaryCompatibility`)
 
     extensions.configure(ApiValidationExtension::class.java) { extension ->
 
@@ -43,7 +41,7 @@ internal fun Project.applyBinaryCompatibility() {
     }
 
     tasks.withType(KotlinApiCompareTask::class.java).configureEach { task ->
-      task.mustRunAfter(tasks.withType(KotlinApiBuildTask::class.java))
+      task.mustRunAfter(tasks.named("apiDump"))
     }
   }
 }

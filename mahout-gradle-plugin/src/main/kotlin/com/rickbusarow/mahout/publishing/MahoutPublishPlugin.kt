@@ -19,6 +19,7 @@ import com.rickbusarow.kgx.registerOnce
 import com.rickbusarow.mahout.api.DefaultMahoutCheckTask
 import com.rickbusarow.mahout.conventions.applyBinaryCompatibility
 import com.rickbusarow.mahout.deps.PluginIds
+import com.rickbusarow.mahout.dokka.DokkatooConventionPlugin.Companion.dokkaJavadocJar
 import com.vanniktech.maven.publish.SonatypeHost
 import org.gradle.api.NamedDomainObjectSet
 import org.gradle.api.Plugin
@@ -53,6 +54,7 @@ public abstract class MahoutPublishPlugin : Plugin<Project> {
 
         val plugin = gradlePluginPublish.plugins
           .named(publication.nameWithoutMarker())
+
         publication.pom.description.set(plugin.map { it.description })
       }
     }
@@ -64,7 +66,7 @@ public abstract class MahoutPublishPlugin : Plugin<Project> {
     target.registerSnapshotVersionCheckTask()
 
     target.tasks.withType(GenerateModuleMetadata::class.java).configureEach {
-      it.mustRunAfter("javadocJar")
+      it.mustRunAfter(target.tasks.dokkaJavadocJar)
     }
     target.tasks.withType(AbstractPublishToMaven::class.java).configureEach {
       it.mustRunAfter(target.tasks.withType(Jar::class.java))

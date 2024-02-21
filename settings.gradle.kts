@@ -25,7 +25,7 @@ pluginManagement {
   includeBuild("build-logic")
 
   plugins {
-    id("com.rickbusarow.mahout.jvm-module") apply false
+    id("com.rickbusarow.mahout.kotlin-jvm-module") apply false
     id("com.rickbusarow.mahout.root") apply false
   }
 }
