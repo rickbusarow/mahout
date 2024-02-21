@@ -16,8 +16,6 @@
 package com.rickbusarow.mahout.conventions
 
 import com.rickbusarow.kgx.applyOnce
-import com.rickbusarow.kgx.matchingName
-import com.rickbusarow.mahout.api.DefaultMahoutTask
 import com.rickbusarow.mahout.api.DefaultMahoutCheckTask
 import com.rickbusarow.mahout.api.DefaultMahoutFixTask
 import com.rickbusarow.mahout.deps.PluginIds

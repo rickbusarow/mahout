@@ -18,9 +18,6 @@ package com.rickbusarow.mahout.composite
 import com.rickbusarow.kgx.checkProjectIsRoot
 import com.rickbusarow.kgx.internal.InternalGradleApiAccess
 import com.rickbusarow.kgx.internal.allIncludedProjects
-import com.rickbusarow.mahout.core.stdlib.splitInclusive
-import com.rickbusarow.mahout.taskWillResolve
-import com.rickbusarow.mahout.taskWillResolveInAny
 import com.rickbusarow.mahout.RootExtension
 import com.rickbusarow.mahout.composite.CompositeSubExtension.RequestedTask
 import com.rickbusarow.mahout.composite.CompositeSubExtension.ResolvedTask

@@ -57,9 +57,8 @@ public open class CuratorDumpTask @Inject constructor(
           } else {
             it.plus("\n")
           }
-          }
         }
-
-    reportFile.asFile.writeText(json)
+      reportFile.asFile.writeText(json)
+    }
   }
 }

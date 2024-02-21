@@ -20,8 +20,6 @@ import com.rickbusarow.mahout.config.jvmTargetInt
 import com.rickbusarow.mahout.config.jvmToolchainInt
 import com.rickbusarow.mahout.config.mahoutProperties
 import com.rickbusarow.mahout.mahoutExtension
-import com.rickbusarow.mahout.config.jvmToolchainInt
-import com.rickbusarow.mahout.config.mahoutProperties
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project

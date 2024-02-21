@@ -15,9 +15,6 @@
 
 package com.rickbusarow.mahout.curator
 
-import com.rickbusarow.mahout.core.Color.Companion.colorized
-import com.rickbusarow.mahout.core.Color.RED
-import com.rickbusarow.mahout.core.Color.YELLOW
 import com.rickbusarow.mahout.api.MahoutCheckTask
 import com.rickbusarow.mahout.core.Color.Companion.colorized
 import com.rickbusarow.mahout.core.Color.RED

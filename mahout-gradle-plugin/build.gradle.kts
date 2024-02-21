@@ -130,7 +130,6 @@ dependencies {
   gradleTestImplementation(libs.kotest.assertions.core.jvm)
   gradleTestImplementation(libs.kotest.assertions.shared)
 
-
   implementation(libs.benManes.versions)
   implementation(libs.breadmoirai.github.release)
   implementation(libs.detekt.gradle)

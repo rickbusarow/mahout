@@ -14,11 +14,9 @@
  */
 
 import com.rickbusarow.kgx.buildDir
-import com.rickbusarow.kgx.java
 import com.rickbusarow.kgx.withBuildInitPlugin
 import com.rickbusarow.kgx.withKotlinJvmPlugin
 import com.rickbusarow.mahout.core.InternalMahoutApi
-import com.rickbusarow.mahout.core.VERSION_NAME
 import com.rickbusarow.mahout.core.gradle.addTasksToStartParameter
 import org.gradle.plugins.ide.idea.model.IdeaModel
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension

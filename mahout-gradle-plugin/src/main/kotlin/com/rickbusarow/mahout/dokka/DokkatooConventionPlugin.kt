@@ -21,13 +21,6 @@ import com.rickbusarow.kgx.getOrPut
 import com.rickbusarow.kgx.isRootProject
 import com.rickbusarow.kgx.projectDependency
 import com.rickbusarow.ktlint.KtLintTask
-import com.rickbusarow.mahout.api.MahoutTask
-import com.rickbusarow.mahout.config.jvmTargetInt
-import com.rickbusarow.mahout.config.mahoutProperties
-import com.rickbusarow.mahout.core.GITHUB_REPOSITORY
-import com.rickbusarow.mahout.core.VERSION_NAME
-import com.rickbusarow.mahout.core.stdlib.SEMVER_REGEX
-import com.vanniktech.maven.publish.tasks.JavadocJar
 import com.rickbusarow.mahout.api.DefaultMahoutJavadocJarTask
 import com.rickbusarow.mahout.conventions.HasGitHubSubExtension
 import com.rickbusarow.mahout.conventions.HasJavaSubExtension
@@ -155,7 +148,9 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
           .dir("tmp/dokka-archive")
 
         dokkatoo.pluginsConfiguration
-          .withType(DokkaVersioningPluginParameters::class.java).configureEach { versioning ->
+          .withType(
+            DokkaVersioningPluginParameters::class.java
+          ).configureEach { versioning ->
 
             versioning.version.set(mahoutExtension.versionName)
             if (dokkaArchiveBuildDir.get().asFile.exists()) {
@@ -179,7 +174,9 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
             "Ensures that generated javadoc.jar artifacts don't include old Dokka versions"
           task.group = "dokka versioning"
 
-          val javadocTasks = target.tasks.withType(DefaultMahoutJavadocJarTask::class.java)
+          val javadocTasks = target.tasks.withType(
+            DefaultMahoutJavadocJarTask::class.java
+          )
           task.dependsOn(javadocTasks)
 
           task.inputs.files(javadocTasks.map { it.outputs })
@@ -198,7 +195,9 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
             }
 
             if (versions.isNotEmpty()) {
-              throw GradleException("Found old Dokka versions in javadoc.jar: $versions")
+              throw GradleException(
+                "Found old Dokka versions in javadoc.jar: $versions"
+              )
             }
           }
         }
