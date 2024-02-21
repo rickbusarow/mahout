@@ -22,7 +22,8 @@ import org.gradle.api.tasks.TaskCollection
 import org.jetbrains.kotlin.gradle.plugin.extraProperties
 
 /** @throws IllegalArgumentException if there are multiple tasks of that name when ignoring its case */
-internal fun TaskCollection<*>.namedOrNull(taskName: String): NamedDomainObjectSchema? {
+@InternalMahoutApi
+public fun TaskCollection<*>.namedOrNull(taskName: String): NamedDomainObjectSchema? {
 
   // This will typically be a 1:1 grouping,
   // but Gradle does allow you to re-use task names with different capitalization,

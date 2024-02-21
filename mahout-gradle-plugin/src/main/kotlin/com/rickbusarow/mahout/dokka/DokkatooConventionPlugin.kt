@@ -21,6 +21,13 @@ import com.rickbusarow.kgx.getOrPut
 import com.rickbusarow.kgx.isRootProject
 import com.rickbusarow.kgx.projectDependency
 import com.rickbusarow.ktlint.KtLintTask
+import com.rickbusarow.mahout.api.MahoutTask
+import com.rickbusarow.mahout.config.jvmTargetInt
+import com.rickbusarow.mahout.config.mahoutProperties
+import com.rickbusarow.mahout.core.GITHUB_REPOSITORY
+import com.rickbusarow.mahout.core.VERSION_NAME
+import com.rickbusarow.mahout.core.stdlib.SEMVER_REGEX
+import com.vanniktech.maven.publish.tasks.JavadocJar
 import com.rickbusarow.mahout.api.DefaultMahoutJavadocJarTask
 import com.rickbusarow.mahout.conventions.HasGitHubSubExtension
 import com.rickbusarow.mahout.conventions.HasJavaSubExtension
@@ -107,9 +114,6 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
       }
 
       target.tasks.withType(DokkatooGenerateTask::class.java).configureEach { task ->
-
-        task.workerMinHeapSize.set(dokkaSubExtension.generateTaskWorkerMinHeapSize)
-        task.workerMaxHeapSize.set(dokkaSubExtension.generateTaskWorkerMaxHeapSize)
 
         // Dokka uses their outputs but doesn't explicitly depend upon them.
         task.mustRunAfter(target.tasks.withType(KotlinCompile::class.java))

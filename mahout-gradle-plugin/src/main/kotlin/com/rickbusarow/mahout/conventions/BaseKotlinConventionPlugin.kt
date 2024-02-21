@@ -20,6 +20,8 @@ import com.rickbusarow.mahout.config.jvmTargetInt
 import com.rickbusarow.mahout.config.jvmToolchainInt
 import com.rickbusarow.mahout.config.mahoutProperties
 import com.rickbusarow.mahout.mahoutExtension
+import com.rickbusarow.mahout.config.jvmToolchainInt
+import com.rickbusarow.mahout.config.mahoutProperties
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -102,7 +104,7 @@ public abstract class BaseKotlinConventionPlugin : Plugin<Project> {
 
         // options.allWarningsAsErrors.set(extension.allWarningsAsErrors.orElse(false))
 
-        val kotlinMajor = extension.apiLevel.orNull
+        val kotlinMajor = target.mahoutProperties.kotlin.apiLevel.orNull
         if (kotlinMajor != null) {
           languageVersion = kotlinMajor
           apiVersion = kotlinMajor

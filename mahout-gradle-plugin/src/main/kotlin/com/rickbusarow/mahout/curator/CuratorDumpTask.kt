@@ -46,14 +46,19 @@ public open class CuratorDumpTask @Inject constructor(
       throw GradleException("The artifacts baseline should only be updated from a macOS machine.")
     }
 
-    val json = jsonAdapter.encodeToString(currentList.sorted())
-      .let {
-        if (it.endsWith("\n\n")) {
-          it
-        } else {
-          it.plus("\n")
+    val artifactsChanged = baselineArtifacts.toSet() != currentList.toSet()
+
+    if (artifactsChanged && currentList.isNotEmpty()) {
+
+      val json = jsonAdapter.encodeToString(currentList.sorted())
+        .let {
+          if (it.endsWith("\n\n")) {
+            it
+          } else {
+            it.plus("\n")
+          }
+          }
         }
-      }
 
     reportFile.asFile.writeText(json)
   }

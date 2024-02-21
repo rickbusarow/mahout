@@ -130,6 +130,27 @@ dependencies {
   gradleTestImplementation(libs.kotest.assertions.core.jvm)
   gradleTestImplementation(libs.kotest.assertions.shared)
 
+
+  implementation(libs.benManes.versions)
+  implementation(libs.breadmoirai.github.release)
+  implementation(libs.detekt.gradle)
+  implementation(libs.diffplug.spotless)
+  implementation(libs.dokka.core)
+  implementation(libs.dokka.gradle)
+  implementation(libs.dokka.versioning)
+  implementation(libs.dokkatoo.plugin)
+  implementation(libs.drewHamilton.poko.gradle.plugin)
+  implementation(libs.dropbox.dependencyGuard)
+  implementation(libs.ec4j.core)
+  implementation(libs.johnrengelman.shadowJar)
+  implementation(libs.kotlin.gradle.plugin)
+  implementation(libs.kotlin.gradle.plugin.api)
+  implementation(libs.kotlin.reflect)
+  implementation(libs.kotlinx.binaryCompatibility)
+  implementation(libs.kotlinx.serialization.json)
+  implementation(libs.rickBusarow.doks)
+  implementation(libs.rickBusarow.kgx)
+  implementation(libs.rickBusarow.ktlint)
   implementation(libs.benManes.versions)
   implementation(libs.breadmoirai.github.release)
   implementation(libs.detekt.gradle)
@@ -178,6 +199,10 @@ fun PluginDeclaration.tags(vararg v: String) {
 gradlePlugin {
 
   plugins {
+    create("composite") {
+      id = "com.rickbusarow.mahout.composite"
+      implementationClass = "com.rickbusarow.mahout.composite.CompositePlugin"
+    }
 
     register("root") {
       id = "com.rickbusarow.mahout.root"
@@ -202,6 +227,11 @@ gradlePlugin {
       implementationClass = "com.rickbusarow.mahout.KotlinMultiplatformModulePlugin"
       description = "Convention plugin for a Kotlin Multiplatform project"
       tags("convention-plugin", "kotlin", "multiplatform", "kotlin-multiplatform")
+    }
+
+    create("curator") {
+      id = "com.rickbusarow.mahout.curator"
+      implementationClass = "com.rickbusarow.mahout.curator.CuratorPlugin"
     }
   }
 }

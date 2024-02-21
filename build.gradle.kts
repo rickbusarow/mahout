@@ -17,6 +17,9 @@ import com.rickbusarow.kgx.buildDir
 import com.rickbusarow.kgx.java
 import com.rickbusarow.kgx.withBuildInitPlugin
 import com.rickbusarow.kgx.withKotlinJvmPlugin
+import com.rickbusarow.mahout.core.InternalMahoutApi
+import com.rickbusarow.mahout.core.VERSION_NAME
+import com.rickbusarow.mahout.core.gradle.addTasksToStartParameter
 import org.gradle.plugins.ide.idea.model.IdeaModel
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
@@ -54,7 +57,8 @@ mahout {
   }
   java {
   }
-  tasks.addTasksToIdeSync(
+  @OptIn(InternalMahoutApi::class)
+  addTasksToStartParameter(
     ":mahout-gradle-plugin:generateBuildConfig",
     ":mahout-gradle-plugin:kspKotlin"
   )

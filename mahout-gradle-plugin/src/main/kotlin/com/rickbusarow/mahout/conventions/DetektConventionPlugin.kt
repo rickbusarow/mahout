@@ -17,6 +17,9 @@ package com.rickbusarow.mahout.conventions
 
 import com.rickbusarow.kgx.applyOnce
 import com.rickbusarow.kgx.buildDir
+import com.rickbusarow.kgx.library
+import com.rickbusarow.kgx.libsCatalog
+import com.rickbusarow.mahout.api.MahoutCodeGeneratorTask
 import com.rickbusarow.mahout.api.MahoutCodeGeneratorTask
 import com.rickbusarow.mahout.config.mahoutProperties
 import com.rickbusarow.mahout.deps.Modules
