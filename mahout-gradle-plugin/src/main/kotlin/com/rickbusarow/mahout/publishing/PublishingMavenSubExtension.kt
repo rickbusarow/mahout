@@ -15,17 +15,19 @@
 
 package com.rickbusarow.mahout.publishing
 
+import com.rickbusarow.kgx.get
 import com.rickbusarow.kgx.gradleLazy
 import com.rickbusarow.kgx.javaExtension
 import com.rickbusarow.kgx.names.SourceSetName.Companion.addSuffix
 import com.rickbusarow.kgx.names.SourceSetName.Companion.asSourceSetName
 import com.rickbusarow.kgx.names.SourceSetName.Companion.isMain
 import com.rickbusarow.kgx.newInstance
+import com.rickbusarow.mahout.api.SubExtension
+import com.rickbusarow.mahout.api.SubExtensionInternal
 import com.rickbusarow.mahout.config.mahoutProperties
 import com.rickbusarow.mahout.conventions.AbstractHasSubExtension
 import com.rickbusarow.mahout.conventions.AbstractSubExtension
-import com.rickbusarow.mahout.core.SubExtension
-import com.rickbusarow.mahout.core.SubExtensionInternal
+import com.rickbusarow.mahout.core.versionIsSnapshot
 import com.rickbusarow.mahout.dokka.DokkatooConventionPlugin.Companion.dokkaJavadocJar
 import org.gradle.api.Action
 import org.gradle.api.Project
@@ -80,9 +82,10 @@ public interface PublishingMavenSubExtension : SubExtension<PublishingMavenSubEx
 public abstract class DefaultPublishingMavenSubExtension @Inject constructor(
   target: Project,
   objects: ObjectFactory
-) : AbstractSubExtension(target, objects), PublishingMavenSubExtension, SubExtensionInternal {
+) : AbstractSubExtension(target, objects),
+  PublishingMavenSubExtension,
+  SubExtensionInternal {
 
-  // override val defaultPom: DefaultMavenPom = subExtension<DefaultMavenPom>("defaultPom")
   override val defaultPom: DefaultMavenPom by gradleLazy {
     objects.newInstance<DefaultMavenPom>()
       .also { pom ->
@@ -134,25 +137,19 @@ public abstract class DefaultPublishingMavenSubExtension @Inject constructor(
     val pubName = publicationName ?: PublicationName
       .forSourceSetName(baseName = "maven", sourceSetName = ssName).value
 
-    val jt = if (ssName.isMain()) {
-      "jar"
-    } else {
-      ssName.addSuffix("Jar")
-    }
     val sjt = if (ssName.isMain()) {
       "sourcesJar"
     } else {
       ssName.addSuffix("SourcesJar")
     }
-
-    target.javaExtension.also {
-      it.withJavadocJar()
-      it.withSourcesJar()
+    target.tasks.register(sjt, Jar::class.java) {
+      it.archiveClassifier.set("sources")
+      it.from(target.javaExtension.sourceSets[ssName].allSource)
     }
 
-    target.gradlePublishingExtension
-      .publications
+    target.gradlePublishingExtension.publications
       .register(pubName, MavenPublication::class.java) { publication ->
+
         publication.artifactId = artifactId
           ?: mahoutProperties.publishing.pom.artifactId.orNull
           ?: target.name
@@ -161,75 +158,59 @@ public abstract class DefaultPublishingMavenSubExtension @Inject constructor(
           ?: target.group.toString()
         publication.version = versionName
           ?: target.mahoutProperties.versionName.orNull
-          // ?: target.VERSION_NAME.orNull
           ?: target.version.toString()
 
-        val jarTask = target.tasks.named(jt, Jar::class.java)
         val sourcesJar = target.tasks.named(sjt, Jar::class.java)
 
-        publication.artifact(jarTask)
+        publication.from(target.components.getByName("java"))
+
         publication.artifact(sourcesJar)
         publication.artifact(target.tasks.dokkaJavadocJar)
-      }
 
-    val publications = target.gradlePublishingExtension.publications
+        publication.pom.description.set(pomDescription)
 
-    val mavenPublication =
-      if (publications.names.contains(pubName)) {
-        publications.named(pubName, MavenPublication::class.java)
-      } else {
-        publications.register(pubName, MavenPublication::class.java)
-      }
+        val default = defaultPom
 
-    mavenPublication.configure { publication ->
-      publication.pom.description.set(pomDescription)
+        publication.pom { mavenPom ->
 
-      val default = defaultPom
+          mavenPom.url.convention(default.url)
+          mavenPom.name.convention(default.name)
+          mavenPom.description.convention(default.description)
+          mavenPom.inceptionYear.convention(default.inceptionYear)
 
-      publication.pom { mavenPom ->
+          mavenPom.licenses { licenseSpec ->
 
-        mavenPom.url.convention(default.url)
-        mavenPom.name.convention(default.name)
-        mavenPom.description.convention(default.description)
-        mavenPom.inceptionYear.convention(default.inceptionYear)
-
-        mavenPom.licenses { licenseSpec ->
-
-          for (defaultLicense in default.licenses) {
-            licenseSpec.license { license ->
-              license.name.convention(defaultLicense.name)
-              license.url.convention(defaultLicense.url)
-              license.distribution.convention(defaultLicense.distribution)
+            for (defaultLicense in default.licenses) {
+              licenseSpec.license { license ->
+                license.name.convention(defaultLicense.name)
+                license.url.convention(defaultLicense.url)
+                license.distribution.convention(defaultLicense.distribution)
+              }
             }
           }
-        }
 
-        mavenPom.scm { scm ->
-          default.scm?.url?.let { scm.url.convention(it) }
-          default.scm?.connection?.let { scm.connection.convention(it) }
-          default.scm?.developerConnection?.let { scm.developerConnection.convention(it) }
-        }
+          mavenPom.scm { scm ->
+            default.scm?.url?.let { scm.url.convention(it) }
+            default.scm?.connection?.let { scm.connection.convention(it) }
+            default.scm?.developerConnection?.let { scm.developerConnection.convention(it) }
+          }
 
-        mavenPom.developers { developerSpec ->
-          for (defaultDeveloper in default.developers) {
-            developerSpec.developer { developer ->
-              developer.id.convention(defaultDeveloper.id)
-              developer.name.convention(defaultDeveloper.name)
-              developer.url.convention(defaultDeveloper.url)
+          mavenPom.developers { developerSpec ->
+            for (defaultDeveloper in default.developers) {
+              developerSpec.developer { developer ->
+                developer.id.convention(defaultDeveloper.id)
+                developer.name.convention(defaultDeveloper.name)
+                developer.url.convention(defaultDeveloper.url)
+              }
             }
           }
         }
       }
-    }
-
-    // registerSnapshotVersionCheckTask()
-    // configureSkipDokka()
 
     target.tasks.withType(Sign::class.java).configureEach {
-      // it.notCompatibleWithConfigurationCache("")
 
       // skip signing for -SNAPSHOT publishing
-      it.onlyIf { !(target.version as String).endsWith("SNAPSHOT") }
+      it.onlyIf { !target.versionIsSnapshot }
     }
   }
 }

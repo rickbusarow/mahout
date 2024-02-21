@@ -15,8 +15,8 @@
 
 package com.rickbusarow.mahout.composite
 
+import com.rickbusarow.mahout.api.SubExtension
 import com.rickbusarow.mahout.conventions.AbstractHasSubExtension
-import com.rickbusarow.mahout.core.SubExtension
 import dev.drewhamilton.poko.Poko
 import org.gradle.api.Action
 import org.gradle.api.model.ObjectFactory

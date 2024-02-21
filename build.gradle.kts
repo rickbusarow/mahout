@@ -16,11 +16,10 @@
 import com.rickbusarow.kgx.buildDir
 import com.rickbusarow.kgx.withBuildInitPlugin
 import com.rickbusarow.kgx.withKotlinJvmPlugin
-import com.rickbusarow.mahout.core.InternalMahoutApi
-import com.rickbusarow.mahout.core.gradle.addTasksToStartParameter
 import org.gradle.plugins.ide.idea.model.IdeaModel
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
+import org.gradle.kotlin.dsl.addTasksToStartParameter as addTasksToStartParameterDsl
 import org.gradle.kotlin.dsl.mahoutProperties as mahoutPropertiesDsl
 
 buildscript {
@@ -56,8 +55,7 @@ mahout {
   }
   java {
   }
-  @OptIn(InternalMahoutApi::class)
-  addTasksToStartParameter(
+  addTasksToStartParameterDsl(
     ":mahout-gradle-plugin:generateBuildConfig",
     ":mahout-gradle-plugin:kspKotlin"
   )

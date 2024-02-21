@@ -24,9 +24,11 @@ import com.rickbusarow.ktlint.KtLintTask
 import com.rickbusarow.mahout.api.DefaultMahoutCheckTask
 import com.rickbusarow.mahout.api.DefaultMahoutJavadocJarTask
 import com.rickbusarow.mahout.api.MahoutFixTask
+import com.rickbusarow.mahout.config.JavaVersion.Companion.major
 import com.rickbusarow.mahout.conventions.HasGitHubSubExtension
 import com.rickbusarow.mahout.conventions.HasJavaSubExtension
 import com.rickbusarow.mahout.conventions.HasKotlinSubExtension
+import com.rickbusarow.mahout.core.check
 import com.rickbusarow.mahout.core.stdlib.SEMVER_REGEX
 import com.rickbusarow.mahout.deps.Libs
 import com.rickbusarow.mahout.mahoutExtension
@@ -39,7 +41,6 @@ import org.gradle.api.Project
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
 import org.gradle.api.tasks.TaskContainer
 import org.gradle.api.tasks.TaskProvider
-import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URI
 
@@ -75,7 +76,7 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
         )
 
         sourceSet.languageVersion.set(kotlinSubExtension.apiLevel)
-        sourceSet.jdkVersion.set(javaSubExtension.jvmTargetInt)
+        sourceSet.jdkVersion.set(javaSubExtension.jvmTarget.major)
 
         // include all project sources when resolving kdoc samples
         sourceSet.samples.setFrom(target.fileTree(target.file("src")))
@@ -210,8 +211,7 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
           }
         }
 
-      target.tasks.named(LifecycleBasePlugin.CHECK_TASK_NAME)
-        .dependsOn(checkJavadocJarIsNotVersioned)
+      target.tasks.check.dependsOn(checkJavadocJarIsNotVersioned)
     }
   }
 
