@@ -29,6 +29,7 @@ import org.gradle.api.Task
 import org.gradle.api.provider.Provider
 import org.gradle.api.provider.ProviderFactory
 import org.gradle.api.reflect.TypeOf
+import org.gradle.api.tasks.Sync
 import org.gradle.api.tasks.TaskCollection
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.language.base.plugins.LifecycleBasePlugin
@@ -46,13 +47,14 @@ public abstract class CheckPlugin : Plugin<Project> {
       task.description = "Runs all auto-fix linting tasks"
 
       task.dependsOn(
+        target.tasks.withType(Sync::class.java).named { it == "apiDump" },
         target.tasks.withType(SpotlessApply::class.java),
         target.tasks.withType(KotlinApiBuildTask::class.java),
         target.tasks.withType(DeleteEmptyDirsTask::class.java),
         target.tasks.withType(KtLintFormatTask::class.java),
-        target.tasks.withType(MahoutFixTask::class.java)
-          .namedFromSchema(target.providers) { name, _ -> name != "fix" }
+        target.tasks.withType(MahoutFixTask::class.java).named { it != "fix" }
       )
+
       if (target.plugins.hasPlugin(PluginIds.`dropbox-dependency-guard`)) {
         task.dependsOn(target.tasks.named("dependencyGuardBaseline"))
       }

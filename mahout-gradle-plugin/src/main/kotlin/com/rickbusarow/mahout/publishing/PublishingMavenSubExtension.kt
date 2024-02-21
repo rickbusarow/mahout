@@ -18,15 +18,19 @@ package com.rickbusarow.mahout.publishing
 import com.rickbusarow.kgx.get
 import com.rickbusarow.kgx.gradleLazy
 import com.rickbusarow.kgx.javaExtension
+import com.rickbusarow.kgx.named
 import com.rickbusarow.kgx.names.SourceSetName.Companion.addSuffix
 import com.rickbusarow.kgx.names.SourceSetName.Companion.asSourceSetName
 import com.rickbusarow.kgx.names.SourceSetName.Companion.isMain
+import com.rickbusarow.kgx.names.TaskName.Companion.asTaskName
 import com.rickbusarow.kgx.newInstance
+import com.rickbusarow.kgx.register
 import com.rickbusarow.mahout.api.SubExtension
 import com.rickbusarow.mahout.api.SubExtensionInternal
 import com.rickbusarow.mahout.config.mahoutProperties
 import com.rickbusarow.mahout.conventions.AbstractHasSubExtension
 import com.rickbusarow.mahout.conventions.AbstractSubExtension
+import com.rickbusarow.mahout.core.stdlib.letIf
 import com.rickbusarow.mahout.core.versionIsSnapshot
 import com.rickbusarow.mahout.dokka.DokkatooConventionPlugin.Companion.dokkaJavadocJar
 import org.gradle.api.Action
@@ -134,15 +138,13 @@ public abstract class DefaultPublishingMavenSubExtension @Inject constructor(
 
     val ssName = sourceSetName.asSourceSetName()
 
-    val pubName = publicationName ?: PublicationName
-      .forSourceSetName(baseName = "maven", sourceSetName = ssName).value
+    val pubName = publicationName
+      ?: PublicationName.forSourceSetName(baseName = "maven", sourceSetName = ssName).value
 
-    val sjt = if (ssName.isMain()) {
-      "sourcesJar"
-    } else {
-      ssName.addSuffix("SourcesJar")
-    }
-    target.tasks.register(sjt, Jar::class.java) {
+    val sourcesJarTaskName = "sourcesJar".asTaskName()
+      .letIf(!ssName.isMain()) { ssName.addSuffix(it) }
+
+    target.tasks.register(sourcesJarTaskName, Jar::class) {
       it.archiveClassifier.set("sources")
       it.from(target.javaExtension.sourceSets[ssName].allSource)
     }
@@ -160,7 +162,7 @@ public abstract class DefaultPublishingMavenSubExtension @Inject constructor(
           ?: target.mahoutProperties.versionName.orNull
           ?: target.version.toString()
 
-        val sourcesJar = target.tasks.named(sjt, Jar::class.java)
+        val sourcesJar = target.tasks.named(sourcesJarTaskName)
 
         publication.from(target.components.getByName("java"))
 
