@@ -31,7 +31,7 @@ com.googlecode.concurrent-trees:concurrent-trees:2.6.1
 com.googlecode.javaewah:JavaEWAH:1.2.3
 com.ibm.icu:icu4j:69.1
 com.rickbusarow.dispatch:dispatch-core:1.0.0-beta10
-com.rickbusarow.doks:doks-gradle-plugin:0.1.4
+com.rickbusarow.doks:doks-gradle-plugin:0.2.0
 com.rickbusarow.kgx:kotlin-gradle-extensions:0.1.11
 com.rickbusarow.kgx:names:0.1.11
 com.rickbusarow.ktlint:ktlint-gradle-plugin:0.2.2
