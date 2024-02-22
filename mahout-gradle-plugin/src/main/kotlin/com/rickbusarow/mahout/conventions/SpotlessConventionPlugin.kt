@@ -40,21 +40,19 @@ public abstract class SpotlessConventionPlugin : Plugin<Project> {
     target.plugins.apply(SpotlessPlugin::class.java)
 
     target.tasks.withType(SpotlessTask::class.java).configureEach { spotlessTask ->
-      // spotlessTask.mustRunAfter(":curatorDump")
 
-      // if (target.plugins.hasPlugin(PluginIds.`kotlinx-binaryCompatibility`)) {
-      //   // target.subprojects
-      //   //   .forEach { subproject ->
-      //   //     spotlessTask.mustRunAfter(subproject.tasks.named("apiDump"))
-      //   //   }
-      // }
-
-      target.allprojects
-        .filter { it.plugins.hasPlugin(PluginIds.`dropbox-dependency-guard`) }
-        .forEach { subproject ->
-          spotlessTask.mustRunAfter(subproject.tasks.named("dependencyGuard"))
-          spotlessTask.mustRunAfter(subproject.tasks.named("dependencyGuardBaseline"))
+      target.plugins.withId(PluginIds.`kotlinx-binaryCompatibility`) {
+        target.subprojects { subproject ->
+          spotlessTask.mustRunAfter(subproject.tasks.named { it == "apiDump" })
         }
+      }
+
+      target.allprojects { allproject ->
+        allproject.plugins.withId(PluginIds.`dropbox-dependency-guard`) {
+          spotlessTask.mustRunAfter(allproject.tasks.named("dependencyGuard"))
+          spotlessTask.mustRunAfter(allproject.tasks.named("dependencyGuardBaseline"))
+        }
+      }
     }
 
     target.extensions.configure(SpotlessExtension::class.java) { spotless ->
