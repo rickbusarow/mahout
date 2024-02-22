@@ -210,7 +210,7 @@ gradlePlugin {
 
     plugin(
       name = "gradle-test",
-      implementationClass = "com.rickbusarow.mahout.GradleTestsPlugin",
+      implementationClass = "com.rickbusarow.mahout.conventions.GradleTestsPlugin",
       description = "Configures a source set for Gradle integration tests",
       additionalTags = listOf("testing", "gradle-plugin", "plugin", "kotlin-jvm")
     )
@@ -246,7 +246,7 @@ gradlePlugin {
     fun convention(simpleId: String, implementationClass: String) {
       plugin(
         name = simpleId,
-        implementationClass = implementationClass,
+        implementationClass = "com.rickbusarow.mahout.$implementationClass",
         description = "                ",
         additionalTags = emptyList()
       )
@@ -260,16 +260,10 @@ gradlePlugin {
     convention("convention.dokkatoo", "dokka.DokkatooConventionPlugin")
     convention("convention.fix", "conventions.FixPlugin")
     convention("convention.github-release", "conventions.GitHubReleasePlugin")
-    convention("convention.integration-tests", "conventions.IntegrationTestsConventionPlugin")
     convention("convention.kotlin-jvm", "conventions.KotlinJvmConventionPlugin")
     convention("convention.ktlint", "conventions.KtLintConventionPlugin")
     convention("convention.spotless", "conventions.SpotlessConventionPlugin")
     convention("convention.test", "conventions.TestConventionPlugin")
-
-    // TODO <Rick> delete me
-    println("########################################################################")
-    names.sorted().forEach { println(it) }
-    println("########################################################################")
   }
 }
 
