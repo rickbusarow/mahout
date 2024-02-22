@@ -35,7 +35,7 @@ import org.gradle.api.tasks.TaskProvider
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 
 /** */
-public abstract class CheckPlugin : Plugin<Project> {
+public abstract class FixPlugin : Plugin<Project> {
 
   override fun apply(target: Project) {
 

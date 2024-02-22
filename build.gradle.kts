@@ -36,7 +36,7 @@ plugins {
   alias(libs.plugins.rickBusarow.ktlint) apply false
   alias(libs.plugins.rickBusarow.moduleCheck)
   alias(libs.plugins.vanniktech.publish.base) apply false
-  id("com.rickbusarow.mahout.jvm-module") apply false
+  id("com.rickbusarow.mahout.kotlin-jvm-module") apply false
   id("com.rickbusarow.mahout.root")
 }
 

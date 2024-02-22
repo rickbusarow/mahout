@@ -356,7 +356,7 @@ public final class com/rickbusarow/mahout/conventions/BuildLogicShadowExtensionH
 	public static fun shadow (Lcom/rickbusarow/mahout/conventions/BuildLogicShadowExtensionHook;Z)V
 }
 
-public abstract class com/rickbusarow/mahout/conventions/CheckPlugin : org/gradle/api/Plugin {
+public abstract class com/rickbusarow/mahout/conventions/FixPlugin : org/gradle/api/Plugin {
 	public fun <init> ()V
 	public synthetic fun apply (Ljava/lang/Object;)V
 	public fun apply (Lorg/gradle/api/Project;)V

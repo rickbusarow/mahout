@@ -20,12 +20,21 @@ import com.rickbusarow.kgx.dependsOn
 import com.rickbusarow.kgx.extras
 import com.rickbusarow.kgx.isRootProject
 import com.rickbusarow.kgx.javaExtension
+import com.rickbusarow.kgx.named
+import com.rickbusarow.kgx.names.DomainObjectName
+import com.rickbusarow.kgx.names.SourceSetName
+import com.rickbusarow.kgx.names.SourceSetName.Companion.addPrefix
+import com.rickbusarow.kgx.names.SourceSetName.Companion.isMain
 import com.rickbusarow.kgx.registerOnce
+import com.rickbusarow.kgx.withJavaGradlePluginPlugin
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
+import org.gradle.api.Action
 import org.gradle.api.DefaultTask
 import org.gradle.api.NamedDomainObjectSet
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.attributes.TestSuiteType
+import org.gradle.api.plugins.jvm.JvmTestSuite
 import org.gradle.api.publish.Publication
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
@@ -35,6 +44,8 @@ import org.gradle.api.tasks.testing.Test
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.gradle.plugin.devel.GradlePluginDevelopmentExtension
 import org.gradle.plugins.ide.idea.model.IdeaModel
+import org.gradle.testing.base.TestingExtension
+import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 
 /** */
 public interface GradleTestsExtension {
@@ -61,15 +72,87 @@ public interface GradleTestsExtension {
 public abstract class GradleTestsPlugin : Plugin<Project> {
   override fun apply(target: Project) {
     target.plugins.applyOnce("idea")
+    target.plugins.apply("jvm-test-suite")
+
+    /*
+      testing {
+        suites {
+
+          val gradleTest by registering(JvmTestSuite::class) {
+
+            useJUnitJupiter()
+
+            testType.set(TestSuiteType.INTEGRATION_TEST)
+
+            dependencies {
+              implementation(project())
+            }
+
+            targets {
+              configureEach {
+
+                testTask.configure {
+                  dependsOn("publishToMavenLocalNoDokka")
+                }
+              }
+            }
+          }
+
+          tasks.named("check").dependsOn(gradleTest)
+        }
+      }
+
+      val gradleTestSourceSet by sourceSets.named("gradleTest", SourceSet::class)
+
+      gradlePlugin {
+        @Suppress("UnstableApiUsage")
+        testSourceSet(gradleTestSourceSet)
+      }
+
+      kotlin {
+        val compilations = target.compilations
+        compilations.named("gradleTest") {
+          associateWith(compilations.getByName("main"))
+        }
+      }
+     */
+
+    @Suppress("UnstableApiUsage")
+    target.extensions.configure(TestingExtension::class.java) { testingExtension ->
+
+      val suiteName = TestSuiteName("gradleTest")
+
+      testingExtension.suites.register(suiteName.value, JvmTestSuite::class.java) { suite ->
+        suite.useJUnitJupiter()
+        suite.testType.set(TestSuiteType.FUNCTIONAL_TEST)
+
+        suite.dependencies {
+          it.implementation.add(target.dependencies.project(mapOf<String, Any?>()))
+        }
+
+        suite.targets.configureEach { target ->
+          target.testTask.configure {
+            it.dependsOn(PUBLISH_TO_BUILD_M2)
+          }
+        }
+      }
+
+      val gradleTestSourceSet = target.javaExtension.sourceSets.named("gradleTest")
+
+      // Tells the `java-gradle-plugin` plugin to inject its TestKit logic
+      // into the `gradleTest` source set.
+      target.gradlePluginExtensionSafe { extension ->
+        extension.testSourceSets(target.javaSourceSet(suiteName.value))
+      }
+
+      target.kotlinExtension.compilations.named("gradleTest") {
+        it.associateWith(target.kotlinExtension.compilations.getByName("main"))
+      }
+    }
 
     val gradleTestSourceSet = target.javaExtension
       .sourceSets
       .register(GRADLE_TEST) { ss ->
-        // Tells the `java-gradle-plugin` plugin to inject its TestKit logic
-        // into the `gradleTest` source set.
-        target.plugins.withId("java-gradle-plugin") {
-          target.gradlePluginExtension.testSourceSets(ss)
-        }
 
         val main = target.javaSourceSet(SourceSet.MAIN_SOURCE_SET_NAME)
 
@@ -196,5 +279,32 @@ internal val Project.gradlePublishingExtension: PublishingExtension
 internal val Project.gradlePluginExtension: GradlePluginDevelopmentExtension
   get() = extensions.getByType(GradlePluginDevelopmentExtension::class.java)
 
+internal fun Project.gradlePluginExtensionSafe(action: Action<GradlePluginDevelopmentExtension>) {
+  plugins.withJavaGradlePluginPlugin {
+    action.execute(gradlePluginExtension)
+  }
+}
+
 internal val Project.mavenPublications: NamedDomainObjectSet<MavenPublication>
   get() = gradlePublishingExtension.publications.withType(MavenPublication::class.java)
+
+@JvmInline
+internal value class TestSuiteName(override val value: String) : DomainObjectName<Publication> {
+
+  companion object {
+
+    fun forSourceSetName(baseName: String, sourceSetName: String): TestSuiteName {
+      return forSourceSetName(baseName, SourceSetName(sourceSetName))
+    }
+
+    fun forSourceSetName(baseName: String, sourceSetName: SourceSetName): TestSuiteName {
+      return if (sourceSetName.isMain()) {
+        TestSuiteName(baseName)
+      } else {
+        TestSuiteName(sourceSetName.addPrefix(baseName))
+      }
+    }
+
+    fun String.asTestSuiteName(): TestSuiteName = TestSuiteName(this)
+  }
+}

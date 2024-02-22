@@ -15,10 +15,10 @@
 
 package com.rickbusarow.mahout
 
-import com.rickbusarow.mahout.conventions.CheckPlugin
 import com.rickbusarow.mahout.conventions.CleanPlugin
 import com.rickbusarow.mahout.conventions.DependencyGuardConventionPlugin
 import com.rickbusarow.mahout.conventions.DetektConventionPlugin
+import com.rickbusarow.mahout.conventions.FixPlugin
 import com.rickbusarow.mahout.conventions.JdkVersionsConventionPlugin
 import com.rickbusarow.mahout.conventions.KotlinJvmConventionPlugin
 import com.rickbusarow.mahout.conventions.KotlinMultiplatformConventionPlugin
@@ -37,7 +37,7 @@ public abstract class BaseModulePlugin : Plugin<Project> {
     target.plugins.apply(JavaBasePlugin::class.java)
     target.plugins.apply(MahoutPublishPlugin::class.java)
     target.plugins.apply(JdkVersionsConventionPlugin::class.java)
-    target.plugins.apply(CheckPlugin::class.java)
+    target.plugins.apply(FixPlugin::class.java)
     target.plugins.apply(CleanPlugin::class.java)
     target.plugins.apply(DependencyGuardConventionPlugin::class.java)
     target.plugins.apply(DetektConventionPlugin::class.java)
