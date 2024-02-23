@@ -30,6 +30,8 @@ internal class Names {
   val int by lazy(NONE) { Int::class.asClassName() }
   val string by lazy(NONE) { String::class.asClassName() }
 
+  val javaVersion = ClassName("com.rickbusarow.mahout.config", "JavaVersion")
+
   val gradleListProperty = ClassName("org.gradle.api.provider", "ListProperty")
   val gradleListPropertyString by lazy(NONE) {
     gradleListProperty.parameterizedBy(string)

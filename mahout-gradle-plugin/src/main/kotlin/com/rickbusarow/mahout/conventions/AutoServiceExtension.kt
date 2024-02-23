@@ -15,11 +15,10 @@
 
 package com.rickbusarow.mahout.conventions
 
-import com.rickbusarow.kgx.library
-import com.rickbusarow.kgx.libsCatalog
+import com.rickbusarow.mahout.deps.Libs
 import org.gradle.api.Project
 
-@Suppress("UndocumentedPublicClass")
+/** */
 public interface AutoServiceExtension : KspExtension {
 
   @Suppress("UndocumentedPublicFunction")
@@ -28,15 +27,15 @@ public interface AutoServiceExtension : KspExtension {
 
     dependencies.add(
       "compileOnly",
-      libsCatalog.library("google-auto-service-annotations")
+      Libs.`google-auto-service-annotations`
     )
     dependencies.add(
       "testCompileOnly",
-      libsCatalog.library("google-auto-service-annotations")
+      Libs.`google-auto-service-annotations`
     )
     dependencies.add(
       "ksp",
-      libsCatalog.library("zacSweers-auto-service-ksp")
+      Libs.`zacSweers-auto-service-ksp`
     )
   }
 }

@@ -21,7 +21,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinBasePlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.util.*
+import java.util.Properties
 
 buildscript {
   dependencies {
@@ -35,6 +35,7 @@ plugins {
   alias(libs.plugins.kotlin.jvm) apply false
   alias(libs.plugins.kotlin.serialization) apply false
   alias(libs.plugins.rickBusarow.ktlint)
+  alias(libs.plugins.vanniktech.publish.base) apply false
   base
 }
 
@@ -51,7 +52,7 @@ subprojects sub@{
   val sub = this@sub
   sub.layout.buildDirectory.set(sub.file("build/composite"))
 
-  if (!sub.name.startsWith("mahout-settings-")) {
+  if (!sub.name.startsWith("mahout-settings-") && sub.name != "mahout-api") {
     sub.plugins.withKotlinJvmPlugin {
       (sub.kotlinExtension as KotlinJvmProjectExtension)
         .compilerOptions
@@ -72,7 +73,7 @@ allprojects ap@{
 
     extensions.configure(KotlinJvmProjectExtension::class.java) {
       jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(jdk))
+        languageVersion.set(JavaLanguageVersion.of(jdk.substringAfterLast('.')))
       }
     }
 

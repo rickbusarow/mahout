@@ -17,13 +17,6 @@ rootProject.name = "mahout"
 
 pluginManagement {
   repositories {
-    val allowMavenLocal = providers
-      .gradleProperty("${rootProject.name}.allow-maven-local")
-      .orNull.toBoolean()
-    if (allowMavenLocal) {
-      logger.lifecycle("${rootProject.name} -- allowing mavenLocal for plugins")
-      mavenLocal()
-    }
     gradlePluginPortal()
     mavenCentral()
     google()
@@ -32,7 +25,7 @@ pluginManagement {
   includeBuild("build-logic")
 
   plugins {
-    id("com.rickbusarow.mahout.jvm-module") apply false
+    id("com.rickbusarow.mahout.kotlin-jvm-module") apply false
     id("com.rickbusarow.mahout.root") apply false
   }
 }
@@ -44,16 +37,8 @@ plugins {
 @Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
   repositories {
-    val allowMavenLocal = providers
-      .gradleProperty("${rootProject.name}.allow-maven-local")
-      .orNull.toBoolean()
-
-    if (allowMavenLocal) {
-      logger.lifecycle("${rootProject.name} -- allowing mavenLocal for dependencies")
-      mavenLocal()
-    }
-    gradlePluginPortal()
     mavenCentral()
+    gradlePluginPortal()
     google()
   }
 }
@@ -82,10 +67,12 @@ gradleEnterprise {
   }
 }
 
-include(":mahout-api")
-include(":mahout-core")
-include(":mahout-gradle-plugin")
-include(":mahout-settings-annotations")
-include(":mahout-settings-generator")
+include(
+  ":mahout-api",
+  ":mahout-core",
+  ":mahout-gradle-plugin",
+  ":mahout-settings-annotations",
+  ":mahout-settings-generator"
+)
 
 includeBuild("build-logic")

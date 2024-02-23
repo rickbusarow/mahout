@@ -1,0 +1,47 @@
+[
+  {
+    "gradlePath": ":mahout-gradle-plugin",
+    "group": "com.rickbusarow.mahout.java-gradle-plugin",
+    "artifactId": "com.rickbusarow.mahout.java-gradle-plugin.gradle.plugin",
+    "description": "Convention plugin for a java-gradle-plugin project",
+    "packaging": "pom",
+    "javaVersion": "11",
+    "publicationName": "java-gradle-pluginPluginMarkerMaven"
+  },
+  {
+    "gradlePath": ":mahout-gradle-plugin",
+    "group": "com.rickbusarow.mahout.jvm-module",
+    "artifactId": "com.rickbusarow.mahout.kotlin-jvm.gradle.plugin",
+    "description": "Convention plugin for a Kotlin JVM project",
+    "packaging": "pom",
+    "javaVersion": "11",
+    "publicationName": "jvmPluginMarkerMaven"
+  },
+  {
+    "gradlePath": ":mahout-gradle-plugin",
+    "group": "com.rickbusarow.mahout.kotlin-multiplatform",
+    "artifactId": "com.rickbusarow.mahout.kotlin-multiplatform.gradle.plugin",
+    "description": "Convention plugin for a Kotlin Multiplatform project",
+    "packaging": "pom",
+    "javaVersion": "11",
+    "publicationName": "kmpPluginMarkerMaven"
+  },
+  {
+    "gradlePath": ":mahout-gradle-plugin",
+    "group": "mahout",
+    "artifactId": "mahout-gradle-plugin",
+    "description": "Convention plugins for Gradle builds",
+    "packaging": "jar",
+    "javaVersion": "11",
+    "publicationName": "pluginMaven"
+  },
+  {
+    "gradlePath": ":mahout-gradle-plugin",
+    "group": "com.rickbusarow.mahout.root",
+    "artifactId": "com.rickbusarow.mahout.root.gradle.plugin",
+    "description": "Convention plugin for the root project of a multi-module build",
+    "packaging": "pom",
+    "javaVersion": "11",
+    "publicationName": "rootPluginMarkerMaven"
+  }
+]

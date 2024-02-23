@@ -13,23 +13,30 @@
  * limitations under the License.
  */
 
+import com.rickbusarow.kgx.buildDir
 import com.rickbusarow.kgx.withBuildInitPlugin
 import com.rickbusarow.kgx.withKotlinJvmPlugin
-import com.rickbusarow.mahout.core.InternalMahoutApi
-import com.rickbusarow.mahout.core.VERSION_NAME
-import com.rickbusarow.mahout.core.gradle.addTasksToStartParameter
 import org.gradle.plugins.ide.idea.model.IdeaModel
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
+import org.gradle.kotlin.dsl.addTasksToStartParameter as addTasksToStartParameterDsl
+import org.gradle.kotlin.dsl.mahoutProperties as mahoutPropertiesDsl
+
+buildscript {
+  dependencies {
+    classpath(libs.rickBusarow.kgx)
+  }
+}
 
 plugins {
-  alias(libs.plugins.poko) apply false
   alias(libs.plugins.kotlin.jvm) apply false
   alias(libs.plugins.kotlin.serialization) apply false
-  alias(libs.plugins.rickBusarow.ktlint) apply false
+  alias(libs.plugins.drewHamilton.poko) apply false
   alias(libs.plugins.rickBusarow.doks)
+  alias(libs.plugins.rickBusarow.ktlint) apply false
   alias(libs.plugins.rickBusarow.moduleCheck)
-  id("com.rickbusarow.mahout.jvm-module") apply false
+  alias(libs.plugins.vanniktech.publish.base) apply false
+  id("com.rickbusarow.mahout.kotlin-jvm-module") apply false
   id("com.rickbusarow.mahout.root")
 }
 
@@ -42,9 +49,13 @@ mahout {
 
   composite {
   }
-
-  @OptIn(InternalMahoutApi::class)
-  addTasksToStartParameter(
+  github {
+  }
+  dokka {
+  }
+  java {
+  }
+  addTasksToStartParameterDsl(
     ":mahout-gradle-plugin:generateBuildConfig",
     ":mahout-gradle-plugin:kspKotlin"
   )
@@ -55,6 +66,7 @@ subprojects sub@{
   sub.layout.buildDirectory.set(sub.file("build/root"))
 
   sub.plugins.apply("idea")
+
   sub.extensions.configure(IdeaModel::class) {
     module {
       generatedSourceDirs.add(sub.file("build"))
@@ -62,7 +74,13 @@ subprojects sub@{
     }
   }
 
-  if (!sub.name.startsWith("mahout-settings-")) {
+  sub.layout.buildDirectory.set(sub.file("build/main"))
+
+  sub.tasks.withType(Test::class).configureEach {
+    systemProperty("kase.baseWorkingDir", buildDir().resolve("kase"))
+  }
+
+  if (!sub.name.startsWith("mahout-settings-") && sub.name != "mahout-api") {
     sub.plugins.withKotlinJvmPlugin {
       (sub.kotlinExtension as KotlinJvmProjectExtension)
         .compilerOptions
@@ -74,7 +92,7 @@ subprojects sub@{
 
 allprojects ap@{
 
-  version = VERSION_NAME
+  version = mahoutPropertiesDsl.versionName.get()
 
   this@ap.plugins.withBuildInitPlugin {
     apply(plugin = libs.plugins.rickBusarow.ktlint.get().pluginId)

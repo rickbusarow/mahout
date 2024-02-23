@@ -15,40 +15,67 @@
 
 package com.rickbusarow.mahout.conventions
 
-import com.rickbusarow.kgx.EagerGradleApi
-import com.rickbusarow.kgx.applyOnce
-import com.rickbusarow.kgx.matchingName
-import com.rickbusarow.mahout.api.DefaultMahoutTask
+import com.diffplug.gradle.spotless.SpotlessApply
+import com.rickbusarow.ktlint.KtLintFormatTask
+import com.rickbusarow.mahout.api.DefaultMahoutCheckTask
+import com.rickbusarow.mahout.api.DefaultMahoutFixTask
+import com.rickbusarow.mahout.api.MahoutFixTask
+import com.rickbusarow.mahout.deps.PluginIds
+import kotlinx.validation.KotlinApiBuildTask
+import modulecheck.gradle.task.AbstractModuleCheckTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.Task
+import org.gradle.api.provider.Provider
+import org.gradle.api.provider.ProviderFactory
+import org.gradle.api.reflect.TypeOf
+import org.gradle.api.tasks.Sync
+import org.gradle.api.tasks.TaskCollection
+import org.gradle.api.tasks.TaskProvider
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 
-@Suppress("UndocumentedPublicClass")
-public abstract class CheckPlugin : Plugin<Project> {
+/** */
+public abstract class FixPlugin : Plugin<Project> {
 
-  @OptIn(EagerGradleApi::class)
   override fun apply(target: Project) {
 
-    target.plugins.applyOnce("base")
+    target.plugins.apply("base")
 
-    val fix = target.tasks.register("fix", DefaultMahoutTask::class.java) { task ->
+    val fix = target.tasks.register("fix", DefaultMahoutFixTask::class.java) { task ->
 
       task.group = "Verification"
       task.description = "Runs all auto-fix linting tasks"
 
-      task.dependsOn(target.rootProject.tasks.matchingName("artifactsDump"))
-      task.dependsOn(target.rootProject.tasks.matchingName("spotlessApply"))
-      task.dependsOn(target.tasks.matchingName("apiDump"))
-      task.dependsOn(target.tasks.matchingName("dependencyGuardBaseline"))
-      task.dependsOn(target.tasks.matchingName("ktlintFormat"))
-      task.dependsOn(target.tasks.matchingName("deleteEmptyDirs"))
-      task.dependsOn(target.tasks.matchingName("moduleCheckAuto"))
+      task.dependsOn(
+        target.tasks.withType(Sync::class.java).named { it == "apiDump" },
+        target.tasks.withType(SpotlessApply::class.java),
+        target.tasks.withType(KotlinApiBuildTask::class.java),
+        target.tasks.withType(DeleteEmptyDirsTask::class.java),
+        target.tasks.withType(KtLintFormatTask::class.java),
+        target.tasks.withType(MahoutFixTask::class.java).named { it != "fix" }
+      )
+
+      if (target.plugins.hasPlugin(PluginIds.`dropbox-dependency-guard`)) {
+        task.dependsOn(target.tasks.named("dependencyGuardBaseline"))
+      }
+      if (target.plugins.hasPlugin(PluginIds.`rickBusarow-moduleCheck`)) {
+        task.dependsOn(target.tasks.named("moduleCheckAuto"))
+      }
     }
+
+    val mcCheckTasks = target.tasks
+      .withType(AbstractModuleCheckTask::class.java)
+      .providers(target.providers) { !it.name.endsWith("Auto") }
+
+    target.tasks.withType(AbstractModuleCheckTask::class.java)
+      .configureEach { task ->
+        if (task.name.endsWith("Auto")) task.mustRunAfter(mcCheckTasks)
+      }
 
     // This is a convenience task which applies all available fixes before running `check`. Each
     // of the fixable linters use `mustRunAfter` to ensure that their auto-fix task runs before their
     // check-only task.
-    target.tasks.register("checkFix", DefaultMahoutTask::class.java) { task ->
+    target.tasks.register("checkFix", DefaultMahoutCheckTask::class.java) { task ->
 
       task.group = "Verification"
       task.description = "Runs all auto-fix linting tasks, then runs all of the normal :check task"
@@ -58,3 +85,25 @@ public abstract class CheckPlugin : Plugin<Project> {
     }
   }
 }
+
+internal fun <T : Task> TaskCollection<T>.namedFromSchema(
+  target: ProviderFactory,
+  predicate: (name: String, publicType: TypeOf<*>) -> Boolean
+): Provider<List<TaskProvider<T>>> = target.provider {
+  collectionSchema.elements
+    .filter { predicate(it.name, it.publicType) }
+    .map { named(it.name) }
+}
+
+/** */
+public fun <T : Task> TaskCollection<T>.providers(
+  providerFactory: ProviderFactory
+): Provider<List<TaskProvider<T>>> =
+  providerFactory.provider { collectionSchema.elements.map { named(it.name) } }
+
+/** */
+public fun <T : Task> TaskCollection<T>.providers(
+  providerFactory: ProviderFactory,
+  predicate: (TaskProvider<T>) -> Boolean
+): Provider<List<TaskProvider<T>>> = providers(providerFactory)
+  .map { it.filter(predicate) }

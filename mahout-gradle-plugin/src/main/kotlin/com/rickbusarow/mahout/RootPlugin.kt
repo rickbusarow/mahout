@@ -24,12 +24,15 @@ import com.rickbusarow.mahout.conventions.DokkaVersionArchivePlugin
 import com.rickbusarow.mahout.conventions.GitHubReleasePlugin
 import com.rickbusarow.mahout.conventions.SpotlessConventionPlugin
 import com.rickbusarow.mahout.curator.CuratorPlugin
+import com.rickbusarow.mahout.libs.LibsGeneratorPlugin
 import modulecheck.gradle.ModuleCheckExtension
 import modulecheck.gradle.ModuleCheckPlugin
 import org.gradle.api.Project
+import javax.inject.Inject
 
 /** Applied to the real project root and the root project of any included build except this one. */
-public abstract class RootPlugin : BaseModulePlugin() {
+public abstract class RootPlugin @Inject constructor() : BaseModulePlugin() {
+
   override fun apply(target: Project) {
 
     target.checkProjectIsRoot()
@@ -37,6 +40,8 @@ public abstract class RootPlugin : BaseModulePlugin() {
     target.extensions.create("mahout", RootExtension::class.java)
 
     super.apply(target)
+
+    target.plugins.apply(LibsGeneratorPlugin::class.java)
 
     target.plugins.apply(CuratorPlugin::class.java)
     target.plugins.apply(BenManesVersionsPlugin::class.java)
@@ -54,7 +59,8 @@ public abstract class RootPlugin : BaseModulePlugin() {
     }
 
     if (target.gradle.includedBuilds.isNotEmpty()) {
-      target.plugins.apply(CompositePlugin::class.java)
+      // @OptIn(InternalGradleApiAccess::class)
+      // target.plugins.apply(CompositePlugin::class.java)
     }
 
     if (inCI() && target.isRealRootProject()) {

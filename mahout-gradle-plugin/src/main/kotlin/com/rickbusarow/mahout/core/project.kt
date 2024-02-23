@@ -13,21 +13,20 @@
  * limitations under the License.
  */
 
-package com.rickbusarow.mahout
+package com.rickbusarow.mahout.core
 
-import com.rickbusarow.kgx.extras
-import com.rickbusarow.kgx.getOrPut
 import org.gradle.api.Project
+import org.gradle.api.Task
+import org.gradle.api.tasks.TaskContainer
+import org.gradle.api.tasks.TaskProvider
+import org.gradle.jvm.toolchain.JavaToolchainService
+import org.gradle.language.base.plugins.LifecycleBasePlugin
 
-internal fun Project.taskWillResolveInAny(taskName: String): Boolean {
-  return allprojects.any { it.taskWillResolve(taskName) }
-}
+internal val Project.javaToolchainService: JavaToolchainService
+  get() = extensions.getByType(JavaToolchainService::class.java)
 
-internal fun Project.taskWillResolve(taskName: String): Boolean {
+internal val TaskContainer.clean: TaskProvider<Task>
+  get() = named(LifecycleBasePlugin.CLEAN_TASK_NAME)
 
-  val taskNamesLowercase = extras.getOrPut("taskNamesLowercase") {
-    tasks.names.mapTo(mutableSetOf(), String::lowercase)
-  }
-
-  return tasks.names.contains(taskName) || taskNamesLowercase.contains(taskName.lowercase())
-}
+internal val TaskContainer.check: TaskProvider<Task>
+  get() = named(LifecycleBasePlugin.CHECK_TASK_NAME)

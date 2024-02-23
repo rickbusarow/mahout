@@ -17,24 +17,29 @@ package com.rickbusarow.mahout.conventions
 
 import com.dropbox.gradle.plugins.dependencyguard.DependencyGuardPluginExtension
 import com.rickbusarow.kgx.applyOnce
+import com.rickbusarow.kgx.isRootProject
+import com.rickbusarow.kgx.withJavaBasePlugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 
-@Suppress("UndocumentedPublicClass")
+/** */
 public abstract class DependencyGuardConventionPlugin : Plugin<Project> {
   override fun apply(target: Project) {
 
-    if (target == target.rootProject) {
-      return
-    }
+    if (target.isRootProject()) return
 
-    target.plugins.applyOnce("org.jetbrains.kotlin.jvm")
     target.plugins.applyOnce("com.dropbox.dependency-guard")
 
+    target.plugins.withJavaBasePlugin {
+      configureDependencyGuard(target)
+    }
+  }
+
+  private fun configureDependencyGuard(target: Project) {
     target.extensions.configure(DependencyGuardPluginExtension::class.java) { extension ->
       extension.configuration("runtimeClasspath") {
-        it.modules = false
+        it.modules = true
       }
     }
 

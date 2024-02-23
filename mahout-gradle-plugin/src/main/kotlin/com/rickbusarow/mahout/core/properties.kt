@@ -22,23 +22,23 @@ import com.rickbusarow.mahout.config.url
 import org.gradle.api.Project
 
 /**  */
-public val Project.VERSION_NAME: String
+internal val Project.VERSION_NAME: String
   get() = mahoutProperties.versionName.get()
 
 /**  */
-public val Project.versionIsSnapshot: Boolean
+internal val Project.versionIsSnapshot: Boolean
   get() = extras.getOrPut("versionIsSnapshot") { VERSION_NAME.endsWith("-SNAPSHOT") }
 
 /** ex: `square` */
-public val Project.GITHUB_OWNER: String
+internal val Project.GITHUB_OWNER: String
   get() = mahoutProperties.repository.github.owner.get()
 
 /** ex: `square/logcat` */
-public val Project.GITHUB_OWNER_REPO: String
+internal val Project.GITHUB_OWNER_REPO: String
   get() = mahoutProperties.repository.github.repo.get()
 
 /** ex: `https://github.com/square/okio` */
-public val Project.GITHUB_REPOSITORY: String
+internal val Project.GITHUB_REPOSITORY: String
   get() = mahoutProperties.repository.github.url.get()
 
 /**

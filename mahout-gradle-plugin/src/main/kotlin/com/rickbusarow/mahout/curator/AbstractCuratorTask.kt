@@ -15,10 +15,11 @@
 
 package com.rickbusarow.mahout.curator
 
+import com.rickbusarow.mahout.api.DefaultMahoutTask
 import com.rickbusarow.mahout.core.stdlib.existsOrNull
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import org.apache.tools.ant.taskdefs.condition.Os
-import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.file.ProjectLayout
 import org.gradle.api.file.RegularFile
@@ -31,7 +32,7 @@ import org.gradle.api.tasks.OutputFile
 /** */
 public abstract class AbstractCuratorTask(
   private val projectLayout: ProjectLayout
-) : DefaultTask() {
+) : DefaultMahoutTask() {
 
   /**
    * This file contains all definitions for published artifacts.
@@ -55,7 +56,11 @@ public abstract class AbstractCuratorTask(
 
   @get:Internal
   protected val jsonAdapter: Json by lazy {
-    Json(builderAction = { prettyPrint = true })
+    Json(builderAction = {
+      prettyPrint = true
+      @OptIn(ExperimentalSerializationApi::class)
+      prettyPrintIndent = "  "
+    })
   }
 
   @get:Internal
@@ -104,7 +109,7 @@ public abstract class AbstractCuratorTask(
             //  will change what's in .module but that won't be reflected upstream in the extension.
             val javaVersion = sub.extensions
               .getByType(JavaPluginExtension::class.java)
-              .sourceCompatibility
+              .targetCompatibility
               .toString()
 
             ArtifactConfig(
@@ -146,12 +151,13 @@ public abstract class AbstractCuratorTask(
 
   protected fun ArtifactConfig.message(): String {
     return """
-            |                     gradlePath  - $gradlePath
-            |                          group  - $group
-            |                     artifactId  - $artifactId
-            |                pom description  - $description
-            |                      packaging  - $packaging
-            |                publicationName  - $publicationName
+      |                     gradlePath  - $gradlePath
+      |                          group  - $group
+      |                     artifactId  - $artifactId
+      |                pom description  - $description
+      |                      packaging  - $packaging
+      |                   java version  - $javaVersion
+      |                publicationName  - $publicationName
     """.trimMargin()
   }
 }

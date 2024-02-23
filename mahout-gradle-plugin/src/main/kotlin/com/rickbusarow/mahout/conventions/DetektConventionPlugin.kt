@@ -17,9 +17,9 @@ package com.rickbusarow.mahout.conventions
 
 import com.rickbusarow.kgx.applyOnce
 import com.rickbusarow.kgx.buildDir
-import com.rickbusarow.kgx.library
-import com.rickbusarow.kgx.libsCatalog
 import com.rickbusarow.mahout.api.MahoutCodeGeneratorTask
+import com.rickbusarow.mahout.config.mahoutProperties
+import com.rickbusarow.mahout.deps.Modules
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import io.gitlab.arturbosch.detekt.DetektGenerateConfigTask
@@ -43,25 +43,28 @@ public abstract class DetektConventionPlugin : Plugin<Project> {
       "**/build/**"
     )
 
-    target.tasks
-      .register("detektReportMerge", ReportMergeTask::class.java) { reportMergeTask ->
-        reportMergeTask.output
-          .set(target.rootProject.buildDir().resolve("reports/detekt/merged.sarif"))
+    val reportsDir = target.rootProject.layout.buildDirectory
+      .map { it.dir("reports/detekt") }
+    val configFile = target.rootProject.file("detekt/detekt-config.yml")
 
-        reportMergeTask.input.from(
-          target.tasks.withType(Detekt::class.java).map { it.sarifReportFile }
-        )
-      }
+    val detektVersion = target.mahoutProperties.versions.detekt
+
+    target.tasks.register("detektReportMerge", ReportMergeTask::class.java) { reportMergeTask ->
+      reportMergeTask.output.set(reportsDir.map { it.file("merged.sarif") })
+      reportMergeTask.input.from(
+        target.tasks.withType(Detekt::class.java).map { it.sarifReportFile }
+      )
+    }
 
     target.dependencies.add(
       "detektPlugins",
-      target.libsCatalog.library("detekt-rules-libraries")
+      detektVersion.map { "${Modules.`detekt-rules-libraries`}:$it" }
     )
 
     target.extensions.configure(DetektExtension::class.java) { extension ->
 
       extension.autoCorrect = false
-      extension.config.from(target.rootDir.resolve("detekt/detekt-config.yml"))
+      extension.config.from(configFile)
       extension.buildUponDefaultConfig = true
 
       extension.source.from(
@@ -78,7 +81,7 @@ public abstract class DetektConventionPlugin : Plugin<Project> {
 
       task.autoCorrect = false
       task.parallel = true
-      task.config.from(target.rootDir.resolve("detekt/detekt-config.yml"))
+      task.config.from(configFile)
       task.buildUponDefaultConfig = true
 
       task.reports {

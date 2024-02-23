@@ -17,7 +17,7 @@ package com.rickbusarow.mahout.conventions
 
 import org.gradle.api.Project
 
-@Suppress("UndocumentedPublicClass")
+/** */
 public abstract class KotlinJvmConventionPlugin : BaseKotlinConventionPlugin() {
 
   override fun apply(target: Project) {

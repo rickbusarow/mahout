@@ -1,0 +1,6 @@
+public abstract interface annotation class com/rickbusarow/mahout/generator/DelegateProperty : java/lang/annotation/Annotation {
+	public abstract fun names ()[Ljava/lang/String;
+}
+
+public abstract interface annotation class com/rickbusarow/mahout/generator/MahoutPropertiesSchema : java/lang/annotation/Annotation {
+}

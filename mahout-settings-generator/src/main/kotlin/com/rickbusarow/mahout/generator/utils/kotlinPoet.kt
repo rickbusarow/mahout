@@ -49,7 +49,7 @@ internal fun <T : Documentable.Builder<*>> T.maybeAddKdoc(
   docString: String?
 ): T = apply {
   if (docString.isNullOrBlank()) return@apply
-  addKdoc("%L", docString.trimIndent())
+  addKdoc("%L", docString.trimIndent().trim())
 }
 
 internal fun KSClassDeclaration.hasSuperType(type: ClassName): Boolean {

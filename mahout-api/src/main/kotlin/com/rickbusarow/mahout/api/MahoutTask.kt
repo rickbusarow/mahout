@@ -17,7 +17,6 @@ package com.rickbusarow.mahout.api
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.Task
-import org.gradle.api.tasks.VerificationTask
 import org.gradle.api.tasks.bundling.Jar
 
 /**
@@ -39,7 +38,7 @@ public abstract class DefaultMahoutTask : DefaultTask(), MahoutTask
  *
  * @see DefaultMahoutCheckTask for a version that Gradle can instantiate
  */
-public interface MahoutCheckTask : MahoutTask, VerificationTask
+public interface MahoutCheckTask : MahoutTask
 
 /**
  * A Mahout task that checks something and can be instantiated by Gradle.
@@ -53,7 +52,7 @@ public abstract class DefaultMahoutCheckTask : DefaultMahoutTask(), MahoutCheckT
  *
  * @see DefaultMahoutFixTask for a version that Gradle can instantiate
  */
-public interface MahoutFixTask : MahoutTask, VerificationTask
+public interface MahoutFixTask : MahoutTask
 
 /**
  * A Mahout task that fixes something and can be instantiated by Gradle.

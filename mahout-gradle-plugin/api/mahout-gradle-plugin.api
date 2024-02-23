@@ -1,0 +1,857 @@
+public abstract class com/rickbusarow/mahout/BaseMahoutExtension : com/rickbusarow/mahout/CoreMahoutProperties, org/gradle/api/plugins/ExtensionAware {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun getGroup ()Lorg/gradle/api/provider/Property;
+	public fun getVersionName ()Lorg/gradle/api/provider/Property;
+}
+
+public abstract class com/rickbusarow/mahout/BaseModulePlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/CoreMahoutProperties {
+	public abstract fun getGroup ()Lorg/gradle/api/provider/Property;
+	public abstract fun getVersionName ()Lorg/gradle/api/provider/Property;
+}
+
+public class com/rickbusarow/mahout/DefaultCoreMahoutProperties : com/rickbusarow/mahout/CoreMahoutProperties {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun getGroup ()Lorg/gradle/api/provider/Property;
+	public fun getVersionName ()Lorg/gradle/api/provider/Property;
+}
+
+public abstract class com/rickbusarow/mahout/DefaultTasksSubExtension : com/rickbusarow/mahout/conventions/AbstractSubExtension, com/rickbusarow/mahout/TasksSubExtension, com/rickbusarow/mahout/core/SubExtensionInternal {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun addTasksToIdeSync ([Ljava/lang/String;)V
+	public fun configure (Lorg/gradle/api/Action;)V
+}
+
+public abstract class com/rickbusarow/mahout/GradlePluginModuleExtension : com/rickbusarow/mahout/BaseMahoutExtension, com/rickbusarow/mahout/HasTasksSubExtension, com/rickbusarow/mahout/conventions/AutoServiceExtension, com/rickbusarow/mahout/conventions/BuildLogicShadowExtensionHook, com/rickbusarow/mahout/conventions/HasGitHubSubExtension, com/rickbusarow/mahout/conventions/HasJavaSubExtension, com/rickbusarow/mahout/conventions/HasKotlinJvmSubExtension, com/rickbusarow/mahout/conventions/KspExtension, com/rickbusarow/mahout/conventions/PokoExtension, com/rickbusarow/mahout/conventions/SerializationExtension, com/rickbusarow/mahout/dokka/HasDokkaSubExtension, com/rickbusarow/mahout/publishing/HasPublishingMavenSubExtension, com/rickbusarow/mahout/publishing/PublishingGradlePluginHandler {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun autoService (Lorg/gradle/api/Project;)V
+	public fun dokka (Lorg/gradle/api/Action;)V
+	public fun getDokka ()Lcom/rickbusarow/mahout/dokka/DokkaSubExtension;
+	public fun getGithub ()Lcom/rickbusarow/mahout/conventions/GitHubSubExtension;
+	public fun getJava ()Lcom/rickbusarow/mahout/conventions/JavaSubExtension;
+	public fun getKotlin ()Lcom/rickbusarow/mahout/conventions/KotlinJvmSubExtension;
+	public synthetic fun getKotlin ()Lcom/rickbusarow/mahout/conventions/KotlinSubExtension;
+	public fun getPublishing ()Lcom/rickbusarow/mahout/publishing/PublishingMavenSubExtension;
+	public fun getTasks ()Lcom/rickbusarow/mahout/TasksSubExtension;
+	public fun github (Lorg/gradle/api/Action;)V
+	public fun java (Lorg/gradle/api/Action;)V
+	public fun kotlin (Lorg/gradle/api/Action;)V
+	public fun ksp (Lorg/gradle/api/Project;)V
+	public fun poko (Lorg/gradle/api/Project;)V
+	public fun publishPlugin (Lorg/gradle/api/NamedDomainObjectProvider;)V
+	public fun publishing (Lorg/gradle/api/Action;)V
+	public fun serialization (Lorg/gradle/api/Project;)V
+	public fun shadow ()V
+	public fun shadow (Z)V
+	public fun tasks (Lorg/gradle/api/Action;)V
+}
+
+public abstract class com/rickbusarow/mahout/GradlePluginModulePlugin : com/rickbusarow/mahout/BaseModulePlugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/HasTasksSubExtension : java/io/Serializable {
+	public abstract fun getTasks ()Lcom/rickbusarow/mahout/TasksSubExtension;
+	public abstract fun tasks (Lorg/gradle/api/Action;)V
+}
+
+public final class com/rickbusarow/mahout/HasTasksSubExtension$DefaultImpls {
+	public static fun tasks (Lcom/rickbusarow/mahout/HasTasksSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract class com/rickbusarow/mahout/KotlinJvmModuleExtension : com/rickbusarow/mahout/BaseMahoutExtension, com/rickbusarow/mahout/HasTasksSubExtension, com/rickbusarow/mahout/conventions/AutoServiceExtension, com/rickbusarow/mahout/conventions/BuildLogicShadowExtensionHook, com/rickbusarow/mahout/conventions/GradleTestsExtension, com/rickbusarow/mahout/conventions/HasGitHubSubExtension, com/rickbusarow/mahout/conventions/HasJavaSubExtension, com/rickbusarow/mahout/conventions/HasKotlinJvmSubExtension, com/rickbusarow/mahout/conventions/KspExtension, com/rickbusarow/mahout/conventions/PokoExtension, com/rickbusarow/mahout/conventions/SerializationExtension, com/rickbusarow/mahout/dokka/HasDokkaSubExtension, com/rickbusarow/mahout/publishing/HasPublishingMavenSubExtension {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun autoService (Lorg/gradle/api/Project;)V
+	public fun dokka (Lorg/gradle/api/Action;)V
+	public fun getDokka ()Lcom/rickbusarow/mahout/dokka/DokkaSubExtension;
+	public fun getGithub ()Lcom/rickbusarow/mahout/conventions/GitHubSubExtension;
+	public fun getJava ()Lcom/rickbusarow/mahout/conventions/JavaSubExtension;
+	public fun getKotlin ()Lcom/rickbusarow/mahout/conventions/KotlinJvmSubExtension;
+	public synthetic fun getKotlin ()Lcom/rickbusarow/mahout/conventions/KotlinSubExtension;
+	public fun getPublishing ()Lcom/rickbusarow/mahout/publishing/PublishingMavenSubExtension;
+	public fun getTasks ()Lcom/rickbusarow/mahout/TasksSubExtension;
+	public fun github (Lorg/gradle/api/Action;)V
+	public fun gradleTests (Lorg/gradle/api/Project;)V
+	public fun java (Lorg/gradle/api/Action;)V
+	public fun kotlin (Lorg/gradle/api/Action;)V
+	public fun ksp (Lorg/gradle/api/Project;)V
+	public fun poko (Lorg/gradle/api/Project;)V
+	public fun publishing (Lorg/gradle/api/Action;)V
+	public fun serialization (Lorg/gradle/api/Project;)V
+	public fun shadow ()V
+	public fun shadow (Z)V
+	public fun tasks (Lorg/gradle/api/Action;)V
+}
+
+public abstract class com/rickbusarow/mahout/KotlinJvmModulePlugin : com/rickbusarow/mahout/BaseModulePlugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/mahout/KotlinMultiplatformModuleExtension : com/rickbusarow/mahout/BaseMahoutExtension, com/rickbusarow/mahout/conventions/AutoServiceExtension, com/rickbusarow/mahout/conventions/BuildLogicShadowExtensionHook, com/rickbusarow/mahout/conventions/KotlinExtension, com/rickbusarow/mahout/conventions/KotlinMultiplatformExtension, com/rickbusarow/mahout/conventions/KspExtension, com/rickbusarow/mahout/conventions/PokoExtension, com/rickbusarow/mahout/conventions/SerializationExtension {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun autoService (Lorg/gradle/api/Project;)V
+	public fun ksp (Lorg/gradle/api/Project;)V
+	public fun poko (Lorg/gradle/api/Project;)V
+	public fun serialization (Lorg/gradle/api/Project;)V
+	public fun shadow ()V
+	public fun shadow (Z)V
+}
+
+public abstract class com/rickbusarow/mahout/KotlinMultiplatformModulePlugin : com/rickbusarow/mahout/BaseModulePlugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/MahoutExtensionInternal : org/gradle/api/plugins/ExtensionAware {
+	public abstract fun getObjects ()Lorg/gradle/api/model/ObjectFactory;
+	public abstract fun getTarget ()Lorg/gradle/api/Project;
+}
+
+public abstract class com/rickbusarow/mahout/RootExtension : com/rickbusarow/mahout/BaseMahoutExtension, com/rickbusarow/mahout/HasTasksSubExtension, com/rickbusarow/mahout/composite/HasCompositeSubExtension, com/rickbusarow/mahout/conventions/AutoServiceExtension, com/rickbusarow/mahout/conventions/BuildLogicShadowExtensionHook, com/rickbusarow/mahout/conventions/HasGitHubSubExtension, com/rickbusarow/mahout/conventions/HasJavaSubExtension, com/rickbusarow/mahout/conventions/HasKotlinSubExtension, com/rickbusarow/mahout/conventions/KspExtension, com/rickbusarow/mahout/conventions/PokoExtension, com/rickbusarow/mahout/conventions/SerializationExtension, com/rickbusarow/mahout/dokka/HasDokkaSubExtension {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun autoService (Lorg/gradle/api/Project;)V
+	public fun composite (Lorg/gradle/api/Action;)V
+	public fun dokka (Lorg/gradle/api/Action;)V
+	public fun getComposite ()Lcom/rickbusarow/mahout/composite/CompositeSubExtension;
+	public fun getDokka ()Lcom/rickbusarow/mahout/dokka/DokkaSubExtension;
+	public fun getGithub ()Lcom/rickbusarow/mahout/conventions/GitHubSubExtension;
+	public fun getJava ()Lcom/rickbusarow/mahout/conventions/JavaSubExtension;
+	public fun getKotlin ()Lcom/rickbusarow/mahout/conventions/KotlinSubExtension;
+	public fun getTasks ()Lcom/rickbusarow/mahout/TasksSubExtension;
+	public fun github (Lorg/gradle/api/Action;)V
+	public fun java (Lorg/gradle/api/Action;)V
+	public fun kotlin (Lorg/gradle/api/Action;)V
+	public fun ksp (Lorg/gradle/api/Project;)V
+	public fun poko (Lorg/gradle/api/Project;)V
+	public fun serialization (Lorg/gradle/api/Project;)V
+	public fun shadow ()V
+	public fun shadow (Z)V
+	public fun tasks (Lorg/gradle/api/Action;)V
+}
+
+public abstract class com/rickbusarow/mahout/RootPlugin : com/rickbusarow/mahout/BaseModulePlugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/TasksSubExtension : com/rickbusarow/mahout/core/SubExtension {
+	public abstract fun addTasksToIdeSync ([Ljava/lang/String;)V
+}
+
+public final class com/rickbusarow/mahout/TasksSubExtension$DefaultImpls {
+	public static fun configure (Lcom/rickbusarow/mahout/TasksSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract class com/rickbusarow/mahout/composite/CompositePlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/mahout/composite/CompositeSubExtension : com/rickbusarow/mahout/core/SubExtension {
+	public fun <init> ()V
+	public fun configure (Lorg/gradle/api/Action;)V
+	public final fun excludeRequestedNames ([Ljava/lang/String;)V
+	public final fun includeCompositeTasks (Lorg/gradle/api/specs/Spec;)V
+	public final fun includeRequested (Lorg/gradle/api/specs/Spec;)V
+	public final fun includeRequestedNames ([Ljava/lang/String;)V
+}
+
+public final class com/rickbusarow/mahout/composite/CompositeSubExtension$RequestedTask {
+	public fun <init> (Ljava/lang/String;Lorg/gradle/api/reflect/TypeOf;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Lorg/gradle/api/reflect/TypeOf;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getName ()Ljava/lang/String;
+	public final fun getTypeOrNull ()Lorg/gradle/api/reflect/TypeOf;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/rickbusarow/mahout/composite/CompositeSubExtension$ResolvedTask {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/reflect/TypeOf;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Lorg/gradle/api/reflect/TypeOf;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBuildPath ()Ljava/lang/String;
+	public final fun getTaskName ()Ljava/lang/String;
+	public final fun getTaskPath ()Ljava/lang/String;
+	public final fun getType ()Lorg/gradle/api/reflect/TypeOf;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class com/rickbusarow/mahout/composite/HasCompositeSubExtension : java/io/Serializable {
+	public abstract fun composite (Lorg/gradle/api/Action;)V
+	public abstract fun getComposite ()Lcom/rickbusarow/mahout/composite/CompositeSubExtension;
+}
+
+public final class com/rickbusarow/mahout/composite/HasCompositeSubExtension$DefaultImpls {
+	public static fun composite (Lcom/rickbusarow/mahout/composite/HasCompositeSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/config/MahoutProperties : java/io/Serializable {
+	public abstract fun getGroup ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getJava ()Lcom/rickbusarow/mahout/config/MahoutProperties$JavaSettingsGroup;
+	public abstract fun getKotlin ()Lcom/rickbusarow/mahout/config/MahoutProperties$KotlinSettingsGroup;
+	public abstract fun getPublishing ()Lcom/rickbusarow/mahout/config/MahoutProperties$PublishingSettingsGroup;
+	public abstract fun getRepository ()Lcom/rickbusarow/mahout/config/MahoutProperties$RepositorySettingsGroup;
+	public abstract fun getVersionName ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getVersions ()Lcom/rickbusarow/mahout/config/MahoutProperties$VersionsGroup;
+}
+
+public abstract interface class com/rickbusarow/mahout/config/MahoutProperties$JavaSettingsGroup : java/io/Serializable {
+	public abstract fun getJvmSource ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getJvmTarget ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getJvmToolchain ()Lorg/gradle/api/provider/Provider;
+}
+
+public abstract interface class com/rickbusarow/mahout/config/MahoutProperties$KotlinSettingsGroup : java/io/Serializable {
+	public abstract fun getAllWarningsAsErrors ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getApiLevel ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getCompilerArgs ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getExplicitApi ()Lorg/gradle/api/provider/Provider;
+}
+
+public abstract interface class com/rickbusarow/mahout/config/MahoutProperties$PublishingSettingsGroup : java/io/Serializable {
+	public abstract fun getPom ()Lcom/rickbusarow/mahout/config/MahoutProperties$PublishingSettingsGroup$PomSettingsGroup;
+}
+
+public abstract interface class com/rickbusarow/mahout/config/MahoutProperties$PublishingSettingsGroup$PomSettingsGroup : java/io/Serializable {
+	public abstract fun getArtifactId ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getDescription ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getDeveloper ()Lcom/rickbusarow/mahout/config/MahoutProperties$PublishingSettingsGroup$PomSettingsGroup$DeveloperSettingsGroup;
+	public abstract fun getInceptionYear ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getLicense ()Lcom/rickbusarow/mahout/config/MahoutProperties$PublishingSettingsGroup$PomSettingsGroup$LicenseSettingsGroup;
+	public abstract fun getName ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getScm ()Lcom/rickbusarow/mahout/config/MahoutProperties$PublishingSettingsGroup$PomSettingsGroup$ScmSettingsGroup;
+	public abstract fun getUrl ()Lorg/gradle/api/provider/Provider;
+}
+
+public abstract interface class com/rickbusarow/mahout/config/MahoutProperties$PublishingSettingsGroup$PomSettingsGroup$DeveloperSettingsGroup : java/io/Serializable {
+	public abstract fun getId ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getName ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getUrl ()Lorg/gradle/api/provider/Provider;
+}
+
+public abstract interface class com/rickbusarow/mahout/config/MahoutProperties$PublishingSettingsGroup$PomSettingsGroup$LicenseSettingsGroup : java/io/Serializable {
+	public abstract fun getDist ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getName ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getUrl ()Lorg/gradle/api/provider/Provider;
+}
+
+public abstract interface class com/rickbusarow/mahout/config/MahoutProperties$PublishingSettingsGroup$PomSettingsGroup$ScmSettingsGroup : java/io/Serializable {
+	public abstract fun getConnection ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getDevConnection ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getUrl ()Lorg/gradle/api/provider/Provider;
+}
+
+public abstract interface class com/rickbusarow/mahout/config/MahoutProperties$RepositorySettingsGroup : java/io/Serializable {
+	public abstract fun getDefaultBranch ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getGithub ()Lcom/rickbusarow/mahout/config/MahoutProperties$RepositorySettingsGroup$GithubSettingsGroup;
+}
+
+public abstract interface class com/rickbusarow/mahout/config/MahoutProperties$RepositorySettingsGroup$GithubSettingsGroup : java/io/Serializable {
+	public abstract fun getOwner ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getRepo ()Lorg/gradle/api/provider/Provider;
+}
+
+public abstract interface class com/rickbusarow/mahout/config/MahoutProperties$VersionsGroup : java/io/Serializable {
+	public abstract fun getDetekt ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getDokka ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getKotlinxSerialization ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getKsp ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getPoko ()Lorg/gradle/api/provider/Provider;
+}
+
+public final class com/rickbusarow/mahout/config/MahoutPropertiesKt {
+	public static final fun getJvmSourceInt (Lcom/rickbusarow/mahout/config/MahoutProperties$JavaSettingsGroup;)Lorg/gradle/api/provider/Provider;
+	public static final fun getJvmTargetInt (Lcom/rickbusarow/mahout/config/MahoutProperties$JavaSettingsGroup;)Lorg/gradle/api/provider/Provider;
+	public static final fun getJvmToolchainInt (Lcom/rickbusarow/mahout/config/MahoutProperties$JavaSettingsGroup;)Lorg/gradle/api/provider/Provider;
+	public static final fun getMahoutProperties (Lorg/gradle/api/Project;)Lcom/rickbusarow/mahout/config/MahoutProperties;
+	public static final fun getUrl (Lcom/rickbusarow/mahout/config/MahoutProperties$RepositorySettingsGroup$GithubSettingsGroup;)Lorg/gradle/api/provider/Provider;
+}
+
+public abstract class com/rickbusarow/mahout/conventions/AbstractHasSubExtension : com/rickbusarow/mahout/core/HasObjectFactory {
+	public fun <init> ()V
+	protected final fun subExtension (Ljava/lang/Class;)Lkotlin/Lazy;
+	protected final fun subExtension (Lkotlin/reflect/KClass;)Lkotlin/Lazy;
+}
+
+public abstract class com/rickbusarow/mahout/conventions/AbstractSubExtension : com/rickbusarow/mahout/core/SubExtensionInternal, org/gradle/api/model/ObjectFactory, org/gradle/api/plugins/ExtensionAware {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun dependencyCollector ()Lorg/gradle/api/artifacts/dsl/DependencyCollector;
+	public fun directoryProperty ()Lorg/gradle/api/file/DirectoryProperty;
+	public fun domainObjectContainer (Ljava/lang/Class;)Lorg/gradle/api/NamedDomainObjectContainer;
+	public fun domainObjectContainer (Ljava/lang/Class;Lorg/gradle/api/NamedDomainObjectFactory;)Lorg/gradle/api/NamedDomainObjectContainer;
+	public fun domainObjectSet (Ljava/lang/Class;)Lorg/gradle/api/DomainObjectSet;
+	public fun fileCollection ()Lorg/gradle/api/file/ConfigurableFileCollection;
+	public fun fileProperty ()Lorg/gradle/api/file/RegularFileProperty;
+	public fun fileTree ()Lorg/gradle/api/file/ConfigurableFileTree;
+	protected final fun getMahoutProperties ()Lcom/rickbusarow/mahout/config/MahoutProperties;
+	public final fun getObjects ()Lorg/gradle/api/model/ObjectFactory;
+	protected final fun getTarget ()Lorg/gradle/api/Project;
+	public fun listProperty (Ljava/lang/Class;)Lorg/gradle/api/provider/ListProperty;
+	public fun mapProperty (Ljava/lang/Class;Ljava/lang/Class;)Lorg/gradle/api/provider/MapProperty;
+	public fun named (Ljava/lang/Class;Ljava/lang/String;)Lorg/gradle/api/Named;
+	public fun namedDomainObjectList (Ljava/lang/Class;)Lorg/gradle/api/NamedDomainObjectList;
+	public fun namedDomainObjectSet (Ljava/lang/Class;)Lorg/gradle/api/NamedDomainObjectSet;
+	public fun newInstance (Ljava/lang/Class;[Ljava/lang/Object;)Ljava/lang/Object;
+	public fun polymorphicDomainObjectContainer (Ljava/lang/Class;)Lorg/gradle/api/ExtensiblePolymorphicDomainObjectContainer;
+	public fun property (Ljava/lang/Class;)Lorg/gradle/api/provider/Property;
+	public fun setProperty (Ljava/lang/Class;)Lorg/gradle/api/provider/SetProperty;
+	public fun sourceDirectorySet (Ljava/lang/String;Ljava/lang/String;)Lorg/gradle/api/file/SourceDirectorySet;
+	protected final fun subExtension (Ljava/lang/Class;)Lkotlin/Lazy;
+}
+
+public abstract interface class com/rickbusarow/mahout/conventions/AutoServiceExtension : com/rickbusarow/mahout/conventions/KspExtension {
+	public abstract fun autoService (Lorg/gradle/api/Project;)V
+}
+
+public final class com/rickbusarow/mahout/conventions/AutoServiceExtension$DefaultImpls {
+	public static fun autoService (Lcom/rickbusarow/mahout/conventions/AutoServiceExtension;Lorg/gradle/api/Project;)V
+	public static fun ksp (Lcom/rickbusarow/mahout/conventions/AutoServiceExtension;Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/mahout/conventions/BaseKotlinConventionPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/mahout/conventions/BenManesVersionsPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/mahout/conventions/BuildLogicShadowExtension {
+	public fun <init> (Lorg/gradle/api/model/ObjectFactory;)V
+	public final fun getEnabled ()Lorg/gradle/api/provider/Property;
+	public abstract fun getRelocatePackages ()Lorg/gradle/api/provider/ListProperty;
+	public final fun shadow (Lorg/gradle/api/Project;Lorg/gradle/api/artifacts/Configuration;Ljava/util/List;)V
+	public static synthetic fun shadow$default (Lcom/rickbusarow/mahout/conventions/BuildLogicShadowExtension;Lorg/gradle/api/Project;Lorg/gradle/api/artifacts/Configuration;Ljava/util/List;ILjava/lang/Object;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/conventions/BuildLogicShadowExtensionHook {
+	public abstract fun shadow ()V
+	public abstract fun shadow (Z)V
+}
+
+public final class com/rickbusarow/mahout/conventions/BuildLogicShadowExtensionHook$DefaultImpls {
+	public static fun shadow (Lcom/rickbusarow/mahout/conventions/BuildLogicShadowExtensionHook;)V
+	public static fun shadow (Lcom/rickbusarow/mahout/conventions/BuildLogicShadowExtensionHook;Z)V
+}
+
+public abstract class com/rickbusarow/mahout/conventions/FixPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/mahout/conventions/CleanPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/conventions/CodeGenSubExtension {
+}
+
+public abstract class com/rickbusarow/mahout/conventions/DefaultGitHubSubExtension : com/rickbusarow/mahout/conventions/AbstractSubExtension, com/rickbusarow/mahout/conventions/GitHubSubExtension, com/rickbusarow/mahout/core/SubExtensionInternal, org/gradle/api/reflect/HasPublicType {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun configure (Lorg/gradle/api/Action;)V
+	public fun getConnection ()Lorg/gradle/api/provider/Provider;
+	public fun getDefaultBranch ()Lorg/gradle/api/provider/Property;
+	public fun getDeveloperConnection ()Lorg/gradle/api/provider/Provider;
+	public final fun getOwner ()Lorg/gradle/api/provider/Property;
+	public fun getPublicType ()Lorg/gradle/api/reflect/TypeOf;
+	public final fun getRepo ()Lorg/gradle/api/provider/Property;
+	public fun getUrl ()Lorg/gradle/api/provider/Provider;
+}
+
+public abstract class com/rickbusarow/mahout/conventions/DefaultJavaSubExtension : com/rickbusarow/mahout/conventions/AbstractSubExtension, com/rickbusarow/mahout/conventions/JavaSubExtension, com/rickbusarow/mahout/core/SubExtensionInternal {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun configure (Lorg/gradle/api/Action;)V
+	public final fun getJvmSource ()Lorg/gradle/api/provider/Property;
+	public fun getJvmSourceInt ()Lorg/gradle/api/provider/Provider;
+	public final fun getJvmTarget ()Lorg/gradle/api/provider/Property;
+	public fun getJvmTargetInt ()Lorg/gradle/api/provider/Provider;
+	public final fun getJvmToolchain ()Lorg/gradle/api/provider/Property;
+	public fun getJvmToolchainInt ()Lorg/gradle/api/provider/Provider;
+}
+
+public abstract class com/rickbusarow/mahout/conventions/DefaultKotlinJvmSubExtension : com/rickbusarow/mahout/conventions/DefaultKotlinSubExtension, com/rickbusarow/mahout/conventions/KotlinJvmSubExtension, com/rickbusarow/mahout/core/SubExtensionInternal {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+}
+
+public abstract class com/rickbusarow/mahout/conventions/DefaultKotlinMultiplatformSubExtension : com/rickbusarow/mahout/conventions/DefaultKotlinSubExtension, com/rickbusarow/mahout/conventions/KotlinMultiplatformSubExtension, com/rickbusarow/mahout/core/SubExtensionInternal {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+}
+
+public abstract class com/rickbusarow/mahout/conventions/DefaultKotlinSubExtension : com/rickbusarow/mahout/conventions/AbstractSubExtension, com/rickbusarow/mahout/conventions/KotlinSubExtension, com/rickbusarow/mahout/core/SubExtensionInternal {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun configure (Lorg/gradle/api/Action;)V
+	public fun getAllWarningsAsErrors ()Lorg/gradle/api/provider/Property;
+	public fun getApiLevel ()Lorg/gradle/api/provider/Property;
+	public fun getExplicitApi ()Lorg/gradle/api/provider/Property;
+}
+
+public abstract class com/rickbusarow/mahout/conventions/DependencyGuardConventionPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/mahout/conventions/DetektConventionPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/mahout/conventions/DokkaVersionArchivePlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/mahout/conventions/GitHubReleasePlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/conventions/GitHubSubExtension : com/rickbusarow/mahout/core/SubExtension {
+	public abstract fun getConnection ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getDefaultBranch ()Lorg/gradle/api/provider/Property;
+	public abstract fun getDeveloperConnection ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getOwner ()Lorg/gradle/api/provider/Property;
+	public abstract fun getRepo ()Lorg/gradle/api/provider/Property;
+	public abstract fun getUrl ()Lorg/gradle/api/provider/Provider;
+}
+
+public final class com/rickbusarow/mahout/conventions/GitHubSubExtension$DefaultImpls {
+	public static fun configure (Lcom/rickbusarow/mahout/conventions/GitHubSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/conventions/GradleTestsExtension {
+	public abstract fun gradleTests (Lorg/gradle/api/Project;)V
+}
+
+public final class com/rickbusarow/mahout/conventions/GradleTestsExtension$DefaultImpls {
+	public static fun gradleTests (Lcom/rickbusarow/mahout/conventions/GradleTestsExtension;Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/mahout/conventions/GradleTestsPlugin : org/gradle/api/Plugin {
+	public static final field Companion Lcom/rickbusarow/mahout/conventions/GradleTestsPlugin$Companion;
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public final class com/rickbusarow/mahout/conventions/GradleTestsPlugin$Companion {
+}
+
+public abstract interface class com/rickbusarow/mahout/conventions/HasCodeGenExtension {
+	public abstract fun getCodeGen ()Lcom/rickbusarow/mahout/conventions/CodeGenSubExtension;
+}
+
+public abstract interface class com/rickbusarow/mahout/conventions/HasGitHubSubExtension : java/io/Serializable {
+	public abstract fun getGithub ()Lcom/rickbusarow/mahout/conventions/GitHubSubExtension;
+	public abstract fun github (Lorg/gradle/api/Action;)V
+}
+
+public final class com/rickbusarow/mahout/conventions/HasGitHubSubExtension$DefaultImpls {
+	public static fun github (Lcom/rickbusarow/mahout/conventions/HasGitHubSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/conventions/HasJavaSubExtension : java/io/Serializable {
+	public abstract fun getJava ()Lcom/rickbusarow/mahout/conventions/JavaSubExtension;
+	public abstract fun java (Lorg/gradle/api/Action;)V
+}
+
+public final class com/rickbusarow/mahout/conventions/HasJavaSubExtension$DefaultImpls {
+	public static fun java (Lcom/rickbusarow/mahout/conventions/HasJavaSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/conventions/HasKotlinJvmSubExtension : com/rickbusarow/mahout/conventions/HasKotlinSubExtension {
+	public abstract fun getKotlin ()Lcom/rickbusarow/mahout/conventions/KotlinJvmSubExtension;
+}
+
+public final class com/rickbusarow/mahout/conventions/HasKotlinJvmSubExtension$DefaultImpls {
+	public static fun kotlin (Lcom/rickbusarow/mahout/conventions/HasKotlinJvmSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/conventions/HasKotlinMultiplatformSubExtension : com/rickbusarow/mahout/conventions/HasKotlinSubExtension {
+	public abstract fun getKotlin ()Lcom/rickbusarow/mahout/conventions/KotlinMultiplatformSubExtension;
+}
+
+public final class com/rickbusarow/mahout/conventions/HasKotlinMultiplatformSubExtension$DefaultImpls {
+	public static fun kotlin (Lcom/rickbusarow/mahout/conventions/HasKotlinMultiplatformSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/conventions/HasKotlinSubExtension : java/io/Serializable {
+	public abstract fun getKotlin ()Lcom/rickbusarow/mahout/conventions/KotlinSubExtension;
+	public abstract fun kotlin (Lorg/gradle/api/Action;)V
+}
+
+public final class com/rickbusarow/mahout/conventions/HasKotlinSubExtension$DefaultImpls {
+	public static fun kotlin (Lcom/rickbusarow/mahout/conventions/HasKotlinSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/conventions/HasPokoExtension {
+	public abstract fun getPoko ()Lcom/rickbusarow/mahout/conventions/PokoExtension;
+}
+
+public abstract interface class com/rickbusarow/mahout/conventions/JavaSubExtension : com/rickbusarow/mahout/core/SubExtension {
+	public abstract fun getJvmSource ()Lorg/gradle/api/provider/Property;
+	public abstract fun getJvmSourceInt ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getJvmTarget ()Lorg/gradle/api/provider/Property;
+	public abstract fun getJvmTargetInt ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getJvmToolchain ()Lorg/gradle/api/provider/Property;
+	public abstract fun getJvmToolchainInt ()Lorg/gradle/api/provider/Provider;
+}
+
+public final class com/rickbusarow/mahout/conventions/JavaSubExtension$DefaultImpls {
+	public static fun configure (Lcom/rickbusarow/mahout/conventions/JavaSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/conventions/KotlinExtension : java/io/Serializable {
+	public abstract fun getAllWarningsAsErrors ()Lorg/gradle/api/provider/Property;
+	public abstract fun getExplicitApi ()Lorg/gradle/api/provider/Property;
+}
+
+public abstract class com/rickbusarow/mahout/conventions/KotlinJvmConventionPlugin : com/rickbusarow/mahout/conventions/BaseKotlinConventionPlugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/conventions/KotlinJvmExtension : com/rickbusarow/mahout/conventions/KotlinExtension {
+}
+
+public abstract interface class com/rickbusarow/mahout/conventions/KotlinJvmSubExtension : com/rickbusarow/mahout/conventions/KotlinSubExtension {
+}
+
+public final class com/rickbusarow/mahout/conventions/KotlinJvmSubExtension$DefaultImpls {
+	public static fun configure (Lcom/rickbusarow/mahout/conventions/KotlinJvmSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract class com/rickbusarow/mahout/conventions/KotlinMultiplatformConventionPlugin : com/rickbusarow/mahout/conventions/BaseKotlinConventionPlugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/conventions/KotlinMultiplatformExtension : com/rickbusarow/mahout/conventions/KotlinExtension {
+}
+
+public abstract interface class com/rickbusarow/mahout/conventions/KotlinMultiplatformSubExtension : com/rickbusarow/mahout/conventions/KotlinSubExtension {
+}
+
+public final class com/rickbusarow/mahout/conventions/KotlinMultiplatformSubExtension$DefaultImpls {
+	public static fun configure (Lcom/rickbusarow/mahout/conventions/KotlinMultiplatformSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/conventions/KotlinSubExtension : com/rickbusarow/mahout/core/SubExtension {
+	public abstract fun getAllWarningsAsErrors ()Lorg/gradle/api/provider/Property;
+	public abstract fun getApiLevel ()Lorg/gradle/api/provider/Property;
+	public abstract fun getExplicitApi ()Lorg/gradle/api/provider/Property;
+}
+
+public final class com/rickbusarow/mahout/conventions/KotlinSubExtension$DefaultImpls {
+	public static fun configure (Lcom/rickbusarow/mahout/conventions/KotlinSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/conventions/KspExtension {
+	public abstract fun ksp (Lorg/gradle/api/Project;)V
+}
+
+public final class com/rickbusarow/mahout/conventions/KspExtension$DefaultImpls {
+	public static fun ksp (Lcom/rickbusarow/mahout/conventions/KspExtension;Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/mahout/conventions/KtLintConventionPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/conventions/PokoExtension {
+	public abstract fun poko (Lorg/gradle/api/Project;)V
+}
+
+public final class com/rickbusarow/mahout/conventions/PokoExtension$DefaultImpls {
+	public static fun poko (Lcom/rickbusarow/mahout/conventions/PokoExtension;Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/conventions/SerializationExtension {
+	public abstract fun serialization (Lorg/gradle/api/Project;)V
+}
+
+public final class com/rickbusarow/mahout/conventions/SerializationExtension$DefaultImpls {
+	public static fun serialization (Lcom/rickbusarow/mahout/conventions/SerializationExtension;Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/mahout/conventions/SpotlessConventionPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public class com/rickbusarow/mahout/conventions/SubExtensionRegistry {
+	public fun <init> (Lorg/gradle/api/model/ObjectFactory;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getObjects ()Lorg/gradle/api/model/ObjectFactory;
+	public final fun getSchema ()Ljava/util/Map;
+	public fun hashCode ()I
+	public final fun register (Ljava/lang/String;Ljava/lang/Class;Ljava/lang/Class;)Lcom/rickbusarow/mahout/core/SubExtension;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/rickbusarow/mahout/conventions/SubExtensionRegistry$SubExtensionElement {
+	public fun <init> (Ljava/lang/Class;Ljava/lang/String;Lcom/rickbusarow/mahout/core/SubExtension;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getInstance ()Lcom/rickbusarow/mahout/core/SubExtension;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getPublicType ()Ljava/lang/Class;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract class com/rickbusarow/mahout/conventions/TestConventionPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/core/HasObjectFactory {
+	public abstract fun getObjects ()Lorg/gradle/api/model/ObjectFactory;
+}
+
+public final class com/rickbusarow/mahout/core/PropertiesKt {
+	public static final fun getGITHUB_OWNER (Lorg/gradle/api/Project;)Ljava/lang/String;
+	public static final fun getGITHUB_OWNER_REPO (Lorg/gradle/api/Project;)Ljava/lang/String;
+	public static final fun getGITHUB_REPOSITORY (Lorg/gradle/api/Project;)Ljava/lang/String;
+	public static final fun getPrefixedPropertyName (Lorg/gradle/api/Project;Ljava/lang/String;)Ljava/lang/String;
+	public static final fun getVERSION_NAME (Lorg/gradle/api/Project;)Ljava/lang/String;
+	public static final fun getVersionIsSnapshot (Lorg/gradle/api/Project;)Z
+}
+
+public final class com/rickbusarow/mahout/core/SimpleMultimap : java/io/Serializable {
+	public fun <init> ()V
+	public final fun add (Ljava/lang/Object;Ljava/lang/Object;)Z
+	public final fun addAll (Ljava/lang/Object;Ljava/lang/Iterable;)Z
+	public final fun addAll (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Z
+	public final fun contains (Ljava/lang/Object;)Z
+	public final fun contains (Ljava/lang/Object;Ljava/lang/Object;)Z
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun get (Ljava/lang/Object;)Ljava/util/Set;
+	public final fun getKeys ()Ljava/util/Set;
+	public final fun getSize ()I
+	public final fun getValues ()Ljava/util/Collection;
+	public fun hashCode ()I
+	public final fun isEmpty ()Z
+	public final fun remove (Ljava/lang/Object;)Ljava/util/Set;
+	public final fun remove (Ljava/lang/Object;Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/rickbusarow/mahout/core/StringKt {
+	public static final fun indent (Ljava/lang/StringBuilder;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public static synthetic fun indent$default (Ljava/lang/StringBuilder;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public static final fun indentByBrackets (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public static synthetic fun indentByBrackets$default (Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/String;
+	public static final fun joinToStringIndexed (Ljava/util/List;Ljava/lang/CharSequence;Ljava/lang/CharSequence;Ljava/lang/CharSequence;ILjava/lang/CharSequence;Lkotlin/jvm/functions/Function2;)Ljava/lang/String;
+	public static synthetic fun joinToStringIndexed$default (Ljava/util/List;Ljava/lang/CharSequence;Ljava/lang/CharSequence;Ljava/lang/CharSequence;ILjava/lang/CharSequence;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Ljava/lang/String;
+	public static final fun mapLines (Ljava/lang/CharSequence;Lkotlin/jvm/functions/Function1;)Ljava/lang/String;
+	public static final fun mapLinesIndexed (Ljava/lang/CharSequence;Lkotlin/jvm/functions/Function2;)Ljava/lang/String;
+	public static final fun prependContinuationIndent (Ljava/lang/CharSequence;Ljava/lang/String;Z)Ljava/lang/String;
+	public static synthetic fun prependContinuationIndent$default (Ljava/lang/CharSequence;Ljava/lang/String;ZILjava/lang/Object;)Ljava/lang/String;
+	public static final fun prettyToString (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun replaceIndent (Ljava/lang/String;I)Ljava/lang/String;
+	public static final fun toStringPretty (Ljava/lang/Object;)Ljava/lang/String;
+}
+
+public abstract interface class com/rickbusarow/mahout/core/SubExtension : java/io/Serializable, org/gradle/api/plugins/ExtensionAware {
+	public abstract fun configure (Lorg/gradle/api/Action;)V
+}
+
+public final class com/rickbusarow/mahout/core/SubExtension$DefaultImpls {
+	public static fun configure (Lcom/rickbusarow/mahout/core/SubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/core/SubExtensionInternal : com/rickbusarow/mahout/core/HasObjectFactory {
+}
+
+public abstract class com/rickbusarow/mahout/curator/AbstractCuratorTask : com/rickbusarow/mahout/api/DefaultMahoutTask {
+	public fun <init> (Lorg/gradle/api/file/ProjectLayout;)V
+	protected final fun getBaselineArtifacts ()Ljava/util/List;
+	protected final fun getCurrentList ()Ljava/util/List;
+	protected final fun getJsonAdapter ()Lkotlinx/serialization/json/Json;
+	protected final fun getReportFile ()Lorg/gradle/api/file/RegularFile;
+	protected final fun ignoredArtifactsMessage (Ljava/util/List;)Ljava/lang/String;
+	protected final fun isIgnored (Lcom/rickbusarow/mahout/curator/ArtifactConfig;)Z
+	protected final fun message (Lcom/rickbusarow/mahout/curator/ArtifactConfig;)Ljava/lang/String;
+}
+
+public final class com/rickbusarow/mahout/curator/ArtifactConfig : java/io/Serializable, java/lang/Comparable {
+	public static final field Companion Lcom/rickbusarow/mahout/curator/ArtifactConfig$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public fun compareTo (Lcom/rickbusarow/mahout/curator/ArtifactConfig;)I
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getArtifactId ()Ljava/lang/String;
+	public final fun getDescription ()Ljava/lang/String;
+	public final fun getGradlePath ()Ljava/lang/String;
+	public final fun getGroup ()Ljava/lang/String;
+	public final fun getJavaVersion ()Ljava/lang/String;
+	public final fun getKey ()Ljava/lang/String;
+	public final fun getPackaging ()Ljava/lang/String;
+	public final fun getPublicationName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/rickbusarow/mahout/curator/ArtifactConfig$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/rickbusarow/mahout/curator/ArtifactConfig$$serializer;
+	public fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/rickbusarow/mahout/curator/ArtifactConfig;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/rickbusarow/mahout/curator/ArtifactConfig;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/rickbusarow/mahout/curator/ArtifactConfig$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public class com/rickbusarow/mahout/curator/CuratorCheckTask : com/rickbusarow/mahout/curator/AbstractCuratorTask, com/rickbusarow/mahout/api/MahoutCheckTask {
+	public fun <init> (Lorg/gradle/api/model/ObjectFactory;Lorg/gradle/api/file/ProjectLayout;)V
+	public final fun getLenientOs ()Z
+	public final fun run ()V
+	public final fun setLenientOs (Z)V
+}
+
+public class com/rickbusarow/mahout/curator/CuratorDumpTask : com/rickbusarow/mahout/curator/AbstractCuratorTask, com/rickbusarow/mahout/api/MahoutFixTask {
+	public fun <init> (Lorg/gradle/api/file/ProjectLayout;)V
+	public final fun run ()V
+}
+
+public abstract class com/rickbusarow/mahout/curator/CuratorPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/mahout/dokka/DefaultDokkaSubExtension : com/rickbusarow/mahout/conventions/AbstractSubExtension, com/rickbusarow/mahout/core/SubExtensionInternal, com/rickbusarow/mahout/dokka/DokkaSubExtension {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun configure (Lorg/gradle/api/Action;)V
+	public fun getDokkaVersion ()Lorg/gradle/api/provider/Property;
+	public fun getGenerateTaskWorkerMaxHeapSize ()Lorg/gradle/api/provider/Property;
+	public fun getGenerateTaskWorkerMinHeapSize ()Lorg/gradle/api/provider/Property;
+}
+
+public abstract interface class com/rickbusarow/mahout/dokka/DokkaSubExtension : com/rickbusarow/mahout/core/SubExtension {
+	public abstract fun getDokkaVersion ()Lorg/gradle/api/provider/Property;
+	public abstract fun getGenerateTaskWorkerMaxHeapSize ()Lorg/gradle/api/provider/Property;
+	public abstract fun getGenerateTaskWorkerMinHeapSize ()Lorg/gradle/api/provider/Property;
+}
+
+public final class com/rickbusarow/mahout/dokka/DokkaSubExtension$DefaultImpls {
+	public static fun configure (Lcom/rickbusarow/mahout/dokka/DokkaSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract class com/rickbusarow/mahout/dokka/DokkatooConventionPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/dokka/HasDokkaSubExtension : java/io/Serializable {
+	public abstract fun dokka (Lorg/gradle/api/Action;)V
+	public abstract fun getDokka ()Lcom/rickbusarow/mahout/dokka/DokkaSubExtension;
+}
+
+public final class com/rickbusarow/mahout/dokka/HasDokkaSubExtension$DefaultImpls {
+	public static fun dokka (Lcom/rickbusarow/mahout/dokka/HasDokkaSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract class com/rickbusarow/mahout/libs/LibsGeneratorPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/mahout/libs/LibsGeneratorTask : org/gradle/api/DefaultTask {
+	public fun <init> ()V
+	public final fun generateLibs ()V
+	public abstract fun getCatalogProvider ()Lorg/gradle/api/provider/Property;
+	public abstract fun getPackageName ()Lorg/gradle/api/provider/Property;
+	public abstract fun getSrcGenDir ()Lorg/gradle/api/file/DirectoryProperty;
+}
+
+public final class com/rickbusarow/mahout/libs/VersionCatalogSerializable : java/io/Serializable {
+	public fun <init> (Lorg/gradle/api/artifacts/VersionCatalog;)V
+	public final fun getBundles ()Ljava/util/List;
+	public final fun getLibraries ()Ljava/util/List;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getPlugins ()Ljava/util/List;
+	public final fun getVersions ()Ljava/util/List;
+}
+
+public class com/rickbusarow/mahout/publishing/DefaultPublishingGradlePluginHandler : com/rickbusarow/mahout/publishing/PublishingGradlePluginHandler {
+	public fun <init> ()V
+	public fun publishPlugin (Lorg/gradle/api/NamedDomainObjectProvider;)V
+}
+
+public abstract class com/rickbusarow/mahout/publishing/DefaultPublishingMavenSubExtension : com/rickbusarow/mahout/conventions/AbstractSubExtension, com/rickbusarow/mahout/core/SubExtensionInternal, com/rickbusarow/mahout/publishing/PublishingMavenSubExtension {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun configure (Lorg/gradle/api/Action;)V
+	public fun getDefaultPom ()Lorg/gradle/api/publish/maven/internal/publication/DefaultMavenPom;
+	public fun publishMaven (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/publishing/HasPublishingMavenSubExtension : java/io/Serializable {
+	public abstract fun getPublishing ()Lcom/rickbusarow/mahout/publishing/PublishingMavenSubExtension;
+	public abstract fun publishing (Lorg/gradle/api/Action;)V
+}
+
+public final class com/rickbusarow/mahout/publishing/HasPublishingMavenSubExtension$DefaultImpls {
+	public static fun publishing (Lcom/rickbusarow/mahout/publishing/HasPublishingMavenSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract class com/rickbusarow/mahout/publishing/MahoutPublishPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/publishing/PublishingGradlePluginHandler : java/io/Serializable {
+	public abstract fun publishPlugin (Lorg/gradle/api/NamedDomainObjectProvider;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/publishing/PublishingMavenSubExtension : com/rickbusarow/mahout/core/SubExtension {
+	public abstract fun getDefaultPom ()Lorg/gradle/api/publish/maven/internal/publication/DefaultMavenPom;
+	public abstract fun publishMaven (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;)V
+}
+
+public final class com/rickbusarow/mahout/publishing/PublishingMavenSubExtension$DefaultImpls {
+	public static fun configure (Lcom/rickbusarow/mahout/publishing/PublishingMavenSubExtension;Lorg/gradle/api/Action;)V
+	public static synthetic fun publishMaven$default (Lcom/rickbusarow/mahout/publishing/PublishingMavenSubExtension;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;ILjava/lang/Object;)V
+}

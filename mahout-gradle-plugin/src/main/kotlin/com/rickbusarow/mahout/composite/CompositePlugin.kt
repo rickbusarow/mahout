@@ -18,49 +18,20 @@ package com.rickbusarow.mahout.composite
 import com.rickbusarow.kgx.checkProjectIsRoot
 import com.rickbusarow.kgx.internal.InternalGradleApiAccess
 import com.rickbusarow.kgx.internal.allIncludedProjects
+import com.rickbusarow.mahout.RootExtension
+import com.rickbusarow.mahout.composite.CompositeSubExtension.RequestedTask
+import com.rickbusarow.mahout.composite.CompositeSubExtension.ResolvedTask
+import com.rickbusarow.mahout.core.namedOrNull
 import com.rickbusarow.mahout.core.stdlib.splitInclusive
 import com.rickbusarow.mahout.taskWillResolve
 import com.rickbusarow.mahout.taskWillResolveInAny
 import modulecheck.utils.mapToSet
-import org.gradle.api.Action
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.model.ObjectFactory
 import org.gradle.internal.DefaultTaskExecutionRequest
-import javax.inject.Inject
-
-@Suppress("UndocumentedPublicClass")
-public interface CompositeHandler : java.io.Serializable {
-  /**
-   */
-  public val composite: CompositeTaskSpec
-
-  /**
-   */
-  public fun composite(action: Action<CompositeTaskSpec>)
-}
-
-@Suppress("UndocumentedPublicClass")
-public abstract class DefaultCompositeHandler @Inject constructor(
-  private val target: Project,
-  private val objects: ObjectFactory
-) : CompositeHandler {
-
-  override val composite: CompositeTaskSpec =
-    objects.newInstance(CompositeTaskSpec::class.java)
-
-  override fun composite(action: Action<CompositeTaskSpec>) {
-    action.execute(composite)
-  }
-}
-
-@Suppress("UndocumentedPublicClass")
-public open class CompositeTaskSpec @Inject constructor(
-  private val target: Project,
-  private val objects: ObjectFactory
-)
 
 /** This plugin finds specified tasks in included builds and */
+@InternalGradleApiAccess
 public abstract class CompositePlugin : Plugin<Project> {
 
   @OptIn(InternalGradleApiAccess::class)
@@ -73,7 +44,7 @@ public abstract class CompositePlugin : Plugin<Project> {
         "so the plugin would just waste time searching the task graph."
     }
 
-    // val extension = target.extensions.getByType(RootExtension::class.java)
+    val extension = target.extensions.getByType(RootExtension::class.java)
 
     target.gradle.projectsEvaluated { gradle ->
 
@@ -86,29 +57,56 @@ public abstract class CompositePlugin : Plugin<Project> {
 
         val taskPaths = originalSplit.mapToSet { it.first() }
 
-        val includedProject = gradle.allIncludedProjects()
+        val includedProjects = gradle.allIncludedProjects()
 
-        val newSplit = originalSplit.flatMap { ta ->
+        val newSplit = originalSplit.flatMap { taskWithArgs ->
 
-          val tn = ta.first()
+          val taskName = taskWithArgs.first()
 
-          if (tn.startsWith(':')) {
-            // qualified task names aren't propagated
-            return@flatMap listOf(ta)
+          if (taskName.startsWith(':')) {
+            // qualified task names aren't propagated to included builds
+            return@flatMap listOf(taskWithArgs)
           }
 
-          val inRoot = target.taskWillResolveInAny(tn)
+          val resolvedInRootBuild = target.tasks.namedOrNull(taskName)
 
-          val included = includedProject.mapNotNull { includedProject ->
+          when {
+            // there's no point in just repeating the same help text
+            taskName == "help" -> return@flatMap listOf(taskWithArgs)
+            // don't include tasks that aren't requested
+            !extension.composite.includeRequested.isSatisfiedBy(
+              RequestedTask(
+                name = taskName,
+                typeOrNull = resolvedInRootBuild?.publicType
+              )
+            ) -> return@flatMap listOf(taskWithArgs)
+          }
 
-            val includedPath = "${includedProject.identityPath}:$tn"
+          val inRoot = resolvedInRootBuild != null
 
-            if (!taskPaths.contains(includedPath) && includedProject.taskWillResolve(tn)) {
-              println("included project ${includedProject.identityPath} will resolve $includedPath")
+          val included = includedProjects.mapNotNull { includedProject ->
+
+            val includedPath = "${includedProject.identityPath}:$taskName"
+
+            // Don't include tasks that are already in the task graph
+            if (taskPaths.contains(includedPath)) return@mapNotNull null
+
+            val resolved = includedProject.tasks.namedOrNull(taskName)
+              ?: return@mapNotNull null
+
+            val r = ResolvedTask(
+              buildPath = includedProject.rootProject.name,
+              taskPath = includedPath,
+              taskName = taskName,
+              type = resolved.publicType
+            )
+
+            if (extension.composite.includeCompositeTasks.isSatisfiedBy(r)) {
+              target.logger.quiet("The task $taskName will delegate to $includedPath")
 
               buildList<String> {
                 add(includedPath)
-                addAll(ta.subList(1, ta.size))
+                addAll(taskWithArgs.subList(1, taskWithArgs.size))
               }
             } else {
               null
@@ -117,7 +115,7 @@ public abstract class CompositePlugin : Plugin<Project> {
 
           buildList {
             if (inRoot || included.isEmpty()) {
-              add(ta)
+              add(taskWithArgs)
             }
             addAll(included)
           }

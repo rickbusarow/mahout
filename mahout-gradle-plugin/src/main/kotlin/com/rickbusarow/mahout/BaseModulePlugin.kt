@@ -15,23 +15,30 @@
 
 package com.rickbusarow.mahout
 
-import com.rickbusarow.mahout.conventions.CheckPlugin
 import com.rickbusarow.mahout.conventions.CleanPlugin
 import com.rickbusarow.mahout.conventions.DependencyGuardConventionPlugin
 import com.rickbusarow.mahout.conventions.DetektConventionPlugin
+import com.rickbusarow.mahout.conventions.FixPlugin
+import com.rickbusarow.mahout.conventions.JdkVersionsConventionPlugin
 import com.rickbusarow.mahout.conventions.KotlinJvmConventionPlugin
 import com.rickbusarow.mahout.conventions.KotlinMultiplatformConventionPlugin
 import com.rickbusarow.mahout.conventions.KtLintConventionPlugin
 import com.rickbusarow.mahout.conventions.TestConventionPlugin
 import com.rickbusarow.mahout.dokka.DokkatooConventionPlugin
+import com.rickbusarow.mahout.publishing.MahoutPublishPlugin
+import com.rickbusarow.mahout.dokka.DokkatooConventionPlugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.plugins.JavaBasePlugin
 
 /** Applies common conventions to any project. */
 public abstract class BaseModulePlugin : Plugin<Project> {
   override fun apply(target: Project) {
 
-    target.plugins.apply(CheckPlugin::class.java)
+    target.plugins.apply(JavaBasePlugin::class.java)
+    target.plugins.apply(MahoutPublishPlugin::class.java)
+    target.plugins.apply(JdkVersionsConventionPlugin::class.java)
+    target.plugins.apply(FixPlugin::class.java)
     target.plugins.apply(CleanPlugin::class.java)
     target.plugins.apply(DependencyGuardConventionPlugin::class.java)
     target.plugins.apply(DetektConventionPlugin::class.java)
@@ -41,11 +48,23 @@ public abstract class BaseModulePlugin : Plugin<Project> {
   }
 }
 
+/** Applies conventions to any kotlin-jvm and `java-gradle-plugin` project. */
+public abstract class GradlePluginModulePlugin : BaseModulePlugin() {
+  override fun apply(target: Project) {
+
+    target.extensions.create("mahout", GradlePluginModuleExtension::class.java)
+
+    target.plugins.apply(KotlinJvmConventionPlugin::class.java)
+
+    super.apply(target)
+  }
+}
+
 /** Applies conventions to any kotlin-jvm project. */
 public abstract class KotlinJvmModulePlugin : BaseModulePlugin() {
   override fun apply(target: Project) {
 
-    target.extensions.create("jvmModule", KotlinJvmModuleExtension::class.java)
+    target.extensions.create("mahout", KotlinJvmModuleExtension::class.java)
 
     target.plugins.apply(KotlinJvmConventionPlugin::class.java)
 
@@ -57,7 +76,7 @@ public abstract class KotlinJvmModulePlugin : BaseModulePlugin() {
 public abstract class KotlinMultiplatformModulePlugin : BaseModulePlugin() {
   override fun apply(target: Project) {
 
-    target.extensions.create("kmpModule", KotlinMultiplatformModuleExtension::class.java)
+    target.extensions.create("mahout", KotlinMultiplatformModuleExtension::class.java)
 
     target.plugins.apply(KotlinMultiplatformConventionPlugin::class.java)
 

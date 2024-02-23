@@ -26,7 +26,7 @@ import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-@Suppress("UndocumentedPublicClass")
+/** */
 public abstract class GitHubReleasePlugin : Plugin<Project> {
   override fun apply(target: Project) {
 
@@ -63,7 +63,7 @@ public abstract class GitHubReleasePlugin : Plugin<Project> {
           val split = target.file("CHANGELOG.md").readLines()
             .splitInclusive { versionHeaderRegex.matches(it) }
 
-          split.singleOrNull { it[0].startsWith("## [${target.VERSION_NAME}]") }
+          split.firstOrNull { it[0].startsWith("## [${target.VERSION_NAME}]") }
             ?.joinToString("\n") { it.trim() }
             ?.trim()
             ?.also { body ->

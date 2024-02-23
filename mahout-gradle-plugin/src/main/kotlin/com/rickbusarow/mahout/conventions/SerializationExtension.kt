@@ -15,24 +15,26 @@
 
 package com.rickbusarow.mahout.conventions
 
-import com.rickbusarow.kgx.library
-import com.rickbusarow.kgx.libsCatalog
+import com.rickbusarow.mahout.config.mahoutProperties
+import com.rickbusarow.mahout.deps.Modules
+import com.rickbusarow.mahout.deps.PluginIds
 import org.gradle.api.Project
 
-@Suppress("UndocumentedPublicClass")
+/** */
 public interface SerializationExtension {
 
   @Suppress("UndocumentedPublicFunction")
   public fun Project.serialization() {
-    if (!pluginManager.hasPlugin("org.jetbrains.kotlin.plugin.serialization")) {
+    if (!pluginManager.hasPlugin(PluginIds.`kotlin-serialization`)) {
 
-      pluginManager.apply("org.jetbrains.kotlin.plugin.serialization")
+      pluginManager.apply(PluginIds.`kotlin-serialization`)
 
-      dependencies.constraints
-        .add(
-          "implementation",
-          libsCatalog.library("kotlinx-serialization-core")
-        )
+      dependencies.constraints.add(
+        "implementation",
+        mahoutProperties.versions.kotlinxSerialization.map {
+          "${Modules.`kotlinx-serialization-core`}:$it"
+        }
+      )
     }
   }
 }

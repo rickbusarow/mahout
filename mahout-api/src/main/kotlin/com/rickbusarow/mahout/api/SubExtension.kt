@@ -20,6 +20,7 @@ import org.gradle.api.model.ObjectFactory
 import org.gradle.api.plugins.ExtensionAware
 
 /** Convenience interface for making a configurable group of settings. */
+@MahoutDsl
 public interface SubExtension<SELF : SubExtension<SELF>> :
   ExtensionAware,
   java.io.Serializable {
@@ -33,11 +34,13 @@ public interface SubExtension<SELF : SubExtension<SELF>> :
 
 /** */
 public interface HasObjectFactory {
+
   /** */
   public val objects: ObjectFactory
 }
 
 /** */
+@MahoutDsl
 public interface SubExtensionInternal : HasObjectFactory
 
 public typealias GradleSourceSet = org.gradle.api.tasks.SourceSet

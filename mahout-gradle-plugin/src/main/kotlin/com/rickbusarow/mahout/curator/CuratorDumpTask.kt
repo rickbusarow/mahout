@@ -15,6 +15,7 @@
 
 package com.rickbusarow.mahout.curator
 
+import com.rickbusarow.mahout.api.MahoutFixTask
 import com.rickbusarow.mahout.core.Color.Companion.colorized
 import com.rickbusarow.mahout.core.Color.RED
 import kotlinx.serialization.encodeToString
@@ -24,9 +25,9 @@ import org.gradle.api.tasks.TaskAction
 import javax.inject.Inject
 
 /** Evaluates all published artifacts in the project and writes the results to `/artifacts.json` */
-public open class CuratorDumpTask @Inject constructor(
+public abstract class CuratorDumpTask @Inject constructor(
   projectLayout: ProjectLayout
-) : AbstractCuratorTask(projectLayout) {
+) : AbstractCuratorTask(projectLayout), MahoutFixTask {
 
   init {
     description = "Parses the Maven artifact parameters for all modules " +
@@ -49,7 +50,7 @@ public open class CuratorDumpTask @Inject constructor(
 
     if (artifactsChanged && currentList.isNotEmpty()) {
 
-      val json = jsonAdapter.encodeToString(currentList)
+      val json = jsonAdapter.encodeToString(currentList.sorted())
         .let {
           if (it.endsWith("\n\n")) {
             it
@@ -57,7 +58,6 @@ public open class CuratorDumpTask @Inject constructor(
             it.plus("\n")
           }
         }
-
       reportFile.asFile.writeText(json)
     }
   }

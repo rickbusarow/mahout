@@ -16,35 +16,19 @@
 rootProject.name = "build-logic"
 
 pluginManagement {
-  val allowMavenLocal = providers
-    .gradleProperty("${rootProject.name}.allow-maven-local")
-    .orNull.toBoolean()
-
   repositories {
-    if (allowMavenLocal) {
-      logger.lifecycle("${rootProject.name} -- allowing mavenLocal for plugins")
-      mavenLocal()
-    }
     gradlePluginPortal()
-    google()
     mavenCentral()
+    google()
   }
 }
-
-val allowMavenLocal = providers
-  .gradleProperty("${rootProject.name}.allow-maven-local")
-  .orNull.toBoolean()
 
 @Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
   repositories {
-    if (allowMavenLocal) {
-      logger.lifecycle("${rootProject.name} -- allowing mavenLocal for dependencies")
-      mavenLocal()
-    }
+    mavenCentral()
     gradlePluginPortal()
     google()
-    mavenCentral()
   }
   versionCatalogs {
     create("libs") {
