@@ -1,6 +1,141 @@
 [
   {
     "gradlePath": ":mahout-gradle-plugin",
+    "group": "com.rickbusarow.mahout.composite",
+    "artifactId": "com.rickbusarow.mahout.composite.gradle.plugin",
+    "description": "Propagates unqualified task requests from the root build to all included builds",
+    "packaging": "pom",
+    "javaVersion": "11",
+    "publicationName": "compositePluginMarkerMaven"
+  },
+  {
+    "gradlePath": ":mahout-gradle-plugin",
+    "group": "com.rickbusarow.mahout.convention.ben-manes",
+    "artifactId": "com.rickbusarow.mahout.convention.ben-manes.gradle.plugin",
+    "description": "                ",
+    "packaging": "pom",
+    "javaVersion": "11",
+    "publicationName": "convention.ben-manesPluginMarkerMaven"
+  },
+  {
+    "gradlePath": ":mahout-gradle-plugin",
+    "group": "com.rickbusarow.mahout.convention.clean",
+    "artifactId": "com.rickbusarow.mahout.convention.clean.gradle.plugin",
+    "description": "                ",
+    "packaging": "pom",
+    "javaVersion": "11",
+    "publicationName": "convention.cleanPluginMarkerMaven"
+  },
+  {
+    "gradlePath": ":mahout-gradle-plugin",
+    "group": "com.rickbusarow.mahout.convention.dependency-guard",
+    "artifactId": "com.rickbusarow.mahout.convention.dependency-guard.gradle.plugin",
+    "description": "                ",
+    "packaging": "pom",
+    "javaVersion": "11",
+    "publicationName": "convention.dependency-guardPluginMarkerMaven"
+  },
+  {
+    "gradlePath": ":mahout-gradle-plugin",
+    "group": "com.rickbusarow.mahout.convention.detekt",
+    "artifactId": "com.rickbusarow.mahout.convention.detekt.gradle.plugin",
+    "description": "                ",
+    "packaging": "pom",
+    "javaVersion": "11",
+    "publicationName": "convention.detektPluginMarkerMaven"
+  },
+  {
+    "gradlePath": ":mahout-gradle-plugin",
+    "group": "com.rickbusarow.mahout.convention.dokka-versioning",
+    "artifactId": "com.rickbusarow.mahout.convention.dokka-versioning.gradle.plugin",
+    "description": "                ",
+    "packaging": "pom",
+    "javaVersion": "11",
+    "publicationName": "convention.dokka-versioningPluginMarkerMaven"
+  },
+  {
+    "gradlePath": ":mahout-gradle-plugin",
+    "group": "com.rickbusarow.mahout.convention.dokkatoo",
+    "artifactId": "com.rickbusarow.mahout.convention.dokkatoo.gradle.plugin",
+    "description": "                ",
+    "packaging": "pom",
+    "javaVersion": "11",
+    "publicationName": "convention.dokkatooPluginMarkerMaven"
+  },
+  {
+    "gradlePath": ":mahout-gradle-plugin",
+    "group": "com.rickbusarow.mahout.convention.fix",
+    "artifactId": "com.rickbusarow.mahout.convention.fix.gradle.plugin",
+    "description": "                ",
+    "packaging": "pom",
+    "javaVersion": "11",
+    "publicationName": "convention.fixPluginMarkerMaven"
+  },
+  {
+    "gradlePath": ":mahout-gradle-plugin",
+    "group": "com.rickbusarow.mahout.convention.github-release",
+    "artifactId": "com.rickbusarow.mahout.convention.github-release.gradle.plugin",
+    "description": "                ",
+    "packaging": "pom",
+    "javaVersion": "11",
+    "publicationName": "convention.github-releasePluginMarkerMaven"
+  },
+  {
+    "gradlePath": ":mahout-gradle-plugin",
+    "group": "com.rickbusarow.mahout.convention.kotlin-jvm",
+    "artifactId": "com.rickbusarow.mahout.convention.kotlin-jvm.gradle.plugin",
+    "description": "                ",
+    "packaging": "pom",
+    "javaVersion": "11",
+    "publicationName": "convention.kotlin-jvmPluginMarkerMaven"
+  },
+  {
+    "gradlePath": ":mahout-gradle-plugin",
+    "group": "com.rickbusarow.mahout.convention.ktlint",
+    "artifactId": "com.rickbusarow.mahout.convention.ktlint.gradle.plugin",
+    "description": "                ",
+    "packaging": "pom",
+    "javaVersion": "11",
+    "publicationName": "convention.ktlintPluginMarkerMaven"
+  },
+  {
+    "gradlePath": ":mahout-gradle-plugin",
+    "group": "com.rickbusarow.mahout.convention.spotless",
+    "artifactId": "com.rickbusarow.mahout.convention.spotless.gradle.plugin",
+    "description": "                ",
+    "packaging": "pom",
+    "javaVersion": "11",
+    "publicationName": "convention.spotlessPluginMarkerMaven"
+  },
+  {
+    "gradlePath": ":mahout-gradle-plugin",
+    "group": "com.rickbusarow.mahout.convention.test",
+    "artifactId": "com.rickbusarow.mahout.convention.test.gradle.plugin",
+    "description": "                ",
+    "packaging": "pom",
+    "javaVersion": "11",
+    "publicationName": "convention.testPluginMarkerMaven"
+  },
+  {
+    "gradlePath": ":mahout-gradle-plugin",
+    "group": "com.rickbusarow.mahout.curator",
+    "artifactId": "com.rickbusarow.mahout.curator.gradle.plugin",
+    "description": "Verifies the consistency of a project's published artifacts",
+    "packaging": "pom",
+    "javaVersion": "11",
+    "publicationName": "curatorPluginMarkerMaven"
+  },
+  {
+    "gradlePath": ":mahout-gradle-plugin",
+    "group": "com.rickbusarow.mahout.gradle-test",
+    "artifactId": "com.rickbusarow.mahout.gradle-test.gradle.plugin",
+    "description": "Configures a source set for Gradle integration tests",
+    "packaging": "pom",
+    "javaVersion": "11",
+    "publicationName": "gradle-testPluginMarkerMaven"
+  },
+  {
+    "gradlePath": ":mahout-gradle-plugin",
     "group": "com.rickbusarow.mahout.java-gradle-plugin",
     "artifactId": "com.rickbusarow.mahout.java-gradle-plugin.gradle.plugin",
     "description": "Convention plugin for a java-gradle-plugin project",
@@ -10,21 +145,21 @@
   },
   {
     "gradlePath": ":mahout-gradle-plugin",
-    "group": "com.rickbusarow.mahout.jvm-module",
-    "artifactId": "com.rickbusarow.mahout.kotlin-jvm.gradle.plugin",
+    "group": "com.rickbusarow.mahout.kotlin-jvm-module",
+    "artifactId": "com.rickbusarow.mahout.kotlin-jvm-module.gradle.plugin",
     "description": "Convention plugin for a Kotlin JVM project",
     "packaging": "pom",
     "javaVersion": "11",
-    "publicationName": "jvmPluginMarkerMaven"
+    "publicationName": "kotlin-jvm-modulePluginMarkerMaven"
   },
   {
     "gradlePath": ":mahout-gradle-plugin",
-    "group": "com.rickbusarow.mahout.kotlin-multiplatform",
-    "artifactId": "com.rickbusarow.mahout.kotlin-multiplatform.gradle.plugin",
+    "group": "com.rickbusarow.mahout.kotlin-multiplatform-module",
+    "artifactId": "com.rickbusarow.mahout.kotlin-multiplatform-module.gradle.plugin",
     "description": "Convention plugin for a Kotlin Multiplatform project",
     "packaging": "pom",
     "javaVersion": "11",
-    "publicationName": "kmpPluginMarkerMaven"
+    "publicationName": "kotlin-multiplatform-modulePluginMarkerMaven"
   },
   {
     "gradlePath": ":mahout-gradle-plugin",

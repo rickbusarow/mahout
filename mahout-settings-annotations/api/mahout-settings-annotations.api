@@ -4,3 +4,4 @@ public abstract interface annotation class com/rickbusarow/mahout/generator/Dele
 
 public abstract interface annotation class com/rickbusarow/mahout/generator/MahoutPropertiesSchema : java/lang/annotation/Annotation {
 }
+

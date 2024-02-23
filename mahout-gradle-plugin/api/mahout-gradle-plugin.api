@@ -21,7 +21,7 @@ public class com/rickbusarow/mahout/DefaultCoreMahoutProperties : com/rickbusaro
 	public fun getVersionName ()Lorg/gradle/api/provider/Property;
 }
 
-public abstract class com/rickbusarow/mahout/DefaultTasksSubExtension : com/rickbusarow/mahout/conventions/AbstractSubExtension, com/rickbusarow/mahout/TasksSubExtension, com/rickbusarow/mahout/core/SubExtensionInternal {
+public abstract class com/rickbusarow/mahout/DefaultTasksSubExtension : com/rickbusarow/mahout/conventions/AbstractSubExtension, com/rickbusarow/mahout/TasksSubExtension, com/rickbusarow/mahout/api/SubExtensionInternal {
 	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
 	public fun addTasksToIdeSync ([Ljava/lang/String;)V
 	public fun configure (Lorg/gradle/api/Action;)V
@@ -145,7 +145,7 @@ public abstract class com/rickbusarow/mahout/RootPlugin : com/rickbusarow/mahout
 	public fun apply (Lorg/gradle/api/Project;)V
 }
 
-public abstract interface class com/rickbusarow/mahout/TasksSubExtension : com/rickbusarow/mahout/core/SubExtension {
+public abstract interface class com/rickbusarow/mahout/TasksSubExtension : com/rickbusarow/mahout/api/SubExtension {
 	public abstract fun addTasksToIdeSync ([Ljava/lang/String;)V
 }
 
@@ -159,7 +159,7 @@ public abstract class com/rickbusarow/mahout/composite/CompositePlugin : org/gra
 	public fun apply (Lorg/gradle/api/Project;)V
 }
 
-public abstract class com/rickbusarow/mahout/composite/CompositeSubExtension : com/rickbusarow/mahout/core/SubExtension {
+public abstract class com/rickbusarow/mahout/composite/CompositeSubExtension : com/rickbusarow/mahout/api/SubExtension {
 	public fun <init> ()V
 	public fun configure (Lorg/gradle/api/Action;)V
 	public final fun excludeRequestedNames ([Ljava/lang/String;)V
@@ -203,6 +203,32 @@ public final class com/rickbusarow/mahout/composite/HasCompositeSubExtension$Def
 	public static fun composite (Lcom/rickbusarow/mahout/composite/HasCompositeSubExtension;Lorg/gradle/api/Action;)V
 }
 
+public final class com/rickbusarow/mahout/config/JavaVersion : java/io/Serializable, java/lang/Comparable {
+	public static final field Companion Lcom/rickbusarow/mahout/config/JavaVersion$Companion;
+	public static final synthetic fun box-impl (Ljava/lang/String;)Lcom/rickbusarow/mahout/config/JavaVersion;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-ykCglVg (Ljava/lang/String;)I
+	public static fun compareTo-ykCglVg (Ljava/lang/String;Ljava/lang/String;)I
+	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
+	public static final fun getJavaLanguageVersion-impl (Ljava/lang/String;)Lorg/gradle/jvm/toolchain/JavaLanguageVersion;
+	public static final fun getJavaVersionGradle-impl (Ljava/lang/String;)Lorg/gradle/api/JavaVersion;
+	public static final fun getJvmTargetKotlinConfig-impl (Ljava/lang/String;)Lorg/jetbrains/kotlin/config/JvmTarget;
+	public static final fun getJvmTargetKotlinGradle-impl (Ljava/lang/String;)Lorg/jetbrains/kotlin/gradle/dsl/JvmTarget;
+	public static final fun getMajor-impl (Ljava/lang/String;)I
+	public final fun getVersion ()Ljava/lang/String;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/lang/String;)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/lang/String;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/lang/String;
+}
+
+public final class com/rickbusarow/mahout/config/JavaVersion$Companion {
+}
+
 public abstract interface class com/rickbusarow/mahout/config/MahoutProperties : java/io/Serializable {
 	public abstract fun getGroup ()Lorg/gradle/api/provider/Provider;
 	public abstract fun getJava ()Lcom/rickbusarow/mahout/config/MahoutProperties$JavaSettingsGroup;
@@ -217,6 +243,7 @@ public abstract interface class com/rickbusarow/mahout/config/MahoutProperties$J
 	public abstract fun getJvmSource ()Lorg/gradle/api/provider/Provider;
 	public abstract fun getJvmTarget ()Lorg/gradle/api/provider/Provider;
 	public abstract fun getJvmToolchain ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getTestJvmTargets ()Lorg/gradle/api/provider/Provider;
 }
 
 public abstract interface class com/rickbusarow/mahout/config/MahoutProperties$KotlinSettingsGroup : java/io/Serializable {
@@ -278,20 +305,18 @@ public abstract interface class com/rickbusarow/mahout/config/MahoutProperties$V
 }
 
 public final class com/rickbusarow/mahout/config/MahoutPropertiesKt {
-	public static final fun getJvmSourceInt (Lcom/rickbusarow/mahout/config/MahoutProperties$JavaSettingsGroup;)Lorg/gradle/api/provider/Provider;
-	public static final fun getJvmTargetInt (Lcom/rickbusarow/mahout/config/MahoutProperties$JavaSettingsGroup;)Lorg/gradle/api/provider/Provider;
-	public static final fun getJvmToolchainInt (Lcom/rickbusarow/mahout/config/MahoutProperties$JavaSettingsGroup;)Lorg/gradle/api/provider/Provider;
-	public static final fun getMahoutProperties (Lorg/gradle/api/Project;)Lcom/rickbusarow/mahout/config/MahoutProperties;
+	public static final fun getGitUrl (Lcom/rickbusarow/mahout/config/MahoutProperties$RepositorySettingsGroup$GithubSettingsGroup;)Lorg/gradle/api/provider/Provider;
+	public static final fun getSshUrl (Lcom/rickbusarow/mahout/config/MahoutProperties$RepositorySettingsGroup$GithubSettingsGroup;)Lorg/gradle/api/provider/Provider;
 	public static final fun getUrl (Lcom/rickbusarow/mahout/config/MahoutProperties$RepositorySettingsGroup$GithubSettingsGroup;)Lorg/gradle/api/provider/Provider;
 }
 
-public abstract class com/rickbusarow/mahout/conventions/AbstractHasSubExtension : com/rickbusarow/mahout/core/HasObjectFactory {
+public abstract class com/rickbusarow/mahout/conventions/AbstractHasSubExtension : com/rickbusarow/mahout/api/HasObjectFactory {
 	public fun <init> ()V
 	protected final fun subExtension (Ljava/lang/Class;)Lkotlin/Lazy;
 	protected final fun subExtension (Lkotlin/reflect/KClass;)Lkotlin/Lazy;
 }
 
-public abstract class com/rickbusarow/mahout/conventions/AbstractSubExtension : com/rickbusarow/mahout/core/SubExtensionInternal, org/gradle/api/model/ObjectFactory, org/gradle/api/plugins/ExtensionAware {
+public abstract class com/rickbusarow/mahout/conventions/AbstractSubExtension : com/rickbusarow/mahout/api/SubExtensionInternal, org/gradle/api/model/ObjectFactory, org/gradle/api/plugins/ExtensionAware {
 	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
 	public fun dependencyCollector ()Lorg/gradle/api/artifacts/dsl/DependencyCollector;
 	public fun directoryProperty ()Lorg/gradle/api/file/DirectoryProperty;
@@ -356,10 +381,13 @@ public final class com/rickbusarow/mahout/conventions/BuildLogicShadowExtensionH
 	public static fun shadow (Lcom/rickbusarow/mahout/conventions/BuildLogicShadowExtensionHook;Z)V
 }
 
-public abstract class com/rickbusarow/mahout/conventions/FixPlugin : org/gradle/api/Plugin {
+public final class com/rickbusarow/mahout/conventions/CheckPluginKt {
+	public static final fun providers (Lorg/gradle/api/tasks/TaskCollection;Lorg/gradle/api/provider/ProviderFactory;)Lorg/gradle/api/provider/Provider;
+	public static final fun providers (Lorg/gradle/api/tasks/TaskCollection;Lorg/gradle/api/provider/ProviderFactory;Lkotlin/jvm/functions/Function1;)Lorg/gradle/api/provider/Provider;
+}
+
+public abstract class com/rickbusarow/mahout/conventions/CleanGradleTask : org/gradle/api/tasks/Delete, com/rickbusarow/mahout/api/MahoutTask {
 	public fun <init> ()V
-	public synthetic fun apply (Ljava/lang/Object;)V
-	public fun apply (Lorg/gradle/api/Project;)V
 }
 
 public abstract class com/rickbusarow/mahout/conventions/CleanPlugin : org/gradle/api/Plugin {
@@ -371,7 +399,7 @@ public abstract class com/rickbusarow/mahout/conventions/CleanPlugin : org/gradl
 public abstract interface class com/rickbusarow/mahout/conventions/CodeGenSubExtension {
 }
 
-public abstract class com/rickbusarow/mahout/conventions/DefaultGitHubSubExtension : com/rickbusarow/mahout/conventions/AbstractSubExtension, com/rickbusarow/mahout/conventions/GitHubSubExtension, com/rickbusarow/mahout/core/SubExtensionInternal, org/gradle/api/reflect/HasPublicType {
+public abstract class com/rickbusarow/mahout/conventions/DefaultGitHubSubExtension : com/rickbusarow/mahout/conventions/AbstractSubExtension, com/rickbusarow/mahout/api/SubExtensionInternal, com/rickbusarow/mahout/conventions/GitHubSubExtension, org/gradle/api/reflect/HasPublicType {
 	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
 	public fun configure (Lorg/gradle/api/Action;)V
 	public fun getConnection ()Lorg/gradle/api/provider/Provider;
@@ -383,31 +411,51 @@ public abstract class com/rickbusarow/mahout/conventions/DefaultGitHubSubExtensi
 	public fun getUrl ()Lorg/gradle/api/provider/Provider;
 }
 
-public abstract class com/rickbusarow/mahout/conventions/DefaultJavaSubExtension : com/rickbusarow/mahout/conventions/AbstractSubExtension, com/rickbusarow/mahout/conventions/JavaSubExtension, com/rickbusarow/mahout/core/SubExtensionInternal {
+public abstract class com/rickbusarow/mahout/conventions/DefaultJavaSubExtension : com/rickbusarow/mahout/conventions/AbstractSubExtension, com/rickbusarow/mahout/api/SubExtensionInternal, com/rickbusarow/mahout/conventions/JavaSubExtension {
 	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
 	public fun configure (Lorg/gradle/api/Action;)V
 	public final fun getJvmSource ()Lorg/gradle/api/provider/Property;
-	public fun getJvmSourceInt ()Lorg/gradle/api/provider/Provider;
+	public synthetic fun getJvmSource ()Lorg/gradle/api/provider/Provider;
 	public final fun getJvmTarget ()Lorg/gradle/api/provider/Property;
-	public fun getJvmTargetInt ()Lorg/gradle/api/provider/Provider;
+	public synthetic fun getJvmTarget ()Lorg/gradle/api/provider/Provider;
 	public final fun getJvmToolchain ()Lorg/gradle/api/provider/Property;
-	public fun getJvmToolchainInt ()Lorg/gradle/api/provider/Provider;
+	public synthetic fun getJvmToolchain ()Lorg/gradle/api/provider/Provider;
+	public final fun getTestJvmTargets ()Lorg/gradle/api/provider/ListProperty;
+	public synthetic fun getTestJvmTargets ()Lorg/gradle/api/provider/Provider;
 }
 
-public abstract class com/rickbusarow/mahout/conventions/DefaultKotlinJvmSubExtension : com/rickbusarow/mahout/conventions/DefaultKotlinSubExtension, com/rickbusarow/mahout/conventions/KotlinJvmSubExtension, com/rickbusarow/mahout/core/SubExtensionInternal {
+public abstract class com/rickbusarow/mahout/conventions/DefaultKotlinJvmSubExtension : com/rickbusarow/mahout/conventions/DefaultKotlinSubExtension, com/rickbusarow/mahout/api/SubExtensionInternal, com/rickbusarow/mahout/conventions/KotlinJvmSubExtension {
 	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
 }
 
-public abstract class com/rickbusarow/mahout/conventions/DefaultKotlinMultiplatformSubExtension : com/rickbusarow/mahout/conventions/DefaultKotlinSubExtension, com/rickbusarow/mahout/conventions/KotlinMultiplatformSubExtension, com/rickbusarow/mahout/core/SubExtensionInternal {
+public abstract class com/rickbusarow/mahout/conventions/DefaultKotlinMultiplatformSubExtension : com/rickbusarow/mahout/conventions/DefaultKotlinSubExtension, com/rickbusarow/mahout/api/SubExtensionInternal, com/rickbusarow/mahout/conventions/KotlinMultiplatformSubExtension {
 	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
 }
 
-public abstract class com/rickbusarow/mahout/conventions/DefaultKotlinSubExtension : com/rickbusarow/mahout/conventions/AbstractSubExtension, com/rickbusarow/mahout/conventions/KotlinSubExtension, com/rickbusarow/mahout/core/SubExtensionInternal {
+public abstract class com/rickbusarow/mahout/conventions/DefaultKotlinSubExtension : com/rickbusarow/mahout/conventions/AbstractSubExtension, com/rickbusarow/mahout/api/SubExtensionInternal, com/rickbusarow/mahout/conventions/KotlinSubExtension {
 	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
 	public fun configure (Lorg/gradle/api/Action;)V
 	public fun getAllWarningsAsErrors ()Lorg/gradle/api/provider/Property;
+	public synthetic fun getAllWarningsAsErrors ()Lorg/gradle/api/provider/Provider;
 	public fun getApiLevel ()Lorg/gradle/api/provider/Property;
+	public synthetic fun getApiLevel ()Lorg/gradle/api/provider/Provider;
 	public fun getExplicitApi ()Lorg/gradle/api/provider/Property;
+	public synthetic fun getExplicitApi ()Lorg/gradle/api/provider/Provider;
+}
+
+public abstract class com/rickbusarow/mahout/conventions/DefaultMahoutPublishTask : org/gradle/api/DefaultTask, com/rickbusarow/mahout/conventions/MahoutPublishTask {
+	public field publication Lorg/gradle/api/publish/maven/MavenPublication;
+	public fun <init> ()V
+	public fun getPublication ()Lorg/gradle/api/publish/maven/MavenPublication;
+	public fun setPublication (Lorg/gradle/api/publish/maven/MavenPublication;)V
+}
+
+public abstract class com/rickbusarow/mahout/conventions/DeleteEmptyDirsTask : com/rickbusarow/mahout/conventions/MahoutCleanTask, com/rickbusarow/mahout/api/MahoutTask {
+	public fun <init> ()V
+}
+
+public abstract class com/rickbusarow/mahout/conventions/DeleteOrphanedProjectDirsTask : com/rickbusarow/mahout/conventions/MahoutCleanTask, com/rickbusarow/mahout/api/MahoutTask {
+	public fun <init> ()V
 }
 
 public abstract class com/rickbusarow/mahout/conventions/DependencyGuardConventionPlugin : org/gradle/api/Plugin {
@@ -428,13 +476,19 @@ public abstract class com/rickbusarow/mahout/conventions/DokkaVersionArchivePlug
 	public fun apply (Lorg/gradle/api/Project;)V
 }
 
+public abstract class com/rickbusarow/mahout/conventions/FixPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
 public abstract class com/rickbusarow/mahout/conventions/GitHubReleasePlugin : org/gradle/api/Plugin {
 	public fun <init> ()V
 	public synthetic fun apply (Ljava/lang/Object;)V
 	public fun apply (Lorg/gradle/api/Project;)V
 }
 
-public abstract interface class com/rickbusarow/mahout/conventions/GitHubSubExtension : com/rickbusarow/mahout/core/SubExtension {
+public abstract interface class com/rickbusarow/mahout/conventions/GitHubSubExtension : com/rickbusarow/mahout/api/SubExtension {
 	public abstract fun getConnection ()Lorg/gradle/api/provider/Provider;
 	public abstract fun getDefaultBranch ()Lorg/gradle/api/provider/Property;
 	public abstract fun getDeveloperConnection ()Lorg/gradle/api/provider/Provider;
@@ -463,6 +517,11 @@ public abstract class com/rickbusarow/mahout/conventions/GradleTestsPlugin : org
 }
 
 public final class com/rickbusarow/mahout/conventions/GradleTestsPlugin$Companion {
+}
+
+public final class com/rickbusarow/mahout/conventions/GradleTestsPluginKt {
+	public static final fun getKotlinJvmExtension (Lorg/gradle/api/Project;)Lorg/jetbrains/kotlin/gradle/dsl/KotlinJvmProjectExtension;
+	public static final fun kotlinJvmExtensionSafe (Lorg/gradle/api/Project;Lorg/gradle/api/Action;)V
 }
 
 public abstract interface class com/rickbusarow/mahout/conventions/HasCodeGenExtension {
@@ -516,17 +575,21 @@ public abstract interface class com/rickbusarow/mahout/conventions/HasPokoExtens
 	public abstract fun getPoko ()Lcom/rickbusarow/mahout/conventions/PokoExtension;
 }
 
-public abstract interface class com/rickbusarow/mahout/conventions/JavaSubExtension : com/rickbusarow/mahout/core/SubExtension {
+public abstract interface class com/rickbusarow/mahout/conventions/JavaSubExtension : com/rickbusarow/mahout/api/SubExtension, com/rickbusarow/mahout/config/MahoutProperties$JavaSettingsGroup {
 	public abstract fun getJvmSource ()Lorg/gradle/api/provider/Property;
-	public abstract fun getJvmSourceInt ()Lorg/gradle/api/provider/Provider;
 	public abstract fun getJvmTarget ()Lorg/gradle/api/provider/Property;
-	public abstract fun getJvmTargetInt ()Lorg/gradle/api/provider/Provider;
 	public abstract fun getJvmToolchain ()Lorg/gradle/api/provider/Property;
-	public abstract fun getJvmToolchainInt ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getTestJvmTargets ()Lorg/gradle/api/provider/ListProperty;
 }
 
 public final class com/rickbusarow/mahout/conventions/JavaSubExtension$DefaultImpls {
 	public static fun configure (Lcom/rickbusarow/mahout/conventions/JavaSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract class com/rickbusarow/mahout/conventions/JdkVersionsConventionPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
 }
 
 public abstract interface class com/rickbusarow/mahout/conventions/KotlinExtension : java/io/Serializable {
@@ -566,9 +629,10 @@ public final class com/rickbusarow/mahout/conventions/KotlinMultiplatformSubExte
 	public static fun configure (Lcom/rickbusarow/mahout/conventions/KotlinMultiplatformSubExtension;Lorg/gradle/api/Action;)V
 }
 
-public abstract interface class com/rickbusarow/mahout/conventions/KotlinSubExtension : com/rickbusarow/mahout/core/SubExtension {
+public abstract interface class com/rickbusarow/mahout/conventions/KotlinSubExtension : com/rickbusarow/mahout/api/SubExtension, com/rickbusarow/mahout/config/MahoutProperties$KotlinSettingsGroup {
 	public abstract fun getAllWarningsAsErrors ()Lorg/gradle/api/provider/Property;
 	public abstract fun getApiLevel ()Lorg/gradle/api/provider/Property;
+	public abstract fun getCompilerArgs ()Lorg/gradle/api/provider/ListProperty;
 	public abstract fun getExplicitApi ()Lorg/gradle/api/provider/Property;
 }
 
@@ -588,6 +652,18 @@ public abstract class com/rickbusarow/mahout/conventions/KtLintConventionPlugin 
 	public fun <init> ()V
 	public synthetic fun apply (Ljava/lang/Object;)V
 	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/rickbusarow/mahout/conventions/MahoutCleanTask : org/gradle/api/tasks/Delete, com/rickbusarow/mahout/api/MahoutTask {
+	public fun <init> ()V
+}
+
+public abstract interface class com/rickbusarow/mahout/conventions/MahoutPublishTask : com/rickbusarow/mahout/api/MahoutTask {
+	public abstract fun getPublication ()Lorg/gradle/api/publish/maven/MavenPublication;
+}
+
+public abstract class com/rickbusarow/mahout/conventions/MahoutTestJdkTask : org/gradle/api/tasks/testing/Test, com/rickbusarow/mahout/api/MahoutCheckTask {
+	public fun <init> ()V
 }
 
 public abstract interface class com/rickbusarow/mahout/conventions/PokoExtension {
@@ -614,18 +690,15 @@ public abstract class com/rickbusarow/mahout/conventions/SpotlessConventionPlugi
 
 public class com/rickbusarow/mahout/conventions/SubExtensionRegistry {
 	public fun <init> (Lorg/gradle/api/model/ObjectFactory;)V
-	public fun equals (Ljava/lang/Object;)Z
 	public final fun getObjects ()Lorg/gradle/api/model/ObjectFactory;
 	public final fun getSchema ()Ljava/util/Map;
-	public fun hashCode ()I
-	public final fun register (Ljava/lang/String;Ljava/lang/Class;Ljava/lang/Class;)Lcom/rickbusarow/mahout/core/SubExtension;
-	public fun toString ()Ljava/lang/String;
+	public final fun register (Ljava/lang/String;Ljava/lang/Class;Ljava/lang/Class;)Lcom/rickbusarow/mahout/api/SubExtension;
 }
 
 public final class com/rickbusarow/mahout/conventions/SubExtensionRegistry$SubExtensionElement {
-	public fun <init> (Ljava/lang/Class;Ljava/lang/String;Lcom/rickbusarow/mahout/core/SubExtension;)V
+	public fun <init> (Ljava/lang/Class;Ljava/lang/String;Lcom/rickbusarow/mahout/api/SubExtension;)V
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getInstance ()Lcom/rickbusarow/mahout/core/SubExtension;
+	public final fun getInstance ()Lcom/rickbusarow/mahout/api/SubExtension;
 	public final fun getName ()Ljava/lang/String;
 	public final fun getPublicType ()Ljava/lang/Class;
 	public fun hashCode ()I
@@ -638,17 +711,8 @@ public abstract class com/rickbusarow/mahout/conventions/TestConventionPlugin : 
 	public fun apply (Lorg/gradle/api/Project;)V
 }
 
-public abstract interface class com/rickbusarow/mahout/core/HasObjectFactory {
-	public abstract fun getObjects ()Lorg/gradle/api/model/ObjectFactory;
-}
-
 public final class com/rickbusarow/mahout/core/PropertiesKt {
-	public static final fun getGITHUB_OWNER (Lorg/gradle/api/Project;)Ljava/lang/String;
-	public static final fun getGITHUB_OWNER_REPO (Lorg/gradle/api/Project;)Ljava/lang/String;
-	public static final fun getGITHUB_REPOSITORY (Lorg/gradle/api/Project;)Ljava/lang/String;
 	public static final fun getPrefixedPropertyName (Lorg/gradle/api/Project;Ljava/lang/String;)Ljava/lang/String;
-	public static final fun getVERSION_NAME (Lorg/gradle/api/Project;)Ljava/lang/String;
-	public static final fun getVersionIsSnapshot (Lorg/gradle/api/Project;)Z
 }
 
 public final class com/rickbusarow/mahout/core/SimpleMultimap : java/io/Serializable {
@@ -686,15 +750,8 @@ public final class com/rickbusarow/mahout/core/StringKt {
 	public static final fun toStringPretty (Ljava/lang/Object;)Ljava/lang/String;
 }
 
-public abstract interface class com/rickbusarow/mahout/core/SubExtension : java/io/Serializable, org/gradle/api/plugins/ExtensionAware {
-	public abstract fun configure (Lorg/gradle/api/Action;)V
-}
-
-public final class com/rickbusarow/mahout/core/SubExtension$DefaultImpls {
-	public static fun configure (Lcom/rickbusarow/mahout/core/SubExtension;Lorg/gradle/api/Action;)V
-}
-
-public abstract interface class com/rickbusarow/mahout/core/SubExtensionInternal : com/rickbusarow/mahout/core/HasObjectFactory {
+public final class com/rickbusarow/mahout/core/TaskCollectionKt {
+	public static final fun namedOrNull (Lorg/gradle/api/tasks/TaskCollection;Ljava/lang/String;)Lorg/gradle/api/NamedDomainObjectCollectionSchema$NamedDomainObjectSchema;
 }
 
 public abstract class com/rickbusarow/mahout/curator/AbstractCuratorTask : com/rickbusarow/mahout/api/DefaultMahoutTask {
@@ -741,14 +798,14 @@ public final class com/rickbusarow/mahout/curator/ArtifactConfig$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public class com/rickbusarow/mahout/curator/CuratorCheckTask : com/rickbusarow/mahout/curator/AbstractCuratorTask, com/rickbusarow/mahout/api/MahoutCheckTask {
+public abstract class com/rickbusarow/mahout/curator/CuratorCheckTask : com/rickbusarow/mahout/curator/AbstractCuratorTask, com/rickbusarow/mahout/api/MahoutCheckTask {
 	public fun <init> (Lorg/gradle/api/model/ObjectFactory;Lorg/gradle/api/file/ProjectLayout;)V
 	public final fun getLenientOs ()Z
 	public final fun run ()V
 	public final fun setLenientOs (Z)V
 }
 
-public class com/rickbusarow/mahout/curator/CuratorDumpTask : com/rickbusarow/mahout/curator/AbstractCuratorTask, com/rickbusarow/mahout/api/MahoutFixTask {
+public abstract class com/rickbusarow/mahout/curator/CuratorDumpTask : com/rickbusarow/mahout/curator/AbstractCuratorTask, com/rickbusarow/mahout/api/MahoutFixTask {
 	public fun <init> (Lorg/gradle/api/file/ProjectLayout;)V
 	public final fun run ()V
 }
@@ -759,7 +816,7 @@ public abstract class com/rickbusarow/mahout/curator/CuratorPlugin : org/gradle/
 	public fun apply (Lorg/gradle/api/Project;)V
 }
 
-public abstract class com/rickbusarow/mahout/dokka/DefaultDokkaSubExtension : com/rickbusarow/mahout/conventions/AbstractSubExtension, com/rickbusarow/mahout/core/SubExtensionInternal, com/rickbusarow/mahout/dokka/DokkaSubExtension {
+public abstract class com/rickbusarow/mahout/dokka/DefaultDokkaSubExtension : com/rickbusarow/mahout/conventions/AbstractSubExtension, com/rickbusarow/mahout/api/SubExtensionInternal, com/rickbusarow/mahout/dokka/DokkaSubExtension {
 	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
 	public fun configure (Lorg/gradle/api/Action;)V
 	public fun getDokkaVersion ()Lorg/gradle/api/provider/Property;
@@ -767,7 +824,7 @@ public abstract class com/rickbusarow/mahout/dokka/DefaultDokkaSubExtension : co
 	public fun getGenerateTaskWorkerMinHeapSize ()Lorg/gradle/api/provider/Property;
 }
 
-public abstract interface class com/rickbusarow/mahout/dokka/DokkaSubExtension : com/rickbusarow/mahout/core/SubExtension {
+public abstract interface class com/rickbusarow/mahout/dokka/DokkaSubExtension : com/rickbusarow/mahout/api/SubExtension {
 	public abstract fun getDokkaVersion ()Lorg/gradle/api/provider/Property;
 	public abstract fun getGenerateTaskWorkerMaxHeapSize ()Lorg/gradle/api/provider/Property;
 	public abstract fun getGenerateTaskWorkerMinHeapSize ()Lorg/gradle/api/provider/Property;
@@ -820,7 +877,7 @@ public class com/rickbusarow/mahout/publishing/DefaultPublishingGradlePluginHand
 	public fun publishPlugin (Lorg/gradle/api/NamedDomainObjectProvider;)V
 }
 
-public abstract class com/rickbusarow/mahout/publishing/DefaultPublishingMavenSubExtension : com/rickbusarow/mahout/conventions/AbstractSubExtension, com/rickbusarow/mahout/core/SubExtensionInternal, com/rickbusarow/mahout/publishing/PublishingMavenSubExtension {
+public abstract class com/rickbusarow/mahout/publishing/DefaultPublishingMavenSubExtension : com/rickbusarow/mahout/conventions/AbstractSubExtension, com/rickbusarow/mahout/api/SubExtensionInternal, com/rickbusarow/mahout/publishing/PublishingMavenSubExtension {
 	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
 	public fun configure (Lorg/gradle/api/Action;)V
 	public fun getDefaultPom ()Lorg/gradle/api/publish/maven/internal/publication/DefaultMavenPom;
@@ -846,7 +903,7 @@ public abstract interface class com/rickbusarow/mahout/publishing/PublishingGrad
 	public abstract fun publishPlugin (Lorg/gradle/api/NamedDomainObjectProvider;)V
 }
 
-public abstract interface class com/rickbusarow/mahout/publishing/PublishingMavenSubExtension : com/rickbusarow/mahout/core/SubExtension {
+public abstract interface class com/rickbusarow/mahout/publishing/PublishingMavenSubExtension : com/rickbusarow/mahout/api/SubExtension {
 	public abstract fun getDefaultPom ()Lorg/gradle/api/publish/maven/internal/publication/DefaultMavenPom;
 	public abstract fun publishMaven (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;)V
 }
@@ -855,3 +912,10 @@ public final class com/rickbusarow/mahout/publishing/PublishingMavenSubExtension
 	public static fun configure (Lcom/rickbusarow/mahout/publishing/PublishingMavenSubExtension;Lorg/gradle/api/Action;)V
 	public static synthetic fun publishMaven$default (Lcom/rickbusarow/mahout/publishing/PublishingMavenSubExtension;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;ILjava/lang/Object;)V
 }
+
+public final class org/gradle/kotlin/dsl/MahoutPropertiesDslKt {
+	public static final fun getMahoutProperties (Lorg/gradle/api/Project;)Lcom/rickbusarow/mahout/config/MahoutProperties;
+	public static final fun set (Lorg/gradle/api/provider/Property;I)V
+	public static final fun set (Lorg/gradle/api/provider/Property;Ljava/lang/String;)V
+}
+

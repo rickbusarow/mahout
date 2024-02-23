@@ -36,6 +36,9 @@ public abstract interface class com/rickbusarow/mahout/api/MahoutCheckTask : com
 public abstract interface class com/rickbusarow/mahout/api/MahoutCodeGeneratorTask : com/rickbusarow/mahout/api/MahoutTask {
 }
 
+public abstract interface annotation class com/rickbusarow/mahout/api/MahoutDsl : java/lang/annotation/Annotation {
+}
+
 public abstract interface class com/rickbusarow/mahout/api/MahoutFixTask : com/rickbusarow/mahout/api/MahoutTask {
 }
 
@@ -61,3 +64,4 @@ public final class com/rickbusarow/mahout/api/SubExtension$DefaultImpls {
 
 public abstract interface class com/rickbusarow/mahout/api/SubExtensionInternal : com/rickbusarow/mahout/api/HasObjectFactory {
 }
+

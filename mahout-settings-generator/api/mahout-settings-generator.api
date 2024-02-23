@@ -15,3 +15,4 @@ public abstract class com/rickbusarow/mahout/generator/MahoutSymbolProcessor : c
 	protected final fun getCodeGenerator ()Lcom/google/devtools/ksp/processing/CodeGenerator;
 	protected final fun getLogger ()Lcom/google/devtools/ksp/processing/KSPLogger;
 }
+

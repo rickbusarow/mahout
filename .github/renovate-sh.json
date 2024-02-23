@@ -2,9 +2,14 @@
   "onboardingBranch": "github-renovate/configure",
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
-  "repositories": ["rickbusarow/mahout"],
+  "repositories": [
+    "rickbusarow/mahout"
+  ],
   "dependencyDashboardTitle": "Dependency Dashboard self-hosted",
   "onboarding": true,
   "branchPrefix": "github-renovate/",
-  "platform": "github"
+  "platform": "github",
+  "allowedPostUpgradeCommands": [
+    "^./gradlew fix$"
+  ]
 }

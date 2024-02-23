@@ -25,7 +25,9 @@
       ]
     },
     {
-      "matchPackageNames": ["com.rickbusarow.module-check"],
+      "matchPackageNames": [
+        "com.rickbusarow.module-check"
+      ],
       "automergeStrategy": "rebase",
       "matchRepositories": [
         "repo.maven.apache.org/maven2",
@@ -48,6 +50,15 @@
       "automergeType": "pr"
     }
   ],
+  "postUpgradeTasks": {
+    "commands": [
+      "./gradlew fix"
+    ],
+    "fileFilters": [
+      "**/*"
+    ],
+    "executionMode": "update"
+  },
   "labels": [
     "dependencies",
     "automerge"

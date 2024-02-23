@@ -26,7 +26,6 @@ import com.rickbusarow.mahout.conventions.KtLintConventionPlugin
 import com.rickbusarow.mahout.conventions.TestConventionPlugin
 import com.rickbusarow.mahout.dokka.DokkatooConventionPlugin
 import com.rickbusarow.mahout.publishing.MahoutPublishPlugin
-import com.rickbusarow.mahout.dokka.DokkatooConventionPlugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaBasePlugin

@@ -23,8 +23,6 @@ import com.rickbusarow.mahout.composite.CompositeSubExtension.RequestedTask
 import com.rickbusarow.mahout.composite.CompositeSubExtension.ResolvedTask
 import com.rickbusarow.mahout.core.namedOrNull
 import com.rickbusarow.mahout.core.stdlib.splitInclusive
-import com.rickbusarow.mahout.taskWillResolve
-import com.rickbusarow.mahout.taskWillResolveInAny
 import modulecheck.utils.mapToSet
 import org.gradle.api.Plugin
 import org.gradle.api.Project

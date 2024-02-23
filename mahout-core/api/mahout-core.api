@@ -59,3 +59,9 @@ public final class com/rickbusarow/mahout/core/stdlib/StringKt {
 	public static final fun remove (Ljava/lang/String;[Lkotlin/text/Regex;)Ljava/lang/String;
 	public static final fun trimLineEnds (Ljava/lang/String;)Ljava/lang/String;
 }
+
+public final class org/gradle/kotlin/dsl/ProjectDslKt {
+	public static final fun addTasksToStartParameter (Lorg/gradle/api/Project;Ljava/lang/Iterable;)V
+	public static final fun addTasksToStartParameter (Lorg/gradle/api/Project;[Ljava/lang/String;)V
+}
+
