@@ -5,7 +5,6 @@
   "repositories": ["rickbusarow/mahout"],
   "dependencyDashboardTitle": "Dependency Dashboard self-hosted",
   "onboarding": true,
-  "allowedPostUpgradeCommands": ["^./gradlew fix$"],
   "branchPrefix": "github-renovate/",
   "platform": "github"
 }

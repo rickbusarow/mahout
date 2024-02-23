@@ -48,11 +48,6 @@
       "automergeType": "pr"
     }
   ],
-  "postUpgradeTasks": {
-    "fileFilters": ["**/*"],
-    "executionMode": "update",
-    "commands": ["./gradlew fix"]
-  },
   "labels": [
     "dependencies",
     "automerge"
