@@ -4,6 +4,8 @@ kotlin = "1.9.22"
 drewHamilton-poko = "0.15.2"
 ksp = "1.9.22-1.0.17"
 
+apache-commons = "3.14.0"
+
 benManes-versions = "0.51.0"
 buildconfig = "5.3.5"
 dependencyAnalysis = "1.30.0"
@@ -69,6 +71,8 @@ vanniktech-publish = { id = "com.vanniktech.maven.publish", version.ref = "vanni
 vanniktech-publish-base = { id = "com.vanniktech.maven.publish.base", version.ref = "vanniktech-publish" }
 
 [libraries]
+
+apache-commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "apache-commons" }
 
 benManes-versions = { module = "com.github.ben-manes:gradle-versions-plugin", version.ref = "benManes-versions" }
 

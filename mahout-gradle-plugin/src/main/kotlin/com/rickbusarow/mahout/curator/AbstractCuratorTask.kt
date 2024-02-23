@@ -21,13 +21,16 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import org.apache.tools.ant.taskdefs.condition.Os
 import org.gradle.api.Project
+import org.gradle.api.attributes.java.TargetJvmVersion
 import org.gradle.api.file.ProjectLayout
 import org.gradle.api.file.RegularFile
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.publish.PublishingExtension
+import org.gradle.api.publish.internal.component.FeatureConfigurationVariant
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.OutputFile
+import org.gradle.jvm.component.internal.DefaultJvmSoftwareComponent
 
 /** */
 public abstract class AbstractCuratorTask(
@@ -74,6 +77,30 @@ public abstract class AbstractCuratorTask(
 
     val map = subprojects
       .flatMap { sub ->
+
+        (sub.components.findByName("java") as? DefaultJvmSoftwareComponent)?.let { j ->
+
+          for (variant in j.usages) {
+            variant as FeatureConfigurationVariant
+
+            variant.attributes
+
+            val attr = TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE
+
+            println(
+              """
+             |############################################# variant  --  ${variant.attributes.getAttribute(
+                attr
+              )}
+             |${variant.attributes.asMap() .toList() .joinToString("\n"){(k,v) ->
+                "${k.name.padStart(40)} : ${k::class.java}    -- $v"
+              }}
+             |#############################################
+              """.trimMargin()
+            )
+          }
+        } ?: println("no java component found in ${sub.path}")
+
         sub.extensions.findByType(PublishingExtension::class.java)
           ?.publications
           ?.filterIsInstance<MavenPublication>()
@@ -86,6 +113,9 @@ public abstract class AbstractCuratorTask(
         val artifactId: String? = publication.artifactId
         val pomDescription: String? = publication.pom.description.orNull
         val packaging: String? = publication.pom.packaging
+
+        publication.artifacts.forEach { a ->
+        }
 
         @Suppress("MagicNumber")
         listOfNotNull(group, artifactId, pomDescription, packaging)
