@@ -15,12 +15,14 @@
 
 package com.rickbusarow.mahout.core
 
+import org.gradle.api.NamedDomainObjectProvider
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.tasks.TaskContainer
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.jvm.toolchain.JavaToolchainService
 import org.gradle.language.base.plugins.LifecycleBasePlugin
+import kotlin.reflect.KProperty
 
 internal val Project.javaToolchainService: JavaToolchainService
   get() = extensions.getByType(JavaToolchainService::class.java)
@@ -30,3 +32,12 @@ internal val TaskContainer.clean: TaskProvider<Task>
 
 internal val TaskContainer.check: TaskProvider<Task>
   get() = named(LifecycleBasePlugin.CHECK_TASK_NAME)
+
+/** */
+public inline operator fun <T : Any, reified U : T> NamedDomainObjectProvider<out T>.getValue(
+  thisRef: Any?,
+  property: KProperty<*>
+): U = get() as U
+
+/** */
+public operator fun <T : Any> T.provideDelegate(receiver: Any?, property: KProperty<*>): T = this
