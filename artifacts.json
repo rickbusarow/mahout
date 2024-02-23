@@ -64,6 +64,15 @@
   },
   {
     "gradlePath": ":mahout-gradle-plugin",
+    "group": "com.rickbusarow.mahout.convention.feature-variants",
+    "artifactId": "com.rickbusarow.mahout.convention.feature-variants.gradle.plugin",
+    "description": "                ",
+    "packaging": "pom",
+    "javaVersion": "11",
+    "publicationName": "convention.feature-variantsPluginMarkerMaven"
+  },
+  {
+    "gradlePath": ":mahout-gradle-plugin",
     "group": "com.rickbusarow.mahout.convention.fix",
     "artifactId": "com.rickbusarow.mahout.convention.fix.gradle.plugin",
     "description": "                ",
