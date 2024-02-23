@@ -18,13 +18,13 @@ package com.rickbusarow.mahout.conventions
 import com.rickbusarow.kgx.applyOnce
 import com.rickbusarow.kgx.dependsOn
 import com.rickbusarow.kgx.javaExtension
+import com.rickbusarow.kgx.kotlinJvmExtensionSafe
 import com.rickbusarow.kgx.names.DomainObjectName
 import com.rickbusarow.kgx.names.SourceSetName
 import com.rickbusarow.kgx.names.SourceSetName.Companion.addPrefix
 import com.rickbusarow.kgx.names.SourceSetName.Companion.isMain
 import com.rickbusarow.kgx.project
 import com.rickbusarow.kgx.withJavaGradlePluginPlugin
-import com.rickbusarow.kgx.withKotlinJvmPlugin
 import com.rickbusarow.mahout.api.MahoutTask
 import com.rickbusarow.mahout.core.stdlib.capitalize
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
@@ -43,8 +43,6 @@ import org.gradle.api.tasks.SourceSet
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.gradle.plugin.devel.GradlePluginDevelopmentExtension
 import org.gradle.testing.base.TestingExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
-import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 
 /** */
 public interface GradleTestsExtension {
@@ -66,7 +64,7 @@ public interface GradleTestsExtension {
  * - declare that source set as a "test" source set in the IDE.
  * - register a `gradleTest` task that runs the tests in the `gradleTest` source set.
  * - make the `check` task depend upon the `gradleTest` task.
- * - make the `gradleTest` task depend upon the `publishToBuildM2` task..
+ * - make the `gradleTest` task depend upon the `publishToBuildM2` task.
  */
 public abstract class GradleTestsPlugin : Plugin<Project> {
 
@@ -146,20 +144,13 @@ public abstract class GradleTestsPlugin : Plugin<Project> {
   private fun Project.javaSourceSet(name: String): SourceSet {
     return javaExtension.sourceSets.getByName(name)
   }
-
-  public companion object {
-    private const val GRADLE_TEST = "gradleTest"
-    internal const val PUBLISH_TO_BUILD_M2 = "publishToBuildM2"
-  }
 }
 
-public interface MahoutPublishTask : MahoutTask {
-  public val publication: MavenPublication
-}
+/** */
+public interface MahoutPublishTask : MahoutTask
 
-public abstract class DefaultMahoutPublishTask : DefaultTask(), MahoutPublishTask {
-  override lateinit var publication: MavenPublication
-}
+/** */
+public abstract class DefaultMahoutPublishTask : DefaultTask(), MahoutPublishTask
 
 internal fun MavenPublication.isPluginMarker(): Boolean = name.endsWith("PluginMarkerMaven")
 internal fun MavenPublication.nameWithoutMarker(): String = name.removeSuffix("PluginMarkerMaven")
@@ -179,13 +170,6 @@ internal fun Project.gradlePluginExtensionSafe(action: Action<GradlePluginDevelo
   plugins.withJavaGradlePluginPlugin {
     action.execute(gradlePluginExtension)
   }
-}
-
-public val Project.kotlinJvmExtension: KotlinJvmProjectExtension
-  get() = kotlinExtension as KotlinJvmProjectExtension
-
-public fun Project.kotlinJvmExtensionSafe(action: Action<KotlinJvmProjectExtension>) {
-  plugins.withKotlinJvmPlugin { action.execute(kotlinJvmExtension) }
 }
 
 internal val Project.mavenPublications: NamedDomainObjectSet<MavenPublication>

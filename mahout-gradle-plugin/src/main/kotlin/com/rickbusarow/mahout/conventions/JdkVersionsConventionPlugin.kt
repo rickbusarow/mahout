@@ -38,7 +38,7 @@ public abstract class JdkVersionsConventionPlugin : Plugin<Project> {
 
     val javaSettings = target.mahoutProperties.java
 
-    target.plugins.withJavaBasePlugin {
+    target.plugins.withJavaBasePlugin { _ ->
       val javaExtension = target.javaExtension
 
       javaExtension.toolchain {

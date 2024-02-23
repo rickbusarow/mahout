@@ -381,11 +381,6 @@ public final class com/rickbusarow/mahout/conventions/BuildLogicShadowExtensionH
 	public static fun shadow (Lcom/rickbusarow/mahout/conventions/BuildLogicShadowExtensionHook;Z)V
 }
 
-public final class com/rickbusarow/mahout/conventions/CheckPluginKt {
-	public static final fun providers (Lorg/gradle/api/tasks/TaskCollection;Lorg/gradle/api/provider/ProviderFactory;)Lorg/gradle/api/provider/Provider;
-	public static final fun providers (Lorg/gradle/api/tasks/TaskCollection;Lorg/gradle/api/provider/ProviderFactory;Lkotlin/jvm/functions/Function1;)Lorg/gradle/api/provider/Provider;
-}
-
 public abstract class com/rickbusarow/mahout/conventions/CleanGradleTask : org/gradle/api/tasks/Delete, com/rickbusarow/mahout/api/MahoutTask {
 	public fun <init> ()V
 }
@@ -444,10 +439,7 @@ public abstract class com/rickbusarow/mahout/conventions/DefaultKotlinSubExtensi
 }
 
 public abstract class com/rickbusarow/mahout/conventions/DefaultMahoutPublishTask : org/gradle/api/DefaultTask, com/rickbusarow/mahout/conventions/MahoutPublishTask {
-	public field publication Lorg/gradle/api/publish/maven/MavenPublication;
 	public fun <init> ()V
-	public fun getPublication ()Lorg/gradle/api/publish/maven/MavenPublication;
-	public fun setPublication (Lorg/gradle/api/publish/maven/MavenPublication;)V
 }
 
 public abstract class com/rickbusarow/mahout/conventions/DeleteEmptyDirsTask : com/rickbusarow/mahout/conventions/MahoutCleanTask, com/rickbusarow/mahout/api/MahoutTask {
@@ -482,6 +474,11 @@ public abstract class com/rickbusarow/mahout/conventions/FixPlugin : org/gradle/
 	public fun apply (Lorg/gradle/api/Project;)V
 }
 
+public final class com/rickbusarow/mahout/conventions/FixPluginKt {
+	public static final fun providers (Lorg/gradle/api/tasks/TaskCollection;Lorg/gradle/api/provider/ProviderFactory;)Lorg/gradle/api/provider/Provider;
+	public static final fun providers (Lorg/gradle/api/tasks/TaskCollection;Lorg/gradle/api/provider/ProviderFactory;Lkotlin/jvm/functions/Function1;)Lorg/gradle/api/provider/Provider;
+}
+
 public abstract class com/rickbusarow/mahout/conventions/GitHubReleasePlugin : org/gradle/api/Plugin {
 	public fun <init> ()V
 	public synthetic fun apply (Ljava/lang/Object;)V
@@ -510,18 +507,9 @@ public final class com/rickbusarow/mahout/conventions/GradleTestsExtension$Defau
 }
 
 public abstract class com/rickbusarow/mahout/conventions/GradleTestsPlugin : org/gradle/api/Plugin {
-	public static final field Companion Lcom/rickbusarow/mahout/conventions/GradleTestsPlugin$Companion;
 	public fun <init> ()V
 	public synthetic fun apply (Ljava/lang/Object;)V
 	public fun apply (Lorg/gradle/api/Project;)V
-}
-
-public final class com/rickbusarow/mahout/conventions/GradleTestsPlugin$Companion {
-}
-
-public final class com/rickbusarow/mahout/conventions/GradleTestsPluginKt {
-	public static final fun getKotlinJvmExtension (Lorg/gradle/api/Project;)Lorg/jetbrains/kotlin/gradle/dsl/KotlinJvmProjectExtension;
-	public static final fun kotlinJvmExtensionSafe (Lorg/gradle/api/Project;Lorg/gradle/api/Action;)V
 }
 
 public abstract interface class com/rickbusarow/mahout/conventions/HasCodeGenExtension {
@@ -659,7 +647,6 @@ public abstract class com/rickbusarow/mahout/conventions/MahoutCleanTask : org/g
 }
 
 public abstract interface class com/rickbusarow/mahout/conventions/MahoutPublishTask : com/rickbusarow/mahout/api/MahoutTask {
-	public abstract fun getPublication ()Lorg/gradle/api/publish/maven/MavenPublication;
 }
 
 public abstract class com/rickbusarow/mahout/conventions/MahoutTestJdkTask : org/gradle/api/tasks/testing/Test, com/rickbusarow/mahout/api/MahoutCheckTask {
