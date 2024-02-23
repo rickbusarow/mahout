@@ -41,6 +41,8 @@ import com.rickbusarow.mahout.publishing.DefaultHasPublishingMavenSubExtension
 import com.rickbusarow.mahout.publishing.DefaultPublishingGradlePluginHandler
 import com.rickbusarow.mahout.publishing.HasPublishingMavenSubExtension
 import com.rickbusarow.mahout.publishing.PublishingGradlePluginHandler
+import com.rickbusarow.mahout.variants.DefaultHasFeatureVariantsSubExtension
+import com.rickbusarow.mahout.variants.HasFeatureVariantsSubExtension
 import org.gradle.api.Project
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.plugins.ExtensionAware
@@ -114,6 +116,7 @@ public abstract class KotlinJvmModuleExtension @Inject constructor(
   HasKotlinJvmSubExtension by objects.newInstance<DefaultHasKotlinJvmSubExtension>(),
   HasPublishingMavenSubExtension by objects.newInstance<DefaultHasPublishingMavenSubExtension>(),
   HasTasksSubExtension by objects.newInstance<DefaultHasTasksSubExtension>(),
+  HasFeatureVariantsSubExtension by objects.newInstance<DefaultHasFeatureVariantsSubExtension>(),
   AutoServiceExtension,
   BuildLogicShadowExtensionHook,
   KspExtension,

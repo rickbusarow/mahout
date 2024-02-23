@@ -259,6 +259,7 @@ gradlePlugin {
     convention("convention.dokka-versioning", "conventions.DokkaVersionArchivePlugin")
     convention("convention.dokkatoo", "dokka.DokkatooConventionPlugin")
     convention("convention.fix", "conventions.FixPlugin")
+    convention("convention.feature-variants", "variants.FeatureVariantsPlugin")
     convention("convention.github-release", "conventions.GitHubReleasePlugin")
     convention("convention.kotlin-jvm", "conventions.KotlinJvmConventionPlugin")
     convention("convention.ktlint", "conventions.KtLintConventionPlugin")
