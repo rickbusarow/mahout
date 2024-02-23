@@ -91,7 +91,7 @@ public abstract class DefaultFeatureVariantsSubExtension @Inject constructor(
 
       // val capabilities = variant.dependencyScope.capabilities
       @Suppress("UnstableApiUsage")
-      val capabilities = variant.capabilities.dependencies
+      val capabilities = variant.capabilitiesCollection.dependencies
 
       target.javaExtension.registerFeature(name) { spec ->
         spec.usingSourceSet(variant.prodSourceSet)

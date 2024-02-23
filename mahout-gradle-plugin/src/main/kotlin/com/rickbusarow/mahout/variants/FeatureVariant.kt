@@ -254,8 +254,12 @@ public abstract class FeatureVariant @Inject constructor(
   public val testRuntimeOnlyConfig: Configuration
     by configurations.named(testSourceSetName.runtimeOnlyConfig())
 
+  internal abstract val capabilitiesCollection: DependencyCollector
+
   /** */
-  public abstract val capabilities: DependencyCollector
+  public fun capabilities(action: Action<DependencyCollector>) {
+    action.execute(capabilitiesCollection)
+  }
 
   /** */
   public val dependencyScope: FeatureVariantDependencyScope by lazy(NONE) {
