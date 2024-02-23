@@ -23,7 +23,7 @@ import com.rickbusarow.mahout.api.SubExtension
 import com.rickbusarow.mahout.api.SubExtensionInternal
 import com.rickbusarow.mahout.conventions.AbstractHasSubExtension
 import com.rickbusarow.mahout.conventions.AbstractSubExtension
-import com.vanniktech.maven.publish.tasks.JavadocJar
+import com.rickbusarow.mahout.dokka.DokkatooConventionPlugin.Companion.dokkaJavadocJar
 import groovy.util.Node
 import groovy.util.NodeList
 import org.gradle.api.Action
@@ -69,7 +69,7 @@ public interface FeatureVariantsSubExtension : SubExtension<FeatureVariantsSubEx
   public val variants: NamedDomainObjectContainer<FeatureVariant>
 
   /** */
-  public fun variant(name: String, dependencies: Action<FeatureVariantDependencyScope>)
+  public fun variant(name: String, config: Action<FeatureVariant>)
 }
 
 /** */
@@ -83,19 +83,22 @@ public abstract class DefaultFeatureVariantsSubExtension @Inject constructor(
   public override val variants: NamedDomainObjectContainer<FeatureVariant> =
     objects.domainObjectContainer(FeatureVariant::class.java)
 
-  public override fun variant(name: String, dependencies: Action<FeatureVariantDependencyScope>) {
+  public override fun variant(name: String, config: Action<FeatureVariant>) {
 
     variants.create(name) { variant ->
-      dependencies.execute(variant.dependencyScope)
-      val capabilities = variant.dependencyScope.capabilities
+
+      config.execute(variant)
+
+      // val capabilities = variant.dependencyScope.capabilities
+      @Suppress("UnstableApiUsage")
+      val capabilities = variant.capabilities.dependencies
 
       target.javaExtension.registerFeature(name) { spec ->
         spec.usingSourceSet(variant.prodSourceSet)
 
-        for (capability in capabilities) {
-          val c = capability.get()
+        for (capability in capabilities.get()) {
           @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-          spec.capability(c.group, c.name, c.version)
+          spec.capability(capability.group, capability.name, capability.version)
         }
       }
 
@@ -115,7 +118,7 @@ public abstract class DefaultFeatureVariantsSubExtension @Inject constructor(
         featureVariant = variant,
         artifactId = variant.artifactId,
         publicationName = variant.prodSourceSetName.value,
-        dokkaJavadocJar = target.tasks.named("dokkaJavadocJar", JavadocJar::class.java)
+        dokkaJavadocJar = target.tasks.dokkaJavadocJar
       )
     }
   }
@@ -126,7 +129,7 @@ private fun createPublication(
   featureVariant: FeatureVariant,
   artifactId: String,
   publicationName: String,
-  dokkaJavadocJar: Provider<JavadocJar>
+  dokkaJavadocJar: Provider<out Jar>
 ) {
   target.extensions.getByType(PublishingExtension::class.java)
     .publications

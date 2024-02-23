@@ -15,14 +15,17 @@
 
 package com.rickbusarow.mahout.core
 
-import org.gradle.api.NamedDomainObjectProvider
+import com.rickbusarow.kgx.kotlinExtensionOrNull
+import com.rickbusarow.mahout.api.GradleSourceSet
 import org.gradle.api.Project
 import org.gradle.api.Task
+import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.TaskContainer
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.jvm.toolchain.JavaToolchainService
 import org.gradle.language.base.plugins.LifecycleBasePlugin
-import kotlin.reflect.KProperty
+import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 
 internal val Project.javaToolchainService: JavaToolchainService
   get() = extensions.getByType(JavaToolchainService::class.java)
@@ -33,11 +36,32 @@ internal val TaskContainer.clean: TaskProvider<Task>
 internal val TaskContainer.check: TaskProvider<Task>
   get() = named(LifecycleBasePlugin.CHECK_TASK_NAME)
 
-/** */
-public inline operator fun <T : Any, reified U : T> NamedDomainObjectProvider<out T>.getValue(
-  thisRef: Any?,
-  property: KProperty<*>
-): U = get() as U
+internal typealias GradleSourceSet = org.gradle.api.tasks.SourceSet
 
-/** */
-public operator fun <T : Any> T.provideDelegate(receiver: Any?, property: KProperty<*>): T = this
+internal fun GradleSourceSet.kotlinSourceSet(target: Project): KotlinSourceSet {
+  return target.kotlinExtension.sourceSets.getByName(name)
+}
+
+internal fun GradleSourceSet.kotlinSourceSetOrNull(target: Project): KotlinSourceSet? {
+  return target.kotlinExtensionOrNull?.sourceSets?.findByName(name)
+}
+
+internal fun <T, C : Collection<T>> Provider<out C>.merge(
+  vararg others: Provider<out C>
+): Provider<out Collection<T>> =
+  when {
+    others.isEmpty() -> this
+    others.size == 1 -> zip(others[0]) { a, b -> a + b }
+    else -> merge(others.asList())
+  }
+
+internal fun <T, C : Collection<T>> Provider<out C>.merge(
+  others: Collection<Provider<out C>>
+): Provider<out Collection<T>> =
+  when {
+    others.isEmpty() -> this
+    others.size == 1 -> zip(others.first()) { a, b -> a + b }
+    else -> {
+      zip(others.first().merge(others.drop(1))) { a, b -> a + b }
+    }
+  }

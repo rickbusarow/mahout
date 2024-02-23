@@ -13,16 +13,17 @@
  * limitations under the License.
  */
 
+@file:Suppress("UnstableApiUsage")
+
 package com.rickbusarow.mahout.variants
 
+import com.rickbusarow.kgx.getValue
 import com.rickbusarow.kgx.gradleLazy
 import com.rickbusarow.kgx.javaExtension
 import com.rickbusarow.kgx.named
-import com.rickbusarow.kgx.names.ConfigurationName
 import com.rickbusarow.kgx.names.ConfigurationName.Companion.apiConfig
 import com.rickbusarow.kgx.names.ConfigurationName.Companion.compileOnlyConfig
 import com.rickbusarow.kgx.names.ConfigurationName.Companion.implementationConfig
-import com.rickbusarow.kgx.names.ConfigurationName.Companion.kspConfig
 import com.rickbusarow.kgx.names.ConfigurationName.Companion.runtimeOnlyConfig
 import com.rickbusarow.kgx.names.SourceSetName
 import com.rickbusarow.kgx.names.SourceSetName.Companion.addPrefix
@@ -32,15 +33,14 @@ import com.rickbusarow.kgx.names.TaskName
 import com.rickbusarow.kgx.names.TaskName.Companion.asTaskName
 import com.rickbusarow.kgx.names.TaskName.Companion.compileKotlin
 import com.rickbusarow.kgx.register
-import com.rickbusarow.mahout.core.getValue
 import dev.drewhamilton.poko.Poko
+import org.gradle.api.Action
 import org.gradle.api.NamedDomainObjectProvider
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.ConfigurationContainer
-import org.gradle.api.artifacts.MinimalExternalModuleDependency
+import org.gradle.api.artifacts.dsl.DependencyCollector
 import org.gradle.api.plugins.JavaPluginExtension
-import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.api.tasks.bundling.Jar
@@ -55,6 +55,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.File
 import java.io.Serializable
 import javax.inject.Inject
+import kotlin.LazyThreadSafetyMode.NONE
 
 /** */
 public abstract class FeatureVariant @Inject constructor(
@@ -216,11 +217,11 @@ public abstract class FeatureVariant @Inject constructor(
   /** */
   public val configurations: ConfigurationContainer = target.configurations
 
-  /** */
-  public val kspConfigName: ConfigurationName = prodSourceSetName.kspConfig()
-
-  /** */
-  public val kspConfig: Configuration by configurations.named(kspConfigName)
+  // /** */
+  // public val kspConfigName: ConfigurationName = prodSourceSetName.kspConfig()
+  //
+  // /** */
+  // public val kspConfig: Configuration by configurations.named(kspConfigName)
 
   /** */
   public val apiConfig: Configuration by configurations.named(prodSourceSetName.apiConfig())
@@ -238,18 +239,75 @@ public abstract class FeatureVariant @Inject constructor(
     by configurations.named(prodSourceSetName.runtimeOnlyConfig())
 
   /** */
+  public val testApiConfig: Configuration
+    by configurations.named(testSourceSetName.apiConfig())
+
+  /** */
+  public val testCompileOnlyConfig: Configuration
+    by configurations.named(testSourceSetName.compileOnlyConfig())
+
+  /** */
   public val testImplementationConfig: Configuration
     by configurations.named(testSourceSetName.implementationConfig())
 
   /** */
-  public val dependencyScope: FeatureVariantDependencyScope by gradleLazy {
-    FeatureVariantDependencyScope(
-      apiConfig = apiConfig,
-      implementationConfig = implementationConfig,
-      testImplementationConfig = testImplementationConfig,
-      compileOnlyConfig = compileOnlyConfig
-    )
+  public val testRuntimeOnlyConfig: Configuration
+    by configurations.named(testSourceSetName.runtimeOnlyConfig())
+
+  /** */
+  public abstract val capabilities: DependencyCollector
+
+  /** */
+  public val dependencyScope: FeatureVariantDependencyScope by lazy(NONE) {
+
+    @Suppress("UnstableApiUsage")
+    target.objects.newInstance(FeatureVariantDependencyScope::class.java)
+      .also<FeatureVariantDependencyScope> { scope ->
+
+        apiConfig.dependencies.addAllLater(scope.api.dependencies)
+        compileOnlyConfig.dependencies.addAllLater(scope.compileOnly.dependencies)
+        implementationConfig.dependencies.addAllLater(scope.implementation.dependencies)
+        runtimeOnlyConfig.dependencies.addAllLater(scope.runtimeOnly.dependencies)
+        testApiConfig.dependencies.addAllLater(scope.testApi.dependencies)
+        testCompileOnlyConfig.dependencies.addAllLater(scope.testCompileOnly.dependencies)
+        testImplementationConfig.dependencies.addAllLater(scope.testImplementation.dependencies)
+        testRuntimeOnlyConfig.dependencies.addAllLater(scope.testRuntimeOnly.dependencies)
+      }
   }
+
+  /** */
+  public fun dependencies(action: Action<FeatureVariantDependencyScope>) {
+    action.execute(dependencyScope)
+  }
+}
+
+/** */
+@Suppress("UnstableApiUsage")
+public abstract class FeatureVariantDependencyScope @Inject internal constructor() {
+
+  /** */
+  public abstract val api: DependencyCollector
+
+  /** */
+  public abstract val compileOnly: DependencyCollector
+
+  /** */
+  public abstract val implementation: DependencyCollector
+
+  /** */
+  public abstract val runtimeOnly: DependencyCollector
+
+  /** */
+  public abstract val testApi: DependencyCollector
+
+  /** */
+  public abstract val testCompileOnly: DependencyCollector
+
+  /** */
+  public abstract val testImplementation: DependencyCollector
+
+  /** */
+  public abstract val testRuntimeOnly: DependencyCollector
 }
 
 /**
@@ -265,50 +323,3 @@ public class VariantCapability(
   public val name: String,
   public val version: String?
 )
-
-/** */
-public class FeatureVariantDependencyScope(
-  private val apiConfig: Configuration,
-  private val implementationConfig: Configuration,
-  private val testImplementationConfig: Configuration,
-  private val compileOnlyConfig: Configuration
-) {
-  /** */
-  public val capabilities: MutableList<Provider<VariantCapability>> =
-    mutableListOf<Provider<VariantCapability>>()
-
-  private fun capability(notation: Provider<MinimalExternalModuleDependency>) {
-    capabilities.add(
-      notation.map {
-        VariantCapability(
-          group = it.group,
-          name = it.name,
-          version = it.version
-        )
-      }
-    )
-  }
-
-  /** */
-  public fun api(dependencyNotation: Provider<MinimalExternalModuleDependency>) {
-    apiConfig.dependencies.addLater(dependencyNotation)
-    capability(dependencyNotation)
-  }
-
-  /** */
-  public fun compileOnly(dependencyNotation: Provider<MinimalExternalModuleDependency>) {
-    compileOnlyConfig.dependencies.addLater(dependencyNotation)
-    capability(dependencyNotation)
-  }
-
-  /** */
-  public fun implementation(dependencyNotation: Provider<MinimalExternalModuleDependency>) {
-    implementationConfig.dependencies.addLater(dependencyNotation)
-    capability(dependencyNotation)
-  }
-
-  /** */
-  public fun testImplementation(dependencyNotation: Provider<MinimalExternalModuleDependency>) {
-    testImplementationConfig.dependencies.addLater(dependencyNotation)
-  }
-}
