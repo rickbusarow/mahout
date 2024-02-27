@@ -911,6 +911,8 @@ public abstract class com/rickbusarow/mahout/variants/DefaultFeatureVariantsSubE
 
 public abstract class com/rickbusarow/mahout/variants/FeatureVariant : java/io/Serializable {
 	public fun <init> (Ljava/lang/String;Lorg/gradle/api/Project;)V
+	public final fun capabilities (Lorg/gradle/api/Action;)V
+	public final fun dependencies (Lorg/gradle/api/Action;)V
 	public final fun getApiConfig ()Lorg/gradle/api/artifacts/Configuration;
 	public final fun getArtifactId ()Ljava/lang/String;
 	public final fun getCompileKotlinTask ()Lorg/jetbrains/kotlin/gradle/tasks/KotlinCompile;
@@ -932,8 +934,6 @@ public abstract class com/rickbusarow/mahout/variants/FeatureVariant : java/io/S
 	public final fun getKotlinProdSourceSet ()Lorg/gradle/api/NamedDomainObjectProvider;
 	public final fun getKotlinTest ()Lorg/jetbrains/kotlin/gradle/plugin/KotlinSourceSet;
 	public final fun getKotlinTestSourceSet ()Lorg/jetbrains/kotlin/gradle/plugin/KotlinSourceSet;
-	public final fun getKspConfig ()Lorg/gradle/api/artifacts/Configuration;
-	public final fun getKspConfigName-SPIlPl4 ()Ljava/lang/String;
 	public final fun getMain ()Lorg/gradle/api/tasks/SourceSet;
 	public final fun getName ()Ljava/lang/String;
 	public final fun getProdCompilation ()Lorg/jetbrains/kotlin/gradle/plugin/mpp/KotlinWithJavaCompilation;
@@ -944,9 +944,12 @@ public abstract class com/rickbusarow/mahout/variants/FeatureVariant : java/io/S
 	public final fun getSourcesJarTaskName-37JjH0Y ()Ljava/lang/String;
 	public final fun getSourcesJarTaskProvider ()Lorg/gradle/api/tasks/TaskProvider;
 	public final fun getTest ()Lorg/gradle/api/tasks/SourceSet;
+	public final fun getTestApiConfig ()Lorg/gradle/api/artifacts/Configuration;
+	public final fun getTestCompileOnlyConfig ()Lorg/gradle/api/artifacts/Configuration;
 	public final fun getTestImplementationConfig ()Lorg/gradle/api/artifacts/Configuration;
 	public final fun getTestKotlinDir ()Ljava/io/File;
 	public final fun getTestResourceDir ()Ljava/io/File;
+	public final fun getTestRuntimeOnlyConfig ()Lorg/gradle/api/artifacts/Configuration;
 	public final fun getTestSourceSet ()Lorg/gradle/api/NamedDomainObjectProvider;
 	public final fun getTestSourceSetCompilation ()Lorg/jetbrains/kotlin/gradle/plugin/mpp/KotlinWithJavaCompilation;
 	public final fun getTestSourceSetName-AAsmkIs ()Ljava/lang/String;
@@ -954,25 +957,21 @@ public abstract class com/rickbusarow/mahout/variants/FeatureVariant : java/io/S
 	public final fun getTestTaskProvider ()Lorg/gradle/api/tasks/TaskProvider;
 }
 
-public final class com/rickbusarow/mahout/variants/FeatureVariantDependencyScope {
-	public fun <init> (Lorg/gradle/api/artifacts/Configuration;Lorg/gradle/api/artifacts/Configuration;Lorg/gradle/api/artifacts/Configuration;Lorg/gradle/api/artifacts/Configuration;)V
-	public final fun api (Lorg/gradle/api/provider/Provider;)V
-	public final fun compileOnly (Lorg/gradle/api/provider/Provider;)V
-	public final fun getCapabilities ()Ljava/util/List;
-	public final fun implementation (Lorg/gradle/api/provider/Provider;)V
-	public final fun testImplementation (Lorg/gradle/api/internal/catalog/ExternalModuleDependencyFactory$DependencyNotationSupplier;)V
-	public final fun testImplementation (Lorg/gradle/api/provider/Provider;)V
+public abstract class com/rickbusarow/mahout/variants/FeatureVariantDependencyScope {
+	public abstract fun getApi ()Lorg/gradle/api/artifacts/dsl/DependencyCollector;
+	public abstract fun getCompileOnly ()Lorg/gradle/api/artifacts/dsl/DependencyCollector;
+	public abstract fun getImplementation ()Lorg/gradle/api/artifacts/dsl/DependencyCollector;
+	public abstract fun getRuntimeOnly ()Lorg/gradle/api/artifacts/dsl/DependencyCollector;
+	public abstract fun getTestApi ()Lorg/gradle/api/artifacts/dsl/DependencyCollector;
+	public abstract fun getTestCompileOnly ()Lorg/gradle/api/artifacts/dsl/DependencyCollector;
+	public abstract fun getTestImplementation ()Lorg/gradle/api/artifacts/dsl/DependencyCollector;
+	public abstract fun getTestRuntimeOnly ()Lorg/gradle/api/artifacts/dsl/DependencyCollector;
 }
 
 public abstract class com/rickbusarow/mahout/variants/FeatureVariantsPlugin : org/gradle/api/Plugin {
 	public fun <init> ()V
 	public synthetic fun apply (Ljava/lang/Object;)V
 	public fun apply (Lorg/gradle/api/Project;)V
-}
-
-public final class com/rickbusarow/mahout/variants/FeatureVariantsPluginKt {
-	public static final fun createPublication (Lorg/gradle/api/Project;Lcom/rickbusarow/mahout/variants/FeatureVariant;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/provider/Provider;)V
-	public static final fun provideDelegate (Ljava/lang/Object;Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
 }
 
 public abstract interface class com/rickbusarow/mahout/variants/FeatureVariantsSubExtension : com/rickbusarow/mahout/api/SubExtension {

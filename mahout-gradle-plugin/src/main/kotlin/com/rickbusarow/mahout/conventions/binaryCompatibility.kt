@@ -16,10 +16,15 @@
 package com.rickbusarow.mahout.conventions
 
 import com.rickbusarow.kgx.checkProjectIsRoot
+import com.rickbusarow.kgx.mustRunAfter
+import com.rickbusarow.kgx.named
 import com.rickbusarow.mahout.deps.PluginIds
 import kotlinx.validation.ApiValidationExtension
 import kotlinx.validation.KotlinApiCompareTask
 import org.gradle.api.Project
+import org.gradle.api.tasks.Sync
+import org.gradle.api.tasks.TaskCollection
+import org.gradle.api.tasks.TaskContainer
 
 internal fun Project.applyBinaryCompatibility() {
 
@@ -27,21 +32,22 @@ internal fun Project.applyBinaryCompatibility() {
     "Only apply the binary compatibility validator plugin to the root project."
   }
 
-  if (!plugins.hasPlugin(PluginIds.`kotlinx-binaryCompatibility`)) {
+  pluginManager.apply(PluginIds.`kotlinx-binaryCompatibility`)
 
-    plugins.apply(PluginIds.`kotlinx-binaryCompatibility`)
+  extensions.configure(ApiValidationExtension::class.java) { extension ->
 
-    extensions.configure(ApiValidationExtension::class.java) { extension ->
+    // Packages that are excluded from public API dumps even if they contain public API
+    extension.ignoredPackages = mutableSetOf("sample", "samples")
 
-      // Packages that are excluded from public API dumps even if they contain public API
-      extension.ignoredPackages = mutableSetOf("sample", "samples")
+    // Subprojects that are excluded from API validation
+    extension.ignoredProjects = mutableSetOf()
+  }
 
-      // Subprojects that are excluded from API validation
-      extension.ignoredProjects = mutableSetOf()
-    }
-
-    tasks.withType(KotlinApiCompareTask::class.java).configureEach { task ->
-      task.mustRunAfter(tasks.named("apiDump"))
-    }
+  allprojects { anyProject ->
+    anyProject.tasks.withType(KotlinApiCompareTask::class.java)
+      .mustRunAfter(anyProject.tasks.apiDump())
   }
 }
+
+internal fun TaskContainer.apiDump(): TaskCollection<Sync> =
+  named(Regex("^apiDump$"), Sync::class)
