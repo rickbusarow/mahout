@@ -154,7 +154,11 @@ class MahoutPropertiesProcessor(
 
             for (v in values) {
               val simpleName = v.simpleName.asString()
-              val qualifiedPropertyName = parentNames.joinToString(".", postfix = ".$simpleName")
+              val qualifiedPropertyName = parentNames.joinToString(
+                separator = ".",
+                prefix = "mahout.",
+                postfix = ".$simpleName"
+              )
               addStatement("appendLine(%P)", "$qualifiedPropertyName=\${$simpleName.orNull}")
             }
 

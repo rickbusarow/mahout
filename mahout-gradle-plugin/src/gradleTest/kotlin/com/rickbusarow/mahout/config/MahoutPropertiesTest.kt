@@ -26,10 +26,10 @@ import java.io.File
 class MahoutPropertiesTest : MahoutGradleTest {
 
   override val params: List<GradleTestVersions>
-    get() = kaseMatrix.versions(GradleTestVersions).takeLast(1)
+    get() = kaseMatrix.versions(GradleTestVersions)
 
   @TestFactory
-  fun `vanniktech publishing properties become mahout properties`() = testFactory {
+  fun `vanniktech publishing properties become mahout properties`() = testFactory { _ ->
 
     rootProject {
 
@@ -81,7 +81,7 @@ class MahoutPropertiesTest : MahoutGradleTest {
 
     shouldSucceed("printSettings", withPluginClasspath = true) {
 
-      output.asClue {
+      output.asClue { _ ->
 
         output.substringAfterLast("> :printSettings")
           .substringBefore("BUILD SUCCESSFUL")
