@@ -13,15 +13,11 @@
  * limitations under the License.
  */
 
-import com.rickbusarow.kgx.extras
 import com.rickbusarow.kgx.javaExtension
 import com.rickbusarow.kgx.propertyAs
-import com.rickbusarow.kgx.withKotlinJvmPlugin
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
-import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinBasePlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.util.Properties
 
 buildscript {
   dependencies {
@@ -39,28 +35,7 @@ plugins {
   base
 }
 
-rootProject.file("../gradle.properties")
-  .inputStream()
-  .use { Properties().apply { load(it) } }
-  .forEach { key, value ->
-    extras.set(key.toString(), value.toString())
-  }
-
 val kotlinApiVersion = propertyAs<String>("mahout.kotlin.apiLevel")
-
-subprojects sub@{
-  val sub = this@sub
-  sub.layout.buildDirectory.set(sub.file("build/composite"))
-
-  if (!sub.name.startsWith("mahout-settings-") && sub.name != "mahout-api") {
-    sub.plugins.withKotlinJvmPlugin {
-      (sub.kotlinExtension as KotlinJvmProjectExtension)
-        .compilerOptions
-        .optIn
-        .add("com.rickbusarow.mahout.core.InternalMahoutApi")
-    }
-  }
-}
 
 allprojects ap@{
 
@@ -91,8 +66,5 @@ allprojects ap@{
     tasks.withType(JavaCompile::class.java).configureEach {
       options.release.set(targetInt)
     }
-  }
-  tasks.withType(Test::class.java).configureEach {
-    useJUnitPlatform()
   }
 }

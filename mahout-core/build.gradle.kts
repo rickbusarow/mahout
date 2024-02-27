@@ -18,10 +18,16 @@ plugins {
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.drewHamilton.poko)
   alias(libs.plugins.buildconfig)
+  id("conventions.dogFood")
 }
 
-if (rootProject.name == "mahout") {
-  apply(plugin = "com.rickbusarow.mahout.kotlin-jvm-module")
+dogFood {
+  mainMahoutPlugin("com.rickbusarow.mahout.kotlin-jvm-module")
+  publishMaven(
+    artifactId = "mahout-core",
+    name = "Mahout Core",
+    description = "Base implementation details for Mahout"
+  )
 }
 
 kotlin {

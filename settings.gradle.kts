@@ -22,7 +22,8 @@ pluginManagement {
     google()
   }
 
-  includeBuild("build-logic")
+  includeBuild("build-logic/conventions")
+  includeBuild("build-logic/delegate")
 
   plugins {
     id("com.rickbusarow.mahout.kotlin-jvm-module") apply false

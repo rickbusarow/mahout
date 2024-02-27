@@ -86,14 +86,6 @@ public abstract class AbstractHasSubExtension : HasObjectFactory {
   protected fun <T : SubExtension<T>, R : T> subExtension(clazz: KClass<out R>): Lazy<R> {
     return objects.newInstanceLazy(clazz.java)
   }
-
-  @Deprecated(
-    "Use subExtension(clazz: KClass<out T>) instead.",
-    ReplaceWith("subExtension(T::class)")
-  )
-  protected fun <T : SubExtension<T>, R : T> subExtension(clazz: Class<out R>): Lazy<R> {
-    return objects.newInstanceLazy(clazz)
-  }
 }
 
 /** */

@@ -27,7 +27,7 @@ public abstract class com/rickbusarow/mahout/DefaultTasksSubExtension : com/rick
 	public fun configure (Lorg/gradle/api/Action;)V
 }
 
-public abstract class com/rickbusarow/mahout/GradlePluginModuleExtension : com/rickbusarow/mahout/BaseMahoutExtension, com/rickbusarow/mahout/HasTasksSubExtension, com/rickbusarow/mahout/conventions/AutoServiceExtension, com/rickbusarow/mahout/conventions/BuildLogicShadowExtensionHook, com/rickbusarow/mahout/conventions/HasGitHubSubExtension, com/rickbusarow/mahout/conventions/HasJavaSubExtension, com/rickbusarow/mahout/conventions/HasKotlinJvmSubExtension, com/rickbusarow/mahout/conventions/KspExtension, com/rickbusarow/mahout/conventions/PokoExtension, com/rickbusarow/mahout/conventions/SerializationExtension, com/rickbusarow/mahout/dokka/HasDokkaSubExtension, com/rickbusarow/mahout/publishing/HasPublishingMavenSubExtension, com/rickbusarow/mahout/publishing/PublishingGradlePluginHandler {
+public abstract class com/rickbusarow/mahout/GradlePluginModuleExtension : com/rickbusarow/mahout/BaseMahoutExtension, com/rickbusarow/mahout/HasTasksSubExtension, com/rickbusarow/mahout/conventions/AutoServiceExtension, com/rickbusarow/mahout/conventions/BuildLogicShadowExtensionHook, com/rickbusarow/mahout/conventions/HasGitHubSubExtension, com/rickbusarow/mahout/conventions/HasJavaSubExtension, com/rickbusarow/mahout/conventions/HasKotlinJvmSubExtension, com/rickbusarow/mahout/conventions/KspExtension, com/rickbusarow/mahout/conventions/PokoExtension, com/rickbusarow/mahout/conventions/SerializationExtension, com/rickbusarow/mahout/dokka/HasDokkaSubExtension, com/rickbusarow/mahout/publishing/HasPublishingMavenSubExtension, com/rickbusarow/mahout/publishing/PublishingGradlePluginHandler, com/rickbusarow/mahout/variants/HasFeatureVariantsSubExtension {
 	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
 	public fun autoService (Lorg/gradle/api/Project;)V
 	public fun dokka (Lorg/gradle/api/Action;)V
@@ -38,6 +38,7 @@ public abstract class com/rickbusarow/mahout/GradlePluginModuleExtension : com/r
 	public synthetic fun getKotlin ()Lcom/rickbusarow/mahout/conventions/KotlinSubExtension;
 	public fun getPublishing ()Lcom/rickbusarow/mahout/publishing/PublishingMavenSubExtension;
 	public fun getTasks ()Lcom/rickbusarow/mahout/TasksSubExtension;
+	public fun getVariants ()Lcom/rickbusarow/mahout/variants/FeatureVariantsSubExtension;
 	public fun github (Lorg/gradle/api/Action;)V
 	public fun java (Lorg/gradle/api/Action;)V
 	public fun kotlin (Lorg/gradle/api/Action;)V
@@ -49,6 +50,7 @@ public abstract class com/rickbusarow/mahout/GradlePluginModuleExtension : com/r
 	public fun shadow ()V
 	public fun shadow (Z)V
 	public fun tasks (Lorg/gradle/api/Action;)V
+	public fun variants (Lorg/gradle/api/Action;)V
 }
 
 public abstract class com/rickbusarow/mahout/GradlePluginModulePlugin : com/rickbusarow/mahout/BaseModulePlugin {
@@ -314,7 +316,6 @@ public final class com/rickbusarow/mahout/config/MahoutPropertiesKt {
 
 public abstract class com/rickbusarow/mahout/conventions/AbstractHasSubExtension : com/rickbusarow/mahout/api/HasObjectFactory {
 	public fun <init> ()V
-	protected final fun subExtension (Ljava/lang/Class;)Lkotlin/Lazy;
 	protected final fun subExtension (Lkotlin/reflect/KClass;)Lkotlin/Lazy;
 }
 

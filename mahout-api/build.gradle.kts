@@ -17,6 +17,16 @@ plugins {
   alias(libs.plugins.kotlin.jvm)
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.drewHamilton.poko)
+  id("conventions.dogFood")
+}
+
+dogFood {
+  mainMahoutPlugin("com.rickbusarow.mahout.kotlin-jvm-module")
+  publishMaven(
+    artifactId = "mahout-api",
+    name = "Mahout API",
+    description = "Base types for the Mahout Gradle plugins"
+  )
 }
 
 if (rootProject.name == "mahout") {

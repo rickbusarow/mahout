@@ -1,5 +1,23 @@
 [
   {
+    "gradlePath": ":mahout-api",
+    "group": "com.rickbusarow.mahout",
+    "artifactId": "mahout-api",
+    "description": "Base types for the Mahout Gradle plugins",
+    "packaging": "jar",
+    "javaVersion": "11",
+    "publicationName": "maven"
+  },
+  {
+    "gradlePath": ":mahout-core",
+    "group": "com.rickbusarow.mahout",
+    "artifactId": "mahout-core",
+    "description": "Base implementation details for Mahout",
+    "packaging": "jar",
+    "javaVersion": "11",
+    "publicationName": "maven"
+  },
+  {
     "gradlePath": ":mahout-gradle-plugin",
     "group": "com.rickbusarow.mahout.composite",
     "artifactId": "com.rickbusarow.mahout.composite.gradle.plugin",
@@ -12,7 +30,7 @@
     "gradlePath": ":mahout-gradle-plugin",
     "group": "com.rickbusarow.mahout.convention.ben-manes",
     "artifactId": "com.rickbusarow.mahout.convention.ben-manes.gradle.plugin",
-    "description": "                ",
+    "description": "configures the Ben Manes versions plugin",
     "packaging": "pom",
     "javaVersion": "11",
     "publicationName": "convention.ben-manesPluginMarkerMaven"
@@ -21,7 +39,7 @@
     "gradlePath": ":mahout-gradle-plugin",
     "group": "com.rickbusarow.mahout.convention.clean",
     "artifactId": "com.rickbusarow.mahout.convention.clean.gradle.plugin",
-    "description": "                ",
+    "description": "adds tasks to clean up empty directories and orphaned project directories",
     "packaging": "pom",
     "javaVersion": "11",
     "publicationName": "convention.cleanPluginMarkerMaven"
@@ -30,7 +48,7 @@
     "gradlePath": ":mahout-gradle-plugin",
     "group": "com.rickbusarow.mahout.convention.dependency-guard",
     "artifactId": "com.rickbusarow.mahout.convention.dependency-guard.gradle.plugin",
-    "description": "                ",
+    "description": "configures the dependency-guard plugin",
     "packaging": "pom",
     "javaVersion": "11",
     "publicationName": "convention.dependency-guardPluginMarkerMaven"
@@ -39,7 +57,7 @@
     "gradlePath": ":mahout-gradle-plugin",
     "group": "com.rickbusarow.mahout.convention.detekt",
     "artifactId": "com.rickbusarow.mahout.convention.detekt.gradle.plugin",
-    "description": "                ",
+    "description": "configures the detekt plugin",
     "packaging": "pom",
     "javaVersion": "11",
     "publicationName": "convention.detektPluginMarkerMaven"
@@ -48,7 +66,7 @@
     "gradlePath": ":mahout-gradle-plugin",
     "group": "com.rickbusarow.mahout.convention.dokka-versioning",
     "artifactId": "com.rickbusarow.mahout.convention.dokka-versioning.gradle.plugin",
-    "description": "                ",
+    "description": "automates the archival of versioned api documentation",
     "packaging": "pom",
     "javaVersion": "11",
     "publicationName": "convention.dokka-versioningPluginMarkerMaven"
@@ -57,7 +75,7 @@
     "gradlePath": ":mahout-gradle-plugin",
     "group": "com.rickbusarow.mahout.convention.dokkatoo",
     "artifactId": "com.rickbusarow.mahout.convention.dokkatoo.gradle.plugin",
-    "description": "                ",
+    "description": "configures the dokkatoo plugin",
     "packaging": "pom",
     "javaVersion": "11",
     "publicationName": "convention.dokkatooPluginMarkerMaven"
@@ -66,7 +84,7 @@
     "gradlePath": ":mahout-gradle-plugin",
     "group": "com.rickbusarow.mahout.convention.feature-variants",
     "artifactId": "com.rickbusarow.mahout.convention.feature-variants.gradle.plugin",
-    "description": "                ",
+    "description": "configures feature variants",
     "packaging": "pom",
     "javaVersion": "11",
     "publicationName": "convention.feature-variantsPluginMarkerMaven"
@@ -75,7 +93,7 @@
     "gradlePath": ":mahout-gradle-plugin",
     "group": "com.rickbusarow.mahout.convention.fix",
     "artifactId": "com.rickbusarow.mahout.convention.fix.gradle.plugin",
-    "description": "                ",
+    "description": "adds tasks to apply all baseline and auto-correct tasks at once",
     "packaging": "pom",
     "javaVersion": "11",
     "publicationName": "convention.fixPluginMarkerMaven"
@@ -84,7 +102,7 @@
     "gradlePath": ":mahout-gradle-plugin",
     "group": "com.rickbusarow.mahout.convention.github-release",
     "artifactId": "com.rickbusarow.mahout.convention.github-release.gradle.plugin",
-    "description": "                ",
+    "description": "configures the GitHub release plugin",
     "packaging": "pom",
     "javaVersion": "11",
     "publicationName": "convention.github-releasePluginMarkerMaven"
@@ -93,7 +111,7 @@
     "gradlePath": ":mahout-gradle-plugin",
     "group": "com.rickbusarow.mahout.convention.kotlin-jvm",
     "artifactId": "com.rickbusarow.mahout.convention.kotlin-jvm.gradle.plugin",
-    "description": "                ",
+    "description": "configures Kotlin JVM projects",
     "packaging": "pom",
     "javaVersion": "11",
     "publicationName": "convention.kotlin-jvmPluginMarkerMaven"
@@ -102,7 +120,7 @@
     "gradlePath": ":mahout-gradle-plugin",
     "group": "com.rickbusarow.mahout.convention.ktlint",
     "artifactId": "com.rickbusarow.mahout.convention.ktlint.gradle.plugin",
-    "description": "                ",
+    "description": "configures the ktlint plugin",
     "packaging": "pom",
     "javaVersion": "11",
     "publicationName": "convention.ktlintPluginMarkerMaven"
@@ -111,7 +129,7 @@
     "gradlePath": ":mahout-gradle-plugin",
     "group": "com.rickbusarow.mahout.convention.spotless",
     "artifactId": "com.rickbusarow.mahout.convention.spotless.gradle.plugin",
-    "description": "                ",
+    "description": "configures the spotless plugin",
     "packaging": "pom",
     "javaVersion": "11",
     "publicationName": "convention.spotlessPluginMarkerMaven"
@@ -120,7 +138,7 @@
     "gradlePath": ":mahout-gradle-plugin",
     "group": "com.rickbusarow.mahout.convention.test",
     "artifactId": "com.rickbusarow.mahout.convention.test.gradle.plugin",
-    "description": "                ",
+    "description": "applies common test configurations",
     "packaging": "pom",
     "javaVersion": "11",
     "publicationName": "convention.testPluginMarkerMaven"

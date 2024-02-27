@@ -41,6 +41,7 @@ import org.gradle.api.Project
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
 import org.gradle.api.tasks.TaskContainer
 import org.gradle.api.tasks.TaskProvider
+import org.gradle.jvm.tasks.Jar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URI
 
@@ -119,6 +120,13 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
         task.mustRunAfter(target.tasks.withType(KtLintTask::class.java))
       }
 
+      // The `org.gradle.plugin-publish` plugin
+      // adds the `javadocJar` output as the `javadoc` artifact,
+      // but it doesn't include the Dokka output by default.
+      target.tasks.withType(Jar::class.java)
+        .named { it == "javadocJar" }
+        .configureEach { it.from(target.tasks.named(DOKKATOO_HTML_TASK_NAME)) }
+
       target.tasks.register("dokkaJavadocJar", DefaultMahoutJavadocJarTask::class.java) {
         val dokkaTask = target.tasks.named(DOKKATOO_HTML_TASK_NAME)
 
@@ -154,9 +162,8 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
           .dir("tmp/dokka-archive")
 
         dokkatoo.pluginsConfiguration
-          .withType(
-            DokkaVersioningPluginParameters::class.java
-          ).configureEach { versioning ->
+          .withType(DokkaVersioningPluginParameters::class.java)
+          .configureEach { versioning ->
 
             versioning.version.set(mahoutExtension.versionName)
             if (dokkaArchiveBuildDir.get().asFile.exists()) {

@@ -15,9 +15,11 @@
 
 package com.rickbusarow.mahout.publishing
 
+import com.rickbusarow.kgx.dependsOn
 import com.rickbusarow.kgx.registerOnce
 import com.rickbusarow.mahout.api.DefaultMahoutCheckTask
 import com.rickbusarow.mahout.conventions.applyBinaryCompatibility
+import com.rickbusarow.mahout.core.check
 import com.rickbusarow.mahout.deps.PluginIds
 import com.rickbusarow.mahout.dokka.DokkatooConventionPlugin.Companion.dokkaJavadocJar
 import com.vanniktech.maven.publish.SonatypeHost
@@ -28,7 +30,6 @@ import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.maven.tasks.AbstractPublishToMaven
 import org.gradle.api.publish.tasks.GenerateModuleMetadata
 import org.gradle.jvm.tasks.Jar
-import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.gradle.plugins.signing.Sign
 import kotlin.LazyThreadSafetyMode.NONE
 
@@ -65,8 +66,9 @@ public abstract class MahoutPublishPlugin : Plugin<Project> {
     )
     target.registerSnapshotVersionCheckTask()
 
-    target.tasks.withType(GenerateModuleMetadata::class.java).configureEach {
-      it.mustRunAfter(target.tasks.dokkaJavadocJar)
+    target.tasks.withType(GenerateModuleMetadata::class.java).configureEach { task ->
+      task.mustRunAfter(target.tasks.dokkaJavadocJar)
+      task.mustRunAfter(target.tasks.named { it == "kotlinSourcesJar" })
     }
     target.tasks.withType(AbstractPublishToMaven::class.java).configureEach {
       it.mustRunAfter(target.tasks.withType(Jar::class.java))
@@ -122,9 +124,7 @@ public abstract class MahoutPublishPlugin : Plugin<Project> {
       }
     }
 
-    target.tasks.named(LifecycleBasePlugin.CHECK_TASK_NAME) { task ->
-      task.dependsOn(checkTask)
-    }
+    target.tasks.check.dependsOn(checkTask)
   }
 
   private fun Project.registerSnapshotVersionCheckTask() {

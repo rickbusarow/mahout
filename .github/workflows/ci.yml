@@ -182,7 +182,7 @@ jobs:
           arguments: moduleCheck
           cache-read-only: false
 
-  tests-macos:
+  unit-tests-ubuntu:
     runs-on: ubuntu-latest
 
     steps:
@@ -205,8 +205,8 @@ jobs:
         uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4
         if: failure()
         with:
-          name: test-results-ubuntu
-          path: ./**/build/reports/tests/test
+          name: unit-test-results-ubuntu
+          path: ./**/build/reports/tests/
 
       - name: Unit test results
         uses: mikepenz/action-junit-report@5f47764eec0e1c1f19f40c8e60a5ba47e47015c5 # v4
@@ -216,7 +216,7 @@ jobs:
           report_paths: "**/build/**/TEST-*.xml"
           check_name: Unit Test Results - ubuntu
 
-  integration-tests-macos:
+  gradle-tests-ubuntu:
     runs-on: ubuntu-latest
 
     steps:
@@ -229,10 +229,10 @@ jobs:
           distribution: "zulu"
           java-version: "17"
 
-      - name: all integration tests
+      - name: all gradle tests
         uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3
         with:
-          arguments: test "${{ env.ubuntuGradleArgs }}"
+          arguments: gradleTest "${{ env.ubuntuGradleArgs }}"
           cache-read-only: false
 
       - name: Archive test results
@@ -240,17 +240,17 @@ jobs:
         if: failure()
         with:
           name: test-results-ubuntu
-          path: ./**/build/reports/tests/integrationTest
+          path: ./**/build/reports/tests/gradleTest
 
-      - name: Unit test results
+      - name: Gradle test results
         uses: mikepenz/action-junit-report@5f47764eec0e1c1f19f40c8e60a5ba47e47015c5 # v4
         if: failure()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           report_paths: "**/build/**/TEST-*.xml"
-          check_name: Unit Test Results - ubuntu
+          check_name: Gradle Test Results - ubuntu
 
-  tests-windows:
+  unit-tests-windows:
     runs-on: windows-latest
 
     steps:
@@ -273,7 +273,7 @@ jobs:
         uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4
         if: failure()
         with:
-          name: test-results-windows
+          name: unit-test-results-windows
           path: ./**/build/reports/tests/
 
       - name: Unit test results
@@ -284,17 +284,52 @@ jobs:
           report_paths: "**/build/**/TEST-*.xml"
           check_name: Unit Test Results - Windows
 
+  gradle-tests-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: check out with token
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@387ac29b308b003ca37ba93a6cab5eb57c8f5f93 # v4
+        with:
+          distribution: "zulu"
+          java-version: "17"
+
+      - name: all gradle tests
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3
+        with:
+          arguments: gradleTest "${{ env.windowsGradleArgs }}"
+          cache-read-only: false
+
+      - name: Archive test results
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4
+        if: failure()
+        with:
+          name: test-results-windows
+          path: ./**/build/reports/tests/gradleTest
+
+      - name: Gradle test results
+        uses: mikepenz/action-junit-report@5f47764eec0e1c1f19f40c8e60a5ba47e47015c5 # v4
+        if: failure()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          report_paths: "**/build/**/TEST-*.xml"
+          check_name: Gradle Test Results - windows
+
   all-green:
     if: always()
     runs-on: ubuntu-latest
     needs:
-      - integration-tests-macos
+      - gradle-tests-ubuntu
+      - gradle-tests-windows
       - static-analysis
-      - tests-macos
-      - tests-windows
+      - unit-tests-ubuntu
+      - unit-tests-windows
 
     steps:
       - name: require that all other jobs have passed
-        uses: re-actors/alls-green@release/v1
+        uses: re-actors/alls-green@v1.2.2
         with:
           jobs: ${{ toJSON(needs) }}

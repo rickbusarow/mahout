@@ -17,6 +17,7 @@ package com.rickbusarow.mahout.conventions
 
 import com.rickbusarow.kgx.applyOnce
 import com.rickbusarow.kgx.dependsOn
+import com.rickbusarow.kgx.extras
 import com.rickbusarow.kgx.javaExtension
 import com.rickbusarow.kgx.kotlinJvmExtensionSafe
 import com.rickbusarow.kgx.names.DomainObjectName
@@ -27,6 +28,7 @@ import com.rickbusarow.kgx.project
 import com.rickbusarow.kgx.withJavaGradlePluginPlugin
 import com.rickbusarow.mahout.api.MahoutTask
 import com.rickbusarow.mahout.core.stdlib.capitalize
+import com.rickbusarow.mahout.deps.Versions
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import org.gradle.api.Action
 import org.gradle.api.DefaultTask
@@ -80,7 +82,7 @@ public abstract class GradleTestsPlugin : Plugin<Project> {
 
     val suite = testingExtension.suites
       .register(suiteName.value, JvmTestSuite::class.java) { suite ->
-        suite.useJUnitJupiter()
+        suite.useJUnitJupiter(Versions.jUnit5)
         suite.testType.set(TestSuiteType.FUNCTIONAL_TEST)
 
         suite.dependencies {
@@ -131,13 +133,22 @@ public abstract class GradleTestsPlugin : Plugin<Project> {
    */
   private fun setUpPublishToBuildM2(target: Project, repoName: String) {
 
-    val buildM2Dir = target.rootProject.layout.buildDirectory.dir("m2")
+    val buildM2Dir = target.rootProject.layout.buildDirectory.dir("gradle-test-m2")
 
     target.gradlePublishingExtension.repositories { repositories ->
       repositories.mavenLocal {
         it.name = repoName
         it.setUrl(buildM2Dir)
       }
+    }
+    target.tasks.register("publishToBuildM2") {
+      it.group = "Publishing"
+      it.dependsOn("publishAllPublicationsToBuildM2Repository")
+    }
+    target.tasks.register("publishToBuildM2NoDokka") {
+      it.group = "Publishing"
+      target.extras.set("skipDokka", true)
+      it.dependsOn("publishAllPublicationsToBuildM2Repository")
     }
   }
 

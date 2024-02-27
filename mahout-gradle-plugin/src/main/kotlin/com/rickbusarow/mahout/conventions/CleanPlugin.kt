@@ -19,12 +19,12 @@ import com.rickbusarow.kgx.applyOnce
 import com.rickbusarow.kgx.dependsOn
 import com.rickbusarow.kgx.isRootProject
 import com.rickbusarow.mahout.api.MahoutTask
+import com.rickbusarow.mahout.core.clean
 import com.rickbusarow.mahout.core.stdlib.isOrphanedBuildOrGradleDir
 import com.rickbusarow.mahout.core.stdlib.isOrphanedGradleProperties
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.Delete
-import org.gradle.language.base.plugins.LifecycleBasePlugin
 import java.io.File
 
 /** */
@@ -46,7 +46,7 @@ public abstract class CleanPlugin : Plugin<Project> {
         task.delete(theFiles)
       }
 
-    target.tasks.named(LifecycleBasePlugin.CLEAN_TASK_NAME).dependsOn(deleteEmptyDirs)
+    target.tasks.clean.dependsOn(deleteEmptyDirs)
 
     target.tasks.register("cleanGradle", CleanGradleTask::class.java) { task ->
       task.delete(".gradle")

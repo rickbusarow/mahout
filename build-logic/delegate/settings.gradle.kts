@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-rootProject.name = "build-logic"
+rootProject.name = "delegate"
 
 pluginManagement {
   repositories {
@@ -21,6 +21,8 @@ pluginManagement {
     mavenCentral()
     google()
   }
+
+  includeBuild("../conventions")
 }
 
 @Suppress("UnstableApiUsage")
@@ -32,7 +34,7 @@ dependencyResolutionManagement {
   }
   versionCatalogs {
     create("libs") {
-      from(files("../gradle/libs.versions.toml"))
+      from(files("../../gradle/libs.versions.toml"))
     }
   }
 }
@@ -46,6 +48,6 @@ listOf(
 ).forEach { name ->
   include(":$name")
   project(":$name").let {
-    it.projectDir = file("../$name")
+    it.projectDir = file("../../$name")
   }
 }

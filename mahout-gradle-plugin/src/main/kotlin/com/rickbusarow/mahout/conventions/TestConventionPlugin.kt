@@ -25,13 +25,17 @@ import com.rickbusarow.mahout.core.check
 import com.rickbusarow.mahout.core.commonPropertyPrefix
 import com.rickbusarow.mahout.core.javaToolchainService
 import com.rickbusarow.mahout.core.prefixedPropertyOrNull
+import com.rickbusarow.mahout.deps.Versions
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.plugins.jvm.JvmTestSuite
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.tasks.testing.Test
+import org.gradle.api.tasks.testing.junitplatform.JUnitPlatformOptions
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
 import org.gradle.internal.classpath.Instrumented.systemProperty
+import org.gradle.testing.base.TestingExtension
 
 /** */
 public abstract class TestConventionPlugin : Plugin<Project> {
@@ -48,21 +52,13 @@ public abstract class TestConventionPlugin : Plugin<Project> {
     }
 
     target.tasks.withType(Test::class.java).configureEach { task ->
-      task.useJUnitPlatform()
-
       task.systemProperty("kase.baseWorkingDir", target.buildDir().resolve("kase"))
-
-      val junitPlatformOptions = task.testFrameworkProperty
-        .map { frameWork ->
-          @Suppress("ForbiddenImport")
-          (frameWork as org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestFramework).options
-        }
 
       task.doFirst {
 
         val tags = includeTags.orNull
         if (!tags.isNullOrEmpty()) {
-          junitPlatformOptions.get().includeTags(*tags.toTypedArray())
+          (task.options as JUnitPlatformOptions).includeTags(*tags.toTypedArray())
         }
       }
 
@@ -119,6 +115,15 @@ public abstract class TestConventionPlugin : Plugin<Project> {
     }
 
     target.plugins.withJavaPlugin {
+
+      @Suppress("UnstableApiUsage")
+      target.extensions.getByType(TestingExtension::class.java)
+        .suites
+        .withType(JvmTestSuite::class.java)
+        .configureEach { suite ->
+          suite.useJUnitJupiter(Versions.jUnit5)
+        }
+
       val javaSettings = target.mahoutProperties.java
 
       val testAll = target.tasks.register("testAll", Test::class.java) { task ->

@@ -13,12 +13,7 @@
  * limitations under the License.
  */
 
-import com.rickbusarow.kgx.buildDir
 import com.rickbusarow.kgx.withBuildInitPlugin
-import com.rickbusarow.kgx.withKotlinJvmPlugin
-import org.gradle.plugins.ide.idea.model.IdeaModel
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
-import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.gradle.kotlin.dsl.addTasksToStartParameter as addTasksToStartParameterDsl
 import org.gradle.kotlin.dsl.mahoutProperties as mahoutPropertiesDsl
 
@@ -61,38 +56,10 @@ mahout {
   )
 }
 
-subprojects sub@{
-  val sub = this@sub
-  sub.layout.buildDirectory.set(sub.file("build/root"))
-
-  sub.plugins.apply("idea")
-
-  sub.extensions.configure(IdeaModel::class) {
-    module {
-      generatedSourceDirs.add(sub.file("build"))
-      excludeDirs = excludeDirs + sub.file("build")
-    }
-  }
-
-  sub.layout.buildDirectory.set(sub.file("build/main"))
-
-  sub.tasks.withType(Test::class).configureEach {
-    systemProperty("kase.baseWorkingDir", buildDir().resolve("kase"))
-  }
-
-  if (!sub.name.startsWith("mahout-settings-") && sub.name != "mahout-api") {
-    sub.plugins.withKotlinJvmPlugin {
-      (sub.kotlinExtension as KotlinJvmProjectExtension)
-        .compilerOptions
-        .optIn
-        .add("com.rickbusarow.mahout.core.InternalMahoutApi")
-    }
-  }
-}
-
 allprojects ap@{
 
   version = mahoutPropertiesDsl.versionName.get()
+  group = mahoutPropertiesDsl.group.get()
 
   this@ap.plugins.withBuildInitPlugin {
     apply(plugin = libs.plugins.rickBusarow.ktlint.get().pluginId)
