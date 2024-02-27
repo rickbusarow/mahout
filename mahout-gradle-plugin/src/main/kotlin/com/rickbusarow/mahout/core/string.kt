@@ -31,7 +31,7 @@ import com.rickbusarow.mahout.core.stdlib.remove
  * }
  * ```
  */
-public inline fun StringBuilder.indent(
+public fun StringBuilder.indent(
   leadingIndent: String = "  ",
   continuationIndent: String = leadingIndent,
   builder: StringBuilder.() -> Unit

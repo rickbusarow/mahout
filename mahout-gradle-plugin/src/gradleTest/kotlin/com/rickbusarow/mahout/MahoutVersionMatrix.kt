@@ -30,14 +30,13 @@ class MahoutVersionMatrix(
 ) : KaseMatrix by KaseMatrix(agp + kotlin + gradle + dagger) {
   private companion object {
     val agpList =
-      setOf("7.3.1", "7.4.2", "8.0.2", "8.1.1", "8.2.0")
-        .map(::AgpDependencyVersion).sorted()
+      setOf("8.1.1", "8.2.0").map(::AgpDependencyVersion).sorted()
     val kotlinList =
-      setOf("1.8.21", "1.9.0", "1.9.10", "1.9.22", KotlinVersion.CURRENT.toString())
+      setOf("1.9.22", KotlinVersion.CURRENT.toString())
         .map(::KotlinDependencyVersion).sorted()
     val gradleList =
-      setOf("8.4", "8.5", GradleVersion.current().version)
+      setOf("8.7-rc-1", GradleVersion.current().version)
         .map(::GradleDependencyVersion).sorted()
-    val daggerList = setOf("2.46.1").map(::DaggerDependencyVersion)
+    val daggerList = setOf("2.50").map(::DaggerDependencyVersion)
   }
 }

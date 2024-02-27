@@ -18,6 +18,7 @@ package com.rickbusarow.mahout.config
 import com.rickbusarow.kase.gradle.GradleTestVersions
 import com.rickbusarow.kase.gradle.versions
 import com.rickbusarow.mahout.MahoutGradleTest
+import io.kotest.assertions.asClue
 import io.kotest.matchers.collections.shouldContainAll
 import org.junit.jupiter.api.TestFactory
 import java.io.File
@@ -34,17 +35,15 @@ class MahoutPropertiesTest : MahoutGradleTest {
 
       buildFile(
         """
-        import com.rickbusarow.mahout.config.mahoutProperties
-
         plugins {
           id("com.rickbusarow.mahout.root")
         }
 
-        val ls = mahoutProperties
+        val props = mahoutProperties
 
         val printSettings by tasks.registering {
           doLast {
-            println(ls)
+            println(props)
           }
         }
         """.trimIndent()
@@ -81,26 +80,30 @@ class MahoutPropertiesTest : MahoutGradleTest {
     }
 
     shouldSucceed("printSettings", withPluginClasspath = true) {
-      output.substringAfterLast("> :printSettings")
-        .substringBefore("BUILD SUCCESSFUL")
-        .lineSequence()
-        .filter { it.isNotBlank() }
-        .toList() shouldContainAll listOf(
-        "mahout.publishing.pom.artifactId=pom artifact id",
-        "mahout.publishing.pom.name=pom name",
-        "mahout.publishing.pom.description=pom description",
-        "mahout.publishing.pom.inceptionYear=pom inception year",
-        "mahout.publishing.pom.url=pom url",
-        "mahout.publishing.pom.license.name=pom license name",
-        "mahout.publishing.pom.license.url=pom license url",
-        "mahout.publishing.pom.license.dist=pom license dist",
-        "mahout.publishing.pom.scm.url=pom scm url",
-        "mahout.publishing.pom.scm.connection=pom scm connection",
-        "mahout.publishing.pom.scm.devConnection=pom scm dev connection",
-        "mahout.publishing.pom.developer.id=pom developer id",
-        "mahout.publishing.pom.developer.name=pom developer name",
-        "mahout.publishing.pom.developer.url=pom developer url"
-      )
+
+      output.asClue {
+
+        output.substringAfterLast("> :printSettings")
+          .substringBefore("BUILD SUCCESSFUL")
+          .lineSequence()
+          .filter { it.isNotBlank() }
+          .toList() shouldContainAll listOf(
+          "mahout.publishing.pom.artifactId=pom artifact id",
+          "mahout.publishing.pom.name=pom name",
+          "mahout.publishing.pom.description=pom description",
+          "mahout.publishing.pom.inceptionYear=pom inception year",
+          "mahout.publishing.pom.url=pom url",
+          "mahout.publishing.pom.license.name=pom license name",
+          "mahout.publishing.pom.license.url=pom license url",
+          "mahout.publishing.pom.license.dist=pom license dist",
+          "mahout.publishing.pom.scm.url=pom scm url",
+          "mahout.publishing.pom.scm.connection=pom scm connection",
+          "mahout.publishing.pom.scm.devConnection=pom scm dev connection",
+          "mahout.publishing.pom.developer.id=pom developer id",
+          "mahout.publishing.pom.developer.name=pom developer name",
+          "mahout.publishing.pom.developer.url=pom developer url"
+        )
+      }
     }
   }
 }

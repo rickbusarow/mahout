@@ -15,6 +15,7 @@
 
 package com.rickbusarow.mahout
 
+import com.rickbusarow.mahout.config.mahoutProperties
 import com.rickbusarow.mahout.conventions.CleanPlugin
 import com.rickbusarow.mahout.conventions.DependencyGuardConventionPlugin
 import com.rickbusarow.mahout.conventions.DetektConventionPlugin
@@ -33,6 +34,8 @@ import org.gradle.api.plugins.JavaBasePlugin
 /** Applies common conventions to any project. */
 public abstract class BaseModulePlugin : Plugin<Project> {
   override fun apply(target: Project) {
+
+    target.group = target.mahoutProperties.group.get()
 
     target.plugins.apply(JavaBasePlugin::class.java)
     target.plugins.apply(MahoutPublishPlugin::class.java)

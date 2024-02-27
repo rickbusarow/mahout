@@ -172,7 +172,7 @@
   },
   {
     "gradlePath": ":mahout-gradle-plugin",
-    "group": "mahout",
+    "group": "com.rickbusarow.mahout",
     "artifactId": "mahout-gradle-plugin",
     "description": "Convention plugins for Gradle builds",
     "packaging": "jar",

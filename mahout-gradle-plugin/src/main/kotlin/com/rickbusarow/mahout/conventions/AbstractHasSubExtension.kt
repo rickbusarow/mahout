@@ -54,16 +54,16 @@ public open class SubExtensionRegistry @Inject constructor(
     return instance
   }
 
-  /** */
-  public inline fun <reified T : SubExtension<T>, reified R : T> register(
-    name: String,
-    instanceType: KClass<out R>
-  ): T {
-    val instance = objects.newInstance(instanceType.java)
-    val publicType = T::class.java
-    schema[name] = SubExtensionElement(publicType = publicType, name = name, instance = instance)
-    return instance
-  }
+  // /** */
+  // public inline fun <reified T : SubExtension<T>, reified R : T> register(
+  //   name: String,
+  //   instanceType: KClass<out R>
+  // ): T {
+  //   val instance = objects.newInstance(instanceType.java)
+  //   val publicType = T::class.java
+  //   schema[name] = SubExtensionElement(publicType = publicType, name = name, instance = instance)
+  //   return instance
+  // }
 
   /** */
   @Poko
@@ -82,10 +82,6 @@ public open class SubExtensionRegistry @Inject constructor(
 
 /** */
 public abstract class AbstractHasSubExtension : HasObjectFactory {
-
-  // protected inline fun <reified T : SubExtension<T>> subExtension(): Lazy<T> {
-  //   return objects.newInstanceLazy<T>()
-  // }
 
   protected fun <T : SubExtension<T>, R : T> subExtension(clazz: KClass<out R>): Lazy<R> {
     return objects.newInstanceLazy(clazz.java)
@@ -107,10 +103,6 @@ public abstract class AbstractSubExtension @Inject constructor(
 ) : SubExtensionInternal, ExtensionAware, ObjectFactory by objects {
 
   protected val mahoutProperties: MahoutProperties by gradleLazy { target.mahoutProperties }
-
-  protected inline fun <reified T : SubExtension<T>> subExtension(): Lazy<T> {
-    return objects.newInstanceLazy<T>()
-  }
 
   protected fun <T : SubExtension<T>> subExtension(clazz: Class<out T>): Lazy<T> {
     return objects.newInstanceLazy(clazz)
