@@ -17,6 +17,7 @@ package com.rickbusarow.mahout.conventions
 
 import com.rickbusarow.kgx.checkProjectIsRoot
 import com.rickbusarow.kgx.dependOn
+import com.rickbusarow.mahout.config.mahoutProperties
 import com.rickbusarow.mahout.core.VERSION_NAME
 import com.rickbusarow.mahout.core.stdlib.zipContentEquals
 import com.rickbusarow.mahout.core.versionIsSnapshot
@@ -36,15 +37,16 @@ public abstract class DokkaVersionArchivePlugin : Plugin<Project> {
       "Only apply the dokka version archive plugin to a root project."
     }
 
-    val versionWithoutSnapshot = target.VERSION_NAME.removeSuffix("-SNAPSHOT")
-
     val dokkaHtmlMultiModuleBuildDir = target.rootDir.resolve("build/dokka/htmlMultiModule")
-    val currentVersionBuildDirZip =
-      dokkaHtmlMultiModuleBuildDir.resolveSibling("$versionWithoutSnapshot.zip")
-
     val dokkaArchiveBuildDir = target.rootDir.resolve("build/tmp/dokka-archive")
-
     val dokkaArchive = target.rootDir.resolve("dokka-archive")
+
+    val versionWithoutSnapshot = target.mahoutProperties
+      .versionName
+      .map { it.removeSuffix("-SNAPSHOT") }
+
+    val currentVersionBuildDirZip = versionWithoutSnapshot
+      .map { dokkaHtmlMultiModuleBuildDir.resolveSibling("$it.zip") }
 
     val taskGroup = "dokka versioning"
 
@@ -62,7 +64,7 @@ public abstract class DokkaVersionArchivePlugin : Plugin<Project> {
           .maxDepth(1)
           .filter { file -> file.isFile }
           .filter { file -> file.extension == "zip" }
-          .filter { file -> file.nameWithoutExtension != versionWithoutSnapshot }
+          .filter { file -> file.nameWithoutExtension != versionWithoutSnapshot.get() }
           .forEach { zipFile -> task.from(target.zipTree(zipFile)) }
       }
 
@@ -74,7 +76,7 @@ public abstract class DokkaVersionArchivePlugin : Plugin<Project> {
         task.description = "Zips the contents of $dokkaArchiveBuildDir"
 
         task.destinationDirectory.set(dokkaHtmlMultiModuleBuildDir.parentFile)
-        task.archiveFileName.set(currentVersionBuildDirZip.name)
+        task.archiveFileName.set(currentVersionBuildDirZip.map { it.name })
         task.outputs.file(currentVersionBuildDirZip)
 
         task.enabled = !target.versionIsSnapshot
@@ -91,15 +93,19 @@ public abstract class DokkaVersionArchivePlugin : Plugin<Project> {
       }
 
     target.tasks.register("syncDokkaToArchive", Copy::class.java) { task ->
+
+      val withoutSnapshot = versionWithoutSnapshot.get()
+
       task.group = taskGroup
       task.description =
-        "sync the Dokka output for the current version to /dokka-archive/$versionWithoutSnapshot"
+        "sync the Dokka output for the current version to /dokka-archive/$withoutSnapshot"
 
       task.from(currentVersionBuildDirZip)
       task.into(dokkaArchive)
-      task.outputs.file(dokkaArchive.resolve("$versionWithoutSnapshot.zip"))
 
-      task.enabled = versionWithoutSnapshot == target.VERSION_NAME
+      task.outputs.file(versionWithoutSnapshot.map { dokkaArchive.resolve("$it.zip") })
+
+      task.enabled = withoutSnapshot == target.VERSION_NAME
 
       task.mustRunAfter(target.tasks.withType(DokkaMultiModuleTask::class.java))
       task.dependsOn(zipDokkaArchive)
@@ -108,7 +114,7 @@ public abstract class DokkaVersionArchivePlugin : Plugin<Project> {
 
         val destZip = dokkaArchive.resolve("$versionWithoutSnapshot.zip")
 
-        !destZip.exists() || !currentVersionBuildDirZip.zipContentEquals(destZip)
+        !destZip.exists() || !currentVersionBuildDirZip.get().zipContentEquals(destZip)
       }
     }
 
@@ -116,4 +122,6 @@ public abstract class DokkaVersionArchivePlugin : Plugin<Project> {
       it.finalizedBy(zipDokkaArchive)
     }
   }
+
+  private fun Project.versionWithoutSnapshot() = VERSION_NAME.removeSuffix("-SNAPSHOT")
 }
