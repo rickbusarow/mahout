@@ -15,8 +15,6 @@
 
 package com.rickbusarow.mahout.core
 
-import com.rickbusarow.kgx.extras
-import com.rickbusarow.kgx.getOrPut
 import com.rickbusarow.mahout.config.mahoutProperties
 import com.rickbusarow.mahout.config.url
 import org.gradle.api.Project
@@ -27,7 +25,7 @@ internal val Project.VERSION_NAME: String
 
 /**  */
 internal val Project.versionIsSnapshot: Boolean
-  get() = extras.getOrPut("versionIsSnapshot") { VERSION_NAME.endsWith("-SNAPSHOT") }
+  get() = VERSION_NAME.endsWith("-SNAPSHOT")
 
 /** ex: `square` */
 internal val Project.GITHUB_OWNER: String
