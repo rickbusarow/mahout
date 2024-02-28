@@ -16,14 +16,14 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
 
       - name: Check
-        uses: ./.github/actions/gradle-task
+        uses: rickbusarow/actions/gradle-task@v1
         with:
           task: check
           write-cache-key: main-build-artifacts
           restore-cache-key: main-build-artifacts
 
       - name: Publish Snapshots
-        uses: ./.github/actions/gradle-task
+        uses: rickbusarow/actions/gradle-task@v1
         with:
           task: publish
         env:
