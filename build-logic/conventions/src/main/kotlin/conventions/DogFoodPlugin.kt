@@ -44,7 +44,12 @@ abstract class DogFoodPlugin : Plugin<Project> {
   }
 
   private fun optIn(target: Project) {
-    if (target.name != "mahout-api") {
+    val excluded = setOf(
+      "mahout-api",
+      "mahout-settings-annotations",
+      "mahout-settings-generator"
+    )
+    if (target.name !in excluded) {
       target.plugins.withKotlinJvmPlugin {
         target.kotlinJvmExtension
           .compilerOptions
