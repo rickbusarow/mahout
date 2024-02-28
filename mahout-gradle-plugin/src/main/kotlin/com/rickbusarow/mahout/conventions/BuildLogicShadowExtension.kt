@@ -39,15 +39,6 @@ public interface BuildLogicShadowExtensionHook {
   public fun shadow(enabled: Boolean) {
     // shadow.enabled.set(false)
   }
-
-  //   public    fun shadow4(
-  //   shadowConfiguration: Configuration?
-  // )
-
-  //    public   fun shadow5(
-  //   shadowConfiguration: Configuration,
-  //   relocatePackages: List<String>
-  // )
 }
 
 /** */

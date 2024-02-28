@@ -157,5 +157,8 @@ public abstract class TestConventionPlugin : Plugin<Project> {
   }
 }
 
-/** A [Test] task that has an overridden `javaLauncher` property. */
+/**
+ * A [Test] task that has
+ * an overridden `javaLauncher` property.
+ */
 public abstract class MahoutTestJdkTask : Test(), MahoutCheckTask
