@@ -41,35 +41,9 @@ plugins {
   id("conventions.dogFood")
   idea
 }
-val foo by tasks.registering {
-  doLast {
-
-    // val artifacts = publishing.publications.getByName("maven", MavenPublication::class).artifacts
-    val pubs = publishing.publications.withType(MavenPublication::class)
-
-    println("################################################################## publications")
-    for (pub in pubs) {
-      println("~~~~~~~~~~~~~~~~~~~~~~~~ ${pub.name}")
-      for (it in pub.artifacts) {
-        val taskDeps = it.buildDependencies
-          .getDependencies(tasks.getByName("publishToMavenLocal"))
-        // .getDependencies(tasks.getByName("publishMavenPublicationToMavenLocal"))
-        println("${it.extension}  --  ${it.classifier}  --  $taskDeps")
-      }
-      println("~~~~~~~~~~~~~~~~~~~~~~~~")
-    }
-    println("##################################################################")
-  }
-}
 
 dogFood {
   mainMahoutPlugin("com.rickbusarow.mahout.java-gradle-plugin")
-
-  // publishMaven(
-  //   artifactId = "mahout-gradle-plugin",
-  //   name = "Mahout Gradle Plugin",
-  //   description = "Convention plugins for Gradle builds"
-  // )
 
   plugin(
     name = "composite",

@@ -54,17 +54,6 @@ public open class SubExtensionRegistry @Inject constructor(
     return instance
   }
 
-  // /** */
-  // public inline fun <reified T : SubExtension<T>, reified R : T> register(
-  //   name: String,
-  //   instanceType: KClass<out R>
-  // ): T {
-  //   val instance = objects.newInstance(instanceType.java)
-  //   val publicType = T::class.java
-  //   schema[name] = SubExtensionElement(publicType = publicType, name = name, instance = instance)
-  //   return instance
-  // }
-
   /** */
   @Poko
   public class SubExtensionElement<out T : SubExtension<*>>(

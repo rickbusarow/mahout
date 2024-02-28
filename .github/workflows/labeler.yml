@@ -5,7 +5,7 @@ on:
   merge_group:
 
 jobs:
-  triage:
+  add-labels:
     permissions:
       contents: read
       pull-requests: write
