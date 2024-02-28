@@ -16,10 +16,11 @@
 plugins {
   alias(libs.plugins.kotlin.jvm)
   alias(libs.plugins.ksp)
+  id("conventions.dogFood")
 }
 
-if (rootProject.name == "mahout") {
-  apply(plugin = "com.rickbusarow.mahout.kotlin-jvm-module")
+dogFood {
+  mainMahoutPlugin("com.rickbusarow.mahout.kotlin-jvm-module")
 }
 
 dependencies {

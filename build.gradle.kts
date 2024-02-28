@@ -69,3 +69,12 @@ allprojects ap@{
     }
   }
 }
+
+subprojects sp@{
+  this@sp.afterEvaluate {
+    val id = "conventions.dogFood"
+    check(this@sp.plugins.hasPlugin(id)) {
+      "Every project must apply the '$id' plugin."
+    }
+  }
+}
