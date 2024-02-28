@@ -174,7 +174,7 @@ jobs:
           restore-cache-key: main-build-artifacts
 
       - name: merge detekt SARIF reports
-        if: failure()
+        if: success() || failure()
         uses: ./.github/actions/gradle-task
         with:
           task: detektReportMerge
