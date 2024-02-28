@@ -35,11 +35,11 @@ internal val Project.mahoutProperties: MahoutProperties
 public interface MahoutProperties : JavaSerializable {
 
   /** */
-  @DelegateProperty("GROUP")
+  @DelegateProperty("GROUP", "group")
   public val group: Provider<String>
 
   /** */
-  @DelegateProperty("VERSION_NAME")
+  @DelegateProperty("VERSION_NAME", "version")
   public val versionName: Provider<String>
 
   /** */
