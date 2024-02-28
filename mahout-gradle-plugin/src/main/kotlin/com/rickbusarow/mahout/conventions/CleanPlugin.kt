@@ -88,5 +88,5 @@ public abstract class DeleteEmptyDirsTask : MahoutCleanTask(), MahoutTask
 public abstract class DeleteOrphanedProjectDirsTask : MahoutCleanTask(), MahoutTask
 
 internal fun File.hasOnlyEmptySubdirectories(): Boolean {
-  return !isFile && walkBottomUp().any { it.isFile }
+  return !isFile && walkBottomUp().none { it.isFile }
 }
