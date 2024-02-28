@@ -617,7 +617,7 @@ style:
       - "com.android.build.*"
       - "groovy.xml.XmlParser"
       - "org.gradle.api.internal.*"
-      - "org.gradle.jvm.tasks.Jar"  # use `org.gradle.api.tasks.bundling.Jar` instead
+      - "org.gradle.jvm.tasks.Jar" # use `org.gradle.api.tasks.bundling.Jar` instead
     forbiddenPatterns: ""
     excludes: []
   ForbiddenMethodCall:
