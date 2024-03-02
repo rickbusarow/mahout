@@ -871,7 +871,7 @@ public abstract class com/rickbusarow/mahout/publishing/DefaultPublishingMavenSu
 	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
 	public fun configure (Lorg/gradle/api/Action;)V
 	public fun getDefaultPom ()Lorg/gradle/api/publish/maven/internal/publication/DefaultMavenPom;
-	public fun publishMaven (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public fun publishMaven (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;)V
 }
 
 public abstract interface class com/rickbusarow/mahout/publishing/HasPublishingMavenSubExtension : java/io/Serializable {
@@ -895,12 +895,12 @@ public abstract interface class com/rickbusarow/mahout/publishing/PublishingGrad
 
 public abstract interface class com/rickbusarow/mahout/publishing/PublishingMavenSubExtension : com/rickbusarow/mahout/api/SubExtension {
 	public abstract fun getDefaultPom ()Lorg/gradle/api/publish/maven/internal/publication/DefaultMavenPom;
-	public abstract fun publishMaven (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun publishMaven (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;)V
 }
 
 public final class com/rickbusarow/mahout/publishing/PublishingMavenSubExtension$DefaultImpls {
 	public static fun configure (Lcom/rickbusarow/mahout/publishing/PublishingMavenSubExtension;Lorg/gradle/api/Action;)V
-	public static synthetic fun publishMaven$default (Lcom/rickbusarow/mahout/publishing/PublishingMavenSubExtension;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;ILjava/lang/Object;)V
+	public static synthetic fun publishMaven$default (Lcom/rickbusarow/mahout/publishing/PublishingMavenSubExtension;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;ILjava/lang/Object;)V
 }
 
 public abstract class com/rickbusarow/mahout/variants/DefaultFeatureVariantsSubExtension : com/rickbusarow/mahout/conventions/AbstractSubExtension, com/rickbusarow/mahout/api/SubExtensionInternal, com/rickbusarow/mahout/variants/FeatureVariantsSubExtension {
