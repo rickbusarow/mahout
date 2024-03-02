@@ -85,6 +85,8 @@ public abstract class DefaultFeatureVariantsSubExtension @Inject constructor(
 
   public override fun variant(name: String, config: Action<FeatureVariant>) {
 
+    target.pluginManager.apply("idea")
+
     variants.create(name) { variant ->
 
       config.execute(variant)

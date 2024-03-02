@@ -70,10 +70,23 @@ public interface PublishingMavenSubExtension : SubExtension<PublishingMavenSubEx
   /** */
   public val defaultPom: DefaultMavenPom
 
-  /** */
+  /**
+   * Registers a new `MavenPublication` for publishing to a Maven repository like Maven Central.
+   * Registration happens immediately, but configuration is deferred until task execution.
+   *
+   * @param artifactId for example, `acme-core` in `com.acme.explosives:acme-core:1.0.0`
+   * @param pomDescription the description for this artifact, such as "A library for doing things"
+   * @param name the description for this artifact, such as "A library for doing things"
+   * @param groupId for example, `com.acme.explosives` in `com.acme.explosives:acme-core:1.0.0`
+   * @param versionName for example, `1.0.0` in `com.acme.explosives:acme-core:1.0.0`
+   * @param sourceSetName the source set to publish. Defaults to `main`.
+   * @param publicationName the name of the publication. Defaults to `maven`.
+   * @param configureAction further customization, evaluated lazily
+   */
   public fun publishMaven(
     artifactId: String? = null,
     pomDescription: String? = null,
+    name: String? = null,
     groupId: String? = null,
     versionName: String? = null,
     sourceSetName: String = "main",
@@ -129,6 +142,7 @@ public abstract class DefaultPublishingMavenSubExtension @Inject constructor(
   override fun publishMaven(
     artifactId: String?,
     pomDescription: String?,
+    name: String?,
     groupId: String?,
     versionName: String?,
     sourceSetName: String,
@@ -176,7 +190,7 @@ public abstract class DefaultPublishingMavenSubExtension @Inject constructor(
         publication.pom { mavenPom ->
 
           mavenPom.url.convention(default.url)
-          mavenPom.name.convention(default.name)
+          mavenPom.name.convention(target.provider { name }.orElse(default.name))
           mavenPom.description.convention(default.description)
           mavenPom.inceptionYear.convention(default.inceptionYear)
 

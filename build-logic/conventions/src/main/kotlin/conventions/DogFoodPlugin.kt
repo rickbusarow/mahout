@@ -123,6 +123,7 @@ abstract class DogFoodExtension @Inject constructor(private val target: Project)
         publishMavenFun.instanceParameter!! to publishingSub,
         p("artifactId") to artifactId,
         p("pomDescription") to description,
+        p("name") to name,
         p("groupId") to target.gradleProperty("mahout.group"),
         p("versionName") to target.gradleProperty("mahout.versionName"),
         p("sourceSetName") to "main",
