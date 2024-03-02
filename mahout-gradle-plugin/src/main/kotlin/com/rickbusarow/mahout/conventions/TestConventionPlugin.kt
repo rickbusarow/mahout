@@ -25,6 +25,7 @@ import com.rickbusarow.mahout.core.check
 import com.rickbusarow.mahout.core.commonPropertyPrefix
 import com.rickbusarow.mahout.core.javaToolchainService
 import com.rickbusarow.mahout.core.prefixedPropertyOrNull
+import com.rickbusarow.mahout.deps.Libs
 import com.rickbusarow.mahout.deps.Versions
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -122,6 +123,9 @@ public abstract class TestConventionPlugin : Plugin<Project> {
         .withType(JvmTestSuite::class.java)
         .configureEach { suite ->
           suite.useJUnitJupiter(Versions.jUnit5)
+          suite.dependencies {
+            it.runtimeOnly.add(Libs.`junit-vintage-engine`)
+          }
         }
 
       val javaSettings = target.mahoutProperties.java
