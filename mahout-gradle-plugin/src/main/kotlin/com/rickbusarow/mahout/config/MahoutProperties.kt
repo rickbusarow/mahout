@@ -92,7 +92,9 @@ public interface MahoutProperties : JavaSerializable {
   /** */
   public interface KotlinSettingsGroup : JavaSerializable {
 
-    /** Any additional Kotlin compiler arguments, such as `-Xjvm-default=all`. */
+    /**
+     * Any additional Kotlin compiler arguments, such as `-Xjvm-default=all`.
+     */
     public val compilerArgs: Provider<List<String>>
 
     /** */
