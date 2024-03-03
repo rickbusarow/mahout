@@ -37,13 +37,17 @@ public abstract class CleanPlugin : Plugin<Project> {
       .register("deleteEmptyDirs", DeleteEmptyDirsTask::class.java) { task ->
         task.description = "Delete all empty directories within a project."
 
-        val theFiles = target.fileTree(target.projectDir) { tree ->
-          tree
-            .exclude("**/build/", "**/.gradle/", "**/.git/")
-            .exclude(target.subprojects.map { it.projectDir.path })
-            .include { it.file.hasOnlyEmptySubdirectories() }
+        val subprojectDirs = target.subprojects.map { it.projectDir.path }
+
+        val empties = target.provider {
+          target.projectDir.walkBottomUp()
+            .filter { it.isDirectory }
+            .filterNot { dir -> subprojectDirs.any { dir.path.startsWith(it) } }
+            .filterNot { it.path.contains(".gradle") }
+            .filter { it.hasOnlyEmptySubdirectories() }
+            .toList()
         }
-        task.delete(theFiles)
+        task.delete(empties)
       }
 
     target.tasks.clean.dependsOn(deleteEmptyDirs)
