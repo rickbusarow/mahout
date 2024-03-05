@@ -98,7 +98,7 @@ com.vanniktech:gradle-maven-publish-plugin:0.27.0
 com.vanniktech:nexus:0.27.0
 commons-codec:commons-codec:1.16.0
 commons-io:commons-io:2.13.0
-dev.adamko.dokkatoo:dokkatoo-plugin:2.1.0
+dev.adamko.dokkatoo:dokkatoo-plugin:2.2.0
 dev.drewhamilton.poko:poko-annotations-jvm:0.15.2
 dev.drewhamilton.poko:poko-annotations:0.15.2
 dev.drewhamilton.poko:poko-gradle-plugin:0.15.2
@@ -137,7 +137,7 @@ org.javassist:javassist:3.28.0-GA
 org.jdom:jdom2:2.0.6.1
 org.jetbrains.dokka:analysis-markdown:1.9.10
 org.jetbrains.dokka:dokka-base:1.9.10
-org.jetbrains.dokka:dokka-core:1.9.10
+org.jetbrains.dokka:dokka-core:1.9.20
 org.jetbrains.dokka:dokka-gradle-plugin:1.9.10
 org.jetbrains.dokka:templating-plugin:1.9.10
 org.jetbrains.dokka:versioning-plugin:1.9.10
@@ -171,10 +171,10 @@ org.jetbrains.kotlin:kotlin-tooling-core:1.9.22
 org.jetbrains.kotlin:kotlin-util-io:1.9.22
 org.jetbrains.kotlin:kotlin-util-klib:1.9.22
 org.jetbrains.kotlinx:binary-compatibility-validator:0.14.0
-org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.6.3
-org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.3
-org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3
-org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.3
+org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.7.3
+org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3
+org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3
+org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.7.3
 org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.5
 org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.6.2
 org.jetbrains.kotlinx:kotlinx-serialization-bom:1.6.3
@@ -182,7 +182,7 @@ org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.6.3
 org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.3
 org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.6.3
 org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3
-org.jetbrains:annotations:13.0
+org.jetbrains:annotations:23.0.0
 org.jetbrains:markdown-jvm:0.3.1
 org.jetbrains:markdown:0.3.1
 org.jsoup:jsoup:1.15.3
