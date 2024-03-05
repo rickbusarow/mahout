@@ -27,7 +27,10 @@ import com.rickbusarow.kgx.newInstance
 import com.rickbusarow.kgx.register
 import com.rickbusarow.mahout.api.SubExtension
 import com.rickbusarow.mahout.api.SubExtensionInternal
+import com.rickbusarow.mahout.config.gitUrl
 import com.rickbusarow.mahout.config.mahoutProperties
+import com.rickbusarow.mahout.config.sshUrl
+import com.rickbusarow.mahout.config.url
 import com.rickbusarow.mahout.conventions.AbstractHasSubExtension
 import com.rickbusarow.mahout.conventions.AbstractSubExtension
 import com.rickbusarow.mahout.core.stdlib.letIf
@@ -123,9 +126,18 @@ public abstract class DefaultPublishingMavenSubExtension @Inject constructor(
 
         pom.scm { scm ->
 
-          scm.url.convention(mahoutProperties.publishing.pom.scm.url)
-          scm.connection.convention(mahoutProperties.publishing.pom.scm.connection)
-          scm.developerConnection.convention(mahoutProperties.publishing.pom.scm.devConnection)
+          scm.url.convention(
+            mahoutProperties.publishing.pom.scm.url
+              .orElse(mahoutProperties.repository.github.url)
+          )
+          scm.connection.convention(
+            mahoutProperties.publishing.pom.scm.connection
+              .orElse(mahoutProperties.repository.github.gitUrl)
+          )
+          scm.developerConnection.convention(
+            mahoutProperties.publishing.pom.scm.devConnection
+              .orElse(mahoutProperties.repository.github.sshUrl)
+          )
         }
 
         pom.developers { developerSpec ->
@@ -206,9 +218,11 @@ public abstract class DefaultPublishingMavenSubExtension @Inject constructor(
           }
 
           mavenPom.scm { scm ->
-            default.scm?.url?.let { scm.url.convention(it) }
-            default.scm?.connection?.let { scm.connection.convention(it) }
-            default.scm?.developerConnection?.let { scm.developerConnection.convention(it) }
+            val defaultScm = requireNotNull(default.scm)
+
+            scm.url.set(defaultScm.url)
+            scm.connection.set(defaultScm.connection)
+            scm.developerConnection.set(defaultScm.developerConnection)
           }
 
           mavenPom.developers { developerSpec ->
