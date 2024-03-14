@@ -16,18 +16,20 @@
 package com.rickbusarow.mahout.conventions
 
 import com.rickbusarow.kgx.checkProjectIsRoot
-import com.rickbusarow.kgx.dependOn
 import com.rickbusarow.mahout.config.mahoutProperties
 import com.rickbusarow.mahout.core.VERSION_NAME
 import com.rickbusarow.mahout.core.stdlib.zipContentEquals
 import com.rickbusarow.mahout.core.versionIsSnapshot
-import com.rickbusarow.mahout.dokka.DokkatooConventionPlugin.Companion.DOKKATOO_HTML_TASK_NAME
+import com.rickbusarow.mahout.dokka.DokkatooConventionPlugin.Companion.dokkatooGeneratePublicationHtmlTask
+import dev.adamko.dokkatoo.tasks.DokkatooGenerateModuleTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.file.Directory
+import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.Sync
 import org.gradle.api.tasks.bundling.Zip
-import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
+import java.io.File
 
 @Suppress("UndocumentedPublicClass")
 public abstract class DokkaVersionArchivePlugin : Plugin<Project> {
@@ -37,23 +39,28 @@ public abstract class DokkaVersionArchivePlugin : Plugin<Project> {
       "Only apply the dokka version archive plugin to a root project."
     }
 
-    val dokkaHtmlMultiModuleBuildDir = target.rootDir.resolve("build/dokka/htmlMultiModule")
-    val dokkaArchiveBuildDir = target.rootDir.resolve("build/tmp/dokka-archive")
-    val dokkaArchive = target.rootDir.resolve("dokka-archive")
+    val dokkaHtmlMultiModuleBuildDir = target.dokkaHtmlMultiModuleBuildDir()
+    val dokkaArchiveBuildDir = target.dokkaArchiveBuildDir()
+    val dokkaArchive = target.dokkaArchive()
 
     val versionWithoutSnapshot = target.mahoutProperties
       .versionName
       .map { it.removeSuffix("-SNAPSHOT") }
 
-    val currentVersionBuildDirZip = versionWithoutSnapshot
-      .map { dokkaHtmlMultiModuleBuildDir.resolveSibling("$it.zip") }
+    val currentVersionZipName = versionWithoutSnapshot.map { "$it.zip" }
+
+    val currentVersionBuildDirZip = currentVersionZipName
+      .zip(dokkaHtmlMultiModuleBuildDir) { version, dir ->
+        dir.asFile.resolveSibling("$version.zip")
+      }
 
     val taskGroup = "dokka versioning"
 
     val unzip = target.tasks
       .register("unzipDokkaArchives", Sync::class.java) { task ->
         task.group = taskGroup
-        task.description = "Unzips all zip files in $dokkaArchive into $dokkaArchiveBuildDir"
+        task.description =
+          "Unzips all zip files in $dokkaArchive into ${dokkaArchiveBuildDir.get().asFile}"
 
         task.onlyIf { dokkaArchive.exists() }
 
@@ -68,28 +75,27 @@ public abstract class DokkaVersionArchivePlugin : Plugin<Project> {
           .forEach { zipFile -> task.from(target.zipTree(zipFile)) }
       }
 
-    target.tasks.withType(DokkaMultiModuleTask::class.java).dependOn(unzip)
+    target.tasks.withType(DokkatooGenerateModuleTask::class.java).configureEach {
+      it.inputs.files(unzip)
+    }
 
     val zipDokkaArchive = target.tasks
       .register("zipDokkaArchive", Zip::class.java) { task ->
         task.group = taskGroup
-        task.description = "Zips the contents of $dokkaArchiveBuildDir"
+        task.description = "Zips the contents of ${dokkaArchiveBuildDir.get().asFile}"
 
-        task.destinationDirectory.set(dokkaHtmlMultiModuleBuildDir.parentFile)
-        task.archiveFileName.set(currentVersionBuildDirZip.map { it.name })
+        task.destinationDirectory.set(target.dokkaBuildDir())
+        task.archiveFileName.set(currentVersionZipName)
         task.outputs.file(currentVersionBuildDirZip)
 
         task.enabled = !target.versionIsSnapshot
 
-        task.from(dokkaHtmlMultiModuleBuildDir) {
+        task.from(target.dokkatooGeneratePublicationHtmlTask()) {
           it.into(versionWithoutSnapshot)
           // Don't copy the `older/` directory into the archive, because all navigation is done using
           // the root version's copy.  Archived `older/` directories just waste space.
           it.exclude("older/**")
         }
-
-        task.mustRunAfter(target.tasks.withType(DokkaMultiModuleTask::class.java))
-        task.dependsOn(target.rootProject.tasks.named(DOKKATOO_HTML_TASK_NAME))
       }
 
     target.tasks.register("syncDokkaToArchive", Copy::class.java) { task ->
@@ -100,28 +106,41 @@ public abstract class DokkaVersionArchivePlugin : Plugin<Project> {
       task.description =
         "sync the Dokka output for the current version to /dokka-archive/$withoutSnapshot"
 
-      task.from(currentVersionBuildDirZip)
+      task.from(zipDokkaArchive)
       task.into(dokkaArchive)
 
       task.outputs.file(versionWithoutSnapshot.map { dokkaArchive.resolve("$it.zip") })
 
       task.enabled = withoutSnapshot == target.VERSION_NAME
 
-      task.mustRunAfter(target.tasks.withType(DokkaMultiModuleTask::class.java))
-      task.dependsOn(zipDokkaArchive)
-
       task.onlyIf {
 
-        val destZip = dokkaArchive.resolve("$versionWithoutSnapshot.zip")
+        val destZip = dokkaArchive.resolve(currentVersionZipName.get())
 
-        !destZip.exists() || !currentVersionBuildDirZip.get().zipContentEquals(destZip)
+        !destZip.exists() || !currentVersionBuildDirZip.get()
+          .zipContentEquals(zipDokkaArchive.get().outputs.files.singleFile)
       }
-    }
-
-    target.tasks.withType(DokkaMultiModuleTask::class.java).configureEach {
-      it.finalizedBy(zipDokkaArchive)
     }
   }
 
-  private fun Project.versionWithoutSnapshot() = VERSION_NAME.removeSuffix("-SNAPSHOT")
+  internal companion object {
+
+    internal fun Project.dokkaBuildDir(): Provider<Directory> {
+      return rootProject.layout
+        .buildDirectory
+        .dir("dokka")
+    }
+
+    internal fun Project.dokkaHtmlMultiModuleBuildDir(): Provider<Directory> {
+      return dokkatooGeneratePublicationHtmlTask().map { it.outputDirectory.get() }
+    }
+
+    internal fun Project.dokkaArchiveBuildDir(): Provider<Directory> {
+      return rootProject.layout
+        .buildDirectory
+        .dir("tmp/dokka-archive")
+    }
+
+    internal fun Project.dokkaArchive(): File = rootProject.file("dokka-archive")
+  }
 }
