@@ -25,6 +25,7 @@ import com.rickbusarow.mahout.api.DefaultMahoutCheckTask
 import com.rickbusarow.mahout.api.DefaultMahoutJavadocJarTask
 import com.rickbusarow.mahout.api.MahoutFixTask
 import com.rickbusarow.mahout.config.JavaVersion.Companion.major
+import com.rickbusarow.mahout.conventions.DokkaVersionArchivePlugin.Companion.dokkaArchiveBuildDir
 import com.rickbusarow.mahout.conventions.HasGitHubSubExtension
 import com.rickbusarow.mahout.conventions.HasJavaSubExtension
 import com.rickbusarow.mahout.conventions.HasKotlinSubExtension
@@ -34,6 +35,8 @@ import com.rickbusarow.mahout.deps.Libs
 import com.rickbusarow.mahout.mahoutExtension
 import dev.adamko.dokkatoo.DokkatooExtension
 import dev.adamko.dokkatoo.dokka.plugins.DokkaVersioningPluginParameters
+import dev.adamko.dokkatoo.tasks.DokkatooGenerateModuleTask
+import dev.adamko.dokkatoo.tasks.DokkatooGeneratePublicationTask
 import dev.adamko.dokkatoo.tasks.DokkatooGenerateTask
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
@@ -120,46 +123,27 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
         task.mustRunAfter(target.tasks.withType(KtLintTask::class.java))
       }
 
-      // The `org.gradle.plugin-publish` plugin
-      // adds the `javadocJar` output as the `javadoc` artifact,
-      // but it doesn't include the Dokka output by default.
-      target.tasks.withType(Jar::class.java)
-        .named { it == "javadocJar" }
-        .configureEach { it.from(target.tasks.named(DOKKATOO_HTML_TASK_NAME)) }
-
-      target.tasks.register("dokkaJavadocJar", DefaultMahoutJavadocJarTask::class.java) {
-        val dokkaTask = target.tasks.named(DOKKATOO_HTML_TASK_NAME)
-
-        val skipDokka = target.extras.getOrPut("skipDokka") { false }
-
-        it.archiveClassifier.set("javadoc")
-
-        if (!skipDokka) {
-          it.dependsOn(dokkaTask)
-          it.from(dokkaTask)
-        }
-      }
+      addJavadocHooks(target)
+      addPublishingHooks(target)
 
       if (target.isRootProject()) {
 
-        val config = target.configurations.getByName("dokkatoo")
+        target.configurations.getByName("dokkatoo").dependencies.let { deps ->
 
-        config.dependencies.addAllLater(
-          target.provider {
-            target.subprojects
-              .filter { sub -> sub.subprojects.isEmpty() }
-              .map { sub -> target.projectDependency(sub.path) }
-          }
-        )
+          val allProjects = target.subprojects
+            .asSequence()
+            .filter { it.buildFile.exists() }
+            .filter { it.name != "kase-overload-generator" }
+            .map { sub -> target.projectDependency(sub.path) }
+
+          deps.addAll(allProjects)
+        }
 
         val pluginConfig = "dokkatooPluginHtml"
 
-        target.dependencies.add(pluginConfig, Libs.`dokka-all-modules`)
         target.dependencies.add(pluginConfig, Libs.`dokka-versioning`)
 
-        val dokkaArchiveBuildDir = target.rootProject.layout
-          .buildDirectory
-          .dir("tmp/dokka-archive")
+        val dokkaArchiveBuildDir = target.dokkaArchiveBuildDir()
 
         dokkatoo.pluginsConfiguration
           .withType(DokkaVersioningPluginParameters::class.java)
@@ -170,9 +154,6 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
               versioning.olderVersionsDir.set(dokkaArchiveBuildDir)
             }
             versioning.renderVersionsNavigationOnAllPages.set(true)
-
-            dokkaArchiveBuildDir.get().asFile.mkdirs()
-            versioning.olderVersionsDir.set(dokkaArchiveBuildDir)
           }
 
         dokkatoo.dokkatooPublications.configureEach {
@@ -180,8 +161,36 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
         }
       }
     }
+  }
 
+  private fun addJavadocHooks(target: Project) {
+    // The `org.gradle.plugin-publish` plugin
+    // adds the `javadocJar` output as the `javadoc` artifact,
+    // but it doesn't include the Dokka output by default.
+    target.tasks.withType(Jar::class.java)
+      .named { it == "javadocJar" }
+      .configureEach { it.from(target.dokkatooGenerateModuleHtmlTask()) }
+
+    target.tasks.register("dokkaJavadocJar", DefaultMahoutJavadocJarTask::class.java) {
+
+      val skipDokka = target.extras.getOrPut("skipDokka") { false }
+
+      it.archiveClassifier.set("javadoc")
+
+      if (!skipDokka) {
+        val dokkaTask = target.dokkatooGenerateModuleHtmlTask()
+
+        // it.dependsOn(dokkaTask)
+        it.from(dokkaTask)
+      }
+    }
+  }
+
+  private fun addPublishingHooks(target: Project) {
     target.plugins.withType(MavenPublishPlugin::class.java).configureEach {
+
+      val javadocTasks = target.tasks
+        .withType(DefaultMahoutJavadocJarTask::class.java)
 
       val checkJavadocJarIsNotVersioned = target.tasks
         .register("checkJavadocJarIsNotVersioned", DefaultMahoutCheckTask::class.java) { task ->
@@ -190,18 +199,13 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
             "Ensures that generated javadoc.jar artifacts don't include old Dokka versions"
           task.group = "dokka versioning"
 
-          val javadocTasks = target.tasks.withType(
-            DefaultMahoutJavadocJarTask::class.java
-          )
-          task.dependsOn(javadocTasks)
-
-          task.inputs.files(javadocTasks.map { it.outputs })
+          task.inputs.files(javadocTasks)
 
           val zipTrees = javadocTasks.map { target.zipTree(it.archiveFile) }
 
           task.doLast {
 
-            val jsonReg = """older\/($SEMVER_REGEX)\/version\.json""".toRegex()
+            val jsonReg = """older/($SEMVER_REGEX)/version\.json""".toRegex()
 
             val versions = zipTrees.flatMap { tree ->
               tree
@@ -211,9 +215,7 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
             }
 
             if (versions.isNotEmpty()) {
-              throw GradleException(
-                "Found old Dokka versions in javadoc.jar: $versions"
-              )
+              throw GradleException("Found old Dokka versions in javadoc.jar: $versions")
             }
           }
         }
@@ -223,9 +225,18 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
   }
 
   internal companion object {
-    internal const val DOKKATOO_HTML_TASK_NAME = "dokkatooGeneratePublicationHtml"
-
     internal val TaskContainer.dokkaJavadocJar: TaskProvider<DefaultMahoutJavadocJarTask>
       get() = named("dokkaJavadocJar", DefaultMahoutJavadocJarTask::class.java)
+
+    internal fun Project.dokkatooGenerateModuleHtmlTask(): TaskProvider<DokkatooGenerateModuleTask> {
+      return tasks.named("dokkatooGenerateModuleHtml", DokkatooGenerateModuleTask::class.java)
+    }
+
+    internal fun Project.dokkatooGeneratePublicationHtmlTask(): TaskProvider<DokkatooGeneratePublicationTask> {
+      return tasks.named(
+        "dokkatooGeneratePublicationHtml",
+        DokkatooGeneratePublicationTask::class.java
+      )
+    }
   }
 }
