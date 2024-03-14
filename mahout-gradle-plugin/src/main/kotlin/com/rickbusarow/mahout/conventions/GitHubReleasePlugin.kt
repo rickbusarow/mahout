@@ -18,6 +18,7 @@ package com.rickbusarow.mahout.conventions
 import com.github.breadmoirai.githubreleaseplugin.GithubReleaseExtension
 import com.github.breadmoirai.githubreleaseplugin.GithubReleasePlugin
 import com.rickbusarow.kgx.applyOnce
+import com.rickbusarow.mahout.config.mahoutProperties
 import com.rickbusarow.mahout.core.VERSION_NAME
 import com.rickbusarow.mahout.core.stdlib.SEMVER_REGEX
 import com.rickbusarow.mahout.core.stdlib.splitInclusive
@@ -40,15 +41,17 @@ public abstract class GitHubReleasePlugin : Plugin<Project> {
               "as a property named 'GITHUB_PERSONAL_ACCESS_TOKEN'."
           )
       }
-      release.owner.set("rbusarow")
+
+      release.owner.set(target.mahoutProperties.repository.github.owner)
+      release.repo.set(target.mahoutProperties.repository.github.repo)
 
       release.generateReleaseNotes.set(false)
       release.overwrite.set(false)
       release.dryRun.set(false)
       release.draft.set(false)
 
-      release.tagName.set(target.VERSION_NAME)
-      release.releaseName.set(target.VERSION_NAME)
+      release.tagName.set(target.mahoutProperties.versionName)
+      release.releaseName.set(target.mahoutProperties.versionName)
 
       release.body.set(
         target.provider {

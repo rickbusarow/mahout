@@ -89,10 +89,16 @@ public abstract class DefaultGitHubSubExtension @Inject constructor(
   override val defaultBranch: Property<String> = objects.property(String::class.java)
     .convention(mahoutProperties.repository.defaultBranch)
 
-  override val url: Provider<String> = mahoutProperties.repository.github.url
-    .orElse(owner.zip(repo) { owner, repo -> "https://github.com/$owner/$repo" })
-  override val connection: Provider<String> = mahoutProperties.repository.github.url
-    .orElse(owner.zip(repo) { owner, repo -> "scm:git:git://github.com/$owner/$repo.git" })
-  override val developerConnection: Provider<String> = mahoutProperties.repository.github.url
-    .orElse(owner.zip(repo) { owner, repo -> "scm:git:ssh://github.com/$owner/$repo.git" })
+  override val url: Provider<String> = owner.zip(repo) { owner, repo ->
+    "https://github.com/$owner/$repo"
+  }
+    .orElse(mahoutProperties.repository.github.url)
+  override val connection: Provider<String> = owner.zip(repo) { owner, repo ->
+    "scm:git:git://github.com/$owner/$repo.git"
+  }
+    .orElse(mahoutProperties.repository.github.url)
+  override val developerConnection: Provider<String> = owner.zip(repo) { owner, repo ->
+    "scm:git:ssh://github.com/$owner/$repo.git"
+  }
+    .orElse(mahoutProperties.repository.github.url)
 }
