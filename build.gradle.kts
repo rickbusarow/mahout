@@ -14,6 +14,7 @@
  */
 
 import com.rickbusarow.kgx.withBuildInitPlugin
+import se.bjurr.gitchangelog.plugin.gradle.GitChangelogSemanticVersionTask
 import org.gradle.kotlin.dsl.addTasksToStartParameter as addTasksToStartParameterDsl
 import org.gradle.kotlin.dsl.mahoutProperties as mahoutPropertiesDsl
 
@@ -33,6 +34,49 @@ plugins {
   alias(libs.plugins.vanniktech.publish.base) apply false
   id("com.rickbusarow.mahout.kotlin-jvm-module") apply false
   id("com.rickbusarow.mahout.root")
+  alias(libs.plugins.git.changelog)
+}
+
+tasks.withType(se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask::class.java) {
+  val t = this
+
+  t.templateContent =
+    //language=handlebars
+    """
+    # Changelog
+
+    {{#tags}}
+    {{#ifReleaseTag .}}
+    ## [{{name}}](https://gitlab.com/html-validate/html-validate/compare/{{name}}) ({{tagDate .}})
+
+      {{#ifContainsType commits type='feat'}}
+    ### Features
+
+        {{#commits}}
+          {{#ifCommitType . type='feat'}}
+     - {{#eachCommitScope .}} **{{.}}** {{/eachCommitScope}} {{{commitDescription .}}} ([{{hash}}](https://gitlab.com/html-validate/html-validate/commit/{{hashFull}}))
+          {{/ifCommitType}}
+        {{/commits}}
+      {{/ifContainsType}}
+
+      {{#ifContainsType commits type='fix'}}
+    ### Bug Fixes
+
+        {{#commits}}
+          {{#ifCommitType . type='fix'}}
+     - {{#eachCommitScope .}} **{{.}}** {{/eachCommitScope}} {{{commitDescription .}}} ([{{hash}}](https://gitlab.com/html-validate/html-validate/commit/{{hashFull}}))
+          {{/ifCommitType}}
+        {{/commits}}
+      {{/ifContainsType}}
+
+    {{/ifReleaseTag}}
+    {{/tags}}
+    """.trimIndent()
+}
+tasks.withType(GitChangelogSemanticVersionTask::class.java) {
+  val t = this
+
+  t.majorVersionPattern
 }
 
 moduleCheck {
