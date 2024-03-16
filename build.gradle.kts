@@ -15,6 +15,7 @@
 
 import com.rickbusarow.kgx.withBuildInitPlugin
 import se.bjurr.gitchangelog.plugin.gradle.GitChangelogSemanticVersionTask
+import se.bjurr.gitchangelog.plugin.gradle.HelperParam
 import org.gradle.kotlin.dsl.addTasksToStartParameter as addTasksToStartParameterDsl
 import org.gradle.kotlin.dsl.mahoutProperties as mahoutPropertiesDsl
 
@@ -38,45 +39,71 @@ plugins {
 }
 
 tasks.withType(se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask::class.java) {
-  val t = this
 
-  t.templateContent =
-    //language=handlebars
+  // toRevision = "main"
+
+  handlebarsHelpers.addAll(
+    listOf(
+      HelperParam("startsWith") { from, options ->
+
+        println(
+          """
+            |##################### from
+            |$from
+            |#####################
+          """.trimMargin()
+        )
+
+        from
+      }
+    )
+  )
+
+  templateContent =
+    //language=mustache
     """
-    # Changelog
+    {{#commits}}
+       {{#startsWith messageTitle s='fix'}}
+         Starts with feat: "{{messageTitle}}"
 
-    {{#tags}}
-    {{#ifReleaseTag .}}
-    ## [{{name}}](https://gitlab.com/html-validate/html-validate/compare/{{name}}) ({{tagDate .}})
-
-      {{#ifContainsType commits type='feat'}}
-    ### Features
-
-        {{#commits}}
-          {{#ifCommitType . type='feat'}}
-     - {{#eachCommitScope .}} **{{.}}** {{/eachCommitScope}} {{{commitDescription .}}} ([{{hash}}](https://gitlab.com/html-validate/html-validate/commit/{{hashFull}}))
-          {{/ifCommitType}}
-        {{/commits}}
-      {{/ifContainsType}}
-
-      {{#ifContainsType commits type='fix'}}
-    ### Bug Fixes
-
-        {{#commits}}
-          {{#ifCommitType . type='fix'}}
-     - {{#eachCommitScope .}} **{{.}}** {{/eachCommitScope}} {{{commitDescription .}}} ([{{hash}}](https://gitlab.com/html-validate/html-validate/commit/{{hashFull}}))
-          {{/ifCommitType}}
-        {{/commits}}
-      {{/ifContainsType}}
-
-    {{/ifReleaseTag}}
-    {{/tags}}
+       {{/startsWith}}
+     {{/commits}}
     """.trimIndent()
+
+  // templateContent =
+  //   //language=mustache
+  //   """
+  //   # Changelog
+  //
+  //   {{#tags}}
+  //   {{#ifReleaseTag .}}
+  //   ## [{{name}}](https://github.com/rickbusarow/mahout/compare/{{name}}) ({{tagDate .}})
+  //
+  //     {{#ifContainsType commits type='feat'}}
+  //   ### Features
+  //
+  //       {{#commits}}
+  //         {{#ifCommitType . type='feat'}}
+  //    - {{#eachCommitScope .}} **{{.}}** {{/eachCommitScope}} {{{commitDescription .}}} ([{{hash}}](https://github.com/rickbusarow/mahout/commit/{{hashFull}}))
+  //         {{/ifCommitType}}
+  //       {{/commits}}
+  //     {{/ifContainsType}}
+  //
+  //     {{#ifContainsType commits type='fix'}}
+  //   ### Bug Fixes
+  //
+  //       {{#commits}}
+  //         {{#ifCommitType . type='fix'}}
+  //    - {{#eachCommitScope .}} **{{.}}** {{/eachCommitScope}} {{{commitDescription .}}} ([{{hash}}](https://github.com/rickbusarow/mahout/commit/{{hashFull}}))
+  //         {{/ifCommitType}}
+  //       {{/commits}}
+  //     {{/ifContainsType}}
+  //
+  //   {{/ifReleaseTag}}
+  //   {{/tags}}
+  //   """.trimIndent()
 }
 tasks.withType(GitChangelogSemanticVersionTask::class.java) {
-  val t = this
-
-  t.majorVersionPattern
 }
 
 moduleCheck {
