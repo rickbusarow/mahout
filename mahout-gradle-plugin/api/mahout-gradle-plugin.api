@@ -309,7 +309,7 @@ public abstract interface class com/rickbusarow/mahout/config/MahoutProperties$V
 }
 
 public final class com/rickbusarow/mahout/config/MahoutPropertiesKt {
-	public static final fun getGitUrl (Lcom/rickbusarow/mahout/config/MahoutProperties$RepositorySettingsGroup$GithubSettingsGroup;)Lorg/gradle/api/provider/Provider;
+	public static final fun getGitScmUrl (Lcom/rickbusarow/mahout/config/MahoutProperties$RepositorySettingsGroup$GithubSettingsGroup;)Lorg/gradle/api/provider/Provider;
 	public static final fun getSshUrl (Lcom/rickbusarow/mahout/config/MahoutProperties$RepositorySettingsGroup$GithubSettingsGroup;)Lorg/gradle/api/provider/Provider;
 	public static final fun getUrl (Lcom/rickbusarow/mahout/config/MahoutProperties$RepositorySettingsGroup$GithubSettingsGroup;)Lorg/gradle/api/provider/Provider;
 }
@@ -1008,4 +1008,3 @@ public final class org/gradle/kotlin/dsl/MahoutPropertiesDslKt {
 	public static final fun set (Lorg/gradle/api/provider/Property;I)V
 	public static final fun set (Lorg/gradle/api/provider/Property;Ljava/lang/String;)V
 }
-

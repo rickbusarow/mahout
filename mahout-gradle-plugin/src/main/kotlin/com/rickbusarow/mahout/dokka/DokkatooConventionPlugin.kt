@@ -190,7 +190,8 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
     target.plugins.withType(MavenPublishPlugin::class.java).configureEach {
 
       val javadocTasks = target.tasks
-        .withType(DefaultMahoutJavadocJarTask::class.java)
+        .withType(Jar::class.java)
+        .named { it.contains("javadocJar", ignoreCase = true) }
 
       val checkJavadocJarIsNotVersioned = target.tasks
         .register("checkJavadocJarIsNotVersioned", DefaultMahoutCheckTask::class.java) { task ->

@@ -27,7 +27,7 @@ import com.rickbusarow.kgx.newInstance
 import com.rickbusarow.kgx.register
 import com.rickbusarow.mahout.api.SubExtension
 import com.rickbusarow.mahout.api.SubExtensionInternal
-import com.rickbusarow.mahout.config.gitUrl
+import com.rickbusarow.mahout.config.gitScmUrl
 import com.rickbusarow.mahout.config.mahoutProperties
 import com.rickbusarow.mahout.config.sshUrl
 import com.rickbusarow.mahout.config.url
@@ -132,7 +132,7 @@ public abstract class DefaultPublishingMavenSubExtension @Inject constructor(
           )
           scm.connection.convention(
             mahoutProperties.publishing.pom.scm.connection
-              .orElse(mahoutProperties.repository.github.gitUrl)
+              .orElse(mahoutProperties.repository.github.gitScmUrl)
           )
           scm.developerConnection.convention(
             mahoutProperties.publishing.pom.scm.devConnection

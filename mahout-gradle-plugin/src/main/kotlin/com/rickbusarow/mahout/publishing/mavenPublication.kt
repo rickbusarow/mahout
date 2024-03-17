@@ -15,18 +15,15 @@
 
 package com.rickbusarow.mahout.publishing
 
+import com.rickbusarow.kgx.withJavaGradlePluginPlugin
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
+import org.gradle.api.Action
 import org.gradle.api.NamedDomainObjectSet
 import org.gradle.api.Project
 import org.gradle.api.publish.Publication
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.plugin.devel.GradlePluginDevelopmentExtension
-
-internal fun MavenPublication.isPluginMarker(): Boolean = name.endsWith("PluginMarkerMaven")
-internal fun MavenPublication.nameWithoutMarker(): String = name.removeSuffix("PluginMarkerMaven")
-internal fun Publication.isPluginMarker(): Boolean =
-  (this as? MavenPublication)?.isPluginMarker() ?: false
 
 internal val Project.mavenPublishBaseExtension: MavenPublishBaseExtension
   get() = extensions.getByType(MavenPublishBaseExtension::class.java)
@@ -37,5 +34,22 @@ internal val Project.gradlePublishingExtension: PublishingExtension
 internal val Project.gradlePluginExtension: GradlePluginDevelopmentExtension
   get() = extensions.getByType(GradlePluginDevelopmentExtension::class.java)
 
+internal val PublishingExtension.mavenPublications: NamedDomainObjectSet<MavenPublication>
+  get() = publications.withType(MavenPublication::class.java)
+
 internal val Project.mavenPublications: NamedDomainObjectSet<MavenPublication>
   get() = gradlePublishingExtension.publications.withType(MavenPublication::class.java)
+
+private const val MARKER_SUFFIX = "PluginMarkerMaven"
+
+internal fun MavenPublication.isPluginMarker(): Boolean = name.endsWith(MARKER_SUFFIX)
+internal fun MavenPublication.nameWithoutMarker(): String = name.removeSuffix(MARKER_SUFFIX)
+internal fun Publication.isPluginMarker(): Boolean {
+  return (this as? MavenPublication)?.isPluginMarker() ?: false
+}
+
+internal fun Project.gradlePluginExtensionSafe(action: Action<GradlePluginDevelopmentExtension>) {
+  plugins.withJavaGradlePluginPlugin {
+    action.execute(gradlePluginExtension)
+  }
+}

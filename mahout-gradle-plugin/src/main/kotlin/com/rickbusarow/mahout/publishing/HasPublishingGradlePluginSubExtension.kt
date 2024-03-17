@@ -15,22 +15,45 @@
 
 package com.rickbusarow.mahout.publishing
 
+import com.rickbusarow.mahout.api.SubExtensionInternal
+import com.rickbusarow.mahout.conventions.AbstractSubExtension
 import org.gradle.api.NamedDomainObjectProvider
+import org.gradle.api.Project
+import org.gradle.api.model.ObjectFactory
 import org.gradle.plugin.devel.PluginDeclaration
 import javax.inject.Inject
 
 /** */
-public interface PublishingGradlePluginHandler : java.io.Serializable {
+public interface HasPublishingGradlePluginSubExtension : java.io.Serializable {
 
   /** */
   public fun publishPlugin(pluginDeclaration: NamedDomainObjectProvider<PluginDeclaration>)
 }
 
 /** */
-public open class DefaultPublishingGradlePluginHandler @Inject constructor() :
-  PublishingGradlePluginHandler {
+public abstract class DefaultHasPublishingGradlePluginSubExtension @Inject constructor(
+  target: Project,
+  objects: ObjectFactory
+) : AbstractSubExtension(target, objects),
+  HasPublishingGradlePluginSubExtension,
+  SubExtensionInternal {
 
   override fun publishPlugin(pluginDeclaration: NamedDomainObjectProvider<PluginDeclaration>) {
-    TODO()
+
+    target.plugins.withId("com.gradle.plugin-publish") {
+
+      pluginDeclaration.configure { declaration ->
+
+        requireNotNull(declaration.description) { "A plugin description is required." }
+      }
+
+      target.mavenPublications.configureEach { publication ->
+
+        publication.pom {
+          // it.name.set(pomName)
+          it.description.set(pluginDeclaration.map { it.description })
+        }
+      }
+    }
   }
 }

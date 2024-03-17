@@ -25,25 +25,20 @@ import com.rickbusarow.kgx.names.SourceSetName
 import com.rickbusarow.kgx.names.SourceSetName.Companion.addPrefix
 import com.rickbusarow.kgx.names.SourceSetName.Companion.isMain
 import com.rickbusarow.kgx.project
-import com.rickbusarow.kgx.withJavaGradlePluginPlugin
 import com.rickbusarow.mahout.api.MahoutTask
 import com.rickbusarow.mahout.core.stdlib.capitalize
 import com.rickbusarow.mahout.deps.Versions
-import com.vanniktech.maven.publish.MavenPublishBaseExtension
-import org.gradle.api.Action
+import com.rickbusarow.mahout.publishing.gradlePluginExtensionSafe
+import com.rickbusarow.mahout.publishing.gradlePublishingExtension
 import org.gradle.api.DefaultTask
-import org.gradle.api.NamedDomainObjectSet
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.attributes.TestSuiteType
 import org.gradle.api.plugins.jvm.JvmTestSuite
 import org.gradle.api.publish.Publication
-import org.gradle.api.publish.PublishingExtension
-import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.plugins.PublishingPlugin
 import org.gradle.api.tasks.SourceSet
 import org.gradle.language.base.plugins.LifecycleBasePlugin
-import org.gradle.plugin.devel.GradlePluginDevelopmentExtension
 import org.gradle.testing.base.TestingExtension
 
 /** */
@@ -162,29 +157,6 @@ public interface MahoutPublishTask : MahoutTask
 
 /** */
 public abstract class DefaultMahoutPublishTask : DefaultTask(), MahoutPublishTask
-
-internal fun MavenPublication.isPluginMarker(): Boolean = name.endsWith("PluginMarkerMaven")
-internal fun MavenPublication.nameWithoutMarker(): String = name.removeSuffix("PluginMarkerMaven")
-internal fun Publication.isPluginMarker(): Boolean =
-  (this as? MavenPublication)?.isPluginMarker() ?: false
-
-internal val Project.mavenPublishBaseExtension: MavenPublishBaseExtension
-  get() = extensions.getByType(MavenPublishBaseExtension::class.java)
-
-internal val Project.gradlePublishingExtension: PublishingExtension
-  get() = extensions.getByType(PublishingExtension::class.java)
-
-internal val Project.gradlePluginExtension: GradlePluginDevelopmentExtension
-  get() = extensions.getByType(GradlePluginDevelopmentExtension::class.java)
-
-internal fun Project.gradlePluginExtensionSafe(action: Action<GradlePluginDevelopmentExtension>) {
-  plugins.withJavaGradlePluginPlugin {
-    action.execute(gradlePluginExtension)
-  }
-}
-
-internal val Project.mavenPublications: NamedDomainObjectSet<MavenPublication>
-  get() = gradlePublishingExtension.publications.withType(MavenPublication::class.java)
 
 @JvmInline
 internal value class TestSuiteName(override val value: String) : DomainObjectName<Publication> {

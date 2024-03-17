@@ -268,7 +268,7 @@ public val GithubSettingsGroup.url: Provider<String>
   get() = owner.zip(repo) { owner, repo -> "https://github.com/$owner/$repo" }
 
 /** `"scm:git:git://github.com//$owner/$repo.git"` */
-public val GithubSettingsGroup.gitUrl: Provider<String>
+public val GithubSettingsGroup.gitScmUrl: Provider<String>
   get() = owner.zip(repo) { owner, repo -> "scm:git:git://github.com//$owner/$repo.git" }
 
 /** `"scm:git:ssh://git@github.com/$owner/$repo.git"` */

@@ -31,7 +31,6 @@ import org.gradle.api.publish.maven.tasks.AbstractPublishToMaven
 import org.gradle.api.publish.tasks.GenerateModuleMetadata
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.plugins.signing.Sign
-import kotlin.LazyThreadSafetyMode.NONE
 
 /** */
 public abstract class MahoutPublishPlugin : Plugin<Project> {
@@ -47,14 +46,12 @@ public abstract class MahoutPublishPlugin : Plugin<Project> {
     maven.publishToMavenCentral(SonatypeHost.DEFAULT, automaticRelease = true)
     maven.signAllPublications()
 
-    val gradlePluginPublish by lazy(NONE) { target.gradlePluginExtension }
-
     target.mavenPublications.configureEach { publication ->
 
       if (publication.isPluginMarker()) {
 
-        val plugin = gradlePluginPublish.plugins
-          .named(publication.nameWithoutMarker())
+        val plugin = target.gradlePluginExtension
+          .plugins.named(publication.nameWithoutMarker())
 
         publication.pom.description.set(plugin.map { it.description })
       }

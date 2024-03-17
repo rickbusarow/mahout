@@ -16,6 +16,7 @@
 package com.rickbusarow.mahout
 
 import com.rickbusarow.mahout.config.mahoutProperties
+import com.rickbusarow.mahout.config.url
 import com.rickbusarow.mahout.conventions.CleanPlugin
 import com.rickbusarow.mahout.conventions.DependencyGuardConventionPlugin
 import com.rickbusarow.mahout.conventions.DetektConventionPlugin
@@ -25,8 +26,10 @@ import com.rickbusarow.mahout.conventions.KotlinJvmConventionPlugin
 import com.rickbusarow.mahout.conventions.KotlinMultiplatformConventionPlugin
 import com.rickbusarow.mahout.conventions.KtLintConventionPlugin
 import com.rickbusarow.mahout.conventions.TestConventionPlugin
+import com.rickbusarow.mahout.deps.PluginIds
 import com.rickbusarow.mahout.dokka.DokkatooConventionPlugin
 import com.rickbusarow.mahout.publishing.MahoutPublishPlugin
+import com.rickbusarow.mahout.publishing.gradlePluginExtensionSafe
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaBasePlugin
@@ -56,7 +59,16 @@ public abstract class GradlePluginModulePlugin : BaseModulePlugin() {
 
     target.extensions.create("mahout", GradlePluginModuleExtension::class.java)
 
+    target.plugins.apply("java-gradle-plugin")
+    target.plugins.apply(PluginIds.`plugin-publish`)
+
     target.plugins.apply(KotlinJvmConventionPlugin::class.java)
+
+    @Suppress("UnstableApiUsage")
+    target.gradlePluginExtensionSafe { extension ->
+      extension.website.set(target.mahoutProperties.repository.github.url)
+      extension.vcsUrl.set(target.mahoutProperties.repository.github.url.map { "$it.git" })
+    }
 
     super.apply(target)
   }
