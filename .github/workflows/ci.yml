@@ -354,7 +354,7 @@ jobs:
           report_paths: "**/build/**/TEST-*.xml"
           check_name: Gradle Test Results - windows
 
-  all-green:
+  all-checks:
     if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     needs:
