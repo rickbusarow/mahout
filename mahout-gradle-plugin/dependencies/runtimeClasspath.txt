@@ -93,8 +93,8 @@ com.squareup.okio:okio:3.7.0
 com.squareup.retrofit2:converter-moshi:2.9.0
 com.squareup.retrofit2:converter-scalars:2.9.0
 com.squareup.retrofit2:retrofit:2.9.0
-com.squareup:kotlinpoet-jvm:1.16.0
-com.squareup:kotlinpoet:1.16.0
+com.squareup:kotlinpoet-jvm:1.17.0
+com.squareup:kotlinpoet:1.17.0
 com.vanniktech:central-portal:0.28.0
 com.vanniktech:gradle-maven-publish-plugin:0.28.0
 com.vanniktech:nexus:0.28.0
