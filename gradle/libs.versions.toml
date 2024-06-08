@@ -179,7 +179,7 @@ square-okio = { module = "com.squareup.okio:okio", version.ref = "square-okio" }
 vanniktech-publish-nexus = { module = "com.vanniktech:nexus", version.ref = "vanniktech-publish" }
 vanniktech-publish-plugin = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "vanniktech-publish" }
 
-zacSweers-auto-service-ksp = "dev.zacsweers.autoservice:auto-service-ksp:1.1.0"
+zacSweers-auto-service-ksp = "dev.zacsweers.autoservice:auto-service-ksp:1.2.0"
 
 
 [bundles]
