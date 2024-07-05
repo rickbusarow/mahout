@@ -1,10 +1,10 @@
 :mahout-settings-annotations
 com.google.devtools.ksp:symbol-processing-api:1.9.24-1.0.20
-com.squareup:kotlinpoet-jvm:1.17.0
-com.squareup:kotlinpoet-ksp:1.17.0
-com.squareup:kotlinpoet:1.17.0
-org.jetbrains.kotlin:kotlin-reflect:1.9.24
+com.squareup:kotlinpoet-jvm:1.18.0
+com.squareup:kotlinpoet-ksp:1.18.0
+com.squareup:kotlinpoet:1.18.0
+org.jetbrains.kotlin:kotlin-reflect:2.0.0
 org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.0
 org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.0
-org.jetbrains.kotlin:kotlin-stdlib:1.9.24
+org.jetbrains.kotlin:kotlin-stdlib:2.0.0
 org.jetbrains:annotations:13.0
