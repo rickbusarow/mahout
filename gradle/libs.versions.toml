@@ -1,8 +1,8 @@
 [versions]
 
-kotlin = "1.9.24"
+kotlin = "2.0.0"
 drewHamilton-poko = "0.15.3"
-ksp = "1.9.24-1.0.20"
+ksp = "2.0.0-1.0.22"
 
 benManes-versions = "0.51.0"
 buildconfig = "5.4.0"
