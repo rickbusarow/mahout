@@ -159,7 +159,6 @@ org.jetbrains.kotlin:kotlin-gradle-plugin-model:1.9.25
 org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.25
 org.jetbrains.kotlin:kotlin-gradle-plugins-bom:1.9.25
 org.jetbrains.kotlin:kotlin-klib-commonizer-api:1.9.25
-org.jetbrains.kotlin:kotlin-metadata-jvm:2.0.0
 org.jetbrains.kotlin:kotlin-native-utils:1.9.25
 org.jetbrains.kotlin:kotlin-project-model:1.9.25
 org.jetbrains.kotlin:kotlin-reflect:2.0.0
@@ -174,7 +173,7 @@ org.jetbrains.kotlin:kotlin-stdlib:2.0.0
 org.jetbrains.kotlin:kotlin-tooling-core:1.9.25
 org.jetbrains.kotlin:kotlin-util-io:1.9.25
 org.jetbrains.kotlin:kotlin-util-klib:1.9.25
-org.jetbrains.kotlinx:binary-compatibility-validator:0.16.0
+org.jetbrains.kotlinx:binary-compatibility-validator:0.16.1
 org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.7.3
 org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3
 org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3
@@ -190,8 +189,8 @@ org.jetbrains:markdown-jvm:0.5.2
 org.jetbrains:markdown:0.5.2
 org.jsoup:jsoup:1.16.1
 org.ow2.asm:asm-commons:9.4
-org.ow2.asm:asm-tree:9.6
-org.ow2.asm:asm:9.6
+org.ow2.asm:asm-tree:9.4
+org.ow2.asm:asm:9.4
 org.slf4j:jcl-over-slf4j:1.7.30
 org.slf4j:jul-to-slf4j:1.7.30
 org.slf4j:slf4j-api:2.0.7
