@@ -100,7 +100,7 @@ com.vanniktech:gradle-maven-publish-plugin:0.29.0
 com.vanniktech:nexus:0.29.0
 commons-codec:commons-codec:1.16.0
 commons-io:commons-io:2.13.0
-dev.adamko.dokkatoo:dokkatoo-plugin:2.3.1
+dev.adamko.dokkatoo:dokkatoo-plugin:2.4.0
 dev.drewhamilton.poko:poko-annotations-jvm:0.15.3
 dev.drewhamilton.poko:poko-annotations:0.15.3
 dev.drewhamilton.poko:poko-gradle-plugin:0.15.3
