@@ -5,7 +5,7 @@ drewHamilton-poko = "0.15.3"
 ksp = "1.9.24-1.0.20"
 
 benManes-versions = "0.51.0"
-buildconfig = "5.4.0"
+buildconfig = "5.5.0"
 dependencyAnalysis = "2.0.2"
 detekt = "1.23.6"
 diffplug-spotless = "6.25.0"
