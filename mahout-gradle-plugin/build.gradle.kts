@@ -286,11 +286,11 @@ dependencies {
 
   compileOnly(project(":mahout-settings-annotations"))
 
-  gradleTestImplementation(libs.junit.platform.launcher)
   gradleTestImplementation(libs.junit.jupiter)
   gradleTestImplementation(libs.junit.jupiter.api)
   gradleTestImplementation(libs.junit.jupiter.engine)
   gradleTestImplementation(libs.junit.jupiter.params)
+  gradleTestImplementation(libs.junit.platform.launcher)
   gradleTestImplementation(libs.kase)
   gradleTestImplementation(libs.kase.gradle)
   gradleTestImplementation(libs.kase.gradle.dsl)
