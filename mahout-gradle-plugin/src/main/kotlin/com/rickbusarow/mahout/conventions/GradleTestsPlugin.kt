@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Rick Busarow
+ * Copyright (C) 2025 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -35,7 +35,6 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.NamedDomainObjectSet
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.attributes.TestSuiteType
 import org.gradle.api.plugins.jvm.JvmTestSuite
 import org.gradle.api.publish.Publication
 import org.gradle.api.publish.PublishingExtension
@@ -83,7 +82,6 @@ public abstract class GradleTestsPlugin : Plugin<Project> {
     val suite = testingExtension.suites
       .register(suiteName.value, JvmTestSuite::class.java) { suite ->
         suite.useJUnitJupiter(Versions.jUnit5)
-        suite.testType.set(TestSuiteType.FUNCTIONAL_TEST)
 
         suite.dependencies {
           it.implementation.add(target.dependencies.project(target.path))
