@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Rick Busarow
+ * Copyright (C) 2025 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -125,6 +125,11 @@ public abstract class TestConventionPlugin : Plugin<Project> {
           suite.useJUnitJupiter(Versions.jUnit5)
           suite.dependencies {
             it.runtimeOnly.add(Libs.`junit-vintage-engine`)
+
+            // https://junit.org/junit5/docs/current/user-guide/#running-tests-build-gradle-bom
+            // https://github.com/junit-team/junit5/issues/4374#issuecomment-2704880447
+            it.implementation.add(Libs.`junit-jupiter`)
+            it.runtimeOnly.add(Libs.`junit-platform-launcher`)
           }
         }
 
