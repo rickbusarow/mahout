@@ -38,7 +38,7 @@ rickBusarow-ktrules = "1.5.0"
 rickBusarow-mahout = "0.1.0-SNAPSHOT"
 rickBusarow-moduleCheck = "0.12.5"
 square-kotlinPoet = "2.0.0"
-square-okio = "3.10.2"
+square-okio = "3.11.0"
 vanniktech-publish = "0.30.0"
 
 [plugins]
