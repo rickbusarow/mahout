@@ -16,12 +16,12 @@ ec4j = "1.1.0"
 breadmoirai-github-release = "2.5.2"
 google-auto-service = "1.1.1"
 gradle-plugin-publish = "1.3.1"
+gradleup-shadow = "8.3.1"
 gradlex-buildParameters = "1.4.4"
 integration-test = "2.2.4"
 jUnit5 = "5.12.2"
 jUnit-platform = "1.12.2"
 jUnit4 = "4.13.2"
-johnrengelman-shadow = "8.1.1"
 koin = "4.0.4"
 kotest = "5.9.1"
 kotlinx-binaryCompatibility = "0.17.0"
@@ -50,9 +50,9 @@ breadmoirai-github-release = { id = "com.github.breadmoirai.github-release", ver
 buildconfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildconfig" }
 drewHamilton-poko = { id = "dev.drewhamilton.poko", version.ref = "drewHamilton-poko" }
 dropbox-dependency-guard = { id = "com.dropbox.dependency-guard", version.ref = "dropbox-dependencyGuard" }
+gradleup-shadow = { id = "com.github.gradleup.shadow", version.ref = "gradleup-shadow" }
 gradlex-buildParameters = { id = "org.gradlex.build-parameters", version.ref = "gradlex-buildParameters" }
 integration-test = { id = "com.coditory.integration-test", version.ref = "integration-test" }
-johnrengelman-shadow = { id = "com.github.johnrengelman.shadow", version.ref = "johnrengelman-shadow" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-js = { id = "org.jetbrains.kotlin.js", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -102,11 +102,11 @@ ec4j-core = { module = "org.ec4j.core:ec4j-core", version.ref = "ec4j" }
 
 google-auto-service-annotations = { module = "com.google.auto.service:auto-service-annotations", version.ref = "google-auto-service" }
 
+gradleup-shadow = { module = "com.gradleup.shadow:shadow-gradle-plugin", version.ref = "gradleup-shadow" }
+
 gradlex-buildParameters = { module = "org.gradlex:build-parameters", version.ref = "gradlex-buildParameters" }
 
 integration-test = { module = "com.coditory.gradle:integration-test-plugin", version.ref = "integration-test" }
-
-johnrengelman-shadowJar = { module = "com.github.johnrengelman:shadow", version.ref = "johnrengelman-shadow" }
 
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "jUnit5" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "jUnit5" }

@@ -309,7 +309,7 @@ dependencies {
   implementation(libs.drewHamilton.poko.gradle.plugin)
   implementation(libs.dropbox.dependencyGuard)
   implementation(libs.ec4j.core)
-  implementation(libs.johnrengelman.shadowJar)
+  implementation(libs.gradleup.shadow)
   implementation(libs.kotlin.gradle.plugin)
   implementation(libs.kotlin.gradle.plugin.api)
   implementation(libs.kotlin.reflect)
