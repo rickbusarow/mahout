@@ -15,6 +15,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: renovate
+  cancel-in-progress: false
+
 jobs:
   renovate:
     runs-on: ubuntu-latest
@@ -35,7 +39,7 @@ jobs:
       - name: Renovate
         uses: renovatebot/github-action@f5c3383cb7cbf7711d8b66b809375b2d5f4e2d1d # v42.0.2
         with:
-          configurationFile: .github/renovate-sh.json
+          configurationFile: .github/renovate-sh.json5
           token: ${{ steps.app-token.outputs.token }}
         env:
           LOG_LEVEL: debug
