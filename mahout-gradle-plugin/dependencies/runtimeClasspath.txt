@@ -86,7 +86,7 @@ com.rickbusarow.modulecheck:modulecheck-utils-trace:0.12.5
 com.rickbusarow.modulecheck:plugin:0.12.5
 com.squareup.anvil:annotations:2.4.0
 com.squareup.moshi:moshi-kotlin:1.12.0
-com.squareup.moshi:moshi:1.15.1
+com.squareup.moshi:moshi:1.15.2
 com.squareup.okhttp3:okhttp:4.12.0
 com.squareup.okio:okio-jvm:3.7.0
 com.squareup.okio:okio:3.7.0
@@ -95,9 +95,9 @@ com.squareup.retrofit2:converter-scalars:2.11.0
 com.squareup.retrofit2:retrofit:2.11.0
 com.squareup:kotlinpoet-jvm:2.0.0
 com.squareup:kotlinpoet:2.0.0
-com.vanniktech:central-portal:0.30.0
-com.vanniktech:gradle-maven-publish-plugin:0.30.0
-com.vanniktech:nexus:0.30.0
+com.vanniktech:central-portal:0.32.0
+com.vanniktech:gradle-maven-publish-plugin:0.32.0
+com.vanniktech:nexus:0.32.0
 commons-codec:commons-codec:1.17.0
 commons-io:commons-io:2.17.0
 dev.adamko.dokkatoo:dokkatoo-plugin:2.4.0
@@ -169,10 +169,10 @@ org.jetbrains.kotlin:kotlin-scripting-common:1.9.25
 org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable:1.9.25
 org.jetbrains.kotlin:kotlin-scripting-compiler-impl-embeddable:1.9.25
 org.jetbrains.kotlin:kotlin-scripting-jvm:1.9.25
-org.jetbrains.kotlin:kotlin-stdlib-common:2.0.21
+org.jetbrains.kotlin:kotlin-stdlib-common:2.0.20
 org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.10
 org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.10
-org.jetbrains.kotlin:kotlin-stdlib:2.0.21
+org.jetbrains.kotlin:kotlin-stdlib:2.0.20
 org.jetbrains.kotlin:kotlin-tooling-core:1.9.25
 org.jetbrains.kotlin:kotlin-util-io:1.9.25
 org.jetbrains.kotlin:kotlin-util-klib:1.9.25
