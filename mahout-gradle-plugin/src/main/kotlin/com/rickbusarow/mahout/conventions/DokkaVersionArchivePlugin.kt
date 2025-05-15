@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Rick Busarow
+ * Copyright (C) 2025 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -51,7 +51,7 @@ public abstract class DokkaVersionArchivePlugin : Plugin<Project> {
 
     val currentVersionBuildDirZip = currentVersionZipName
       .zip(dokkaHtmlMultiModuleBuildDir) { version, dir ->
-        dir.asFile.resolveSibling("$version.zip")
+        dir.asFile.resolveSibling(version)
       }
 
     val taskGroup = "dokka versioning"
@@ -117,8 +117,9 @@ public abstract class DokkaVersionArchivePlugin : Plugin<Project> {
 
         val destZip = dokkaArchive.resolve(currentVersionZipName.get())
 
-        !destZip.exists() || !currentVersionBuildDirZip.get()
-          .zipContentEquals(zipDokkaArchive.get().outputs.files.singleFile)
+        !destZip.exists() ||
+          !currentVersionBuildDirZip.get()
+            .zipContentEquals(zipDokkaArchive.get().outputs.files.singleFile)
       }
     }
   }
