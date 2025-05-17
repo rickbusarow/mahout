@@ -134,7 +134,7 @@ org.codehaus.groovy:groovy:3.0.10
 org.codehaus.plexus:plexus-utils:4.0.2
 org.codehaus.plexus:plexus-xml:4.0.4
 org.codehaus.woodstox:stax2-api:4.2.1
-org.ec4j.core:ec4j-core:1.1.0
+org.ec4j.core:ec4j-core:1.1.1
 org.eclipse.jgit:org.eclipse.jgit:6.10.0.202406032230-r
 org.eclipse.platform:org.eclipse.osgi:3.23.0
 org.freemarker:freemarker:2.3.32
