@@ -17,7 +17,7 @@ com.fasterxml.jackson.module:jackson-module-kotlin:2.12.7
 com.fasterxml.jackson:jackson-bom:2.12.7
 com.fasterxml.woodstox:woodstox-core:6.5.1
 com.github.ben-manes.caffeine:caffeine:3.1.1
-com.github.ben-manes:gradle-versions-plugin:0.51.0
+com.github.ben-manes:gradle-versions-plugin:0.52.0
 com.github.breadmoirai:github-release:2.5.2
 com.github.javaparser:javaparser-core:3.24.2
 com.github.javaparser:javaparser-symbol-solver-core:3.24.2
@@ -149,6 +149,7 @@ org.jetbrains.dokka:dokka-gradle-plugin:2.0.0
 org.jetbrains.dokka:templating-plugin:2.0.0
 org.jetbrains.dokka:versioning-plugin:2.0.0
 org.jetbrains.kotlin:fus-statistics-gradle-plugin:2.1.21
+org.jetbrains.kotlin:kotlin-bom:2.0.21
 org.jetbrains.kotlin:kotlin-build-statistics:2.1.21
 org.jetbrains.kotlin:kotlin-build-tools-api:2.1.21
 org.jetbrains.kotlin:kotlin-compiler-runner:2.1.21
@@ -164,8 +165,8 @@ org.jetbrains.kotlin:kotlin-klib-commonizer-api:2.1.21
 org.jetbrains.kotlin:kotlin-native-utils:2.1.21
 org.jetbrains.kotlin:kotlin-reflect:2.1.21
 org.jetbrains.kotlin:kotlin-stdlib-common:2.1.21
-org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.10
-org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.10
+org.jetbrains.kotlin:kotlin-stdlib-jdk7:2.0.21
+org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.21
 org.jetbrains.kotlin:kotlin-stdlib:2.1.21
 org.jetbrains.kotlin:kotlin-tooling-core:2.1.21
 org.jetbrains.kotlin:kotlin-util-io:2.1.21
