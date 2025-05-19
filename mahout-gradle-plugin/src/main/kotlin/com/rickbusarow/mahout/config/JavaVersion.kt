@@ -41,9 +41,7 @@ public value class JavaVersion(public val version: String) : Serializable, Compa
   /** The [org.gradle.api.JavaVersion] representation of [version]. */
   public val javaVersionGradle: GradleJavaVersion get() = GradleJavaVersion.toVersion(version)
 
-  /**
-   * The [org.jetbrains.kotlin.gradle.dsl.JvmTarget] representation of [version].
-   */
+  /** The [org.jetbrains.kotlin.gradle.dsl.JvmTarget] representation of [version]. */
   public val jvmTargetKotlinGradle: JvmTargetKotlinGradle
     get() = JvmTargetKotlinGradle.fromInt(major)
 
