@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Rick Busarow
+ * Copyright (C) 2025 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,7 +15,9 @@
 
 import com.rickbusarow.kgx.javaExtension
 import com.rickbusarow.kgx.propertyAs
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.plugin.KotlinBasePlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -53,10 +55,11 @@ allprojects ap@{
     }
 
     tasks.withType(KotlinCompile::class.java).configureEach {
-      kotlinOptions {
-        apiVersion = kotlinApiVersion
-        freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
-        jvmTarget = target
+
+      compilerOptions {
+        apiVersion.set(KotlinVersion.fromVersion(kotlinApiVersion))
+        freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
+        jvmTarget.set(JvmTarget.fromTarget(target))
       }
     }
 

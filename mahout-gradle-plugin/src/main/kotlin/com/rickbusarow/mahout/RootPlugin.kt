@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Rick Busarow
+ * Copyright (C) 2025 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -24,8 +24,6 @@ import com.rickbusarow.mahout.conventions.GitHubReleasePlugin
 import com.rickbusarow.mahout.conventions.SpotlessConventionPlugin
 import com.rickbusarow.mahout.curator.CuratorPlugin
 import com.rickbusarow.mahout.libs.LibsGeneratorPlugin
-import modulecheck.gradle.ModuleCheckExtension
-import modulecheck.gradle.ModuleCheckPlugin
 import org.gradle.api.Project
 import javax.inject.Inject
 
@@ -48,14 +46,13 @@ public abstract class RootPlugin @Inject constructor() : BaseModulePlugin() {
     target.plugins.apply(GitHubReleasePlugin::class.java)
     target.plugins.apply(SpotlessConventionPlugin::class.java)
 
-    target.plugins.apply(ModuleCheckPlugin::class.java)
-
-    target.extensions.configure(ModuleCheckExtension::class.java) { extension ->
-      extension.deleteUnused = true
-      extension.checks { checks ->
-        checks.sortDependencies = true
-      }
-    }
+    // target.plugins.apply(ModuleCheckPlugin::class.java)
+    // target.extensions.configure(ModuleCheckExtension::class.java) { extension ->
+    //   extension.deleteUnused = true
+    //   extension.checks { checks ->
+    //     checks.sortDependencies = true
+    //   }
+    // }
 
     if (target.gradle.includedBuilds.isNotEmpty()) {
       // @OptIn(InternalGradleApiAccess::class)

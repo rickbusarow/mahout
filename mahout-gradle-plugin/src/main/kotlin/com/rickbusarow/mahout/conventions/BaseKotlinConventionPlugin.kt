@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Rick Busarow
+ * Copyright (C) 2025 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,11 +23,13 @@ import org.gradle.api.Project
 import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.bundling.Jar
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.targets
+import org.jetbrains.kotlin.gradle.dsl.KotlinSingleTargetExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import java.io.Serializable
-import kotlin.jvm.java
-import org.jetbrains.kotlin.gradle.dsl.KotlinCompile as KotlinCompileDsl
 
 /** */
 public interface KotlinJvmExtension : KotlinExtension
@@ -47,6 +49,13 @@ public interface KotlinExtension : Serializable {
 
 /** */
 public abstract class BaseKotlinConventionPlugin : Plugin<Project> {
+
+  private val KotlinProjectExtension.targets: Iterable<KotlinTarget>
+    get() = when (this) {
+      is KotlinSingleTargetExtension<*> -> listOf(this.target)
+      is KotlinMultiplatformExtension -> targets
+      else -> error("Unexpected 'kotlin' extension $this")
+    }
 
   override fun apply(target: Project) {
 
@@ -78,27 +87,26 @@ public abstract class BaseKotlinConventionPlugin : Plugin<Project> {
 
   private fun configureKotlinOptions(target: Project, extension: KotlinSubExtension) {
 
-    target.tasks.withType(KotlinCompileDsl::class.java).configureEach { task ->
+    target.tasks.withType(KotlinCompilationTask::class.java).configureEach { task ->
 
-      task.kotlinOptions {
+      task.compilerOptions {
 
-        options.allWarningsAsErrors.set(extension.allWarningsAsErrors.orElse(false))
+        allWarningsAsErrors.set(extension.allWarningsAsErrors.orElse(false))
 
-        val kotlinMajor = target.mahoutProperties.kotlin.apiLevel.orNull
-        if (kotlinMajor != null) {
-          languageVersion = kotlinMajor
-          apiVersion = kotlinMajor
+        val kotlinMajor = target.mahoutProperties.kotlin.apiLevel.map {
+          KotlinVersion.fromVersion(it)
         }
+        languageVersion.set(kotlinMajor)
+        apiVersion.set(kotlinMajor)
 
         @Suppress("SpellCheckingInspection")
-        freeCompilerArgs += buildList {
-          add("-Xinline-classes")
-          add("-Xcontext-receivers")
+        freeCompilerArgs.addAll(
+          "-Xinline-classes",
+          "-Xcontext-receivers"
+        )
 
-          val explicitApiEnabled = extension.explicitApi.orNull == true
-          if (explicitApiEnabled) {
-            add("-Xexplicit-api=strict")
-          }
+        if (extension.explicitApi.orNull == true) {
+          freeCompilerArgs.add("-Xexplicit-api=strict")
         }
       }
     }

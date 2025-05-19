@@ -219,7 +219,6 @@ public final class com/rickbusarow/mahout/config/JavaVersion : java/io/Serializa
 	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
 	public static final fun getJavaLanguageVersion-impl (Ljava/lang/String;)Lorg/gradle/jvm/toolchain/JavaLanguageVersion;
 	public static final fun getJavaVersionGradle-impl (Ljava/lang/String;)Lorg/gradle/api/JavaVersion;
-	public static final fun getJvmTargetKotlinConfig-impl (Ljava/lang/String;)Lorg/jetbrains/kotlin/config/JvmTarget;
 	public static final fun getJvmTargetKotlinGradle-impl (Ljava/lang/String;)Lorg/jetbrains/kotlin/gradle/dsl/JvmTarget;
 	public static final fun getMajor-impl (Ljava/lang/String;)I
 	public final fun getVersion ()Ljava/lang/String;

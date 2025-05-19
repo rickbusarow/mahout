@@ -245,9 +245,7 @@ if (rootProject.name == "mahout") {
   gradlePlugin {
 
     val gitHubUrl: String = project.property("mahout.publishing.pom.url") as String
-    @Suppress("UnstableApiUsage")
     vcsUrl.set(gitHubUrl)
-    @Suppress("UnstableApiUsage")
     website.set(gitHubUrl)
   }
 
@@ -270,9 +268,7 @@ if (rootProject.name == "mahout") {
 }
 
 tasks.named("compileKotlin", KotlinCompile::class) {
-  kotlinOptions {
-    explicitApiMode.set(Strict)
-  }
+  explicitApiMode.set(Strict)
 }
 
 val gradleTestImplementation: Configuration by configurations.getting
