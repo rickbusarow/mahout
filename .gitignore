@@ -45,3 +45,6 @@ local.properties
 
 # Version control
 vcs.xml
+
+node_modules
+.DS_Store
