@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Rick Busarow
+ * Copyright (C) 2025 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -148,7 +148,6 @@ abstract class DogFoodExtension @Inject constructor(private val target: Project)
         declaration.id = "com.rickbusarow.mahout.$name"
         declaration.implementationClass = implementationClass
         declaration.description = description
-        @Suppress("UnstableApiUsage")
         declaration.tags.addAll("convention-plugin", "kotlin", *additionalTags.toTypedArray())
       }
   }

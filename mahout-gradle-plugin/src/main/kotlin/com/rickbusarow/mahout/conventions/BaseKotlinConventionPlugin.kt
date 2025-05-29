@@ -67,7 +67,7 @@ public abstract class BaseKotlinConventionPlugin : Plugin<Project> {
     val kotlinExtensionJB = target.extensions
       .getByType(KotlinProjectExtension::class.java)
 
-    configureKotlinOptions(target, extension)
+    configureKotlinOptions(target, extension, kotlinExtensionJB)
 
     target.tasks.register("buildAll") { buildAll ->
       buildAll.dependsOn(kotlinExtensionJB.targets.map { it.artifactsTaskName })
@@ -85,9 +85,17 @@ public abstract class BaseKotlinConventionPlugin : Plugin<Project> {
     }
   }
 
-  private fun configureKotlinOptions(target: Project, extension: KotlinSubExtension) {
+  private fun configureKotlinOptions(
+    target: Project,
+    extension: KotlinSubExtension,
+    kotlinExtensionJB: KotlinProjectExtension
+  ) {
 
     target.tasks.withType(KotlinCompilationTask::class.java).configureEach { task ->
+
+      if (extension.explicitApi.orNull == true) {
+        kotlinExtensionJB.explicitApi()
+      }
 
       task.compilerOptions {
 
@@ -104,10 +112,6 @@ public abstract class BaseKotlinConventionPlugin : Plugin<Project> {
           "-Xinline-classes",
           "-Xcontext-receivers"
         )
-
-        if (extension.explicitApi.orNull == true) {
-          freeCompilerArgs.add("-Xexplicit-api=strict")
-        }
       }
     }
   }

@@ -278,7 +278,21 @@ dependencies {
   api(project(":mahout-api"))
   api(project(":mahout-core"))
 
+  compileOnly(libs.rickBusarow.moduleCheck.gradle.plugin) {
+    exclude(group = "org.jetbrains.kotlin")
+  }
+
   compileOnly(gradleApi())
+  compileOnly(libs.dokka.core)
+  compileOnly(libs.dokka.gradle)
+  compileOnly(libs.dokka.versioning)
+  compileOnly(libs.drewHamilton.poko.gradle.plugin)
+  compileOnly(libs.gradleup.shadow)
+  compileOnly(libs.vanniktech.publish.nexus)
+
+  compileOnly(libs.kotlin.gradle.plugin)
+  compileOnly(libs.kotlin.gradle.plugin.api)
+  compileOnly(libs.kotlin.reflect)
 
   compileOnly(project(":mahout-settings-annotations"))
 
@@ -298,29 +312,17 @@ dependencies {
   implementation(libs.breadmoirai.github.release)
   implementation(libs.detekt.gradle)
   implementation(libs.diffplug.spotless)
-  implementation(libs.dokka.core)
-  implementation(libs.dokka.gradle)
-  implementation(libs.dokka.versioning)
   implementation(libs.dokkatoo.plugin)
-  implementation(libs.drewHamilton.poko.gradle.plugin)
   implementation(libs.dropbox.dependencyGuard)
   implementation(libs.ec4j.core)
-  implementation(libs.gradleup.shadow)
-  implementation(libs.kotlin.gradle.plugin)
-  implementation(libs.kotlin.gradle.plugin.api)
-  implementation(libs.kotlin.reflect)
   implementation(libs.kotlinx.binaryCompatibility)
   implementation(libs.kotlinx.serialization.json)
-  implementation(libs.picnic)
   implementation(libs.rickBusarow.doks)
   implementation(libs.rickBusarow.kgx)
   implementation(libs.rickBusarow.ktlint)
-  implementation(libs.rickBusarow.moduleCheck.gradle.plugin) {
-    exclude(group = "org.jetbrains.kotlin")
-  }
-  implementation(libs.square.kotlinPoet)
-  implementation(libs.vanniktech.publish.nexus)
   implementation(libs.vanniktech.publish.plugin)
+
+  compileOnly(libs.square.kotlinPoet)
 
   ksp(project(":mahout-settings-generator"))
 

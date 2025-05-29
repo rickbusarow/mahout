@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Rick Busarow
+ * Copyright (C) 2025 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -22,7 +22,6 @@ import com.rickbusarow.mahout.api.DefaultMahoutFixTask
 import com.rickbusarow.mahout.api.MahoutFixTask
 import com.rickbusarow.mahout.deps.PluginIds
 import kotlinx.validation.KotlinApiBuildTask
-import modulecheck.gradle.task.AbstractModuleCheckTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
@@ -59,17 +58,17 @@ public abstract class FixPlugin : Plugin<Project> {
       }
       target.plugins.withId(PluginIds.`rickBusarow-moduleCheck`) {
         task.dependsOn(target.tasks.named("moduleCheckAuto"))
+
+        // val mcCheckTasks = target.tasks
+        //   .withType(AbstractModuleCheckTask::class.java)
+        //   .providers(target.providers) { !it.name.endsWith("Auto") }
+        //
+        // target.tasks.withType(AbstractModuleCheckTask::class.java)
+        //   .configureEach { task ->
+        //     if (task.name.endsWith("Auto")) task.mustRunAfter(mcCheckTasks)
+        //   }
       }
     }
-
-    val mcCheckTasks = target.tasks
-      .withType(AbstractModuleCheckTask::class.java)
-      .providers(target.providers) { !it.name.endsWith("Auto") }
-
-    target.tasks.withType(AbstractModuleCheckTask::class.java)
-      .configureEach { task ->
-        if (task.name.endsWith("Auto")) task.mustRunAfter(mcCheckTasks)
-      }
 
     // This is a convenience task which applies all available fixes before running `check`. Each
     // of the fixable linters use `mustRunAfter` to ensure that their auto-fix task runs before their
