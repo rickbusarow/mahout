@@ -20,7 +20,7 @@ com.github.ben-manes:gradle-versions-plugin:0.52.0
 com.github.breadmoirai:github-release:2.5.2
 com.googlecode.concurrent-trees:concurrent-trees:2.6.1
 com.googlecode.javaewah:JavaEWAH:1.2.3
-com.rickbusarow.doks:doks-gradle-plugin:0.2.0
+com.rickbusarow.doks:doks-gradle-plugin:0.3.0
 com.rickbusarow.kgx:kotlin-gradle-extensions:0.1.12
 com.rickbusarow.kgx:names:0.1.12
 com.rickbusarow.ktlint:ktlint-gradle-plugin:0.2.2
