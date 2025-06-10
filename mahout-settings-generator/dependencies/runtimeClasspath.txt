@@ -1,5 +1,5 @@
 :mahout-settings-annotations
-com.google.devtools.ksp:symbol-processing-api:2.1.21-2.0.1
+com.google.devtools.ksp:symbol-processing-api:2.1.21-2.0.2
 com.squareup:kotlinpoet-jvm:2.2.0
 com.squareup:kotlinpoet-ksp:2.2.0
 com.squareup:kotlinpoet:2.2.0
