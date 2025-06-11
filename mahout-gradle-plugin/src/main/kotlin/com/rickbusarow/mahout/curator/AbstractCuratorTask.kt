@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Rick Busarow
+ * Copyright (C) 2025 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -33,6 +33,10 @@ import org.gradle.api.tasks.OutputFile
 public abstract class AbstractCuratorTask(
   private val projectLayout: ProjectLayout
 ) : DefaultMahoutTask() {
+
+  init {
+    group = "curator"
+  }
 
   /**
    * This file contains all definitions for published artifacts.

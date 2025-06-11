@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Rick Busarow
+ * Copyright (C) 2025 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -41,7 +41,6 @@ public abstract class CuratorCheckTask @Inject constructor(
   init {
     description = "Parses the Maven artifact parameters for all modules " +
       "and compares them to those recorded in artifacts.json"
-    group = "verification"
   }
 
   private val lenientOsProp: Property<Boolean> = objectFactory.property(Boolean::class.java)
