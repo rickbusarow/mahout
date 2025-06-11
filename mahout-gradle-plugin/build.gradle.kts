@@ -196,6 +196,10 @@ buildConfig {
         }
       }
     }
+  sourceSets.create("gradleTest") {
+    className("GradleTestBuildConfig")
+    buildConfigField("mahoutVersion", project.version.toString())
+  }
 }
 
 kotlin {

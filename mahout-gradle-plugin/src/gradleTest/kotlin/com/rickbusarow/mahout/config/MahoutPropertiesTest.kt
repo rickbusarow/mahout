@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Rick Busarow
+ * Copyright (C) 2025 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -34,6 +34,7 @@ class MahoutPropertiesTest : MahoutGradleTest {
     rootProject {
 
       buildFile(
+        // language=kotlin
         """
         plugins {
           id("com.rickbusarow.mahout.root")
@@ -43,6 +44,8 @@ class MahoutPropertiesTest : MahoutGradleTest {
 
         val printSettings by tasks.registering {
           doLast {
+            println("group=${'$'}{project.group}")
+            println("version=${'$'}version")
             println(props)
           }
         }
@@ -57,6 +60,7 @@ class MahoutPropertiesTest : MahoutGradleTest {
       gradlePropertiesFile(
         """
         mahout.versionName=0.1.0-SNAPSHOT
+        mahout.group=com.rickbusarow.test
 
         POM_ARTIFACT_ID=pom artifact id
         POM_NAME=pom name
@@ -88,6 +92,8 @@ class MahoutPropertiesTest : MahoutGradleTest {
           .lineSequence()
           .filter { it.isNotBlank() }
           .toList() shouldContainAll listOf(
+          "group=com.rickbusarow.test",
+          "version=0.1.0-SNAPSHOT",
           "mahout.publishing.pom.artifactId=pom artifact id",
           "mahout.publishing.pom.name=pom name",
           "mahout.publishing.pom.description=pom description",

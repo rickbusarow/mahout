@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Rick Busarow
+ * Copyright (C) 2025 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -35,7 +35,8 @@ import org.gradle.api.plugins.JavaBasePlugin
 public abstract class BaseModulePlugin : Plugin<Project> {
   override fun apply(target: Project) {
 
-    target.group = target.mahoutProperties.group.get()
+    target.mahoutProperties.group.orNull?.let { target.group = it }
+    target.mahoutProperties.versionName.orNull?.let { target.version = it }
 
     target.plugins.apply(JavaBasePlugin::class.java)
     target.plugins.apply(MahoutPublishPlugin::class.java)
