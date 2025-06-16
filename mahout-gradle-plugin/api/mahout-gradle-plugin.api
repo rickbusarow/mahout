@@ -861,7 +861,7 @@ public final class com/rickbusarow/mahout/libs/VersionCatalogSerializable : java
 }
 
 public class com/rickbusarow/mahout/publishing/DefaultPublishingGradlePluginHandler : com/rickbusarow/mahout/publishing/PublishingGradlePluginHandler {
-	public fun <init> ()V
+	public fun <init> (Lorg/gradle/api/Project;)V
 	public fun publishPlugin (Lorg/gradle/api/NamedDomainObjectProvider;)V
 }
 
