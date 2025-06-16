@@ -27,12 +27,13 @@ public abstract class com/rickbusarow/mahout/DefaultTasksSubExtension : com/rick
 	public fun configure (Lorg/gradle/api/Action;)V
 }
 
-public abstract class com/rickbusarow/mahout/GradlePluginModuleExtension : com/rickbusarow/mahout/BaseMahoutExtension, com/rickbusarow/mahout/HasTasksSubExtension, com/rickbusarow/mahout/conventions/AutoServiceExtension, com/rickbusarow/mahout/conventions/BuildLogicShadowExtensionHook, com/rickbusarow/mahout/conventions/HasGitHubSubExtension, com/rickbusarow/mahout/conventions/HasJavaSubExtension, com/rickbusarow/mahout/conventions/HasKotlinJvmSubExtension, com/rickbusarow/mahout/conventions/KspExtension, com/rickbusarow/mahout/conventions/PokoExtension, com/rickbusarow/mahout/conventions/SerializationExtension, com/rickbusarow/mahout/dokka/HasDokkaSubExtension, com/rickbusarow/mahout/publishing/HasPublishingMavenSubExtension, com/rickbusarow/mahout/publishing/PublishingGradlePluginHandler, com/rickbusarow/mahout/variants/HasFeatureVariantsSubExtension {
+public abstract class com/rickbusarow/mahout/GradlePluginModuleExtension : com/rickbusarow/mahout/BaseMahoutExtension, com/rickbusarow/mahout/HasTasksSubExtension, com/rickbusarow/mahout/conventions/AutoServiceExtension, com/rickbusarow/mahout/conventions/BuildLogicShadowExtensionHook, com/rickbusarow/mahout/conventions/HasGitHubSubExtension, com/rickbusarow/mahout/conventions/HasGradleTestsSubExtension, com/rickbusarow/mahout/conventions/HasJavaSubExtension, com/rickbusarow/mahout/conventions/HasKotlinJvmSubExtension, com/rickbusarow/mahout/conventions/KspExtension, com/rickbusarow/mahout/conventions/PokoExtension, com/rickbusarow/mahout/conventions/SerializationExtension, com/rickbusarow/mahout/dokka/HasDokkaSubExtension, com/rickbusarow/mahout/publishing/HasPublishingMavenSubExtension, com/rickbusarow/mahout/publishing/PublishingGradlePluginHandler, com/rickbusarow/mahout/variants/HasFeatureVariantsSubExtension {
 	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
 	public fun autoService (Lorg/gradle/api/Project;)V
 	public fun dokka (Lorg/gradle/api/Action;)V
 	public fun getDokka ()Lcom/rickbusarow/mahout/dokka/DokkaSubExtension;
 	public fun getGithub ()Lcom/rickbusarow/mahout/conventions/GitHubSubExtension;
+	public fun getGradleTests ()Lcom/rickbusarow/mahout/conventions/GradleTestsSubExtension;
 	public fun getJava ()Lcom/rickbusarow/mahout/conventions/JavaSubExtension;
 	public fun getKotlin ()Lcom/rickbusarow/mahout/conventions/KotlinJvmSubExtension;
 	public synthetic fun getKotlin ()Lcom/rickbusarow/mahout/conventions/KotlinSubExtension;
@@ -40,6 +41,7 @@ public abstract class com/rickbusarow/mahout/GradlePluginModuleExtension : com/r
 	public fun getTasks ()Lcom/rickbusarow/mahout/TasksSubExtension;
 	public fun getVariants ()Lcom/rickbusarow/mahout/variants/FeatureVariantsSubExtension;
 	public fun github (Lorg/gradle/api/Action;)V
+	public fun gradleTests (Lorg/gradle/api/Project;Lorg/gradle/api/Action;)V
 	public fun java (Lorg/gradle/api/Action;)V
 	public fun kotlin (Lorg/gradle/api/Action;)V
 	public fun ksp (Lorg/gradle/api/Project;)V
@@ -68,12 +70,13 @@ public final class com/rickbusarow/mahout/HasTasksSubExtension$DefaultImpls {
 	public static fun tasks (Lcom/rickbusarow/mahout/HasTasksSubExtension;Lorg/gradle/api/Action;)V
 }
 
-public abstract class com/rickbusarow/mahout/KotlinJvmModuleExtension : com/rickbusarow/mahout/BaseMahoutExtension, com/rickbusarow/mahout/HasTasksSubExtension, com/rickbusarow/mahout/conventions/AutoServiceExtension, com/rickbusarow/mahout/conventions/BuildLogicShadowExtensionHook, com/rickbusarow/mahout/conventions/GradleTestsExtension, com/rickbusarow/mahout/conventions/HasGitHubSubExtension, com/rickbusarow/mahout/conventions/HasJavaSubExtension, com/rickbusarow/mahout/conventions/HasKotlinJvmSubExtension, com/rickbusarow/mahout/conventions/KspExtension, com/rickbusarow/mahout/conventions/PokoExtension, com/rickbusarow/mahout/conventions/SerializationExtension, com/rickbusarow/mahout/dokka/HasDokkaSubExtension, com/rickbusarow/mahout/publishing/HasPublishingMavenSubExtension, com/rickbusarow/mahout/variants/HasFeatureVariantsSubExtension {
+public abstract class com/rickbusarow/mahout/KotlinJvmModuleExtension : com/rickbusarow/mahout/BaseMahoutExtension, com/rickbusarow/mahout/HasTasksSubExtension, com/rickbusarow/mahout/conventions/AutoServiceExtension, com/rickbusarow/mahout/conventions/BuildLogicShadowExtensionHook, com/rickbusarow/mahout/conventions/HasGitHubSubExtension, com/rickbusarow/mahout/conventions/HasGradleTestsSubExtension, com/rickbusarow/mahout/conventions/HasJavaSubExtension, com/rickbusarow/mahout/conventions/HasKotlinJvmSubExtension, com/rickbusarow/mahout/conventions/KspExtension, com/rickbusarow/mahout/conventions/PokoExtension, com/rickbusarow/mahout/conventions/SerializationExtension, com/rickbusarow/mahout/dokka/HasDokkaSubExtension, com/rickbusarow/mahout/publishing/HasPublishingMavenSubExtension, com/rickbusarow/mahout/variants/HasFeatureVariantsSubExtension {
 	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
 	public fun autoService (Lorg/gradle/api/Project;)V
 	public fun dokka (Lorg/gradle/api/Action;)V
 	public fun getDokka ()Lcom/rickbusarow/mahout/dokka/DokkaSubExtension;
 	public fun getGithub ()Lcom/rickbusarow/mahout/conventions/GitHubSubExtension;
+	public fun getGradleTests ()Lcom/rickbusarow/mahout/conventions/GradleTestsSubExtension;
 	public fun getJava ()Lcom/rickbusarow/mahout/conventions/JavaSubExtension;
 	public fun getKotlin ()Lcom/rickbusarow/mahout/conventions/KotlinJvmSubExtension;
 	public synthetic fun getKotlin ()Lcom/rickbusarow/mahout/conventions/KotlinSubExtension;
@@ -81,7 +84,7 @@ public abstract class com/rickbusarow/mahout/KotlinJvmModuleExtension : com/rick
 	public fun getTasks ()Lcom/rickbusarow/mahout/TasksSubExtension;
 	public fun getVariants ()Lcom/rickbusarow/mahout/variants/FeatureVariantsSubExtension;
 	public fun github (Lorg/gradle/api/Action;)V
-	public fun gradleTests (Lorg/gradle/api/Project;)V
+	public fun gradleTests (Lorg/gradle/api/Project;Lorg/gradle/api/Action;)V
 	public fun java (Lorg/gradle/api/Action;)V
 	public fun kotlin (Lorg/gradle/api/Action;)V
 	public fun ksp (Lorg/gradle/api/Project;)V
@@ -500,18 +503,20 @@ public final class com/rickbusarow/mahout/conventions/GitHubSubExtension$Default
 	public static fun configure (Lcom/rickbusarow/mahout/conventions/GitHubSubExtension;Lorg/gradle/api/Action;)V
 }
 
-public abstract interface class com/rickbusarow/mahout/conventions/GradleTestsExtension {
-	public abstract fun gradleTests (Lorg/gradle/api/Project;)V
-}
-
-public final class com/rickbusarow/mahout/conventions/GradleTestsExtension$DefaultImpls {
-	public static fun gradleTests (Lcom/rickbusarow/mahout/conventions/GradleTestsExtension;Lorg/gradle/api/Project;)V
-}
-
 public abstract class com/rickbusarow/mahout/conventions/GradleTestsPlugin : org/gradle/api/Plugin {
 	public fun <init> ()V
 	public synthetic fun apply (Ljava/lang/Object;)V
 	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/conventions/GradleTestsSubExtension : com/rickbusarow/mahout/api/SubExtension {
+	public abstract fun getGradleTestM2Dir ()Lorg/gradle/api/file/DirectoryProperty;
+	public abstract fun getRepositoryName ()Lorg/gradle/api/provider/Property;
+	public abstract fun getSourceSetName ()Lorg/gradle/api/provider/Property;
+}
+
+public final class com/rickbusarow/mahout/conventions/GradleTestsSubExtension$DefaultImpls {
+	public static fun configure (Lcom/rickbusarow/mahout/conventions/GradleTestsSubExtension;Lorg/gradle/api/Action;)V
 }
 
 public abstract interface class com/rickbusarow/mahout/conventions/HasCodeGenExtension {
@@ -525,6 +530,15 @@ public abstract interface class com/rickbusarow/mahout/conventions/HasGitHubSubE
 
 public final class com/rickbusarow/mahout/conventions/HasGitHubSubExtension$DefaultImpls {
 	public static fun github (Lcom/rickbusarow/mahout/conventions/HasGitHubSubExtension;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/conventions/HasGradleTestsSubExtension {
+	public abstract fun getGradleTests ()Lcom/rickbusarow/mahout/conventions/GradleTestsSubExtension;
+	public abstract fun gradleTests (Lorg/gradle/api/Project;Lorg/gradle/api/Action;)V
+}
+
+public final class com/rickbusarow/mahout/conventions/HasGradleTestsSubExtension$DefaultImpls {
+	public static fun gradleTests (Lcom/rickbusarow/mahout/conventions/HasGradleTestsSubExtension;Lorg/gradle/api/Project;Lorg/gradle/api/Action;)V
 }
 
 public abstract interface class com/rickbusarow/mahout/conventions/HasJavaSubExtension : java/io/Serializable {
