@@ -25,28 +25,41 @@ import com.rickbusarow.kgx.names.SourceSetName
 import com.rickbusarow.kgx.names.SourceSetName.Companion.addPrefix
 import com.rickbusarow.kgx.names.SourceSetName.Companion.isMain
 import com.rickbusarow.kgx.project
+import com.rickbusarow.kgx.property
 import com.rickbusarow.kgx.withJavaGradlePluginPlugin
 import com.rickbusarow.mahout.api.MahoutTask
+import com.rickbusarow.mahout.api.SubExtension
+import com.rickbusarow.mahout.api.SubExtensionInternal
 import com.rickbusarow.mahout.core.stdlib.capitalize
 import com.rickbusarow.mahout.deps.Versions
+import com.rickbusarow.mahout.mahoutExtensionAs
+import com.rickbusarow.mahout.publishing.gradlePublishingExtension
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import org.gradle.api.Action
 import org.gradle.api.DefaultTask
 import org.gradle.api.NamedDomainObjectSet
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.model.ObjectFactory
 import org.gradle.api.plugins.jvm.JvmTestSuite
+import org.gradle.api.provider.Property
 import org.gradle.api.publish.Publication
-import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.plugins.PublishingPlugin
 import org.gradle.api.tasks.SourceSet
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.gradle.plugin.devel.GradlePluginDevelopmentExtension
 import org.gradle.testing.base.TestingExtension
+import javax.inject.Inject
 
 /** */
-public interface GradleTestsExtension {
+public interface HasGradleTestsSubExtension {
+
+  /**
+   * configures the Gradle tests suite for this project.
+   */
+  public val gradleTests: GradleTestsSubExtension
 
   /**
    * Adds a `gradleTest` source set to the project.
@@ -54,9 +67,56 @@ public interface GradleTestsExtension {
    * @see GradleTestsPlugin
    */
   @Suppress("UndocumentedPublicFunction")
-  public fun Project.gradleTests() {
+  public fun Project.gradleTests(action: Action<in GradleTestsSubExtension>) {
     plugins.apply(GradleTestsPlugin::class.java)
+    gradleTests.configure(action)
   }
+}
+
+internal abstract class DefaultHasGradleTestsSubExtension @Inject constructor(
+  final override val objects: ObjectFactory
+) : AbstractHasSubExtension(), HasGradleTestsSubExtension {
+
+  override val gradleTests: GradleTestsSubExtension
+    by subExtension(DefaultGradleTestsSubExtension::class)
+}
+
+/** */
+public interface GradleTestsSubExtension : SubExtension<GradleTestsSubExtension> {
+
+  /**
+   * Corresponds to `./src/<sourceSetName>/`, and holds the Gradle tests.
+   *
+   * **default**: `gradleTest`
+   */
+  public val sourceSetName: Property<String>
+
+  /**
+   * The name of the local Maven (`.m2`) repository used for Gradle TestKit tests.
+   *
+   * **default**: `gradleTestM2`
+   */
+  public val repositoryName: Property<String>
+
+  /**
+   * The local Maven repository directory for Gradle TestKit tests.
+   *
+   * **default**: `<rootProject>/build/gradle-test-m2`
+   */
+  public val gradleTestM2Dir: DirectoryProperty
+}
+
+internal abstract class DefaultGradleTestsSubExtension @Inject constructor(
+  final override val objects: ObjectFactory,
+  target: Project
+) : AbstractHasSubExtension(), GradleTestsSubExtension, SubExtensionInternal {
+
+  override val sourceSetName: Property<String> = objects.property("gradleTest")
+
+  override val repositoryName: Property<String> = objects.property("gradleTestM2")
+
+  override val gradleTestM2Dir: DirectoryProperty = objects.directoryProperty()
+    .convention(target.rootProject.layout.buildDirectory.dir("gradle-test-m2"))
 }
 
 /**
@@ -65,7 +125,7 @@ public interface GradleTestsExtension {
  * - declare that source set as a "test" source set in the IDE.
  * - register a `gradleTest` task that runs the tests in the `gradleTest` source set.
  * - make the `check` task depend upon the `gradleTest` task.
- * - make the `gradleTest` task depend upon the `publishToBuildM2` task.
+ * - make the `gradleTest` task depend upon the `publishToGradleTestM2` task.
  */
 public abstract class GradleTestsPlugin : Plugin<Project> {
 
@@ -74,8 +134,11 @@ public abstract class GradleTestsPlugin : Plugin<Project> {
 
     target.plugins.applyOnce("jvm-test-suite")
 
-    val suiteName = TestSuiteName("gradleTest")
-    val repoName = "buildM2"
+    val extension = target.mahoutExtensionAs<HasGradleTestsSubExtension>()
+      .gradleTests
+
+    val suiteName = TestSuiteName(extension.sourceSetName.get())
+    val repoName = RepoName(extension.repositoryName.get())
 
     val testingExtension = target.extensions.getByType(TestingExtension::class.java)
 
@@ -91,8 +154,8 @@ public abstract class GradleTestsPlugin : Plugin<Project> {
 
     // Tells the `java-gradle-plugin` plugin to inject its TestKit logic
     // into the `gradleTest` source set.
-    target.gradlePluginExtensionSafe { extension ->
-      extension.testSourceSets(target.javaSourceSet(suiteName.value))
+    target.gradlePluginExtensionSafe { gradleExtension ->
+      gradleExtension.testSourceSets(target.javaSourceSet(suiteName.value))
     }
 
     target.kotlinJvmExtensionSafe { kotlinExtension ->
@@ -104,18 +167,20 @@ public abstract class GradleTestsPlugin : Plugin<Project> {
       }
     }
 
-    val realPublishTask = "publishAllPublicationsTo${repoName.capitalize()}Repository"
-
     target.rootProject.allprojects { anyProject ->
 
       anyProject.plugins.withType(PublishingPlugin::class.java).configureEach {
-        setUpPublishToBuildM2(anyProject, repoName)
+        setUpPublishToGradleTestM2(
+          target = anyProject,
+          repoName = repoName,
+          gradleTestM2Dir = extension.gradleTestM2Dir
+        )
       }
 
       suite.configure { st ->
         st.targets.configureEach { suiteTarget ->
           suiteTarget.testTask.configure { testTask ->
-            testTask.dependsOn(anyProject.tasks.named { it == realPublishTask })
+            testTask.dependsOn(anyProject.tasks.named { it == repoName.publishAllTo })
           }
         }
       }
@@ -126,32 +191,44 @@ public abstract class GradleTestsPlugin : Plugin<Project> {
   }
 
   /**
-   * Registers this [target]'s version of the `publishToBuildM2`
+   * Registers this [target]'s version of the `publishToGradleTestM2`
    * task and adds it as a dependency to the root project's version.
    */
-  private fun setUpPublishToBuildM2(target: Project, repoName: String) {
+  private fun setUpPublishToGradleTestM2(
+    target: Project,
+    repoName: RepoName,
+    gradleTestM2Dir: DirectoryProperty
+  ) {
 
-    val buildM2Dir = target.rootProject.layout.buildDirectory.dir("gradle-test-m2")
+    val publishTo = repoName.publishTo
+    val publishAllTo = repoName.publishAllTo
 
     target.gradlePublishingExtension.repositories { repositories ->
       repositories.mavenLocal {
-        it.name = repoName
-        it.setUrl(buildM2Dir)
+        it.name = repoName.value
+        it.setUrl(gradleTestM2Dir)
       }
     }
-    target.tasks.register("publishToBuildM2") {
+    target.tasks.register(publishTo) {
       it.group = "Publishing"
-      it.dependsOn("publishAllPublicationsToBuildM2Repository")
+      it.dependsOn(publishAllTo)
     }
-    target.tasks.register("publishToBuildM2NoDokka") {
+    target.tasks.register("${publishTo}NoDokka") {
       it.group = "Publishing"
-      target.extras.set("skipDokka", true)
-      it.dependsOn("publishAllPublicationsToBuildM2Repository")
+      it.extras.set("skipDokka", true)
+      it.dependsOn(publishAllTo)
     }
   }
 
   private fun Project.javaSourceSet(name: String): SourceSet {
     return javaExtension.sourceSets.getByName(name)
+  }
+
+  @JvmInline
+  private value class RepoName(val value: String) {
+    val capitalized: String get() = value.capitalize()
+    val publishTo: String get() = "publishTo${capitalized}Repository"
+    val publishAllTo: String get() = "publishAllPublicationsTo${capitalized}Repository"
   }
 }
 
@@ -168,9 +245,6 @@ internal fun Publication.isPluginMarker(): Boolean =
 
 internal val Project.mavenPublishBaseExtension: MavenPublishBaseExtension
   get() = extensions.getByType(MavenPublishBaseExtension::class.java)
-
-internal val Project.gradlePublishingExtension: PublishingExtension
-  get() = extensions.getByType(PublishingExtension::class.java)
 
 internal val Project.gradlePluginExtension: GradlePluginDevelopmentExtension
   get() = extensions.getByType(GradlePluginDevelopmentExtension::class.java)

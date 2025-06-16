@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Rick Busarow
+ * Copyright (C) 2025 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -171,17 +171,17 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
       .named { it == "javadocJar" }
       .configureEach { it.from(target.dokkatooGenerateModuleHtmlTask()) }
 
-    target.tasks.register("dokkaJavadocJar", DefaultMahoutJavadocJarTask::class.java) {
+    target.tasks.register("dokkaJavadocJar", DefaultMahoutJavadocJarTask::class.java) { task ->
 
-      val skipDokka = target.extras.getOrPut("skipDokka") { false }
+      val skipDokka = task.extras.getOrPut("skipDokka") { false }
 
-      it.archiveClassifier.set("javadoc")
+      task.archiveClassifier.set("javadoc")
 
       if (!skipDokka) {
         val dokkaTask = target.dokkatooGenerateModuleHtmlTask()
 
-        // it.dependsOn(dokkaTask)
-        it.from(dokkaTask)
+        // task.dependsOn(dokkaTask)
+        task.from(dokkaTask)
       }
     }
   }

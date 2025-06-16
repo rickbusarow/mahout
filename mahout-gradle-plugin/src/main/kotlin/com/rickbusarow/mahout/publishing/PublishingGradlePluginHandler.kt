@@ -62,15 +62,12 @@ public open class DefaultPublishingGradlePluginHandler @Inject constructor(
 
     target.plugins.withId("com.gradle.plugin-publish") {
 
-      pluginDeclaration.configure { declaration ->
+      target.extensions.configure(
+        GradlePluginDevelopmentExtension::class.java
+      ) { pluginDevelopmentExtension ->
 
-        target.extensions.configure(
-          GradlePluginDevelopmentExtension::class.java
-        ) { pluginDevelopmentExtension ->
-
-          pluginDevelopmentExtension.website.set(target.mahoutProperties.publishing.pom.url)
-          pluginDevelopmentExtension.vcsUrl.set(target.mahoutProperties.publishing.pom.scm.url)
-        }
+        pluginDevelopmentExtension.website.set(target.mahoutProperties.publishing.pom.url)
+        pluginDevelopmentExtension.vcsUrl.set(target.mahoutProperties.publishing.pom.scm.url)
       }
     }
 

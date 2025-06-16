@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Rick Busarow
+ * Copyright (C) 2025 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -22,11 +22,12 @@ import com.rickbusarow.mahout.composite.HasCompositeSubExtension
 import com.rickbusarow.mahout.conventions.AutoServiceExtension
 import com.rickbusarow.mahout.conventions.BuildLogicShadowExtensionHook
 import com.rickbusarow.mahout.conventions.DefaultHasGitHubSubExtension
+import com.rickbusarow.mahout.conventions.DefaultHasGradleTestsSubExtension
 import com.rickbusarow.mahout.conventions.DefaultHasJavaSubExtension
 import com.rickbusarow.mahout.conventions.DefaultHasKotlinJvmSubExtension
 import com.rickbusarow.mahout.conventions.DefaultHasKotlinSubExtension
-import com.rickbusarow.mahout.conventions.GradleTestsExtension
 import com.rickbusarow.mahout.conventions.HasGitHubSubExtension
+import com.rickbusarow.mahout.conventions.HasGradleTestsSubExtension
 import com.rickbusarow.mahout.conventions.HasJavaSubExtension
 import com.rickbusarow.mahout.conventions.HasKotlinJvmSubExtension
 import com.rickbusarow.mahout.conventions.HasKotlinSubExtension
@@ -58,9 +59,10 @@ public interface MahoutExtensionInternal : ExtensionAware {
   public val target: Project
 }
 
-@Suppress("MemberNameEqualsClassName")
 internal val Project.mahoutExtension: BaseMahoutExtension
   get() = extensions.getByType(BaseMahoutExtension::class.java)
+
+internal inline fun <reified T> Project.mahoutExtensionAs(): T = mahoutExtension as T
 
 /** */
 @MahoutDsl
@@ -95,6 +97,7 @@ public abstract class GradlePluginModuleExtension @Inject constructor(
   HasDokkaSubExtension by objects.newInstance<DefaultHasDokkaSubExtension>(),
   HasFeatureVariantsSubExtension by objects.newInstance<DefaultHasFeatureVariantsSubExtension>(),
   HasGitHubSubExtension by objects.newInstance<DefaultHasGitHubSubExtension>(),
+  HasGradleTestsSubExtension by objects.newInstance<DefaultHasGradleTestsSubExtension>(),
   HasJavaSubExtension by objects.newInstance<DefaultHasJavaSubExtension>(),
   HasKotlinJvmSubExtension by objects.newInstance<DefaultHasKotlinJvmSubExtension>(),
   HasPublishingMavenSubExtension by objects.newInstance<DefaultHasPublishingMavenSubExtension>(),
@@ -114,6 +117,7 @@ public abstract class KotlinJvmModuleExtension @Inject constructor(
   HasDokkaSubExtension by objects.newInstance<DefaultHasDokkaSubExtension>(),
   HasFeatureVariantsSubExtension by objects.newInstance<DefaultHasFeatureVariantsSubExtension>(),
   HasGitHubSubExtension by objects.newInstance<DefaultHasGitHubSubExtension>(),
+  HasGradleTestsSubExtension by objects.newInstance<DefaultHasGradleTestsSubExtension>(),
   HasJavaSubExtension by objects.newInstance<DefaultHasJavaSubExtension>(),
   HasKotlinJvmSubExtension by objects.newInstance<DefaultHasKotlinJvmSubExtension>(),
   HasPublishingMavenSubExtension by objects.newInstance<DefaultHasPublishingMavenSubExtension>(),
@@ -122,8 +126,7 @@ public abstract class KotlinJvmModuleExtension @Inject constructor(
   BuildLogicShadowExtensionHook,
   KspExtension,
   PokoExtension,
-  SerializationExtension,
-  GradleTestsExtension
+  SerializationExtension
 
 /** */
 public abstract class KotlinMultiplatformModuleExtension @Inject constructor(
