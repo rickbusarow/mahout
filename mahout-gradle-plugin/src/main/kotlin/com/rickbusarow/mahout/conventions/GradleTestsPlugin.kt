@@ -56,9 +56,7 @@ import javax.inject.Inject
 /** */
 public interface HasGradleTestsSubExtension {
 
-  /**
-   * configures the Gradle tests suite for this project.
-   */
+  /** configures the Gradle tests suite for this project. */
   public val gradleTests: GradleTestsSubExtension
 
   /**
