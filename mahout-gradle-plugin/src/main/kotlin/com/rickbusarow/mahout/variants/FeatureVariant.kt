@@ -203,7 +203,8 @@ public abstract class FeatureVariant @Inject constructor(
   public val compileTestKotlinTask: KotlinCompile by target.tasks.named(compileTestKotlinTaskName)
 
   /** */
-  public val prodCompilation: KotlinWithJavaCompilation<KotlinJvmOptionsDeprecated, KotlinJvmCompilerOptions>
+  public val prodCompilation:
+    KotlinWithJavaCompilation<KotlinJvmOptionsDeprecated, KotlinJvmCompilerOptions>
     by kotlin.target.compilations.named(prodSourceSetName) {
       // it.associateWith(kotlinMainCompilation)
     }
