@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Rick Busarow
+ * Copyright (C) 2025 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -46,7 +46,6 @@ import org.gradle.api.tasks.TaskProvider
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.api.tasks.testing.Test
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompilerOptions
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
@@ -57,7 +56,11 @@ import java.io.Serializable
 import javax.inject.Inject
 import kotlin.LazyThreadSafetyMode.NONE
 
+@Suppress("DEPRECATION")
+private typealias KotlinJvmOptionsDeprecated = org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
+
 /** */
+@Suppress("TYPEALIAS_EXPANSION_DEPRECATION")
 public abstract class FeatureVariant @Inject constructor(
   /** */
   public val name: String,
@@ -69,12 +72,12 @@ public abstract class FeatureVariant @Inject constructor(
 
   /** */
   public val kotlinMainCompilation:
-    KotlinWithJavaCompilation<KotlinJvmOptions, KotlinJvmCompilerOptions>
+    KotlinWithJavaCompilation<KotlinJvmOptionsDeprecated, KotlinJvmCompilerOptions>
     by kotlin.target.compilations.named(SourceSet.MAIN_SOURCE_SET_NAME)
 
   /** */
   public val kotlinMainTestCompilation:
-    KotlinWithJavaCompilation<KotlinJvmOptions, KotlinJvmCompilerOptions>
+    KotlinWithJavaCompilation<KotlinJvmOptionsDeprecated, KotlinJvmCompilerOptions>
     by kotlin.target.compilations.named(SourceSet.TEST_SOURCE_SET_NAME)
 
   /** */
@@ -200,14 +203,14 @@ public abstract class FeatureVariant @Inject constructor(
   public val compileTestKotlinTask: KotlinCompile by target.tasks.named(compileTestKotlinTaskName)
 
   /** */
-  public val prodCompilation: KotlinWithJavaCompilation<KotlinJvmOptions, KotlinJvmCompilerOptions>
+  public val prodCompilation: KotlinWithJavaCompilation<KotlinJvmOptionsDeprecated, KotlinJvmCompilerOptions>
     by kotlin.target.compilations.named(prodSourceSetName) {
       // it.associateWith(kotlinMainCompilation)
     }
 
   /** */
   public val testSourceSetCompilation:
-    KotlinWithJavaCompilation<KotlinJvmOptions, KotlinJvmCompilerOptions>
+    KotlinWithJavaCompilation<KotlinJvmOptionsDeprecated, KotlinJvmCompilerOptions>
     by kotlin.target.compilations.named(testSourceSetName) {
 
       it.associateWith(kotlinMainCompilation)
