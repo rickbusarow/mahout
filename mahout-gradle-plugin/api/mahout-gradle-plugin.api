@@ -539,6 +539,7 @@ public abstract interface class com/rickbusarow/mahout/conventions/HasGradleTest
 
 public final class com/rickbusarow/mahout/conventions/HasGradleTestsSubExtension$DefaultImpls {
 	public static fun gradleTests (Lcom/rickbusarow/mahout/conventions/HasGradleTestsSubExtension;Lorg/gradle/api/Project;Lorg/gradle/api/Action;)V
+	public static synthetic fun gradleTests$default (Lcom/rickbusarow/mahout/conventions/HasGradleTestsSubExtension;Lorg/gradle/api/Project;Lorg/gradle/api/Action;ILjava/lang/Object;)V
 }
 
 public abstract interface class com/rickbusarow/mahout/conventions/HasJavaSubExtension : java/io/Serializable {

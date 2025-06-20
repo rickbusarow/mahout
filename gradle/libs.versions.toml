@@ -170,6 +170,7 @@ rickBusarow-kgx = { module = "com.rickbusarow.kgx:kotlin-gradle-extensions", ver
 rickBusarow-kgx-names = { module = "com.rickbusarow.kgx:names", version.ref = "rickBusarow-kgx" }
 rickBusarow-ktlint = { module = "com.rickbusarow.ktlint:ktlint-gradle-plugin", version.ref = "rickBusarow-ktlint" }
 rickBusarow-ktrules = { module = "com.rickbusarow.ktrules:ktrules", version.ref = "rickBusarow-ktrules" }
+rickBusarow-mahout-gradle-plugin = { module = "com.rickbusarow.mahout:mahout-gradle-plugin", version.ref = "rickBusarow-mahout" }
 rickBusarow-moduleCheck-gradle-plugin = { module = "com.rickbusarow.modulecheck:plugin", version.ref = "rickBusarow-moduleCheck" }
 
 square-kotlinPoet = { module = "com.squareup:kotlinpoet", version.ref = "square-kotlinPoet" }

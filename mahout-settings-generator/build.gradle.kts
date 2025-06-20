@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Rick Busarow
+ * Copyright (C) 2025 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -14,13 +14,12 @@
  */
 
 plugins {
-  alias(libs.plugins.kotlin.jvm)
   alias(libs.plugins.ksp)
-  id("conventions.dogFood")
+  id("com.rickbusarow.mahout.kotlin-jvm-module")
 }
 
-dogFood {
-  mainMahoutPlugin("com.rickbusarow.mahout.kotlin-jvm-module")
+mahout {
+  ksp()
 }
 
 dependencies {

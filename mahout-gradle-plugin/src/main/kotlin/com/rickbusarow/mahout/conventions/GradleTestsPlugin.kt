@@ -64,7 +64,7 @@ public interface HasGradleTestsSubExtension {
    * @see GradleTestsPlugin
    */
   @Suppress("UndocumentedPublicFunction")
-  public fun Project.gradleTests(action: Action<in GradleTestsSubExtension>) {
+  public fun Project.gradleTests(action: Action<in GradleTestsSubExtension> = Action { }) {
     plugins.apply(GradleTestsPlugin::class.java)
     gradleTests.configure(action)
   }

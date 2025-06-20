@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Rick Busarow
+ * Copyright (C) 2025 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,20 +17,17 @@ plugins {
   alias(libs.plugins.kotlin.jvm)
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.drewHamilton.poko)
-  id("conventions.dogFood")
+  id("com.rickbusarow.mahout.kotlin-jvm-module")
 }
 
-dogFood {
-  mainMahoutPlugin("com.rickbusarow.mahout.kotlin-jvm-module")
-  publishMaven(
-    artifactId = "mahout-api",
-    name = "Mahout API",
-    description = "Base types for the Mahout Gradle plugins"
-  )
-}
-
-if (rootProject.name == "mahout") {
-  apply(plugin = "com.rickbusarow.mahout.kotlin-jvm-module")
+mahout {
+  publishing {
+    publishMaven(
+      artifactId = "mahout-api",
+      pomDescription = "Base types for the Mahout Gradle plugins",
+      name = "Mahout API"
+    )
+  }
 }
 
 kotlin {

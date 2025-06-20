@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Rick Busarow
+ * Copyright (C) 2025 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,19 +13,23 @@
  * limitations under the License.
  */
 
-import org.gradle.internal.impldep.org.eclipse.jgit.transport.ReceiveCommand.link
-
 rootProject.name = "mahout"
 
 pluginManagement {
   repositories {
+    maven {
+      url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+      content {
+        includeGroup("com.rickbusarow.mahout")
+      }
+    }
     gradlePluginPortal()
     mavenCentral()
     google()
   }
 
-  includeBuild("build-logic/conventions")
-  includeBuild("build-logic/delegate")
+  // includeBuild("build-logic/conventions")
+  // includeBuild("build-logic/delegate")
 
   plugins {
     id("com.rickbusarow.mahout.kotlin-jvm-module") apply false
@@ -89,4 +93,4 @@ include(
   ":mahout-settings-generator"
 )
 
-includeBuild("build-logic")
+// includeBuild("build-logic")

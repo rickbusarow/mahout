@@ -13,20 +13,10 @@
  * limitations under the License.
  */
 
-@file:Suppress("VariableNaming")
-
 import com.rickbusarow.kgx.library
 import com.rickbusarow.kgx.libsCatalog
 import com.rickbusarow.kgx.pluginId
 import com.rickbusarow.kgx.version
-import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode.Strict
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
-buildscript {
-  dependencies {
-    classpath(libs.rickBusarow.kgx)
-  }
-}
 
 plugins {
   `java-gradle-plugin`
@@ -38,140 +28,153 @@ plugins {
   alias(libs.plugins.plugin.publish)
   alias(libs.plugins.vanniktech.publish.base) apply false
   alias(libs.plugins.buildconfig)
-  id("conventions.dogFood")
+  id("com.rickbusarow.mahout.java-gradle-plugin")
   idea
 }
 
-dogFood {
-  mainMahoutPlugin("com.rickbusarow.mahout.java-gradle-plugin")
+val plugins = with(gradlePlugin.plugins) {
+  listOf(
+    register("composite") {
+      this.id = "com.rickbusarow.mahout.composite"
+      this.implementationClass = "com.rickbusarow.mahout.composite.CompositePlugin"
+      this.description =
+        "Propagates unqualified task requests from the root build to all included builds"
+      this.tags.addAll("convention-plugin", "kotlin")
+    },
+    register("curator") {
+      id = "com.rickbusarow.mahout.curator"
+      implementationClass = "com.rickbusarow.mahout.curator.CuratorPlugin"
+      this@register.description = "Verifies the consistency of a project's published artifacts"
+      tags.addAll("convention-plugin", "kotlin")
+    },
+    register("gradle-test") {
+      id = "com.rickbusarow.mahout.gradle-test"
+      implementationClass = "com.rickbusarow.mahout.conventions.GradleTestsPlugin"
+      this@register.description = "Configures a source set for Gradle integration tests"
+      tags.addAll("convention-plugin", "kotlin", "testing", "gradle-plugin", "plugin", "kotlin-jvm")
+    },
+    register("java-gradle-plugin") {
+      id = "com.rickbusarow.mahout.java-gradle-plugin"
+      implementationClass = "com.rickbusarow.mahout.GradlePluginModulePlugin"
+      this@register.description = "Convention plugin for a java-gradle-plugin project"
+      tags.addAll("convention-plugin", "kotlin", "plugin", "java", "jvm", "kotlin-jvm")
+    },
+    register("kotlin-jvm-module") {
+      id = "com.rickbusarow.mahout.kotlin-jvm-module"
+      implementationClass = "com.rickbusarow.mahout.KotlinJvmModulePlugin"
+      this@register.description = "Convention plugin for a Kotlin JVM project"
+      tags.addAll("convention-plugin", "kotlin", "java", "jvm", "kotlin-jvm")
+    },
+    register("kotlin-multiplatform-module") {
+      id = "com.rickbusarow.mahout.kotlin-multiplatform-module"
+      implementationClass = "com.rickbusarow.mahout.KotlinMultiplatformModulePlugin"
+      this@register.description = "Convention plugin for a Kotlin Multiplatform project"
+      tags.addAll("convention-plugin", "kotlin", "multiplatform", "kotlin-multiplatform")
+    },
+    register("root") {
+      id = "com.rickbusarow.mahout.root"
+      implementationClass = "com.rickbusarow.mahout.RootPlugin"
+      this@register.description = "Convention plugin for the root project of a multi-module build"
+      tags.addAll("convention-plugin", "kotlin")
+    },
+    register("convention.ben-manes") {
+      id = "com.rickbusarow.mahout.convention.ben-manes"
+      implementationClass = "com.rickbusarow.mahout.conventions.BenManesVersionsPlugin"
+      this@register.description = "configures the Ben Manes versions plugin"
+      tags.addAll("convention-plugin", "kotlin")
+    },
+    register("convention.clean") {
+      id = "com.rickbusarow.mahout.convention.clean"
+      implementationClass = "com.rickbusarow.mahout.conventions.CleanPlugin"
+      this@register.description =
+        "adds tasks to clean up empty directories and orphaned project directories"
+      tags.addAll("convention-plugin", "kotlin")
+    },
+    register("convention.dependency-guard") {
+      id = "com.rickbusarow.mahout.convention.dependency-guard"
+      implementationClass = "com.rickbusarow.mahout.conventions.DependencyGuardConventionPlugin"
+      this@register.description = "configures the dependency-guard plugin"
+      tags.addAll("convention-plugin", "kotlin")
+    },
+    register("convention.detekt") {
+      id = "com.rickbusarow.mahout.convention.detekt"
+      implementationClass = "com.rickbusarow.mahout.conventions.DetektConventionPlugin"
+      this@register.description = "configures the detekt plugin"
+      tags.addAll("convention-plugin", "kotlin")
+    },
+    register("convention.dokka-versioning") {
+      id = "com.rickbusarow.mahout.convention.dokka-versioning"
+      implementationClass = "com.rickbusarow.mahout.conventions.DokkaVersionArchivePlugin"
+      this@register.description = "automates the archival of versioned api documentation"
+      tags.addAll("convention-plugin", "kotlin")
+    },
+    register("convention.dokkatoo") {
+      id = "com.rickbusarow.mahout.convention.dokkatoo"
+      implementationClass = "com.rickbusarow.mahout.dokka.DokkatooConventionPlugin"
+      this@register.description = "configures the dokkatoo plugin"
+      tags.addAll("convention-plugin", "kotlin")
+    },
+    register("convention.fix") {
+      id = "com.rickbusarow.mahout.convention.fix"
+      implementationClass = "com.rickbusarow.mahout.conventions.FixPlugin"
+      this@register.description =
+        "adds tasks to apply all baseline and auto-correct tasks at once"
+      tags.addAll("convention-plugin", "kotlin")
+    },
+    register("convention.feature-variants") {
+      id = "com.rickbusarow.mahout.convention.feature-variants"
+      implementationClass = "com.rickbusarow.mahout.variants.FeatureVariantsPlugin"
+      this@register.description = "configures feature variants"
+      tags.addAll("convention-plugin", "kotlin")
+    },
+    register("convention.github-release") {
+      id = "com.rickbusarow.mahout.convention.github-release"
+      implementationClass = "com.rickbusarow.mahout.conventions.GitHubReleasePlugin"
+      this@register.description = "configures the GitHub release plugin"
+      tags.addAll("convention-plugin", "kotlin")
+    },
+    register("convention.kotlin-jvm") {
+      id = "com.rickbusarow.mahout.convention.kotlin-jvm"
+      implementationClass = "com.rickbusarow.mahout.conventions.KotlinJvmConventionPlugin"
+      this@register.description = "configures Kotlin JVM projects"
+      tags.addAll("convention-plugin", "kotlin")
+    },
+    register("convention.ktlint") {
+      id = "com.rickbusarow.mahout.convention.ktlint"
+      implementationClass = "com.rickbusarow.mahout.conventions.KtLintConventionPlugin"
+      this@register.description = "configures the ktlint plugin"
+      tags.addAll("convention-plugin", "kotlin")
+    },
+    register("convention.spotless") {
+      id = "com.rickbusarow.mahout.convention.spotless"
+      implementationClass = "com.rickbusarow.mahout.conventions.SpotlessConventionPlugin"
+      this@register.description = "configures the spotless plugin"
+      tags.addAll("convention-plugin", "kotlin")
+    },
+    register("convention.test") {
+      id = "com.rickbusarow.mahout.convention.test"
+      implementationClass = "com.rickbusarow.mahout.conventions.TestConventionPlugin"
+      this@register.description = "applies common test configurations"
+      tags.addAll("convention-plugin", "kotlin")
+    }
+  )
+}
 
-  plugin(
-    name = "composite",
-    implementationClass = "com.rickbusarow.mahout.composite.CompositePlugin",
-    description = "Propagates unqualified task requests from the root build to all included builds",
-    additionalTags = emptyList()
-  )
+mahout {
+  kotlin {
+    explicitApi = true
+  }
 
-  plugin(
-    name = "curator",
-    implementationClass = "com.rickbusarow.mahout.curator.CuratorPlugin",
-    description = "Verifies the consistency of a project's published artifacts",
-    additionalTags = emptyList()
-  )
-
-  plugin(
-    name = "gradle-test",
-    implementationClass = "com.rickbusarow.mahout.conventions.GradleTestsPlugin",
-    description = "Configures a source set for Gradle integration tests",
-    additionalTags = listOf("testing", "gradle-plugin", "plugin", "kotlin-jvm")
-  )
-
-  plugin(
-    name = "java-gradle-plugin",
-    implementationClass = "com.rickbusarow.mahout.GradlePluginModulePlugin",
-    description = "Convention plugin for a java-gradle-plugin project",
-    additionalTags = listOf("plugin", "java", "jvm", "kotlin-jvm")
-  )
-
-  plugin(
-    name = "kotlin-jvm-module",
-    implementationClass = "com.rickbusarow.mahout.KotlinJvmModulePlugin",
-    description = "Convention plugin for a Kotlin JVM project",
-    additionalTags = listOf("java", "jvm", "kotlin-jvm")
-  )
-
-  plugin(
-    name = "kotlin-multiplatform-module",
-    implementationClass = "com.rickbusarow.mahout.KotlinMultiplatformModulePlugin",
-    description = "Convention plugin for a Kotlin Multiplatform project",
-    additionalTags = listOf("multiplatform", "kotlin-multiplatform")
-  )
-
-  plugin(
-    name = "root",
-    implementationClass = "com.rickbusarow.mahout.RootPlugin",
-    description = "Convention plugin for the root project of a multi-module build",
-    additionalTags = emptyList()
-  )
-
-  plugin(
-    name = "convention.ben-manes",
-    implementationClass = "com.rickbusarow.mahout.conventions.BenManesVersionsPlugin",
-    description = "configures the Ben Manes versions plugin",
-    additionalTags = emptyList()
-  )
-  plugin(
-    name = "convention.clean",
-    implementationClass = "com.rickbusarow.mahout.conventions.CleanPlugin",
-    description = "adds tasks to clean up empty directories and orphaned project directories",
-    additionalTags = emptyList()
-  )
-  plugin(
-    name = "convention.dependency-guard",
-    implementationClass = "com.rickbusarow.mahout.conventions.DependencyGuardConventionPlugin",
-    description = "configures the dependency-guard plugin",
-    additionalTags = emptyList()
-  )
-  plugin(
-    name = "convention.detekt",
-    implementationClass = "com.rickbusarow.mahout.conventions.DetektConventionPlugin",
-    description = "configures the detekt plugin",
-    additionalTags = emptyList()
-  )
-  plugin(
-    name = "convention.dokka-versioning",
-    implementationClass = "com.rickbusarow.mahout.conventions.DokkaVersionArchivePlugin",
-    description = "automates the archival of versioned api documentation",
-    additionalTags = emptyList()
-  )
-  plugin(
-    name = "convention.dokkatoo",
-    implementationClass = "com.rickbusarow.mahout.dokka.DokkatooConventionPlugin",
-    description = "configures the dokkatoo plugin",
-    additionalTags = emptyList()
-  )
-  plugin(
-    name = "convention.fix",
-    implementationClass = "com.rickbusarow.mahout.conventions.FixPlugin",
-    description = "adds tasks to apply all baseline and auto-correct tasks at once",
-    additionalTags = emptyList()
-  )
-  plugin(
-    name = "convention.feature-variants",
-    implementationClass = "com.rickbusarow.mahout.variants.FeatureVariantsPlugin",
-    description = "configures feature variants",
-    additionalTags = emptyList()
-  )
-  plugin(
-    name = "convention.github-release",
-    implementationClass = "com.rickbusarow.mahout.conventions.GitHubReleasePlugin",
-    description = "configures the GitHub release plugin",
-    additionalTags = emptyList()
-  )
-  plugin(
-    name = "convention.kotlin-jvm",
-    implementationClass = "com.rickbusarow.mahout.conventions.KotlinJvmConventionPlugin",
-    description = "configures Kotlin JVM projects",
-    additionalTags = emptyList()
-  )
-  plugin(
-    name = "convention.ktlint",
-    implementationClass = "com.rickbusarow.mahout.conventions.KtLintConventionPlugin",
-    description = "configures the ktlint plugin",
-    additionalTags = emptyList()
-  )
-  plugin(
-    name = "convention.spotless",
-    implementationClass = "com.rickbusarow.mahout.conventions.SpotlessConventionPlugin",
-    description = "configures the spotless plugin",
-    additionalTags = emptyList()
-  )
-  plugin(
-    name = "convention.test",
-    implementationClass = "com.rickbusarow.mahout.conventions.TestConventionPlugin",
-    description = "applies common test configurations",
-    additionalTags = emptyList()
-  )
+  publishing {
+    pluginMaven(
+      artifactId = "mahout-gradle-plugin",
+      pomDescription = "Convention plugins for Gradle builds"
+    )
+    for (plugin in plugins) {
+      publishPlugin(plugin)
+    }
+  }
+  gradleTests {}
 }
 
 buildConfig {
@@ -196,83 +199,12 @@ buildConfig {
         }
       }
     }
-  sourceSets.create("gradleTest") {
+
+  sourceSets.named(mahout.gradleTests.sourceSetName.get()) {
     className("GradleTestBuildConfig")
     buildConfigField("mahoutVersion", project.version.toString())
+    buildConfigField("buildM2Dir", mahout.gradleTests.gradleTestM2Dir.asFile)
   }
-}
-
-kotlin {
-  explicitApi()
-}
-
-val gradleTest by sourceSets.registering {
-  val ss = this@registering
-
-  val main by sourceSets.getting
-
-  gradlePlugin.testSourceSets(ss)
-
-  ss.compileClasspath += main.output
-  ss.runtimeClasspath += main.output
-
-  configurations.named(ss.implementationConfigurationName) {
-    extendsFrom(configurations.getByName(main.implementationConfigurationName))
-  }
-  configurations.named(ss.runtimeOnlyConfigurationName) {
-    extendsFrom(configurations.getByName(main.runtimeOnlyConfigurationName))
-  }
-  configurations.named(ss.compileOnlyConfigurationName) {
-    extendsFrom(configurations.getByName(main.compileOnlyConfigurationName))
-  }
-}
-
-tasks.register("gradleTest", Test::class) {
-  useJUnitPlatform()
-
-  val javaSourceSet = gradleTest.get()
-
-  testClassesDirs = javaSourceSet.output.classesDirs
-  classpath = javaSourceSet.runtimeClasspath
-  inputs.files(javaSourceSet.allSource)
-}
-
-tasks.named("check") { dependsOn("gradleTest") }
-
-idea {
-  module {
-    testSources.from(gradleTest.map { it.allSource.srcDirs })
-  }
-}
-if (rootProject.name == "mahout") {
-
-  gradlePlugin {
-
-    val gitHubUrl: String = project.property("mahout.publishing.pom.url") as String
-    vcsUrl.set(gitHubUrl)
-    website.set(gitHubUrl)
-  }
-
-  fun MavenPublication.isPluginMarker(): Boolean = name.endsWith("PluginMarkerMaven")
-  fun Publication.isPluginMarker(): Boolean = (this as? MavenPublication)?.isPluginMarker() ?: false
-
-  publishing {
-    publications.withType<MavenPublication>().configureEach pub@{
-      val publication = this@pub
-
-      publication.groupId = project.group as String
-
-      if (!publication.isPluginMarker()) {
-        publication.artifactId = "mahout-gradle-plugin"
-        publication.pom.description.set("Convention plugins for Gradle builds")
-        // publication.artifact()
-      }
-    }
-  }
-}
-
-tasks.named("compileKotlin", KotlinCompile::class) {
-  explicitApiMode.set(Strict)
 }
 
 val gradleTestImplementation: Configuration by configurations.getting
@@ -330,6 +262,7 @@ dependencies {
 
   ksp(project(":mahout-settings-generator"))
 
+  testImplementation(gradleApi())
   testImplementation(libs.junit.jupiter)
   testImplementation(libs.junit.jupiter.api)
   testImplementation(libs.junit.jupiter.engine)
@@ -338,4 +271,7 @@ dependencies {
   testImplementation(libs.kotest.assertions.api)
   testImplementation(libs.kotest.assertions.core.jvm)
   testImplementation(libs.kotest.assertions.shared)
+  testImplementation(libs.kotlin.gradle.plugin)
+  testImplementation(libs.kotlin.gradle.plugin.api)
+  testImplementation(libs.kotlin.reflect)
 }

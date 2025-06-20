@@ -14,12 +14,13 @@
  */
 
 import com.rickbusarow.kgx.withBuildInitPlugin
-import org.gradle.kotlin.dsl.addTasksToStartParameter as addTasksToStartParameterDsl
 import org.gradle.kotlin.dsl.mahoutProperties as mahoutPropertiesDsl
 
 buildscript {
   dependencies {
     classpath(libs.rickBusarow.kgx)
+    classpath(libs.kotlin.gradle.plugin)
+    classpath(libs.rickBusarow.mahout.gradle.plugin)
   }
 }
 
@@ -30,25 +31,9 @@ plugins {
   alias(libs.plugins.rickBusarow.doks)
   alias(libs.plugins.rickBusarow.ktlint) apply false
   alias(libs.plugins.vanniktech.publish.base) apply false
-  id("com.rickbusarow.mahout.kotlin-jvm-module") apply false
-  id("com.rickbusarow.mahout.root")
 }
 
-mahout {
-
-  composite {
-  }
-  github {
-  }
-  dokka {
-  }
-  java {
-  }
-  addTasksToStartParameterDsl(
-    ":mahout-gradle-plugin:generateBuildConfig",
-    ":mahout-gradle-plugin:kspKotlin"
-  )
-}
+apply(plugin = "com.rickbusarow.mahout.root")
 
 allprojects ap@{
 
@@ -65,10 +50,10 @@ allprojects ap@{
 }
 
 subprojects sp@{
-  this@sp.afterEvaluate {
-    val id = "conventions.dogFood"
-    check(this@sp.plugins.hasPlugin(id)) {
-      "Every project must apply the '$id' plugin."
-    }
-  }
+  // this@sp.afterEvaluate {
+  //   val id = "conventions.dogFood"
+  //   check(this@sp.plugins.hasPlugin(id)) {
+  //     "Every project must apply the '$id' plugin."
+  //   }
+  // }
 }
