@@ -18,12 +18,6 @@ package com.rickbusarow.mahout
 import com.rickbusarow.kgx.checkProjectIsRoot
 import com.rickbusarow.kgx.inCI
 import com.rickbusarow.kgx.isRealRootProject
-import com.rickbusarow.mahout.conventions.BenManesVersionsPlugin
-import com.rickbusarow.mahout.conventions.DokkaVersionArchivePlugin
-import com.rickbusarow.mahout.conventions.GitHubReleasePlugin
-import com.rickbusarow.mahout.conventions.SpotlessConventionPlugin
-import com.rickbusarow.mahout.curator.CuratorPlugin
-import com.rickbusarow.mahout.libs.LibsGeneratorPlugin
 import org.gradle.api.Project
 import javax.inject.Inject
 
@@ -38,13 +32,7 @@ public abstract class RootPlugin @Inject constructor() : BaseModulePlugin() {
 
     super.apply(target)
 
-    target.plugins.apply(LibsGeneratorPlugin::class.java)
-
-    target.plugins.apply(CuratorPlugin::class.java)
-    target.plugins.apply(BenManesVersionsPlugin::class.java)
-    target.plugins.apply(DokkaVersionArchivePlugin::class.java)
-    target.plugins.apply(GitHubReleasePlugin::class.java)
-    target.plugins.apply(SpotlessConventionPlugin::class.java)
+    // target.plugins.apply(LibsGeneratorPlugin::class.java)
 
     // target.plugins.apply(ModuleCheckPlugin::class.java)
     // target.extensions.configure(ModuleCheckExtension::class.java) { extension ->

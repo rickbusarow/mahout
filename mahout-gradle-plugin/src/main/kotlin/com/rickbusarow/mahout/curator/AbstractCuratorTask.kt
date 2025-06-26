@@ -76,7 +76,7 @@ public abstract class AbstractCuratorTask(
 
   private fun Project.createArtifactList(): List<ArtifactConfig> {
 
-    val map = subprojects
+    val map = allprojects
       .flatMap { sub ->
         sub.extensions.findByType(PublishingExtension::class.java)
           ?.publications
@@ -101,7 +101,8 @@ public abstract class AbstractCuratorTask(
                 "group : $group\n" +
                 "artifactId : $artifactId\n" +
                 "pom description : $pomDescription\n" +
-                "packaging : $packaging"
+                "packaging : $packaging\n" +
+                "publication : ${publication.name}"
             }
           }
           .takeIf { it.size == 4 }

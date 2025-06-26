@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Rick Busarow
+ * Copyright (C) 2025 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,8 +17,8 @@ package com.rickbusarow.mahout.conventions
 
 import com.rickbusarow.ktlint.KtLintPlugin
 import com.rickbusarow.ktlint.KtLintTask
-import com.rickbusarow.mahout.core.VERSION_NAME
 import com.rickbusarow.mahout.deps.Libs
+import com.rickbusarow.mahout.mahoutExtension
 import kotlinx.validation.KotlinApiBuildTask
 import kotlinx.validation.KotlinApiCompareTask
 import org.gradle.api.Plugin
@@ -35,7 +35,9 @@ public abstract class KtLintConventionPlugin : Plugin<Project> {
       .add("ktlint", Libs.`rickBusarow-ktrules`)
 
     target.tasks.withType(KtLintTask::class.java).configureEach { task ->
-      System.setProperty("ktrules.project_version", target.VERSION_NAME)
+      target.mahoutExtension.versionName.orNull?.let { versionName ->
+        System.setProperty("ktrules.project_version", versionName)
+      }
 
       task.mustRunAfter(
         target.tasks.namedFromSchema(target.providers) { name, _ ->

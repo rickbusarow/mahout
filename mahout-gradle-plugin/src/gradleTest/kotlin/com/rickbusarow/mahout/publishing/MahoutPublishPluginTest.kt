@@ -15,9 +15,7 @@
 
 package com.rickbusarow.mahout.publishing
 
-import com.rickbusarow.kase.gradle.GradleTestVersions
 import com.rickbusarow.kase.gradle.dsl.buildFile
-import com.rickbusarow.kase.gradle.versions
 import com.rickbusarow.kase.kase
 import com.rickbusarow.kase.stdlib.cartesianProduct
 import com.rickbusarow.mahout.MahoutGradleTest
@@ -25,9 +23,6 @@ import modulecheck.utils.mapToSet
 import org.junit.jupiter.api.TestFactory
 
 class MahoutPublishPluginTest : MahoutGradleTest {
-
-  override val params: List<GradleTestVersions>
-    get() = kaseMatrix.versions(GradleTestVersions)
 
   @TestFactory
   fun `checkVersionIsSnapshot passes for a snapshot version`() =

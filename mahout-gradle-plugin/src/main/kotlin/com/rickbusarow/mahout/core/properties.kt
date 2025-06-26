@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Rick Busarow
+ * Copyright (C) 2025 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,6 +18,8 @@ package com.rickbusarow.mahout.core
 import com.rickbusarow.mahout.config.mahoutProperties
 import com.rickbusarow.mahout.config.url
 import org.gradle.api.Project
+import org.gradle.api.provider.Property
+import org.gradle.api.provider.Provider
 
 /**  */
 internal val Project.VERSION_NAME: String
@@ -72,3 +74,17 @@ internal fun Project.getPrefixedPropertyName(propertySuffix: String): String {
  */
 internal val Project.commonPropertyPrefix: String
   get() = (findProperty("commonPrefix") ?: group) as String
+
+/**
+ * Sets the property to the given value if it is not already set.
+ */
+internal fun <T : Any> Property<T>.setIfNull(value: T) {
+  if (!isPresent) set(value)
+}
+
+/**
+ * Sets the property to the given value if it is not already set.
+ */
+internal fun <T : Any> Property<T>.setIfNull(value: Provider<T>) {
+  if (!isPresent) set(value)
+}

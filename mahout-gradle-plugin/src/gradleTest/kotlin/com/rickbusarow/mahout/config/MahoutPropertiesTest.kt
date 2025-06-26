@@ -15,8 +15,6 @@
 
 package com.rickbusarow.mahout.config
 
-import com.rickbusarow.kase.gradle.GradleTestVersions
-import com.rickbusarow.kase.gradle.versions
 import com.rickbusarow.mahout.MahoutGradleTest
 import io.kotest.assertions.asClue
 import io.kotest.matchers.collections.shouldContainAll
@@ -24,9 +22,6 @@ import org.junit.jupiter.api.TestFactory
 import java.io.File
 
 class MahoutPropertiesTest : MahoutGradleTest {
-
-  override val params: List<GradleTestVersions>
-    get() = kaseMatrix.versions(GradleTestVersions)
 
   @TestFactory
   fun `vanniktech publishing properties become mahout properties`() = testFactory { _ ->

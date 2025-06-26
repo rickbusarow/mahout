@@ -38,10 +38,10 @@ import com.rickbusarow.mahout.conventions.PokoExtension
 import com.rickbusarow.mahout.conventions.SerializationExtension
 import com.rickbusarow.mahout.dokka.DefaultHasDokkaSubExtension
 import com.rickbusarow.mahout.dokka.HasDokkaSubExtension
+import com.rickbusarow.mahout.publishing.DefaultHasPublishingGradlePluginSubExtension
 import com.rickbusarow.mahout.publishing.DefaultHasPublishingMavenSubExtension
-import com.rickbusarow.mahout.publishing.DefaultPublishingGradlePluginHandler
+import com.rickbusarow.mahout.publishing.HasPublishingGradlePluginSubExtension
 import com.rickbusarow.mahout.publishing.HasPublishingMavenSubExtension
-import com.rickbusarow.mahout.publishing.PublishingGradlePluginHandler
 import com.rickbusarow.mahout.variants.DefaultHasFeatureVariantsSubExtension
 import com.rickbusarow.mahout.variants.HasFeatureVariantsSubExtension
 import org.gradle.api.Project
@@ -100,9 +100,8 @@ public abstract class GradlePluginModuleExtension @Inject constructor(
   HasGradleTestsSubExtension by objects.newInstance<DefaultHasGradleTestsSubExtension>(),
   HasJavaSubExtension by objects.newInstance<DefaultHasJavaSubExtension>(),
   HasKotlinJvmSubExtension by objects.newInstance<DefaultHasKotlinJvmSubExtension>(),
-  HasPublishingMavenSubExtension by objects.newInstance<DefaultHasPublishingMavenSubExtension>(),
+  HasPublishingGradlePluginSubExtension by objects.newInstance<DefaultHasPublishingGradlePluginSubExtension>(),
   HasTasksSubExtension by objects.newInstance<DefaultHasTasksSubExtension>(),
-  PublishingGradlePluginHandler by objects.newInstance<DefaultPublishingGradlePluginHandler>(),
   AutoServiceExtension,
   BuildLogicShadowExtensionHook,
   KspExtension,

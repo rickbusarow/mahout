@@ -15,16 +15,22 @@
 
 package com.rickbusarow.mahout
 
+import com.rickbusarow.kgx.isRootProject
 import com.rickbusarow.mahout.config.mahoutProperties
+import com.rickbusarow.mahout.conventions.BenManesVersionsPlugin
 import com.rickbusarow.mahout.conventions.CleanPlugin
 import com.rickbusarow.mahout.conventions.DependencyGuardConventionPlugin
 import com.rickbusarow.mahout.conventions.DetektConventionPlugin
+import com.rickbusarow.mahout.conventions.DokkaVersionArchivePlugin
 import com.rickbusarow.mahout.conventions.FixPlugin
+import com.rickbusarow.mahout.conventions.GitHubReleasePlugin
 import com.rickbusarow.mahout.conventions.JdkVersionsConventionPlugin
 import com.rickbusarow.mahout.conventions.KotlinJvmConventionPlugin
 import com.rickbusarow.mahout.conventions.KotlinMultiplatformConventionPlugin
 import com.rickbusarow.mahout.conventions.KtLintConventionPlugin
+import com.rickbusarow.mahout.conventions.SpotlessConventionPlugin
 import com.rickbusarow.mahout.conventions.TestConventionPlugin
+import com.rickbusarow.mahout.curator.CuratorPlugin
 import com.rickbusarow.mahout.dokka.DokkatooConventionPlugin
 import com.rickbusarow.mahout.publishing.MahoutPublishPlugin
 import org.gradle.api.Plugin
@@ -48,6 +54,19 @@ public abstract class BaseModulePlugin : Plugin<Project> {
     target.plugins.apply(DokkatooConventionPlugin::class.java)
     target.plugins.apply(KtLintConventionPlugin::class.java)
     target.plugins.apply(TestConventionPlugin::class.java)
+
+    if (target.isRootProject()) {
+      applyRootConventionPlugins(target)
+    }
+  }
+
+  protected fun applyRootConventionPlugins(target: Project) {
+
+    target.plugins.apply(CuratorPlugin::class.java)
+    target.plugins.apply(BenManesVersionsPlugin::class.java)
+    target.plugins.apply(DokkaVersionArchivePlugin::class.java)
+    target.plugins.apply(GitHubReleasePlugin::class.java)
+    target.plugins.apply(SpotlessConventionPlugin::class.java)
   }
 }
 

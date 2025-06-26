@@ -18,7 +18,6 @@ package com.rickbusarow.mahout.curator
 import com.rickbusarow.mahout.api.MahoutFixTask
 import com.rickbusarow.mahout.core.Color.Companion.colorized
 import com.rickbusarow.mahout.core.Color.RED
-import kotlinx.serialization.encodeToString
 import org.gradle.api.GradleException
 import org.gradle.api.file.ProjectLayout
 import org.gradle.api.tasks.TaskAction

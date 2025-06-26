@@ -32,10 +32,10 @@ class MahoutVersionMatrix(
     val agpList =
       setOf("8.1.1", "8.2.0").map(::AgpDependencyVersion).sorted()
     val kotlinList =
-      setOf("1.9.22", KotlinVersion.CURRENT.toString())
+      setOf(KotlinVersion.CURRENT.toString())
         .map(::KotlinDependencyVersion).sorted()
     val gradleList =
-      setOf("8.7", GradleVersion.current().version)
+      setOf(GradleVersion.current().version)
         .map(::GradleDependencyVersion).sorted()
     val daggerList = setOf("2.50").map(::DaggerDependencyVersion)
   }

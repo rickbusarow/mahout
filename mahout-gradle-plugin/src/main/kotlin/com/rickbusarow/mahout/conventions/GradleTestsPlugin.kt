@@ -46,7 +46,6 @@ import org.gradle.api.plugins.jvm.JvmTestSuite
 import org.gradle.api.provider.Property
 import org.gradle.api.publish.Publication
 import org.gradle.api.publish.maven.MavenPublication
-import org.gradle.api.publish.plugins.PublishingPlugin
 import org.gradle.api.tasks.SourceSet
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.gradle.plugin.devel.GradlePluginDevelopmentExtension
@@ -167,7 +166,7 @@ public abstract class GradleTestsPlugin : Plugin<Project> {
 
     target.rootProject.allprojects { anyProject ->
 
-      anyProject.plugins.withType(PublishingPlugin::class.java).configureEach {
+      anyProject.plugins.withId("maven-publish") {
         setUpPublishToGradleTestM2(
           target = anyProject,
           repoName = repoName,
