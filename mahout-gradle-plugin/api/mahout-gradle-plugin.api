@@ -8,6 +8,7 @@ public abstract class com/rickbusarow/mahout/BaseModulePlugin : org/gradle/api/P
 	public fun <init> ()V
 	public synthetic fun apply (Ljava/lang/Object;)V
 	public fun apply (Lorg/gradle/api/Project;)V
+	protected final fun applyRootConventionPlugins (Lorg/gradle/api/Project;)V
 }
 
 public abstract interface class com/rickbusarow/mahout/CoreMahoutProperties {
@@ -27,7 +28,7 @@ public abstract class com/rickbusarow/mahout/DefaultTasksSubExtension : com/rick
 	public fun configure (Lorg/gradle/api/Action;)V
 }
 
-public abstract class com/rickbusarow/mahout/GradlePluginModuleExtension : com/rickbusarow/mahout/BaseMahoutExtension, com/rickbusarow/mahout/HasTasksSubExtension, com/rickbusarow/mahout/conventions/AutoServiceExtension, com/rickbusarow/mahout/conventions/BuildLogicShadowExtensionHook, com/rickbusarow/mahout/conventions/HasGitHubSubExtension, com/rickbusarow/mahout/conventions/HasGradleTestsSubExtension, com/rickbusarow/mahout/conventions/HasJavaSubExtension, com/rickbusarow/mahout/conventions/HasKotlinJvmSubExtension, com/rickbusarow/mahout/conventions/KspExtension, com/rickbusarow/mahout/conventions/PokoExtension, com/rickbusarow/mahout/conventions/SerializationExtension, com/rickbusarow/mahout/dokka/HasDokkaSubExtension, com/rickbusarow/mahout/publishing/HasPublishingMavenSubExtension, com/rickbusarow/mahout/publishing/PublishingGradlePluginHandler, com/rickbusarow/mahout/variants/HasFeatureVariantsSubExtension {
+public abstract class com/rickbusarow/mahout/GradlePluginModuleExtension : com/rickbusarow/mahout/BaseMahoutExtension, com/rickbusarow/mahout/HasTasksSubExtension, com/rickbusarow/mahout/conventions/AutoServiceExtension, com/rickbusarow/mahout/conventions/BuildLogicShadowExtensionHook, com/rickbusarow/mahout/conventions/HasGitHubSubExtension, com/rickbusarow/mahout/conventions/HasGradleTestsSubExtension, com/rickbusarow/mahout/conventions/HasJavaSubExtension, com/rickbusarow/mahout/conventions/HasKotlinJvmSubExtension, com/rickbusarow/mahout/conventions/KspExtension, com/rickbusarow/mahout/conventions/PokoExtension, com/rickbusarow/mahout/conventions/SerializationExtension, com/rickbusarow/mahout/dokka/HasDokkaSubExtension, com/rickbusarow/mahout/publishing/HasPublishingGradlePluginSubExtension, com/rickbusarow/mahout/variants/HasFeatureVariantsSubExtension {
 	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
 	public fun autoService (Lorg/gradle/api/Project;)V
 	public fun dokka (Lorg/gradle/api/Action;)V
@@ -37,7 +38,7 @@ public abstract class com/rickbusarow/mahout/GradlePluginModuleExtension : com/r
 	public fun getJava ()Lcom/rickbusarow/mahout/conventions/JavaSubExtension;
 	public fun getKotlin ()Lcom/rickbusarow/mahout/conventions/KotlinJvmSubExtension;
 	public synthetic fun getKotlin ()Lcom/rickbusarow/mahout/conventions/KotlinSubExtension;
-	public fun getPublishing ()Lcom/rickbusarow/mahout/publishing/PublishingMavenSubExtension;
+	public fun getPublishing ()Lcom/rickbusarow/mahout/publishing/PublishingGradlePluginSubExtension;
 	public fun getTasks ()Lcom/rickbusarow/mahout/TasksSubExtension;
 	public fun getVariants ()Lcom/rickbusarow/mahout/variants/FeatureVariantsSubExtension;
 	public fun github (Lorg/gradle/api/Action;)V
@@ -46,7 +47,6 @@ public abstract class com/rickbusarow/mahout/GradlePluginModuleExtension : com/r
 	public fun kotlin (Lorg/gradle/api/Action;)V
 	public fun ksp (Lorg/gradle/api/Project;)V
 	public fun poko (Lorg/gradle/api/Project;)V
-	public fun publishPlugin (Lorg/gradle/api/NamedDomainObjectProvider;)V
 	public fun publishing (Lorg/gradle/api/Action;)V
 	public fun serialization (Lorg/gradle/api/Project;)V
 	public fun shadow ()V
@@ -874,16 +874,40 @@ public final class com/rickbusarow/mahout/libs/VersionCatalogSerializable : java
 	public final fun getVersions ()Ljava/util/List;
 }
 
-public class com/rickbusarow/mahout/publishing/DefaultPublishingGradlePluginHandler : com/rickbusarow/mahout/publishing/PublishingGradlePluginHandler {
+public abstract class com/rickbusarow/mahout/publishing/DefaultHasPublishMaven : com/rickbusarow/mahout/conventions/AbstractSubExtension, com/rickbusarow/mahout/publishing/HasPublishMaven {
+	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun getDefaultPom ()Lorg/gradle/api/publish/maven/internal/publication/DefaultMavenPom;
+	public fun publishMaven (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;)V
+}
+
+public abstract class com/rickbusarow/mahout/publishing/DefaultPublishingGradlePluginSubExtension : com/rickbusarow/mahout/publishing/DefaultHasPublishMaven, com/rickbusarow/mahout/api/SubExtensionInternal, com/rickbusarow/mahout/publishing/PublishingGradlePluginSubExtension {
 	public fun <init> (Lorg/gradle/api/Project;)V
+	public fun configure (Lorg/gradle/api/Action;)V
+	public fun pluginMaven (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
 	public fun publishPlugin (Lorg/gradle/api/NamedDomainObjectProvider;)V
 }
 
-public abstract class com/rickbusarow/mahout/publishing/DefaultPublishingMavenSubExtension : com/rickbusarow/mahout/conventions/AbstractSubExtension, com/rickbusarow/mahout/api/SubExtensionInternal, com/rickbusarow/mahout/publishing/PublishingMavenSubExtension {
+public abstract class com/rickbusarow/mahout/publishing/DefaultPublishingMavenSubExtension : com/rickbusarow/mahout/publishing/DefaultHasPublishMaven, com/rickbusarow/mahout/api/SubExtensionInternal, com/rickbusarow/mahout/publishing/PublishingMavenSubExtension {
 	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
 	public fun configure (Lorg/gradle/api/Action;)V
-	public fun getDefaultPom ()Lorg/gradle/api/publish/maven/internal/publication/DefaultMavenPom;
-	public fun publishMaven (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/publishing/HasPublishMaven {
+	public abstract fun getDefaultPom ()Lorg/gradle/api/publish/maven/internal/publication/DefaultMavenPom;
+	public abstract fun publishMaven (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;)V
+}
+
+public final class com/rickbusarow/mahout/publishing/HasPublishMaven$DefaultImpls {
+	public static synthetic fun publishMaven$default (Lcom/rickbusarow/mahout/publishing/HasPublishMaven;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;ILjava/lang/Object;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/publishing/HasPublishingGradlePluginSubExtension : java/io/Serializable {
+	public abstract fun getPublishing ()Lcom/rickbusarow/mahout/publishing/PublishingGradlePluginSubExtension;
+	public abstract fun publishing (Lorg/gradle/api/Action;)V
+}
+
+public final class com/rickbusarow/mahout/publishing/HasPublishingGradlePluginSubExtension$DefaultImpls {
+	public static fun publishing (Lcom/rickbusarow/mahout/publishing/HasPublishingGradlePluginSubExtension;Lorg/gradle/api/Action;)V
 }
 
 public abstract interface class com/rickbusarow/mahout/publishing/HasPublishingMavenSubExtension : java/io/Serializable {
@@ -901,18 +925,21 @@ public abstract class com/rickbusarow/mahout/publishing/MahoutPublishPlugin : or
 	public fun apply (Lorg/gradle/api/Project;)V
 }
 
-public abstract interface class com/rickbusarow/mahout/publishing/PublishingGradlePluginHandler : java/io/Serializable {
+public abstract interface class com/rickbusarow/mahout/publishing/PublishingGradlePluginSubExtension : com/rickbusarow/mahout/api/SubExtension, com/rickbusarow/mahout/publishing/HasPublishMaven {
+	public abstract fun pluginMaven (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
 	public abstract fun publishPlugin (Lorg/gradle/api/NamedDomainObjectProvider;)V
 }
 
-public abstract interface class com/rickbusarow/mahout/publishing/PublishingMavenSubExtension : com/rickbusarow/mahout/api/SubExtension {
-	public abstract fun getDefaultPom ()Lorg/gradle/api/publish/maven/internal/publication/DefaultMavenPom;
-	public abstract fun publishMaven (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;)V
+public final class com/rickbusarow/mahout/publishing/PublishingGradlePluginSubExtension$DefaultImpls {
+	public static fun configure (Lcom/rickbusarow/mahout/publishing/PublishingGradlePluginSubExtension;Lorg/gradle/api/Action;)V
+	public static synthetic fun pluginMaven$default (Lcom/rickbusarow/mahout/publishing/PublishingGradlePluginSubExtension;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)V
+}
+
+public abstract interface class com/rickbusarow/mahout/publishing/PublishingMavenSubExtension : com/rickbusarow/mahout/api/SubExtension, com/rickbusarow/mahout/publishing/HasPublishMaven {
 }
 
 public final class com/rickbusarow/mahout/publishing/PublishingMavenSubExtension$DefaultImpls {
 	public static fun configure (Lcom/rickbusarow/mahout/publishing/PublishingMavenSubExtension;Lorg/gradle/api/Action;)V
-	public static synthetic fun publishMaven$default (Lcom/rickbusarow/mahout/publishing/PublishingMavenSubExtension;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/gradle/api/Action;ILjava/lang/Object;)V
 }
 
 public abstract class com/rickbusarow/mahout/variants/DefaultFeatureVariantsSubExtension : com/rickbusarow/mahout/conventions/AbstractSubExtension, com/rickbusarow/mahout/api/SubExtensionInternal, com/rickbusarow/mahout/variants/FeatureVariantsSubExtension {
