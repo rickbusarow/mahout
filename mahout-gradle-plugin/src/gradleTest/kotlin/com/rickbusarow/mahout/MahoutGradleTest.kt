@@ -108,6 +108,9 @@ class MahoutGradleTestEnvironment(
 
   class Factory : GradleTestEnvironmentFactory<MahoutGradleTestParams, MahoutGradleTestEnvironment> {
 
+    override val localM2Path: File
+      get() = GradleTestBuildConfig.buildM2Dir
+
     override fun buildFileDefault(versions: MahoutGradleTestParams): BuildFileSpec =
       BuildFileSpec {
         plugins {

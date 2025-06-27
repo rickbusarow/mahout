@@ -19,6 +19,11 @@ import com.rickbusarow.kase.gradle.dsl.buildFile
 import com.rickbusarow.kase.kase
 import com.rickbusarow.kase.stdlib.cartesianProduct
 import com.rickbusarow.mahout.MahoutGradleTest
+import com.rickbusarow.mahout.curator.ArtifactConfig
+import com.rickbusarow.mahout.deps.PluginIds
+import com.rickbusarow.mahout.deps.Versions
+import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
+import kotlinx.serialization.json.Json
 import modulecheck.utils.mapToSet
 import org.junit.jupiter.api.TestFactory
 
@@ -88,4 +93,109 @@ class MahoutPublishPluginTest : MahoutGradleTest {
           shouldFail("checkVersionIsSnapshot", withPluginClasspath = true)
         }
       }
+
+  @TestFactory
+  fun `published plugins do not overwrite other plugin descriptions or pluginMaven`() = testFactory { versions ->
+    rootProject {
+
+      buildFile {
+        plugins {
+          kotlin("jvm", version = versions.kotlinVersion)
+          id(PluginIds.`plugin-publish`, version = Versions.`gradle-plugin-publish`)
+          id(PluginIds.`vanniktech-publish-base`, version = Versions.`vanniktech-publish`)
+          id("com.rickbusarow.mahout.java-gradle-plugin", version = mahoutVersion)
+        }
+        raw(
+          """
+            mahout {
+              versionName = "1.0.0"
+
+              publishing {
+                pluginMaven(
+                  groupId = "com.test",
+                  artifactId = "maven-test",
+                  pomDescription = "plugin maven description"
+                )
+
+                publishPlugin(
+                  gradlePlugin.plugins.register("a") {
+                    id = "com.test.a"
+                    implementationClass = "com.test.PluginA"
+                    description = "description a"
+                  }
+                )
+
+                publishPlugin(
+                  gradlePlugin.plugins.register("b") {
+                    id = "com.test.b"
+                    implementationClass = "com.test.PluginB"
+                    description = "description b"
+                  }
+                )
+              }
+            }
+
+          """.trimIndent()
+        )
+      }
+      kotlinFile(
+        "src/main/kotlin/com/test/plugins.kt",
+        """
+            package com.test
+
+            import org.gradle.api.Plugin
+            import org.gradle.api.Project
+
+            class PluginA : Plugin<Project> {
+              override fun apply(target: Project) {
+                // Plugin A implementation
+              }
+            }
+
+            class PluginB : Plugin<Project> {
+              override fun apply(target: Project) {
+                // Plugin B implementation
+              }
+            }
+        """.trimIndent()
+      )
+    }
+
+    shouldSucceed("artifactsDump") {
+      val artifacts = workingDir
+        .resolve("artifacts.json")
+        .readText()
+        .let { Json.Default.decodeFromString<List<ArtifactConfig>>(it) }
+
+      artifacts shouldContainExactlyInAnyOrder listOf(
+        ArtifactConfig(
+          gradlePath = ":",
+          group = "com.test.a",
+          artifactId = "com.test.a.gradle.plugin",
+          description = "description a",
+          javaVersion = "11",
+          packaging = "pom",
+          publicationName = "aPluginMarkerMaven"
+        ),
+        ArtifactConfig(
+          gradlePath = ":",
+          group = "com.test.b",
+          artifactId = "com.test.b.gradle.plugin",
+          description = "description b",
+          javaVersion = "11",
+          packaging = "pom",
+          publicationName = "bPluginMarkerMaven"
+        ),
+        ArtifactConfig(
+          gradlePath = ":",
+          group = "com.test",
+          artifactId = "maven-test",
+          description = "plugin maven description",
+          javaVersion = "11",
+          packaging = "jar",
+          publicationName = "pluginMaven"
+        )
+      )
+    }
+  }
 }
