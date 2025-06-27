@@ -75,16 +75,12 @@ internal fun Project.getPrefixedPropertyName(propertySuffix: String): String {
 internal val Project.commonPropertyPrefix: String
   get() = (findProperty("commonPrefix") ?: group) as String
 
-/**
- * Sets the property to the given value if it is not already set.
- */
+/** Sets the property to the given value if it is not already set. */
 internal fun <T : Any> Property<T>.setIfNull(value: T) {
   if (!isPresent) set(value)
 }
 
-/**
- * Sets the property to the given value if it is not already set.
- */
+/** Sets the property to the given value if it is not already set. */
 internal fun <T : Any> Property<T>.setIfNull(value: Provider<T>) {
   if (!isPresent) set(value)
 }
