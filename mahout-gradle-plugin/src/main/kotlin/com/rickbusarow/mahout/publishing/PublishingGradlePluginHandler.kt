@@ -126,7 +126,7 @@ public abstract class DefaultPublishingGradlePluginSubExtension @Inject construc
       configurePluginMaven { publication ->
 
         publication.pom.description.setIfNull(
-          defaultPom.description.map { it ?: pluginDeclaration.get().description }
+          defaultPom.description.orElse(pluginDeclaration.map { it.description })
         )
         if (publication.groupId == null) {
           publication.groupId = target.mahoutProperties.group.orNull ?: target.group.toString()
