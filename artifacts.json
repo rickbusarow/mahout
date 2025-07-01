@@ -73,12 +73,12 @@
   },
   {
     "gradlePath": ":mahout-gradle-plugin",
-    "group": "com.rickbusarow.mahout.convention.dokkatoo",
-    "artifactId": "com.rickbusarow.mahout.convention.dokkatoo.gradle.plugin",
+    "group": "com.rickbusarow.mahout.convention.dokka",
+    "artifactId": "com.rickbusarow.mahout.convention.dokka.gradle.plugin",
     "description": "configures the dokkatoo plugin",
     "packaging": "pom",
     "javaVersion": "11",
-    "publicationName": "convention.dokkatooPluginMarkerMaven"
+    "publicationName": "convention.dokkaPluginMarkerMaven"
   },
   {
     "gradlePath": ":mahout-gradle-plugin",

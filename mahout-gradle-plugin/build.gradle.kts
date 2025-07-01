@@ -108,9 +108,9 @@ val plugins = with(gradlePlugin.plugins) {
       this@register.description = "automates the archival of versioned api documentation"
       tags.addAll("convention-plugin", "kotlin")
     },
-    register("convention.dokkatoo") {
-      id = "com.rickbusarow.mahout.convention.dokkatoo"
-      implementationClass = "com.rickbusarow.mahout.dokka.DokkatooConventionPlugin"
+    register("convention.dokka") {
+      id = "com.rickbusarow.mahout.convention.dokka"
+      implementationClass = "com.rickbusarow.mahout.dokka.DokkaConventionPlugin"
       this@register.description = "configures the dokkatoo plugin"
       tags.addAll("convention-plugin", "kotlin")
     },
@@ -177,6 +177,13 @@ mahout {
   gradleTests {}
 }
 
+kotlin {
+  compilerOptions {
+    optIn.add("com.rickbusarow.mahout.core.InternalMahoutApi")
+    explicitApi()
+  }
+}
+
 buildConfig {
 
   packageName.set("com.rickbusarow.mahout")
@@ -219,9 +226,6 @@ dependencies {
   }
 
   compileOnly(gradleApi())
-  compileOnly(libs.dokka.core)
-  compileOnly(libs.dokka.gradle)
-  compileOnly(libs.dokka.versioning)
   compileOnly(libs.drewHamilton.poko.gradle.plugin)
   compileOnly(libs.gradleup.shadow)
   compileOnly(libs.vanniktech.publish.nexus)
@@ -248,7 +252,9 @@ dependencies {
   implementation(libs.breadmoirai.github.release)
   implementation(libs.detekt.gradle)
   implementation(libs.diffplug.spotless)
-  implementation(libs.dokkatoo.plugin)
+  implementation(libs.dokka.core)
+  implementation(libs.dokka.gradle)
+  implementation(libs.dokka.versioning)
   implementation(libs.dropbox.dependencyGuard)
   implementation(libs.ec4j.core)
   implementation(libs.kotlinx.binaryCompatibility)
