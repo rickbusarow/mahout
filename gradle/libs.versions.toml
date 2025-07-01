@@ -10,7 +10,6 @@ dependencyAnalysis = "2.19.0"
 detekt = "1.23.8"
 diffplug-spotless = "7.0.4"
 dokka = "2.0.0"
-dokkatoo = "2.4.0"
 dropbox-dependencyGuard = "0.5.0"
 ec4j = "1.1.1"
 breadmoirai-github-release = "2.5.2"
@@ -28,7 +27,7 @@ kotlinx-binaryCompatibility = "0.18.0"
 kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.9.0"
 picnic = "0.7.0"
-prettier = "2.8.4"
+prettier = "3.6.2"
 prettier-plugin-sh = "0.12.8"
 rickBusarow-doks = "0.3.0"
 rickBusarow-kase = "0.12.1"
@@ -43,8 +42,6 @@ vanniktech-publish = "0.33.0"
 
 [plugins]
 
-adamko-dokkatoo = { id = "dev.adamko.dokkatoo", version.ref = "dokkatoo" }
-adamko-dokkatoo-html = { id = "dev.adamko.dokkatoo-html", version.ref = "dokkatoo" }
 autonomousapps-dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependencyAnalysis" }
 breadmoirai-github-release = { id = "com.github.breadmoirai.github-release", version.ref = "breadmoirai-github-release" }
 buildconfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildconfig" }
@@ -53,6 +50,7 @@ dropbox-dependency-guard = { id = "com.dropbox.dependency-guard", version.ref = 
 gradleup-shadow = { id = "com.github.gradleup.shadow", version.ref = "gradleup-shadow" }
 gradlex-buildParameters = { id = "org.gradlex.build-parameters", version.ref = "gradlex-buildParameters" }
 integration-test = { id = "com.coditory.integration-test", version.ref = "integration-test" }
+jetbrains-dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-js = { id = "org.jetbrains.kotlin.js", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -89,8 +87,6 @@ dokka-all-modules = { module = "org.jetbrains.dokka:all-modules-page-plugin", ve
 dokka-core = { module = "org.jetbrains.dokka:dokka-core", version.ref = "dokka" }
 dokka-gradle = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
 dokka-versioning = { module = "org.jetbrains.dokka:versioning-plugin", version.ref = "dokka" }
-
-dokkatoo-plugin = { module = "dev.adamko.dokkatoo:dokkatoo-plugin", version.ref = "dokkatoo" }
 
 drewHamilton-poko-annotations = { module = "dev.drewhamilton.poko:poko-annotations", version.ref = "drewHamilton-poko" }
 drewHamilton-poko-compiler = { module = "dev.drewhamilton.poko:poko-compiler-plugin", version.ref = "drewHamilton-poko" }

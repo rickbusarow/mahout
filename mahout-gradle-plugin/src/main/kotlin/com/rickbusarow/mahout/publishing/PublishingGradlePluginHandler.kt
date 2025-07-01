@@ -23,7 +23,7 @@ import com.rickbusarow.mahout.conventions.AbstractHasSubExtension
 import com.rickbusarow.mahout.conventions.applyBinaryCompatibility
 import com.rickbusarow.mahout.core.setIfNull
 import com.rickbusarow.mahout.deps.PluginIds
-import com.rickbusarow.mahout.dokka.DokkatooConventionPlugin
+import com.rickbusarow.mahout.dokka.DokkaConventionPlugin
 import org.gradle.api.Action
 import org.gradle.api.NamedDomainObjectProvider
 import org.gradle.api.Project
@@ -116,7 +116,7 @@ public abstract class DefaultPublishingGradlePluginSubExtension @Inject construc
 
     target.plugins.apply("java-gradle-plugin")
     target.plugins.apply(PluginIds.`plugin-publish`)
-    target.plugins.apply(DokkatooConventionPlugin::class.java)
+    target.plugins.apply(DokkaConventionPlugin::class.java)
     target.plugins.apply("maven-publish")
 
     configurePublishPlugin()

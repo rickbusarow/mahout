@@ -21,7 +21,7 @@ import com.rickbusarow.mahout.api.DefaultMahoutCheckTask
 import com.rickbusarow.mahout.conventions.applyBinaryCompatibility
 import com.rickbusarow.mahout.core.check
 import com.rickbusarow.mahout.deps.PluginIds
-import com.rickbusarow.mahout.dokka.DokkatooConventionPlugin.Companion.dokkaJavadocJar
+import com.rickbusarow.mahout.dokka.DokkaConventionPlugin.Companion.dokkaJavadocJar
 import org.gradle.api.NamedDomainObjectSet
 import org.gradle.api.Plugin
 import org.gradle.api.Project

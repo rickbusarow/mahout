@@ -32,7 +32,7 @@ import com.rickbusarow.mahout.config.url
 import com.rickbusarow.mahout.conventions.AbstractSubExtension
 import com.rickbusarow.mahout.core.stdlib.letIf
 import com.rickbusarow.mahout.core.versionIsSnapshot
-import com.rickbusarow.mahout.dokka.DokkatooConventionPlugin.Companion.dokkaJavadocJar
+import com.rickbusarow.mahout.dokka.DokkaConventionPlugin.Companion.dokkaJavadocJar
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.model.ObjectFactory

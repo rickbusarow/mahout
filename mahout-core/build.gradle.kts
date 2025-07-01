@@ -31,6 +31,13 @@ mahout {
   }
 }
 
+kotlin {
+  compilerOptions {
+    optIn.add("com.rickbusarow.mahout.core.InternalMahoutApi")
+    explicitApi()
+  }
+}
+
 dependencies {
 
   compileOnly(gradleApi())

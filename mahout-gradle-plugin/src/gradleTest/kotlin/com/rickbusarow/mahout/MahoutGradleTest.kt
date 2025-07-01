@@ -108,11 +108,14 @@ class MahoutGradleTestEnvironment(
 
   class Factory : GradleTestEnvironmentFactory<MahoutGradleTestParams, MahoutGradleTestEnvironment> {
 
+    override val localM2Path: File
+      get() = GradleTestBuildConfig.buildM2Dir
+
     override fun buildFileDefault(versions: MahoutGradleTestParams): BuildFileSpec =
       BuildFileSpec {
         plugins {
           kotlin("jvm", versions.kotlinVersion)
-          id("com.rickbusarow.mahout", version = GradleTestBuildConfig.mahoutVersion)
+          id("com.rickbusarow.mahout.root", version = GradleTestBuildConfig.mahoutVersion)
         }
       }
 
@@ -134,7 +137,6 @@ class MahoutGradleTestEnvironment(
           buildFile(buildFileDefault(params))
           settingsFile(settingsFileDefault(params))
         }
-
       )
     }
   }
