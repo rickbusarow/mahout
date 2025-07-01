@@ -827,6 +827,12 @@ public abstract class com/rickbusarow/mahout/dokka/DefaultDokkaSubExtension : co
 	public fun getGenerateTaskWorkerMinHeapSize ()Lorg/gradle/api/provider/Property;
 }
 
+public abstract class com/rickbusarow/mahout/dokka/DokkaConventionPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
 public abstract interface class com/rickbusarow/mahout/dokka/DokkaSubExtension : com/rickbusarow/mahout/api/SubExtension {
 	public abstract fun getDokkaVersion ()Lorg/gradle/api/provider/Property;
 	public abstract fun getGenerateTaskWorkerMaxHeapSize ()Lorg/gradle/api/provider/Property;
@@ -835,12 +841,6 @@ public abstract interface class com/rickbusarow/mahout/dokka/DokkaSubExtension :
 
 public final class com/rickbusarow/mahout/dokka/DokkaSubExtension$DefaultImpls {
 	public static fun configure (Lcom/rickbusarow/mahout/dokka/DokkaSubExtension;Lorg/gradle/api/Action;)V
-}
-
-public abstract class com/rickbusarow/mahout/dokka/DokkatooConventionPlugin : org/gradle/api/Plugin {
-	public fun <init> ()V
-	public synthetic fun apply (Ljava/lang/Object;)V
-	public fun apply (Lorg/gradle/api/Project;)V
 }
 
 public abstract interface class com/rickbusarow/mahout/dokka/HasDokkaSubExtension : java/io/Serializable {
