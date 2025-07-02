@@ -823,8 +823,6 @@ public abstract class com/rickbusarow/mahout/dokka/DefaultDokkaSubExtension : co
 	public fun <init> (Lorg/gradle/api/Project;Lorg/gradle/api/model/ObjectFactory;)V
 	public fun configure (Lorg/gradle/api/Action;)V
 	public fun getDokkaVersion ()Lorg/gradle/api/provider/Property;
-	public fun getGenerateTaskWorkerMaxHeapSize ()Lorg/gradle/api/provider/Property;
-	public fun getGenerateTaskWorkerMinHeapSize ()Lorg/gradle/api/provider/Property;
 }
 
 public abstract class com/rickbusarow/mahout/dokka/DokkaConventionPlugin : org/gradle/api/Plugin {
@@ -835,8 +833,6 @@ public abstract class com/rickbusarow/mahout/dokka/DokkaConventionPlugin : org/g
 
 public abstract interface class com/rickbusarow/mahout/dokka/DokkaSubExtension : com/rickbusarow/mahout/api/SubExtension {
 	public abstract fun getDokkaVersion ()Lorg/gradle/api/provider/Property;
-	public abstract fun getGenerateTaskWorkerMaxHeapSize ()Lorg/gradle/api/provider/Property;
-	public abstract fun getGenerateTaskWorkerMinHeapSize ()Lorg/gradle/api/provider/Property;
 }
 
 public final class com/rickbusarow/mahout/dokka/DokkaSubExtension$DefaultImpls {
