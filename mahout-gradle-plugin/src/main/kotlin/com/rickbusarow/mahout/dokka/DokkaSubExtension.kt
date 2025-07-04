@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Rick Busarow
+ * Copyright (C) 2025 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -51,12 +51,6 @@ public interface DokkaSubExtension : SubExtension<DokkaSubExtension> {
 
   /** */
   public val dokkaVersion: Property<String>
-
-  /** */
-  public val generateTaskWorkerMinHeapSize: Property<String>
-
-  /** */
-  public val generateTaskWorkerMaxHeapSize: Property<String>
 }
 
 /** */
@@ -68,6 +62,4 @@ public abstract class DefaultDokkaSubExtension @Inject constructor(
   SubExtensionInternal {
 
   override val dokkaVersion: Property<String> = property(target.mahoutProperties.versions.dokka)
-  override val generateTaskWorkerMinHeapSize: Property<String> = property("512m")
-  override val generateTaskWorkerMaxHeapSize: Property<String> = property("1024m")
 }

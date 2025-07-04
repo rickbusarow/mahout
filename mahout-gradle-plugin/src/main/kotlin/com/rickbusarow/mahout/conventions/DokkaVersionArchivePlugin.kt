@@ -20,8 +20,7 @@ import com.rickbusarow.mahout.config.mahoutProperties
 import com.rickbusarow.mahout.core.VERSION_NAME
 import com.rickbusarow.mahout.core.stdlib.zipContentEquals
 import com.rickbusarow.mahout.core.versionIsSnapshot
-import com.rickbusarow.mahout.dokka.DokkatooConventionPlugin.Companion.dokkatooGeneratePublicationHtmlTask
-import dev.adamko.dokkatoo.tasks.DokkatooGenerateModuleTask
+import com.rickbusarow.mahout.dokka.DokkaConventionPlugin.Companion.dokkaGeneratePublicationHtmlTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.file.Directory
@@ -29,6 +28,7 @@ import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.Sync
 import org.gradle.api.tasks.bundling.Zip
+import org.jetbrains.dokka.gradle.tasks.DokkaBaseTask
 import java.io.File
 
 @Suppress("UndocumentedPublicClass")
@@ -41,7 +41,7 @@ public abstract class DokkaVersionArchivePlugin : Plugin<Project> {
 
     val dokkaHtmlMultiModuleBuildDir = target.dokkaHtmlMultiModuleBuildDir()
     val dokkaArchiveBuildDir = target.dokkaArchiveBuildDir()
-    val dokkaArchive = target.dokkaArchive()
+    val dokkaArchive = target.dokkaArchiveDir()
 
     val versionWithoutSnapshot = target.mahoutProperties
       .versionName
@@ -75,7 +75,7 @@ public abstract class DokkaVersionArchivePlugin : Plugin<Project> {
           .forEach { zipFile -> task.from(target.zipTree(zipFile)) }
       }
 
-    target.tasks.withType(DokkatooGenerateModuleTask::class.java).configureEach {
+    target.tasks.withType(DokkaBaseTask::class.java).configureEach {
       it.inputs.files(unzip)
     }
 
@@ -90,7 +90,7 @@ public abstract class DokkaVersionArchivePlugin : Plugin<Project> {
 
         task.enabled = !target.versionIsSnapshot
 
-        task.from(target.dokkatooGeneratePublicationHtmlTask()) {
+        task.from(target.dokkaGeneratePublicationHtmlTask()) {
           it.into(versionWithoutSnapshot)
           // Don't copy the `older/` directory into the archive, because all navigation is done using
           // the root version's copy.  Archived `older/` directories just waste space.
@@ -133,7 +133,7 @@ public abstract class DokkaVersionArchivePlugin : Plugin<Project> {
     }
 
     internal fun Project.dokkaHtmlMultiModuleBuildDir(): Provider<Directory> {
-      return dokkatooGeneratePublicationHtmlTask().map { it.outputDirectory.get() }
+      return dokkaGeneratePublicationHtmlTask().map { it.outputDirectory.get() }
     }
 
     internal fun Project.dokkaArchiveBuildDir(): Provider<Directory> {
@@ -142,6 +142,6 @@ public abstract class DokkaVersionArchivePlugin : Plugin<Project> {
         .dir("tmp/dokka-archive")
     }
 
-    internal fun Project.dokkaArchive(): File = rootProject.file("dokka-archive")
+    internal fun Project.dokkaArchiveDir(): File = rootProject.file("dokka-archive")
   }
 }

@@ -20,24 +20,19 @@ import com.rickbusarow.kgx.extras
 import com.rickbusarow.kgx.getOrPut
 import com.rickbusarow.kgx.isRootProject
 import com.rickbusarow.kgx.projectDependency
-import com.rickbusarow.ktlint.KtLintTask
 import com.rickbusarow.mahout.api.DefaultMahoutCheckTask
 import com.rickbusarow.mahout.api.DefaultMahoutJavadocJarTask
-import com.rickbusarow.mahout.api.MahoutFixTask
 import com.rickbusarow.mahout.config.JavaVersion.Companion.major
 import com.rickbusarow.mahout.conventions.DokkaVersionArchivePlugin.Companion.dokkaArchiveBuildDir
+import com.rickbusarow.mahout.conventions.DokkaVersionArchivePlugin.Companion.dokkaArchiveDir
 import com.rickbusarow.mahout.conventions.HasGitHubSubExtension
 import com.rickbusarow.mahout.conventions.HasJavaSubExtension
 import com.rickbusarow.mahout.conventions.HasKotlinSubExtension
 import com.rickbusarow.mahout.core.check
 import com.rickbusarow.mahout.core.stdlib.SEMVER_REGEX
 import com.rickbusarow.mahout.deps.Libs
+import com.rickbusarow.mahout.deps.PluginIds
 import com.rickbusarow.mahout.mahoutExtension
-import dev.adamko.dokkatoo.DokkatooExtension
-import dev.adamko.dokkatoo.dokka.plugins.DokkaVersioningPluginParameters
-import dev.adamko.dokkatoo.tasks.DokkatooGenerateModuleTask
-import dev.adamko.dokkatoo.tasks.DokkatooGeneratePublicationTask
-import dev.adamko.dokkatoo.tasks.DokkatooGenerateTask
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -45,121 +40,114 @@ import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
 import org.gradle.api.tasks.TaskContainer
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.api.tasks.bundling.Jar
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.dokka.gradle.DokkaExtension
+import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier
+import org.jetbrains.dokka.gradle.engine.plugins.DokkaVersioningPluginParameters
+import org.jetbrains.dokka.gradle.tasks.DokkaGenerateModuleTask
+import org.jetbrains.dokka.gradle.tasks.DokkaGeneratePublicationTask
+import org.jetbrains.kotlin.gradle.plugin.extraProperties
 import java.net.URI
 
 /** */
-public abstract class DokkatooConventionPlugin : Plugin<Project> {
+public abstract class DokkaConventionPlugin : Plugin<Project> {
   override fun apply(target: Project) {
 
-    target.pluginManager.apply(dev.adamko.dokkatoo.DokkatooPlugin::class.java)
+    target.extraProperties.apply {
+      set("org.jetbrains.dokka.experimental.gradle.pluginMode", "V2Enabled")
+      set("org.jetbrains.dokka.experimental.gradle.pluginMode.noWarn", "true")
+    }
+
+    target.plugins.apply(PluginIds.`jetbrains-dokka`)
 
     val mahoutExtension = target.mahoutExtension
 
-    val dokkaSubExtension = (mahoutExtension as HasDokkaSubExtension).dokka
     val gitHubSubExtension = (mahoutExtension as HasGitHubSubExtension).github
     val kotlinSubExtension = (mahoutExtension as HasKotlinSubExtension).kotlin
     val javaSubExtension = (mahoutExtension as HasJavaSubExtension).java
 
-    target.extensions.configure(DokkatooExtension::class.java) { dokkatoo ->
+    val dokka = target.extensions.getByType(DokkaExtension::class.java)
 
-      dokkatoo.versions.jetbrainsDokka.set(dokkaSubExtension.dokkaVersion)
+    dokka.moduleVersion.set(mahoutExtension.versionName)
 
-      dokkatoo.moduleVersion.set(mahoutExtension.group)
+    val fullModuleName = target.path.removePrefix(":")
+    dokka.moduleName.set(fullModuleName)
 
-      val fullModuleName = target.path.removePrefix(":")
-      dokkatoo.moduleName.set(fullModuleName)
+    dokka.dokkaSourceSets.configureEach { sourceSet ->
 
-      dokkatoo.dokkatooSourceSets.configureEach { sourceSet ->
-        sourceSet.documentedVisibilities(
-          dev.adamko.dokkatoo.dokka.parameters.VisibilityModifier.PRIVATE,
-          dev.adamko.dokkatoo.dokka.parameters.VisibilityModifier.INTERNAL,
-          dev.adamko.dokkatoo.dokka.parameters.VisibilityModifier.PROTECTED,
-          dev.adamko.dokkatoo.dokka.parameters.VisibilityModifier.PACKAGE,
-          dev.adamko.dokkatoo.dokka.parameters.VisibilityModifier.PUBLIC
-        )
+      sourceSet.documentedVisibilities(
+        VisibilityModifier.Private,
+        VisibilityModifier.Internal,
+        VisibilityModifier.Protected,
+        VisibilityModifier.Package,
+        VisibilityModifier.Public
+      )
 
-        sourceSet.languageVersion.set(kotlinSubExtension.apiLevel)
-        sourceSet.jdkVersion.set(javaSubExtension.jvmTarget.major)
+      sourceSet.languageVersion.set(kotlinSubExtension.apiLevel)
+      sourceSet.jdkVersion.set(javaSubExtension.jvmTarget.major)
 
-        // include all project sources when resolving kdoc samples
-        sourceSet.samples.setFrom(target.fileTree(target.file("src")))
+      // include all project sources when resolving kdoc samples
+      sourceSet.samples.setFrom(target.fileTree(target.file("src")))
 
-        if (!target.isRootProject()) {
-          val readmeFile = target.projectDir.resolve("README.md")
-          if (readmeFile.exists()) {
-            sourceSet.includes.from(readmeFile)
-          }
+      if (!target.isRootProject()) {
+        val readmeFile = target.projectDir.resolve("README.md")
+        if (readmeFile.exists()) {
+          sourceSet.includes.from(readmeFile)
         }
+      }
+
+      val modulePath = target.path.replace(":", "/")
+        .replaceFirst("/", "")
+
+      val remoteUrl = gitHubSubExtension.url
+        .map(::URI)
+        .zip(gitHubSubExtension.defaultBranch) { uri, branch ->
+          uri.resolve("blob/$branch/$modulePath/src/${sourceSet.name}")
+        }
+
+      remoteUrl.orNull?.let {
 
         sourceSet.sourceLink { sourceLinkBuilder ->
 
           sourceLinkBuilder.localDirectory.set(target.file("src/${sourceSet.name}"))
 
-          val modulePath = target.path.replace(":", "/")
-            .replaceFirst("/", "")
-
           // URL showing where the source code can be accessed through the web browser
-          sourceLinkBuilder.remoteUrl.set(
-            gitHubSubExtension.url
-              .map(::URI)
-              .zip(gitHubSubExtension.defaultBranch) { uri, branch ->
-
-                uri.resolve("blob/$branch/$modulePath/src/${sourceSet.name}")
-              }
-          )
+          sourceLinkBuilder.remoteUrl.set(remoteUrl)
           // Suffix which is used to append the line number to the URL. Use #L for GitHub
           sourceLinkBuilder.remoteLineSuffix.set("#L")
         }
       }
+    }
 
-      target.tasks.withType(DokkatooGenerateTask::class.java).configureEach { task ->
+    addJavadocHooks(target)
+    addPublishingHooks(target)
 
-        task.workerIsolation.set(dokkatoo.ClassLoaderIsolation())
+    if (target.isRootProject()) {
 
-        // Dokka uses their outputs but doesn't explicitly depend upon them.
-        task.mustRunAfter(target.tasks.withType(KotlinCompile::class.java))
-        task.mustRunAfter(target.tasks.withType(MahoutFixTask::class.java))
-        task.mustRunAfter(target.tasks.withType(KtLintTask::class.java))
-      }
+      val config = target.configurations.getByName("dokka")
 
-      addJavadocHooks(target)
-      addPublishingHooks(target)
-
-      if (target.isRootProject()) {
-
-        target.configurations.getByName("dokkatoo").dependencies.let { deps ->
-
-          val allProjects = target.subprojects
-            .asSequence()
-            .filter { it.buildFile.exists() }
-            .filter { it.name != "kase-overload-generator" }
+      config.dependencies.addAllLater(
+        target.provider {
+          target.subprojects
+            .filter { sub -> sub.subprojects.isEmpty() }
             .map { sub -> target.projectDependency(sub.path) }
-
-          deps.addAll(allProjects)
         }
+      )
 
-        val pluginConfig = "dokkatooPluginHtml"
+      target.dependencies.add("dokkaPlugin", Libs.`dokka-versioning`)
 
-        target.dependencies.add(pluginConfig, Libs.`dokka-versioning`)
+      val dokkaArchiveDir = target.dokkaArchiveDir()
+      val dokkaArchiveBuildDir = target.dokkaArchiveBuildDir()
 
-        val dokkaArchiveBuildDir = target.dokkaArchiveBuildDir()
+      dokka.pluginsConfiguration.withType(DokkaVersioningPluginParameters::class.java)
+        .configureEach { versioning ->
+          versioning.version.set(mahoutExtension.versionName)
 
-        dokkatoo.pluginsConfiguration
-          .withType(DokkaVersioningPluginParameters::class.java)
-          .configureEach { versioning ->
-
-            versioning.version.set(mahoutExtension.versionName)
-            if (dokkaArchiveBuildDir.get().asFile.exists()) {
-              versioning.olderVersionsDir.set(dokkaArchiveBuildDir)
-            }
-            versioning.renderVersionsNavigationOnAllPages.set(true)
+          if (dokkaArchiveDir.exists()) {
+            versioning.olderVersionsDir.set(dokkaArchiveBuildDir)
           }
 
-        dokkatoo.dokkatooPublications.configureEach {
-          it.suppressObviousFunctions.set(true)
+          versioning.renderVersionsNavigationOnAllPages.set(true)
         }
-      }
     }
   }
 
@@ -169,7 +157,7 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
     // but it doesn't include the Dokka output by default.
     target.tasks.withType(Jar::class.java)
       .named { it == "javadocJar" }
-      .configureEach { it.from(target.dokkatooGenerateModuleHtmlTask()) }
+      .configureEach { it.from(target.dokkaGenerateModuleHtmlTask()) }
 
     target.tasks.register("dokkaJavadocJar", DefaultMahoutJavadocJarTask::class.java) { task ->
 
@@ -178,7 +166,7 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
       task.archiveClassifier.set("javadoc")
 
       if (!skipDokka) {
-        val dokkaTask = target.dokkatooGenerateModuleHtmlTask()
+        val dokkaTask = target.dokkaGenerateModuleHtmlTask()
 
         // task.dependsOn(dokkaTask)
         task.from(dokkaTask)
@@ -199,7 +187,7 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
             "Ensures that generated javadoc.jar artifacts don't include old Dokka versions"
           task.group = "dokka versioning"
 
-          task.inputs.files(javadocTasks)
+          task.inputs.files(javadocTasks.map { it.outputs })
 
           val zipTrees = javadocTasks.map { target.zipTree(it.archiveFile) }
 
@@ -228,15 +216,12 @@ public abstract class DokkatooConventionPlugin : Plugin<Project> {
     internal val TaskContainer.dokkaJavadocJar: TaskProvider<DefaultMahoutJavadocJarTask>
       get() = named("dokkaJavadocJar", DefaultMahoutJavadocJarTask::class.java)
 
-    internal fun Project.dokkatooGenerateModuleHtmlTask(): TaskProvider<DokkatooGenerateModuleTask> {
-      return tasks.named("dokkatooGenerateModuleHtml", DokkatooGenerateModuleTask::class.java)
+    internal fun Project.dokkaGenerateModuleHtmlTask(): TaskProvider<DokkaGenerateModuleTask> {
+      return tasks.named("dokkaGenerateModuleHtml", DokkaGenerateModuleTask::class.java)
     }
 
-    internal fun Project.dokkatooGeneratePublicationHtmlTask(): TaskProvider<DokkatooGeneratePublicationTask> {
-      return tasks.named(
-        "dokkatooGeneratePublicationHtml",
-        DokkatooGeneratePublicationTask::class.java
-      )
+    internal fun Project.dokkaGeneratePublicationHtmlTask(): TaskProvider<DokkaGeneratePublicationTask> {
+      return tasks.named("dokkaGeneratePublicationHtml", DokkaGeneratePublicationTask::class.java)
     }
   }
 }
