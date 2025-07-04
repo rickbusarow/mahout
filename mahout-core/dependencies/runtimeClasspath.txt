@@ -2,5 +2,5 @@ com.rickbusarow.kgx:kotlin-gradle-extensions:0.1.12
 com.rickbusarow.kgx:names:0.1.12
 dev.drewhamilton.poko:poko-annotations-jvm:0.18.7
 dev.drewhamilton.poko:poko-annotations:0.18.7
-org.jetbrains.kotlin:kotlin-stdlib:2.1.21
+org.jetbrains.kotlin:kotlin-stdlib:2.2.0
 org.jetbrains:annotations:13.0
