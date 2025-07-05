@@ -18,7 +18,7 @@ rootProject.name = "mahout"
 pluginManagement {
   repositories {
     maven {
-      url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+      url = uri("https://central.sonatype.com/repository/maven-snapshots/")
       content {
         includeGroup("com.rickbusarow.mahout")
       }
@@ -27,9 +27,6 @@ pluginManagement {
     mavenCentral()
     google()
   }
-
-  // includeBuild("build-logic/conventions")
-  // includeBuild("build-logic/delegate")
 
   plugins {
     id("com.rickbusarow.mahout.kotlin-jvm-module") apply false
@@ -92,5 +89,3 @@ include(
   ":mahout-settings-annotations",
   ":mahout-settings-generator"
 )
-
-// includeBuild("build-logic")
