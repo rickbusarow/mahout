@@ -4,5 +4,5 @@ com.squareup:kotlinpoet-jvm:2.2.0
 com.squareup:kotlinpoet-ksp:2.2.0
 com.squareup:kotlinpoet:2.2.0
 org.jetbrains.kotlin:kotlin-reflect:2.1.21
-org.jetbrains.kotlin:kotlin-stdlib:2.1.21
+org.jetbrains.kotlin:kotlin-stdlib:2.2.0
 org.jetbrains:annotations:13.0
