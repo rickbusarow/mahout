@@ -15,9 +15,9 @@
 
 package com.rickbusarow.mahout.conventions
 
-import com.rickbusarow.ktlint.KtLintPlugin
 import com.rickbusarow.ktlint.KtLintTask
 import com.rickbusarow.mahout.deps.Libs
+import com.rickbusarow.mahout.deps.PluginIds
 import com.rickbusarow.mahout.mahoutExtension
 import kotlinx.validation.KotlinApiBuildTask
 import kotlinx.validation.KotlinApiCompareTask
@@ -29,7 +29,7 @@ public abstract class KtLintConventionPlugin : Plugin<Project> {
 
   override fun apply(target: Project) {
 
-    target.plugins.apply(KtLintPlugin::class.java)
+    target.plugins.apply(PluginIds.`rickBusarow-ktlint`)
 
     target.dependencies
       .add("ktlint", Libs.`rickBusarow-ktrules`)
