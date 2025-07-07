@@ -16,7 +16,6 @@
 package com.rickbusarow.mahout.conventions
 
 import com.diffplug.gradle.spotless.FormatExtension
-import com.diffplug.gradle.spotless.GroovyGradleExtension
 import com.diffplug.gradle.spotless.JavascriptExtension
 import com.diffplug.gradle.spotless.JsonExtension
 import com.diffplug.gradle.spotless.SpotlessExtension
@@ -94,16 +93,6 @@ public abstract class SpotlessConventionPlugin : Plugin<Project> {
       }
 
       markdown.prettier(Versions.prettier)
-
-      markdown.withinBlocksRegex(
-        "groovy block in markdown",
-        //language=regexp
-        """```groovy.*\n((?:(?!```)[\s\S])*)""",
-        GroovyGradleExtension::class.java
-      ) { groovyGradle ->
-        groovyGradle.greclipse()
-        groovyGradle.leadingTabsToSpaces(2)
-      }
     }
   }
 
