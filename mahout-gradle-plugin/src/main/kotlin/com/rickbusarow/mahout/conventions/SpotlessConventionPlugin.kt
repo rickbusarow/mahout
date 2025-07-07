@@ -42,7 +42,7 @@ public abstract class SpotlessConventionPlugin : Plugin<Project> {
 
       target.plugins.withId(PluginIds.`kotlinx-binaryCompatibility`) {
         target.subprojects { subproject ->
-          spotlessTask.mustRunAfter(subproject.tasks.named { it == "apiDump" })
+          spotlessTask.mustRunAfter(subproject.tasks.named("apiDump"))
         }
       }
 
