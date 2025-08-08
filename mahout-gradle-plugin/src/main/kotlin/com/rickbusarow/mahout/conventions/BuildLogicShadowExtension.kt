@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Rick Busarow
+ * Copyright (C) 2025 Rick Busarow
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -67,7 +67,7 @@ public abstract class BuildLogicShadowExtension @Inject constructor(
 
     val shadowJar = tasks.named("shadowJar", ShadowJar::class.java) { task ->
 
-      task.configurations = listOf(shadowConfiguration)
+      task.configurations.add(shadowConfiguration)
 
       for (it in relocatePackages) {
         task.relocate(it, "$group.$it")
