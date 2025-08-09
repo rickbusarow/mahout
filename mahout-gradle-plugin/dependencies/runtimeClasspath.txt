@@ -37,8 +37,8 @@ com.vanniktech:gradle-maven-publish-plugin:0.33.0
 com.vanniktech:nexus:0.33.0
 commons-codec:commons-codec:1.17.0
 commons-io:commons-io:2.13.0
-dev.drewhamilton.poko:poko-annotations-jvm:0.18.7
-dev.drewhamilton.poko:poko-annotations:0.18.7
+dev.drewhamilton.poko:poko-annotations-jvm:0.19.0
+dev.drewhamilton.poko:poko-annotations:0.19.0
 dev.equo.ide:solstice:1.8.1
 io.github.java-diff-utils:java-diff-utils:4.12
 io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.8
