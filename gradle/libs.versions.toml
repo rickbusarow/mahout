@@ -1,6 +1,6 @@
 [versions]
 
-kotlin = "2.1.21"
+kotlin = "2.2.10"
 drewHamilton-poko = "0.18.7"
 ksp = "2.1.21-2.0.2"
 
